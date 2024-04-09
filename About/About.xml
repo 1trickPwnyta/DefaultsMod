@@ -12,7 +12,7 @@ Allows you to set various defaults to use during gameplay, such as the default s
 Full list of settings:
   - Schedules: Allows you to set custom default schedules for colonists. You can create alternating schedules and the mod will cycle between them when assigning them to new colonists.
 	</description>
-	<url>https://github.com/1trickPwnyta/Defaults</url>
+	<url>https://github.com/1trickPwnyta/DefaultsMod</url>
 	<modDependencies>
 		<li>
 			<packageId>brrainz.harmony</packageId>
