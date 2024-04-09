@@ -25,6 +25,7 @@ namespace Defaults
         public static MedicalCareCategory DefaultCareForWildlife = MedicalCareCategory.HerbalOrWorse;
         public static MedicalCareCategory DefaultCareForEntities = MedicalCareCategory.NoMeds;
         public static Dictionary<string, RewardPreference> DefaultRewardPreferences;
+        public static HostilityResponseMode DefaultHostilityResponse = HostilityResponseMode.Flee;
 
         static DefaultsSettings()
         {
@@ -73,18 +74,23 @@ namespace Defaults
             Listing_Standard listingStandard = new Listing_Standard();
             listingStandard.Begin(inRect);
 
-            if (listingStandard.ButtonTextLabeled("Defaults_Schedules".Translate(), "Defaults_SetDefaults".Translate()))
+            if (listingStandard.ButtonTextLabeledPct("Defaults_Schedules".Translate(), "Defaults_SetDefaults".Translate(), 0.75f))
             {
                 Find.WindowStack.Add(new Dialog_ScheduleSettings());
             }
-            if (listingStandard.ButtonTextLabeled("Defaults_Medicine".Translate(), "Defaults_SetDefaults".Translate()))
+            if (listingStandard.ButtonTextLabeledPct("Defaults_Medicine".Translate(), "Defaults_SetDefaults".Translate(), 0.75f))
             {
                 Find.WindowStack.Add(new Dialog_MedicineSettings());
             }
-            if (listingStandard.ButtonTextLabeled("Defaults_Rewards".Translate(), "Defaults_SetDefaults".Translate()))
+            if (listingStandard.ButtonTextLabeledPct("Defaults_Rewards".Translate(), "Defaults_SetDefaults".Translate(), 0.75f))
             {
                 Find.WindowStack.Add(new Dialog_RewardsSettings());
             }
+            Rect hostilityResponseRect = listingStandard.GetRect(30f);
+            Widgets.Label(hostilityResponseRect, "Defaults_HostilityResponse".Translate());
+            hostilityResponseRect.x += hostilityResponseRect.width - 24;
+            hostilityResponseRect.width = 24;
+            HostilityResponse.HostilityResponseModeUtility.DrawResponseButton(hostilityResponseRect);
 
             listingStandard.End();
         }
@@ -104,6 +110,7 @@ namespace Defaults
             Scribe_Values.Look(ref DefaultCareForWildlife, "DefaultCareForWildlife");
             Scribe_Values.Look(ref DefaultCareForEntities, "DefaultCareForEntities");
             Scribe_Collections.Look(ref DefaultRewardPreferences, "DefaultRewardPreferences");
+            Scribe_Values.Look(ref DefaultHostilityResponse, "DefaultHostilityResponse");
         }
     }
 }

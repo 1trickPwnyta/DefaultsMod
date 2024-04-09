@@ -4,6 +4,7 @@
 	<Defaults_Schedules>Colonist schedules</Defaults_Schedules>
 	<Defaults_Medicine>Medicine settings</Defaults_Medicine>
 	<Defaults_Rewards>Reward preferences</Defaults_Rewards>
+	<Defaults_HostilityResponse>Default hostility response</Defaults_HostilityResponse>
 	<Defaults_ScheduleName>Schedule {0}</Defaults_ScheduleName>
 	<Defaults_AddAlternateSchedule>Add alternate</Defaults_AddAlternateSchedule>
 	<Defaults_AcceptRoyalFavor>Accept {0}</Defaults_AcceptRoyalFavor>

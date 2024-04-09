@@ -67,6 +67,9 @@
   <ItemGroup>
     <Compile Include="Debug.cs" />
     <Compile Include="DraggableResultUtility.cs" />
+    <Compile Include="HostilityResponse\HostilityResponseModeUtility.cs" />
+    <Compile Include="HostilityResponse\Patch_Pawn_PlayerSettings.cs" />
+    <Compile Include="HostilityResponse\Patch_PawnGenerator.cs" />
     <Compile Include="Medicine\Dialog_MedicineSettings.cs" />
     <Compile Include="Medicine\Patch_BackCompatibilityConverter_1_4.cs" />
     <Compile Include="Medicine\Patch_PlaySettings.cs" />
@@ -83,6 +86,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>powershell -ExecutionPolicy Bypass ..\..\Deploy.ps1</PostBuildEvent>
