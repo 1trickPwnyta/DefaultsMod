@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+	<Defaults_SetDefaults>Set defaults</Defaults_SetDefaults>
+	<Defaults_Schedules>Colonist schedules</Defaults_Schedules>
+	<Defaults_Medicine>Medicine settings</Defaults_Medicine>
+	<Defaults_ScheduleName>Schedule {0}</Defaults_ScheduleName>
+	<Defaults_AddAlternateSchedule>Add alternate</Defaults_AddAlternateSchedule>
+</LanguageData>

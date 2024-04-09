@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+	<name>1trickPwnyta's Defaults</name>
+	<author>1trickPwnyta</author>
+	<packageId>defaults.1trickPwnyta</packageId>
+	<supportedVersions>
+		<li>1.5</li>
+	</supportedVersions>
+	<description>
+Allows you to set various defaults to use during gameplay, such as the default schedules your colonists will assume.
+
+Full list of settings:
+  - Schedules: Allows you to set custom default schedules for colonists. You can create alternating schedules and the mod will cycle between them when assigning them to new colonists.
+	</description>
+	<url>https://github.com/1trickPwnyta/Defaults</url>
+	<modDependencies>
+		<li>
+			<packageId>brrainz.harmony</packageId>
+			<displayName>Harmony</displayName>
+			<steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+			<downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
+		</li>
+	</modDependencies>
+</ModMetaData>
