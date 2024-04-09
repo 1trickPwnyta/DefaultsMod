@@ -70,13 +70,15 @@
     <Compile Include="Medicine\Dialog_MedicineSettings.cs" />
     <Compile Include="Medicine\Patch_BackCompatibilityConverter_1_4.cs" />
     <Compile Include="Medicine\Patch_PlaySettings.cs" />
+    <Compile Include="Rewards\Dialog_RewardsSettings.cs" />
+    <Compile Include="Rewards\Patch_FactionGenerator.cs" />
+    <Compile Include="Rewards\RewardPreference.cs" />
     <Compile Include="Schedule\Dialog_ScheduleSettings.cs" />
     <Compile Include="Schedule\Patch_Pawn_TimetableTracker.cs" />
     <Compile Include="Schedule\Schedule.cs" />
     <Compile Include="DefaultsMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DefaultsSettings.cs" />
-    <Compile Include="Schedule\ScheduleUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

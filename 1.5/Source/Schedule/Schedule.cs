@@ -1,21 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using RimWorld;
+using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace Defaults.Schedule
 {
-    public enum TimeAssignment
-    {
-        Anything,
-        Sleep,
-        Work,
-        Meditate,
-        Joy
-    }
-
     public class Schedule : IExposable
     {
-        private List<TimeAssignment> assignments;
+        private List<string> assignments;
 
         public Schedule()
         {
@@ -24,33 +16,39 @@ namespace Defaults.Schedule
 
         private void SetToDefaultSchedule()
         {
-            assignments = new[]
+            LongEventHandler.ExecuteWhenFinished(delegate
             {
-                TimeAssignment.Sleep,
-                TimeAssignment.Sleep,
-                TimeAssignment.Sleep,
-                TimeAssignment.Sleep,
-                TimeAssignment.Sleep,
-                TimeAssignment.Sleep,
-                TimeAssignment.Anything,
-                TimeAssignment.Anything,
-                TimeAssignment.Anything,
-                TimeAssignment.Anything,
-                TimeAssignment.Anything,
-                TimeAssignment.Anything,
-                TimeAssignment.Anything,
-                TimeAssignment.Anything,
-                TimeAssignment.Anything,
-                TimeAssignment.Anything,
-                TimeAssignment.Anything,
-                TimeAssignment.Anything,
-                TimeAssignment.Anything,
-                TimeAssignment.Anything,
-                TimeAssignment.Anything,
-                TimeAssignment.Anything,
-                TimeAssignment.Sleep,
-                TimeAssignment.Sleep
-            }.ToList();
+                if (assignments == null)
+                {
+                    assignments = new[]
+                    {
+                        TimeAssignmentDefOf.Sleep.defName,
+                        TimeAssignmentDefOf.Sleep.defName,
+                        TimeAssignmentDefOf.Sleep.defName,
+                        TimeAssignmentDefOf.Sleep.defName,
+                        TimeAssignmentDefOf.Sleep.defName,
+                        TimeAssignmentDefOf.Sleep.defName,
+                        TimeAssignmentDefOf.Anything.defName,
+                        TimeAssignmentDefOf.Anything.defName,
+                        TimeAssignmentDefOf.Anything.defName,
+                        TimeAssignmentDefOf.Anything.defName,
+                        TimeAssignmentDefOf.Anything.defName,
+                        TimeAssignmentDefOf.Anything.defName,
+                        TimeAssignmentDefOf.Anything.defName,
+                        TimeAssignmentDefOf.Anything.defName,
+                        TimeAssignmentDefOf.Anything.defName,
+                        TimeAssignmentDefOf.Anything.defName,
+                        TimeAssignmentDefOf.Anything.defName,
+                        TimeAssignmentDefOf.Anything.defName,
+                        TimeAssignmentDefOf.Anything.defName,
+                        TimeAssignmentDefOf.Anything.defName,
+                        TimeAssignmentDefOf.Anything.defName,
+                        TimeAssignmentDefOf.Anything.defName,
+                        TimeAssignmentDefOf.Sleep.defName,
+                        TimeAssignmentDefOf.Sleep.defName
+                    }.ToList();
+                }
+            });
         }
 
         public void ExposeData()
@@ -62,14 +60,14 @@ namespace Defaults.Schedule
             }
         }
 
-        public TimeAssignment GetTimeAssignment(int hour)
+        public TimeAssignmentDef GetTimeAssignment(int hour)
         {
-            return assignments[hour];
+            return DefDatabase<TimeAssignmentDef>.GetNamed(assignments[hour]);
         }
 
-        public void SetTimeAssignment(int hour, TimeAssignment assignment)
+        public void SetTimeAssignment(int hour, TimeAssignmentDef assignment)
         {
-            assignments[hour] = assignment;
+            assignments[hour] = assignment.defName;
         }
     }
 }

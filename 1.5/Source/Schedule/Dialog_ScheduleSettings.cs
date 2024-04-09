@@ -86,7 +86,7 @@ namespace Defaults.Schedule
         {
             rect = rect.ContractedBy(1f);
             bool mouseButton = Input.GetMouseButton(0);
-            TimeAssignmentDef assignment = ScheduleUtility.GetTimeAssignmentDef(schedule.GetTimeAssignment(hour));
+            TimeAssignmentDef assignment = schedule.GetTimeAssignment(hour);
             GUI.DrawTexture(rect, assignment.ColorTexture);
             if (!mouseButton)
             {
@@ -98,7 +98,7 @@ namespace Defaults.Schedule
                 if (mouseButton && assignment != TimeAssignmentSelector.selectedAssignment && TimeAssignmentSelector.selectedAssignment != null)
                 {
                     SoundDefOf.Designate_DragStandard_Changed_NoCam.PlayOneShotOnCamera(null);
-                    schedule.SetTimeAssignment(hour, ScheduleUtility.GetTimeAssignmentEnum(TimeAssignmentSelector.selectedAssignment));
+                    schedule.SetTimeAssignment(hour, TimeAssignmentSelector.selectedAssignment);
                 }
             }
         }
