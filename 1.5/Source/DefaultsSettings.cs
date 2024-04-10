@@ -27,6 +27,7 @@ namespace Defaults
         public static Dictionary<string, RewardPreference> DefaultRewardPreferences;
         public static HostilityResponseMode DefaultHostilityResponse = HostilityResponseMode.Flee;
         public static string DefaultPlantType;
+        public static bool DefaultAutoRebuild = false;
 
         static DefaultsSettings()
         {
@@ -114,6 +115,14 @@ namespace Defaults
             plantTypeRect.width = 24;
             PlantType.PlantTypeUtility.DrawPlantButton(plantTypeRect);
 
+            Rect autoRebuildRect = listingStandard.GetRect(30f);
+            Widgets.Label(autoRebuildRect, "Defaults_AutoRebuild".Translate());
+            autoRebuildRect.x += autoRebuildRect.width - 24;
+            autoRebuildRect.width = 24;
+            autoRebuildRect.y += 3;
+            autoRebuildRect.height = 24;
+            AutoRebuild.AutoRebuildUtility.DrawAutoRebuildButton(autoRebuildRect);
+
             listingStandard.End();
         }
 
@@ -134,6 +143,7 @@ namespace Defaults
             Scribe_Collections.Look(ref DefaultRewardPreferences, "DefaultRewardPreferences");
             Scribe_Values.Look(ref DefaultHostilityResponse, "DefaultHostilityResponse");
             Scribe_Values.Look(ref DefaultPlantType, "DefaultPlantType");
+            Scribe_Values.Look(ref DefaultAutoRebuild, "DefaultAutoRebuild");
         }
     }
 }

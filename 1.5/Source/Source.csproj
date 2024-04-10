@@ -65,6 +65,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoRebuild\AutoRebuildUtility.cs" />
+    <Compile Include="AutoRebuild\Patch_PlaySettings.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="DraggableResultUtility.cs" />
     <Compile Include="HostilityResponse\HostilityResponseModeUtility.cs" />
