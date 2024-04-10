@@ -5,9 +5,12 @@
 	<Defaults_Medicine>Medicine settings</Defaults_Medicine>
 	<Defaults_Rewards>Reward preferences</Defaults_Rewards>
 	<Defaults_HostilityResponse>Default hostility response</Defaults_HostilityResponse>
+	<Defaults_PlantType>Default plant type</Defaults_PlantType>
 	<Defaults_ScheduleName>Schedule {0}</Defaults_ScheduleName>
 	<Defaults_AddAlternateSchedule>Add alternate</Defaults_AddAlternateSchedule>
 	<Defaults_AcceptRoyalFavor>Accept {0}</Defaults_AcceptRoyalFavor>
 	<Defaults_AcceptRoyalFavorDesc>Whether you wish to be rewarded with {0} from {1}.\n\nIf this is disabled, {1} will offer other types of rewards instead.\n\nThis setting only affects newly-arriving quests.</Defaults_AcceptRoyalFavorDesc>
 	<Defaults_AcceptGoodwillDesc>Whether you wish to be rewarded via improved faction relations with {0}.\n\nIf this is disabled, {0} will offer other types of rewards instead.\n\nThis setting only affects newly-generated quests.</Defaults_AcceptGoodwillDesc>
+	<Defaults_PlantTypeTip>The default plant type for new growing zones.</Defaults_PlantTypeTip>
+	<Defaults_CurrentPlantType>Current plant type</Defaults_CurrentPlantType>
 </LanguageData>

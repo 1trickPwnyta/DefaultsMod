@@ -73,6 +73,8 @@
     <Compile Include="Medicine\Dialog_MedicineSettings.cs" />
     <Compile Include="Medicine\Patch_BackCompatibilityConverter_1_4.cs" />
     <Compile Include="Medicine\Patch_PlaySettings.cs" />
+    <Compile Include="PlantType\Patch_Zone_Growing.cs" />
+    <Compile Include="PlantType\PlantTypeUtility.cs" />
     <Compile Include="Rewards\Dialog_RewardsSettings.cs" />
     <Compile Include="Rewards\Patch_FactionGenerator.cs" />
     <Compile Include="Rewards\RewardPreference.cs" />
