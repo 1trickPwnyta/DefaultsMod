@@ -69,5 +69,14 @@ namespace Defaults.Schedule
         {
             assignments[hour] = assignment.defName;
         }
+
+        public void ApplyToPawnTimetable(Pawn_TimetableTracker timetable)
+        {
+            timetable.times.Clear();
+            for (int i = 0; i < 24; i++)
+            {
+                timetable.times.Add(GetTimeAssignment(i));
+            }
+        }
     }
 }

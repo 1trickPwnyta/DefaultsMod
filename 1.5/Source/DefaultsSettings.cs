@@ -42,7 +42,9 @@ namespace Defaults
             {
                 NextScheduleIndex %= DefaultSchedules.Count;
             }
-            return DefaultSchedules[NextScheduleIndex++];
+            Schedule.Schedule nextSchedule = DefaultSchedules[NextScheduleIndex++];
+            LongEventHandler.ExecuteWhenFinished(DefaultsMod.Settings.Write);
+            return nextSchedule;
         }
 
         private static void InitializeDefaultSchedules()
@@ -129,6 +131,7 @@ namespace Defaults
         public override void ExposeData()
         {
             Scribe_Collections.Look(ref DefaultSchedules, "DefaultSchedules");
+            Scribe_Values.Look(ref NextScheduleIndex, "NextScheduleIndex");
             Scribe_Values.Look(ref DefaultCareForColonist, "DefaultCareForColonist");
             Scribe_Values.Look(ref DefaultCareForPrisoner, "DefaultCareForPrisoner");
             Scribe_Values.Look(ref DefaultCareForSlave, "DefaultCareForSlave");
