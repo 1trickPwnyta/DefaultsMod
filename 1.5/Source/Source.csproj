@@ -70,6 +70,7 @@
     <Compile Include="Debug.cs" />
     <Compile Include="DraggableResultUtility.cs" />
     <Compile Include="HostilityResponse\HostilityResponseModeUtility.cs" />
+    <Compile Include="HostilityResponse\Patch_Pawn.cs" />
     <Compile Include="HostilityResponse\Patch_Pawn_PlayerSettings.cs" />
     <Compile Include="HostilityResponse\Patch_PawnGenerator.cs" />
     <Compile Include="Medicine\Dialog_MedicineSettings.cs" />
