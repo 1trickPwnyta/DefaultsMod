@@ -11,7 +11,7 @@ namespace Defaults.HostilityResponse
     {
         public static void SetHostilityResponseMode(Pawn pawn, Pawn_PlayerSettings settings)
         {
-            if (settings != null && pawn.Faction == Faction.OfPlayer)
+            if (settings != null && pawn.Faction == Faction.OfPlayer && !pawn.IsGhoul)
             {
                 settings.hostilityResponse = DefaultsSettings.DefaultHostilityResponse;
                 if (pawn.WorkTagIsDisabled(WorkTags.Violent) && settings.hostilityResponse == HostilityResponseMode.Attack)
