@@ -72,10 +72,13 @@ namespace Defaults.Schedule
 
         public void ApplyToPawnTimetable(Pawn_TimetableTracker timetable)
         {
-            timetable.times.Clear();
-            for (int i = 0; i < 24; i++)
+            if (timetable != null && timetable.times != null)
             {
-                timetable.times.Add(GetTimeAssignment(i));
+                timetable.times.Clear();
+                for (int i = 0; i < 24; i++)
+                {
+                    timetable.times.Add(GetTimeAssignment(i));
+                }
             }
         }
     }
