@@ -1,4 +1,5 @@
 ﻿using Defaults.Medicine;
+using Defaults.ResourceCategories;
 using Defaults.Rewards;
 using Defaults.Schedule;
 using RimWorld;
@@ -28,12 +29,14 @@ namespace Defaults
         public static HostilityResponseMode DefaultHostilityResponse = HostilityResponseMode.Flee;
         public static string DefaultPlantType;
         public static bool DefaultAutoRebuild = false;
+        public static List<string> DefaultExpandedResourceCategories;
 
         static DefaultsSettings()
         {
             InitializeDefaultSchedules();
             InitializeDefaultRewardPreferences();
             InitializeDefaultPlantType();
+            InitializeDefaultExpandedResourceCategories();
         }
 
         public static Schedule.Schedule GetNextDefaultSchedule()
@@ -85,6 +88,20 @@ namespace Defaults
             });
         }
 
+        private static void InitializeDefaultExpandedResourceCategories()
+        {
+            LongEventHandler.ExecuteWhenFinished(delegate
+            {
+                if (DefaultExpandedResourceCategories == null)
+                {
+                    DefaultExpandedResourceCategories = new List<string>
+                    {
+                        ThingCategoryDefOf.Foods.defName
+                    };
+                }
+            });
+        }
+
         public static void DoSettingsWindowContents(Rect inRect)
         {
             Listing_Standard listingStandard = new Listing_Standard();
@@ -125,6 +142,11 @@ namespace Defaults
             autoRebuildRect.height = 24;
             AutoRebuild.AutoRebuildUtility.DrawAutoRebuildButton(autoRebuildRect);
 
+            if (listingStandard.ButtonTextLabeledPct("Defaults_ResourceCategories".Translate(), "Defaults_SetDefaults".Translate(), 0.75f))
+            {
+                Find.WindowStack.Add(new Dialog_ResourceCategories());
+            }
+
             listingStandard.End();
         }
 
@@ -147,6 +169,7 @@ namespace Defaults
             Scribe_Values.Look(ref DefaultHostilityResponse, "DefaultHostilityResponse");
             Scribe_Values.Look(ref DefaultPlantType, "DefaultPlantType");
             Scribe_Values.Look(ref DefaultAutoRebuild, "DefaultAutoRebuild");
+            Scribe_Collections.Look(ref DefaultExpandedResourceCategories, "DefaultExpandedResourceCategories");
         }
     }
 }

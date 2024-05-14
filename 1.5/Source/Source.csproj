@@ -77,6 +77,10 @@
     <Compile Include="Medicine\Patch_PlaySettings.cs" />
     <Compile Include="PlantType\Patch_Zone_Growing.cs" />
     <Compile Include="PlantType\PlantTypeUtility.cs" />
+    <Compile Include="ResourceCategories\Dialog_ResourceCategories.cs" />
+    <Compile Include="ResourceCategories\Listing_ResourceCategories.cs" />
+    <Compile Include="ResourceCategories\Patch_ResourceReadout.cs" />
+    <Compile Include="ResourceCategories\TreeNodeUtility.cs" />
     <Compile Include="Rewards\Dialog_RewardsSettings.cs" />
     <Compile Include="Rewards\Patch_FactionGenerator.cs" />
     <Compile Include="Rewards\RewardPreference.cs" />

@@ -22,6 +22,7 @@ namespace Defaults
             harmony.Patch(typeof(Pawn_TimetableTracker).GetConstructor(new[] { typeof(Pawn) }), null, typeof(Schedule.Patch_Pawn_TimetableTracker_ctor).GetMethod("Postfix"));
             harmony.Patch(typeof(PlaySettings).GetConstructor(new Type[] { }), null, typeof(Medicine.Patch_PlaySettings_ctor).GetMethod("Postfix"));
             harmony.Patch(typeof(PlaySettings).GetConstructor(new Type[] { }), null, typeof(AutoRebuild.Patch_PlaySettings_ctor).GetMethod("Postfix"));
+            harmony.Patch(typeof(ResourceReadout).GetConstructor(new Type[] { }), null, typeof(ResourceCategories.Patch_ResourceReadout_ctor).GetMethod("Postfix"));
 
             Log.Message($"[{PACKAGE_NAME}] Loaded.");
         }

@@ -7,6 +7,7 @@
 	<Defaults_HostilityResponse>Default hostility response</Defaults_HostilityResponse>
 	<Defaults_PlantType>Default plant type</Defaults_PlantType>
 	<Defaults_AutoRebuild>Default auto rebuild setting</Defaults_AutoRebuild>
+	<Defaults_ResourceCategories>Expanded resource categories</Defaults_ResourceCategories>
 	<Defaults_ScheduleName>Schedule {0}</Defaults_ScheduleName>
 	<Defaults_AddAlternateSchedule>Add alternate</Defaults_AddAlternateSchedule>
 	<Defaults_AcceptRoyalFavor>Accept {0}</Defaults_AcceptRoyalFavor>
