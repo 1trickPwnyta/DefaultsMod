@@ -2,6 +2,7 @@
 using Defaults.ResourceCategories;
 using Defaults.Rewards;
 using Defaults.Schedule;
+using Defaults.Storyteller;
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,11 @@ namespace Defaults
         public static string DefaultPlantType;
         public static bool DefaultAutoRebuild = false;
         public static List<string> DefaultExpandedResourceCategories;
+        public static string DefaultStoryteller;
+        public static string DefaultDifficulty;
+        public static DifficultySub DefaultDifficultyValues;
+        public static string DefaultAnomalyPlaystyle;
+        public static bool DefaultPermadeath = false;
 
         static DefaultsSettings()
         {
@@ -37,6 +43,7 @@ namespace Defaults
             InitializeDefaultRewardPreferences();
             InitializeDefaultPlantType();
             InitializeDefaultExpandedResourceCategories();
+            InitializeDefaultStorytellerSettings();
         }
 
         public static Schedule.Schedule GetNextDefaultSchedule()
@@ -102,6 +109,29 @@ namespace Defaults
             });
         }
 
+        private static void InitializeDefaultStorytellerSettings()
+        {
+            LongEventHandler.ExecuteWhenFinished(delegate
+            {
+                if (DefaultStoryteller == null)
+                {
+                    DefaultStoryteller = StorytellerDefOf.Cassandra.defName;
+                }
+                if (DefaultDifficulty == null)
+                {
+                    DefaultDifficulty = DifficultyDefOf.Rough.defName;
+                }
+                if (DefaultDifficultyValues == null)
+                {
+                    DefaultDifficultyValues = new DifficultySub();
+                }
+                if (DefaultAnomalyPlaystyle == null)
+                {
+                    DefaultAnomalyPlaystyle = AnomalyPlaystyleDefOf.Standard.defName;
+                }
+            });
+        }
+
         public static void DoSettingsWindowContents(Rect inRect)
         {
             Listing_Standard listingStandard = new Listing_Standard();
@@ -147,6 +177,11 @@ namespace Defaults
                 Find.WindowStack.Add(new Dialog_ResourceCategories());
             }
 
+            if (listingStandard.ButtonTextLabeledPct("Defaults_Storyteller".Translate(), "Defaults_SetDefaults".Translate(), 0.75f))
+            {
+                Find.WindowStack.Add(new Dialog_Storyteller());
+            }
+
             listingStandard.End();
         }
 
@@ -170,6 +205,11 @@ namespace Defaults
             Scribe_Values.Look(ref DefaultPlantType, "DefaultPlantType");
             Scribe_Values.Look(ref DefaultAutoRebuild, "DefaultAutoRebuild");
             Scribe_Collections.Look(ref DefaultExpandedResourceCategories, "DefaultExpandedResourceCategories");
+            Scribe_Values.Look(ref DefaultStoryteller, "DefaultStoryteller");
+            Scribe_Values.Look(ref DefaultDifficulty, "DefaultDifficulty");
+            Scribe_Deep.Look(ref DefaultDifficultyValues, "DefaultDifficultyValues");
+            Scribe_Values.Look(ref DefaultAnomalyPlaystyle, "DefaultAnomalyPlaystyle");
+            Scribe_Values.Look(ref DefaultPermadeath, "DefaultPermadeath");
         }
     }
 }

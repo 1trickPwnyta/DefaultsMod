@@ -68,6 +68,7 @@
     <Compile Include="AutoRebuild\AutoRebuildUtility.cs" />
     <Compile Include="AutoRebuild\Patch_PlaySettings.cs" />
     <Compile Include="Debug.cs" />
+    <Compile Include="DefaultsRefs.cs" />
     <Compile Include="DraggableResultUtility.cs" />
     <Compile Include="HostilityResponse\HostilityResponseModeUtility.cs" />
     <Compile Include="HostilityResponse\Patch_Pawn.cs" />
@@ -91,6 +92,12 @@
     <Compile Include="DefaultsMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DefaultsSettings.cs" />
+    <Compile Include="Storyteller\Dialog_Storyteller.cs" />
+    <Compile Include="Storyteller\DifficultySub.cs" />
+    <Compile Include="Storyteller\Patch_Difficulty.cs" />
+    <Compile Include="Storyteller\Patch_Dialog_AnomalySettings.cs" />
+    <Compile Include="Storyteller\Patch_PageSelectStoryteller.cs" />
+    <Compile Include="Storyteller\Patch_StorytellerUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
