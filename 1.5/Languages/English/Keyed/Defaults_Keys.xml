@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 	<Defaults_SetDefaults>Set defaults</Defaults_SetDefaults>
+	<Defaults_SetAsDefault>Set as default</Defaults_SetAsDefault>
+	<Defaults_SetAsDefaultConfirmed>Saved settings as default.</Defaults_SetAsDefaultConfirmed>
 	<Defaults_Schedules>Colonist schedules</Defaults_Schedules>
 	<Defaults_Medicine>Medicine settings</Defaults_Medicine>
 	<Defaults_Rewards>Reward preferences</Defaults_Rewards>

@@ -3,6 +3,8 @@ using RimWorld;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using UnityEngine;
+using Verse;
 
 namespace Defaults.Storyteller
 {
@@ -46,6 +48,24 @@ namespace Defaults.Storyteller
                 }
 
                 yield return instruction;
+            }
+        }
+
+        public static void Postfix(Rect rect, StorytellerDef chosenStoryteller, DifficultyDef difficulty, Difficulty difficultyValues)
+        {
+            if (!(difficultyValues is DifficultySub))
+            {
+                Rect buttonRect = new Rect(rect.x + rect.width - 150f - 16f, rect.y - 40f, 150f, 40f);
+                if (Widgets.ButtonText(buttonRect, "Defaults_SetAsDefault".Translate()))
+                {
+                    DefaultsSettings.DefaultStoryteller = chosenStoryteller.defName;
+                    DefaultsSettings.DefaultDifficulty = difficulty.defName;
+                    DefaultsSettings.DefaultDifficultyValues.SetDifficultyValues(difficultyValues);
+                    DefaultsSettings.DefaultAnomalyPlaystyle = difficultyValues.AnomalyPlaystyleDef.defName;
+                    DefaultsSettings.DefaultPermadeath = Find.GameInitData != null ? Find.GameInitData.permadeath : Current.Game.Info.permadeathMode;
+                    LongEventHandler.ExecuteWhenFinished(DefaultsMod.Settings.Write);
+                    Messages.Message("Defaults_SetAsDefaultConfirmed".Translate(), MessageTypeDefOf.PositiveEvent, false);
+                }
             }
         }
     }
