@@ -30,6 +30,7 @@ namespace Defaults
         public static HostilityResponseMode DefaultHostilityResponse = HostilityResponseMode.Flee;
         public static string DefaultPlantType;
         public static bool DefaultAutoRebuild = false;
+        public static bool DefaultAutoHomeArea = true;
         public static List<string> DefaultExpandedResourceCategories;
         public static string DefaultStoryteller;
         public static string DefaultDifficulty;
@@ -170,7 +171,15 @@ namespace Defaults
             autoRebuildRect.width = 24;
             autoRebuildRect.y += 3;
             autoRebuildRect.height = 24;
-            AutoRebuild.AutoRebuildUtility.DrawAutoRebuildButton(autoRebuildRect);
+            PlaySettings.PlaySettingsUtility.DrawAutoRebuildButton(autoRebuildRect);
+
+            Rect autoHomeAreaRect = listingStandard.GetRect(30f);
+            Widgets.Label(autoHomeAreaRect, "Defaults_AutoHomeArea".Translate());
+            autoHomeAreaRect.x += autoHomeAreaRect.width - 24;
+            autoHomeAreaRect.width = 24;
+            autoHomeAreaRect.y += 3;
+            autoHomeAreaRect.height = 24;
+            PlaySettings.PlaySettingsUtility.DrawAutoHomeAreaButton(autoHomeAreaRect);
 
             if (listingStandard.ButtonTextLabeledPct("Defaults_ResourceCategories".Translate(), "Defaults_SetDefaults".Translate(), 0.75f))
             {
@@ -188,28 +197,29 @@ namespace Defaults
         public override void ExposeData()
         {
             Scribe_Collections.Look(ref DefaultSchedules, "DefaultSchedules");
-            Scribe_Values.Look(ref NextScheduleIndex, "NextScheduleIndex");
-            Scribe_Values.Look(ref DefaultCareForColonist, "DefaultCareForColonist");
-            Scribe_Values.Look(ref DefaultCareForPrisoner, "DefaultCareForPrisoner");
-            Scribe_Values.Look(ref DefaultCareForSlave, "DefaultCareForSlave");
-            Scribe_Values.Look(ref DefaultCareForGhouls, "DefaultCareForGhouls");
-            Scribe_Values.Look(ref DefaultCareForTamedAnimal, "DefaultCareForTamedAnimal");
-            Scribe_Values.Look(ref DefaultCareForFriendlyFaction, "DefaultCareForFriendlyFaction");
-            Scribe_Values.Look(ref DefaultCareForNeutralFaction, "DefaultCareForNeutralFaction");
-            Scribe_Values.Look(ref DefaultCareForHostileFaction, "DefaultCareForHostileFaction");
-            Scribe_Values.Look(ref DefaultCareForNoFaction, "DefaultCareForNoFaction");
-            Scribe_Values.Look(ref DefaultCareForWildlife, "DefaultCareForWildlife");
-            Scribe_Values.Look(ref DefaultCareForEntities, "DefaultCareForEntities");
+            Scribe_Values.Look(ref NextScheduleIndex, "NextScheduleIndex", Mathf.Abs(Rand.Int));
+            Scribe_Values.Look(ref DefaultCareForColonist, "DefaultCareForColonist", MedicalCareCategory.Best);
+            Scribe_Values.Look(ref DefaultCareForPrisoner, "DefaultCareForPrisoner", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForSlave, "DefaultCareForSlave", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForGhouls, "DefaultCareForGhouls", MedicalCareCategory.NoMeds);
+            Scribe_Values.Look(ref DefaultCareForTamedAnimal, "DefaultCareForTamedAnimal", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForFriendlyFaction, "DefaultCareForFriendlyFaction", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForNeutralFaction, "DefaultCareForNeutralFaction", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForHostileFaction, "DefaultCareForHostileFaction", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForNoFaction, "DefaultCareForNoFaction", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForWildlife, "DefaultCareForWildlife", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForEntities, "DefaultCareForEntities", MedicalCareCategory.NoMeds);
             Scribe_Collections.Look(ref DefaultRewardPreferences, "DefaultRewardPreferences");
-            Scribe_Values.Look(ref DefaultHostilityResponse, "DefaultHostilityResponse");
+            Scribe_Values.Look(ref DefaultHostilityResponse, "DefaultHostilityResponse", HostilityResponseMode.Flee);
             Scribe_Values.Look(ref DefaultPlantType, "DefaultPlantType");
-            Scribe_Values.Look(ref DefaultAutoRebuild, "DefaultAutoRebuild");
+            Scribe_Values.Look(ref DefaultAutoRebuild, "DefaultAutoRebuild", false);
+            Scribe_Values.Look(ref DefaultAutoHomeArea, "DefaultAutoHomeArea", true);
             Scribe_Collections.Look(ref DefaultExpandedResourceCategories, "DefaultExpandedResourceCategories");
             Scribe_Values.Look(ref DefaultStoryteller, "DefaultStoryteller");
             Scribe_Values.Look(ref DefaultDifficulty, "DefaultDifficulty");
             Scribe_Deep.Look(ref DefaultDifficultyValues, "DefaultDifficultyValues");
             Scribe_Values.Look(ref DefaultAnomalyPlaystyle, "DefaultAnomalyPlaystyle");
-            Scribe_Values.Look(ref DefaultPermadeath, "DefaultPermadeath");
+            Scribe_Values.Look(ref DefaultPermadeath, "DefaultPermadeath", false);
         }
     }
 }

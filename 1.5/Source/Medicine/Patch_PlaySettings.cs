@@ -5,7 +5,7 @@ namespace Defaults.Medicine
     // Patched manually in mod constructor
     public static class Patch_PlaySettings_ctor
     {
-        public static void Postfix(PlaySettings __instance)
+        public static void Postfix(RimWorld.PlaySettings __instance)
         {
             __instance.defaultCareForColonist = DefaultsSettings.DefaultCareForColonist;
             __instance.defaultCareForPrisoner = DefaultsSettings.DefaultCareForPrisoner;

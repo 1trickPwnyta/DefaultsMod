@@ -65,8 +65,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoRebuild\AutoRebuildUtility.cs" />
-    <Compile Include="AutoRebuild\Patch_PlaySettings.cs" />
+    <Compile Include="PlaySettings\PlaySettingsUtility.cs" />
+    <Compile Include="PlaySettings\Patch_PlaySettings.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="DefaultsRefs.cs" />
     <Compile Include="DraggableResultUtility.cs" />

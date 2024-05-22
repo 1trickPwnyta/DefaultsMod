@@ -11,8 +11,8 @@ namespace Defaults.Medicine
         {
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
-                PlaySettings playSettings;
-                if ((playSettings = (obj as PlaySettings)) != null)
+                RimWorld.PlaySettings playSettings;
+                if ((playSettings = (obj as RimWorld.PlaySettings)) != null)
                 {
                     playSettings.defaultCareForColonist = DefaultsSettings.DefaultCareForColonist;
                     playSettings.defaultCareForPrisoner = DefaultsSettings.DefaultCareForPrisoner;

@@ -9,6 +9,7 @@
 	<Defaults_HostilityResponse>Default hostility response</Defaults_HostilityResponse>
 	<Defaults_PlantType>Default plant type</Defaults_PlantType>
 	<Defaults_AutoRebuild>Default auto rebuild setting</Defaults_AutoRebuild>
+	<Defaults_AutoHomeArea>Default auto home area setting</Defaults_AutoHomeArea>
 	<Defaults_ResourceCategories>Expanded resource categories</Defaults_ResourceCategories>
 	<Defaults_Storyteller>Storyteller settings</Defaults_Storyteller>
 	<Defaults_ScheduleName>Schedule {0}</Defaults_ScheduleName>

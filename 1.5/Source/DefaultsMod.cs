@@ -18,8 +18,8 @@ namespace Defaults
             var harmony = new Harmony(PACKAGE_ID);
             harmony.PatchAll();
             harmony.Patch(typeof(Pawn_TimetableTracker).GetConstructor(new[] { typeof(Pawn) }), null, typeof(Schedule.Patch_Pawn_TimetableTracker_ctor).GetMethod("Postfix"));
-            harmony.Patch(typeof(PlaySettings).GetConstructor(new Type[] { }), null, typeof(Medicine.Patch_PlaySettings_ctor).GetMethod("Postfix"));
-            harmony.Patch(typeof(PlaySettings).GetConstructor(new Type[] { }), null, typeof(AutoRebuild.Patch_PlaySettings_ctor).GetMethod("Postfix"));
+            harmony.Patch(typeof(RimWorld.PlaySettings).GetConstructor(new Type[] { }), null, typeof(Medicine.Patch_PlaySettings_ctor).GetMethod("Postfix"));
+            harmony.Patch(typeof(RimWorld.PlaySettings).GetConstructor(new Type[] { }), null, typeof(PlaySettings.Patch_PlaySettings_ctor).GetMethod("Postfix"));
             harmony.Patch(typeof(ResourceReadout).GetConstructor(new Type[] { }), null, typeof(ResourceCategories.Patch_ResourceReadout_ctor).GetMethod("Postfix"));
             harmony.Patch(typeof(Dialog_AnomalySettings).GetConstructor(new[] { typeof(Difficulty) }), null, typeof(Storyteller.Patch_Dialog_AnomalySettings_ctor).GetMethod("Postfix"));
 
