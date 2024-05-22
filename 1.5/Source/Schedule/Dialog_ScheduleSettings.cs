@@ -2,6 +2,7 @@
 using UnityEngine;
 using Verse.Sound;
 using Verse;
+using System;
 
 namespace Defaults.Schedule
 {
@@ -39,7 +40,8 @@ namespace Defaults.Schedule
             Text.Font = GameFont.Tiny;
             Text.Anchor = TextAnchor.LowerCenter;
             float labelWidth = 160f;
-            float x = inRect.x + labelWidth;
+            float copyButtonWidth = 18f;
+            float x = inRect.x + labelWidth + copyButtonWidth;
             float cellWidth = 540 / 24f;
             float rowHeight = 30f;
             for (int i = 0; i < 24; i++)
@@ -58,6 +60,12 @@ namespace Defaults.Schedule
                 Widgets.Label(new Rect(0f, y, labelWidth, rowHeight), "Defaults_ScheduleName".Translate(i + 1));
 
                 x = inRect.x + labelWidth;
+                CopyPasteUI.DoCopyPasteButtons(new Rect(x, y, copyButtonWidth * 2, rowHeight), delegate
+                {
+                    DefaultsSettings.DefaultSchedules.Add(new Schedule(DefaultsSettings.DefaultSchedules[i]));
+                }, null);
+
+                x += copyButtonWidth;
                 for (int j = 0; j < 24; j++)
                 {
                     DoTimeAssignment(new Rect(x, y, cellWidth, rowHeight), DefaultsSettings.DefaultSchedules[i], j);

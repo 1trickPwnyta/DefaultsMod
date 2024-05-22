@@ -14,6 +14,11 @@ namespace Defaults.Schedule
             SetToDefaultSchedule();
         }
 
+        public Schedule(Schedule schedule)
+        {
+            assignments = schedule.assignments.ListFullCopy();
+        }
+
         private void SetToDefaultSchedule()
         {
             LongEventHandler.ExecuteWhenFinished(delegate
