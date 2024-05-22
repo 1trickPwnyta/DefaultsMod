@@ -13,6 +13,7 @@
 	<Defaults_AutoHomeArea>Default auto home area setting</Defaults_AutoHomeArea>
 	<Defaults_ResourceCategories>Expanded resource categories</Defaults_ResourceCategories>
 	<Defaults_Storyteller>Storyteller settings</Defaults_Storyteller>
+	<Defaults_StockpileZones>Stockpile zone types</Defaults_StockpileZones>
 	<Defaults_ScheduleName>Schedule {0}</Defaults_ScheduleName>
 	<Defaults_UseSchedule>Use</Defaults_UseSchedule>
 	<Defaults_UseScheduleTip>Indicates whether the schedule will automatically be assigned to colonists.</Defaults_UseScheduleTip>
@@ -27,4 +28,6 @@
 	<Defaults_CurrentPlantType>Current plant type</Defaults_CurrentPlantType>
 	<Defaults_MedicineToCarryTip>The default medicine for pawns to carry when assigned.</Defaults_MedicineToCarryTip>
 	<Defaults_CurrentMedicineToCarry>Current medicine to carry</Defaults_CurrentMedicineToCarry>
+	<Defaults_AddNew>Add new</Defaults_AddNew>
+	<Defaults_StockpileZoneTypeName>Stockpile zone type {0}</Defaults_StockpileZoneTypeName>
 </LanguageData>

@@ -22,6 +22,7 @@ namespace Defaults
         public static readonly MethodInfo m_Current_get_ProgramState = AccessTools.Method(typeof(Current), "get_ProgramState");
         public static readonly MethodInfo m_Difficulty_get_AnomalyPlaystyleDef = AccessTools.Method(typeof(Difficulty), "get_AnomalyPlaystyleDef");
         public static readonly MethodInfo m_Difficulty_set_AnomalyPlaystyleDef = AccessTools.Method(typeof(Difficulty), "set_AnomalyPlaystyleDef");
+        public static readonly MethodInfo m_Find_get_HiddenItemsManager = AccessTools.Method(typeof(Find), "get_HiddenItemsManager");
 
         public static readonly FieldInfo f_Difficulty_anomalyPlaystyleDef = AccessTools.Field(typeof(Difficulty), "anomalyPlaystyleDef");
         public static readonly FieldInfo f_DefaultsSettings_DefaultPermadeath = AccessTools.Field(typeof(DefaultsSettings), nameof(DefaultsSettings.DefaultPermadeath));

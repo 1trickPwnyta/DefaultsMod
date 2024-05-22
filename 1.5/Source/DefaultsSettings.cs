@@ -2,6 +2,7 @@
 using Defaults.ResourceCategories;
 using Defaults.Rewards;
 using Defaults.Schedule;
+using Defaults.StockpileZones;
 using Defaults.Storyteller;
 using RimWorld;
 using System.Collections.Generic;
@@ -38,6 +39,7 @@ namespace Defaults
         public static DifficultySub DefaultDifficultyValues;
         public static string DefaultAnomalyPlaystyle;
         public static bool DefaultPermadeath = false;
+        public static List<ZoneType> DefaultStockpileZones;
 
         static DefaultsSettings()
         {
@@ -47,6 +49,7 @@ namespace Defaults
             InitializeDefaultPlantType();
             InitializeDefaultExpandedResourceCategories();
             InitializeDefaultStorytellerSettings();
+            InitializeDefaultStockpileZones();
         }
 
         public static Schedule.Schedule GetNextDefaultSchedule()
@@ -161,6 +164,17 @@ namespace Defaults
             });
         }
 
+        private static void InitializeDefaultStockpileZones()
+        {
+            LongEventHandler.ExecuteWhenFinished(delegate
+            {
+                if (DefaultStockpileZones == null)
+                {
+                    DefaultStockpileZones = new List<ZoneType>();
+                }
+            });
+        }
+
         public static void DoSettingsWindowContents(Rect inRect)
         {
             Listing_Standard listingStandard = new Listing_Standard();
@@ -225,6 +239,11 @@ namespace Defaults
                 Find.WindowStack.Add(new Dialog_Storyteller());
             }
 
+            if (listingStandard.ButtonTextLabeledPct("Defaults_StockpileZones".Translate(), "Defaults_SetDefaults".Translate(), 0.75f))
+            {
+                Find.WindowStack.Add(new Dialog_StockpileZones());
+            }
+
             listingStandard.End();
         }
 
@@ -255,6 +274,7 @@ namespace Defaults
             Scribe_Deep.Look(ref DefaultDifficultyValues, "DefaultDifficultyValues");
             Scribe_Values.Look(ref DefaultAnomalyPlaystyle, "DefaultAnomalyPlaystyle");
             Scribe_Values.Look(ref DefaultPermadeath, "DefaultPermadeath", false);
+            Scribe_Collections.Look(ref DefaultStockpileZones, "DefaultStockpileZones");
         }
     }
 }

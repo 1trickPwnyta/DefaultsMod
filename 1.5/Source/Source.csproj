@@ -72,7 +72,7 @@
     <Compile Include="PlaySettings\Patch_PlaySettings.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="DefaultsRefs.cs" />
-    <Compile Include="DraggableResultUtility.cs" />
+    <Compile Include="Medicine\DraggableResultUtility.cs" />
     <Compile Include="HostilityResponse\HostilityResponseModeUtility.cs" />
     <Compile Include="HostilityResponse\Patch_Pawn.cs" />
     <Compile Include="HostilityResponse\Patch_PawnGenerator.cs" />
@@ -96,6 +96,11 @@
     <Compile Include="DefaultsMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DefaultsSettings.cs" />
+    <Compile Include="StockpileZones\Dialog_StockpileZones.cs" />
+    <Compile Include="StockpileZones\Patch_Find.cs" />
+    <Compile Include="StockpileZones\Patch_Listing_TreeThingFilter.cs" />
+    <Compile Include="StockpileZones\Patch_QuickSearchFilter.cs" />
+    <Compile Include="StockpileZones\ZoneType.cs" />
     <Compile Include="Storyteller\Dialog_Storyteller.cs" />
     <Compile Include="Storyteller\DifficultySub.cs" />
     <Compile Include="Storyteller\Patch_Difficulty.cs" />

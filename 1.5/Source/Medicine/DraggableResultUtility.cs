@@ -1,6 +1,6 @@
 ﻿using Verse;
 
-namespace Defaults
+namespace Defaults.Medicine
 {
     internal static class DraggableResultUtility
     {
