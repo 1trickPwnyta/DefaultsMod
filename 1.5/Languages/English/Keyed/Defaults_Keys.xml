@@ -5,6 +5,7 @@
 	<Defaults_SetAsDefaultConfirmed>Saved settings as default.</Defaults_SetAsDefaultConfirmed>
 	<Defaults_Schedules>Colonist schedules</Defaults_Schedules>
 	<Defaults_Medicine>Medicine settings</Defaults_Medicine>
+	<Defaults_MedicineToCarry>Default medicine to carry</Defaults_MedicineToCarry>
 	<Defaults_Rewards>Reward preferences</Defaults_Rewards>
 	<Defaults_HostilityResponse>Default hostility response</Defaults_HostilityResponse>
 	<Defaults_PlantType>Default plant type</Defaults_PlantType>
@@ -19,4 +20,6 @@
 	<Defaults_AcceptGoodwillDesc>Whether you wish to be rewarded via improved faction relations with {0}.\n\nIf this is disabled, {0} will offer other types of rewards instead.\n\nThis setting only affects newly-generated quests.</Defaults_AcceptGoodwillDesc>
 	<Defaults_PlantTypeTip>The default plant type for new growing zones.</Defaults_PlantTypeTip>
 	<Defaults_CurrentPlantType>Current plant type</Defaults_CurrentPlantType>
+	<Defaults_MedicineToCarryTip>The default medicine for pawns to carry when assigned.</Defaults_MedicineToCarryTip>
+	<Defaults_CurrentMedicineToCarry>Current medicine to carry</Defaults_CurrentMedicineToCarry>
 </LanguageData>

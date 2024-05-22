@@ -26,6 +26,7 @@ namespace Defaults
         public static MedicalCareCategory DefaultCareForNoFaction = MedicalCareCategory.HerbalOrWorse;
         public static MedicalCareCategory DefaultCareForWildlife = MedicalCareCategory.HerbalOrWorse;
         public static MedicalCareCategory DefaultCareForEntities = MedicalCareCategory.NoMeds;
+        public static string DefaultMedicineToCarry;
         public static Dictionary<string, RewardPreference> DefaultRewardPreferences;
         public static HostilityResponseMode DefaultHostilityResponse = HostilityResponseMode.Flee;
         public static string DefaultPlantType;
@@ -41,6 +42,7 @@ namespace Defaults
         static DefaultsSettings()
         {
             InitializeDefaultSchedules();
+            InitializeDefaultMedicineToCarry();
             InitializeDefaultRewardPreferences();
             InitializeDefaultPlantType();
             InitializeDefaultExpandedResourceCategories();
@@ -65,6 +67,17 @@ namespace Defaults
                 if (DefaultSchedules == null)
                 {
                     DefaultSchedules = new[] { new Schedule.Schedule() }.ToList();
+                }
+            });
+        }
+
+        private static void InitializeDefaultMedicineToCarry()
+        {
+            LongEventHandler.ExecuteWhenFinished(delegate
+            {
+                if (DefaultMedicineToCarry == null)
+                {
+                    DefaultMedicineToCarry = ThingDefOf.MedicineIndustrial.defName;
                 }
             });
         }
@@ -148,6 +161,12 @@ namespace Defaults
                 Find.WindowStack.Add(new Dialog_MedicineSettings());
             }
 
+            Rect medCarryRect = listingStandard.GetRect(30f);
+            Widgets.Label(medCarryRect, "Defaults_MedicineToCarry".Translate());
+            medCarryRect.x += medCarryRect.width - 32;
+            medCarryRect.width = 32;
+            MedicineUtility.DrawMedicineButton(medCarryRect);
+
             if (listingStandard.ButtonTextLabeledPct("Defaults_Rewards".Translate(), "Defaults_SetDefaults".Translate(), 0.75f))
             {
                 Find.WindowStack.Add(new Dialog_RewardsSettings());
@@ -209,6 +228,7 @@ namespace Defaults
             Scribe_Values.Look(ref DefaultCareForNoFaction, "DefaultCareForNoFaction", MedicalCareCategory.HerbalOrWorse);
             Scribe_Values.Look(ref DefaultCareForWildlife, "DefaultCareForWildlife", MedicalCareCategory.HerbalOrWorse);
             Scribe_Values.Look(ref DefaultCareForEntities, "DefaultCareForEntities", MedicalCareCategory.NoMeds);
+            Scribe_Values.Look(ref DefaultMedicineToCarry, "DefaultMedicineToCarry");
             Scribe_Collections.Look(ref DefaultRewardPreferences, "DefaultRewardPreferences");
             Scribe_Values.Look(ref DefaultHostilityResponse, "DefaultHostilityResponse", HostilityResponseMode.Flee);
             Scribe_Values.Look(ref DefaultPlantType, "DefaultPlantType");

@@ -65,6 +65,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Medicine\MedicineUtility.cs" />
+    <Compile Include="Medicine\Patch_Pawn.cs" />
+    <Compile Include="Medicine\Patch_PawnGenerator.cs" />
     <Compile Include="PlaySettings\PlaySettingsUtility.cs" />
     <Compile Include="PlaySettings\Patch_PlaySettings.cs" />
     <Compile Include="Debug.cs" />
