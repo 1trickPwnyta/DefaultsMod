@@ -51,13 +51,28 @@ namespace Defaults
 
         public static Schedule.Schedule GetNextDefaultSchedule()
         {
-            if (NextScheduleIndex >= DefaultSchedules.Count)
+            if (DefaultSchedules.Any(s => s.use))
             {
-                NextScheduleIndex %= DefaultSchedules.Count;
+                if (NextScheduleIndex >= DefaultSchedules.Count)
+                {
+                    NextScheduleIndex %= DefaultSchedules.Count;
+                }
+                while (!DefaultSchedules[NextScheduleIndex].use)
+                {
+                    NextScheduleIndex++;
+                    if (NextScheduleIndex >= DefaultSchedules.Count)
+                    {
+                        NextScheduleIndex %= DefaultSchedules.Count;
+                    }
+                }
+                Schedule.Schedule nextSchedule = DefaultSchedules[NextScheduleIndex++];
+                LongEventHandler.ExecuteWhenFinished(DefaultsMod.Settings.Write);
+                return nextSchedule;
+            } 
+            else
+            {
+                return null;
             }
-            Schedule.Schedule nextSchedule = DefaultSchedules[NextScheduleIndex++];
-            LongEventHandler.ExecuteWhenFinished(DefaultsMod.Settings.Write);
-            return nextSchedule;
         }
 
         private static void InitializeDefaultSchedules()
@@ -66,7 +81,7 @@ namespace Defaults
             {
                 if (DefaultSchedules == null)
                 {
-                    DefaultSchedules = new[] { new Schedule.Schedule() }.ToList();
+                    DefaultSchedules = new[] { new Schedule.Schedule("Defaults_ScheduleName".Translate(1)) }.ToList();
                 }
             });
         }

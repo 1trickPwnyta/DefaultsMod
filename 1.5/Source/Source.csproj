@@ -91,6 +91,7 @@
     <Compile Include="Schedule\Dialog_ScheduleSettings.cs" />
     <Compile Include="Schedule\Patch_Pawn.cs" />
     <Compile Include="Schedule\Patch_Pawn_TimetableTracker.cs" />
+    <Compile Include="Schedule\PawnColumnWorker_SaveLoadSchedule.cs" />
     <Compile Include="Schedule\Schedule.cs" />
     <Compile Include="DefaultsMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

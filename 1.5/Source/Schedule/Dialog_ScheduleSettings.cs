@@ -2,7 +2,6 @@
 using UnityEngine;
 using Verse.Sound;
 using Verse;
-using System;
 
 namespace Defaults.Schedule
 {
@@ -21,7 +20,7 @@ namespace Defaults.Schedule
         {
             get
             {
-                return new Vector2(800f, 600f);
+                return new Vector2(860f, 600f);
             }
         }
 
@@ -33,7 +32,7 @@ namespace Defaults.Schedule
             float buttonWidth = 160f;
             if (Widgets.ButtonText(new Rect(inRect.x + inRect.width - buttonWidth, 0f, buttonWidth, 30f), "Defaults_AddAlternateSchedule".Translate()))
             {
-                DefaultsSettings.DefaultSchedules.Add(new Schedule());
+                DefaultsSettings.DefaultSchedules.Add(new Schedule("Defaults_ScheduleName".Translate(DefaultsSettings.DefaultSchedules.Count + 1)));
                 SoundDefOf.Click.PlayOneShotOnCamera(null);
             }
 
@@ -41,7 +40,7 @@ namespace Defaults.Schedule
             Text.Anchor = TextAnchor.LowerCenter;
             float labelWidth = 160f;
             float copyButtonWidth = 18f;
-            float x = inRect.x + labelWidth + copyButtonWidth;
+            float x = inRect.x + 24f + 24f + labelWidth + copyButtonWidth;
             float cellWidth = 540 / 24f;
             float rowHeight = 30f;
             for (int i = 0; i < 24; i++)
@@ -49,6 +48,10 @@ namespace Defaults.Schedule
                 Widgets.Label(new Rect(x, inRect.y + rowHeight, cellWidth, rowHeight), i.ToString());
                 x += cellWidth;
             }
+            x += 8f;
+            Rect useLabelRect = new Rect(x, inRect.y + rowHeight, 24f, rowHeight);
+            Widgets.Label(useLabelRect, "Defaults_UseSchedule".Translate());
+            TooltipHandler.TipRegionByKey(useLabelRect, "Defaults_UseScheduleTip");
 
             Widgets.BeginScrollView(new Rect(inRect.x, inRect.y + rowHeight * 2, inRect.width, inRect.height - rowHeight * 4), ref scrollPos, new Rect(0f, 0f, inRect.width - 16f, rowHeight * DefaultsSettings.DefaultSchedules.Count));
 
@@ -57,26 +60,58 @@ namespace Defaults.Schedule
             float y = 0f;
             for (int i = 0; i < DefaultsSettings.DefaultSchedules.Count; i++)
             {
-                Widgets.Label(new Rect(0f, y, labelWidth, rowHeight), "Defaults_ScheduleName".Translate(i + 1));
+                Schedule schedule = DefaultsSettings.DefaultSchedules[i];
+                x = inRect.x;
 
-                x = inRect.x + labelWidth;
-                CopyPasteUI.DoCopyPasteButtons(new Rect(x, y, copyButtonWidth * 2, rowHeight), delegate
+                if (i < DefaultsSettings.DefaultSchedules.Count - 1)
                 {
-                    DefaultsSettings.DefaultSchedules.Add(new Schedule(DefaultsSettings.DefaultSchedules[i]));
-                }, null);
-
-                x += copyButtonWidth;
-                for (int j = 0; j < 24; j++)
-                {
-                    DoTimeAssignment(new Rect(x, y, cellWidth, rowHeight), DefaultsSettings.DefaultSchedules[i], j);
-                    x += cellWidth;
+                    if (Widgets.ButtonImage(new Rect(x + 3f, y + (rowHeight - 18f) / 2, 18f, 18f), TexButton.ReorderDown, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+                    {
+                        Schedule next = DefaultsSettings.DefaultSchedules[i + 1];
+                        DefaultsSettings.DefaultSchedules[i + 1] = schedule;
+                        DefaultsSettings.DefaultSchedules[i] = next;
+                        SoundDefOf.Click.PlayOneShotOnCamera(null);
+                    }
                 }
+                x += 24f;
 
                 if (i > 0)
                 {
-                    if (Widgets.ButtonImage(new Rect(labelWidth + cellWidth * 24 + 16f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Delete, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+                    if (Widgets.ButtonImage(new Rect(x + 3f, y + (rowHeight - 18f) / 2, 18f, 18f), TexButton.ReorderUp, Color.white, Color.white * GenUI.SubtleMouseoverColor))
                     {
-                        DefaultsSettings.DefaultSchedules.Remove(DefaultsSettings.DefaultSchedules[i--]);
+                        Schedule prev = DefaultsSettings.DefaultSchedules[i - 1];
+                        DefaultsSettings.DefaultSchedules[i - 1] = schedule;
+                        DefaultsSettings.DefaultSchedules[i] = prev;
+                        SoundDefOf.Click.PlayOneShotOnCamera(null);
+                    }
+                }
+                x += 24f;
+
+                schedule.name = Widgets.TextField(new Rect(x, y, labelWidth, rowHeight), schedule.name);
+                x += labelWidth;
+
+                CopyPasteUI.DoCopyPasteButtons(new Rect(x, y, copyButtonWidth * 2, rowHeight), delegate
+                {
+                    DefaultsSettings.DefaultSchedules.Add(new Schedule("Defaults_ScheduleName".Translate(DefaultsSettings.DefaultSchedules.Count + 1), schedule));
+                }, null);
+                x += copyButtonWidth;
+
+                for (int j = 0; j < 24; j++)
+                {
+                    DoTimeAssignment(new Rect(x, y, cellWidth, rowHeight), schedule, j);
+                    x += cellWidth;
+                }
+
+                x += 8f;
+                Widgets.Checkbox(new Vector2(x, y + (rowHeight - 24f) / 2), ref schedule.use);
+                x += 24f;
+                
+                if (i > 0)
+                {
+                    if (Widgets.ButtonImage(new Rect(x, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Delete, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+                    {
+                        DefaultsSettings.DefaultSchedules.Remove(schedule);
+                        i--;
                         SoundDefOf.Click.PlayOneShotOnCamera(null);
                     }
                 }

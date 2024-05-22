@@ -13,7 +13,10 @@ namespace Defaults.Schedule
             if (__instance.Faction == Faction.OfPlayer)
             {
                 Schedule schedule = DefaultsSettings.GetNextDefaultSchedule();
-                schedule.ApplyToPawnTimetable(__instance.timetable);
+                if (schedule != null)
+                {
+                    schedule.ApplyToPawnTimetable(__instance.timetable);
+                }
             }
         }
     }
