@@ -9,6 +9,7 @@ namespace Defaults.StockpileZones
     public class ZoneType : IExposable
     {
         public string Name;
+        public StoragePriority Priority = StoragePriority.Normal;
         public ThingFilter filter = new ThingFilter();
 
         public ZoneType()
@@ -38,6 +39,7 @@ namespace Defaults.StockpileZones
         public void ExposeData()
         {
             Scribe_Values.Look(ref Name, "Name");
+            Scribe_Values.Look(ref Priority, "Priority");
             List<string> allowed = filter.AllowedThingDefs.Select(d => d.defName).ToList();
             Scribe_Collections.Look(ref allowed, "Allowed");
             FloatRange allowedHitPointsPercents = filter.AllowedHitPointsPercents;

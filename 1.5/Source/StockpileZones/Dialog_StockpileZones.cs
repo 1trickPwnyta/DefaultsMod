@@ -1,5 +1,7 @@
 ﻿using Defaults.StockpileZones;
 using RimWorld;
+using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -85,7 +87,25 @@ namespace Defaults.Schedule
 
             if (DefaultsSettings.DefaultStockpileZones.Contains(selectedZoneType))
             {
-                Rect filterRect = new Rect(inRect.width  - 300f, inRect.y + buttonHeight, 300f, inRect.height - buttonHeight - Window.CloseButSize.y);
+                if (Widgets.ButtonText(new Rect(inRect.width - 300f, inRect.y + buttonHeight, 160f, buttonHeight), "Priority".Translate() + ": " + selectedZoneType.Priority.Label().CapitalizeFirst()))
+                {
+                    List<FloatMenuOption> list = new List<FloatMenuOption>();
+                    foreach (object obj in Enum.GetValues(typeof(StoragePriority)))
+                    {
+                        StoragePriority storagePriority = (StoragePriority)obj;
+                        if (storagePriority != StoragePriority.Unstored)
+                        {
+                            StoragePriority localPr = storagePriority;
+                            list.Add(new FloatMenuOption(localPr.Label().CapitalizeFirst(), delegate ()
+                            {
+                                selectedZoneType.Priority = localPr;
+                            }));
+                        }
+                    }
+                    Find.WindowStack.Add(new FloatMenu(list));
+                }
+
+                Rect filterRect = new Rect(inRect.width  - 300f, inRect.y + buttonHeight * 2, 300f, inRect.height - buttonHeight * 2 - Window.CloseButSize.y);
                 ThingFilterUI.DoThingFilterConfigWindow(filterRect, state, selectedZoneType.filter, null, 8);
             }
         }
