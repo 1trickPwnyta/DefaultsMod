@@ -69,6 +69,7 @@ namespace Defaults.Schedule
                 if (Widgets.ButtonInvisible(rowRect))
                 {
                     selectedZoneType = type;
+                    SoundDefOf.Click.PlayOneShotOnCamera(null);
                 }
                 Widgets.DrawHighlightIfMouseover(rowRect);
                 if (type == selectedZoneType)
