@@ -96,6 +96,7 @@
     <Compile Include="DefaultsMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DefaultsSettings.cs" />
+    <Compile Include="StockpileZones\Dialog_RenameZoneType.cs" />
     <Compile Include="StockpileZones\Dialog_StockpileZones.cs" />
     <Compile Include="StockpileZones\Patch_Find.cs" />
     <Compile Include="StockpileZones\Patch_Listing_TreeThingFilter.cs" />

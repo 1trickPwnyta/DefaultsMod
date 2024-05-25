@@ -5,7 +5,6 @@ using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
-using HarmonyLib;
 
 namespace Defaults.Schedule
 {
@@ -59,11 +58,17 @@ namespace Defaults.Schedule
 
                 GUI.DrawTexture(new Rect(0f, y, rowHeight, rowHeight), stockpileIcon);
 
-                Widgets.Label(new Rect(rowHeight + 8f, y, rowWidth - rowHeight - 8f - 24f - 8f, rowHeight), type.Name);
+                Widgets.Label(new Rect(rowHeight + 8f, y, rowWidth - rowHeight - 8f - 24f - 24f - 24f - 8f, rowHeight), type.Name);
+
+                if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 24f - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Copy, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+                {
+                    DefaultsSettings.DefaultStockpileZones.Add(new ZoneType("Defaults_StockpileZoneTypeName".Translate(DefaultsSettings.DefaultStockpileZones.Count + 1), type));
+                    SoundDefOf.Click.PlayOneShotOnCamera(null);
+                }
 
                 if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Rename, Color.white, Color.white * GenUI.SubtleMouseoverColor))
                 {
-                    
+                    Find.WindowStack.Add(new Dialog_RenameZoneType(type));
                 }
 
                 if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Delete, Color.white, Color.white * GenUI.SubtleMouseoverColor))

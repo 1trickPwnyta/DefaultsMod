@@ -6,7 +6,7 @@ using Verse;
 
 namespace Defaults.StockpileZones
 {
-    public class ZoneType : IExposable
+    public class ZoneType : IExposable, IRenameable
     {
         public string Name;
         public StoragePriority Priority = StoragePriority.Normal;
@@ -23,6 +23,20 @@ namespace Defaults.StockpileZones
             filter = new ThingFilter();
             filter.SetFromPreset(preset);
         }
+
+        public ZoneType(string name, ZoneType other)
+        {
+            Name = name;
+            Priority = other.Priority;
+            filter = new ThingFilter();
+            filter.CopyAllowancesFrom(other.filter);
+        }
+
+        public string RenamableLabel { get => Name; set => Name = value; }
+
+        public string BaseLabel { get => RenamableLabel; }
+
+        public string InspectLabel { get => RenamableLabel; }
 
         public void ExposeData()
         {
