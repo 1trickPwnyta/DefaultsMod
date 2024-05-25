@@ -5,6 +5,7 @@ using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
+using HarmonyLib;
 
 namespace Defaults.Schedule
 {
@@ -60,6 +61,11 @@ namespace Defaults.Schedule
 
                 Widgets.Label(new Rect(rowHeight + 8f, y, rowWidth - rowHeight - 8f - 24f - 8f, rowHeight), type.Name);
 
+                if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Rename, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+                {
+                    
+                }
+
                 if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Delete, Color.white, Color.white * GenUI.SubtleMouseoverColor))
                 {
                     DefaultsSettings.DefaultStockpileZones.Remove(type);
@@ -106,7 +112,7 @@ namespace Defaults.Schedule
                 }
 
                 Rect filterRect = new Rect(inRect.width  - 300f, inRect.y + buttonHeight * 2, 300f, inRect.height - buttonHeight * 2 - Window.CloseButSize.y);
-                ThingFilterUI.DoThingFilterConfigWindow(filterRect, state, selectedZoneType.filter, null, 8);
+                ThingFilterUI.DoThingFilterConfigWindow(filterRect, state, selectedZoneType.filter, StorageSettings.EverStorableFixedSettings().filter, 8);
             }
         }
     }

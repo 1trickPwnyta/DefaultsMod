@@ -10,7 +10,7 @@ namespace Defaults.StockpileZones
     {
         public string Name;
         public StoragePriority Priority = StoragePriority.Normal;
-        public ThingFilter filter = new ThingFilter();
+        public ThingFilter filter;
 
         public ZoneType()
         {
@@ -20,33 +20,29 @@ namespace Defaults.StockpileZones
         public ZoneType(string name, StorageSettingsPreset preset)
         {
             Name = name;
-            StorageSettings settings = new StorageSettings();
-            settings.SetFromPreset(preset);
-            CopyFrom(settings);
-        }
-
-        public ZoneType(string name, StorageSettings settings)
-        {
-            Name = name;
-            CopyFrom(settings);
-        }
-
-        public void CopyFrom(StorageSettings settings)
-        {
-            filter.CopyAllowancesFrom(settings.filter);
+            filter = new ThingFilter();
+            filter.SetFromPreset(preset);
         }
 
         public void ExposeData()
         {
             Scribe_Values.Look(ref Name, "Name");
             Scribe_Values.Look(ref Priority, "Priority");
-            List<string> allowed = filter.AllowedThingDefs.Select(d => d.defName).ToList();
+
+            List<string> allowed = null;
+            FloatRange allowedHitPointsPercents = FloatRange.ZeroToOne;
+            QualityRange allowedQualities = QualityRange.All;
+            List<string> disallowedSpecialFilters = null;
+            if (filter != null)
+            {
+                allowed = filter.AllowedThingDefs.Select(d => d.defName).ToList();
+                allowedHitPointsPercents = filter.AllowedHitPointsPercents;
+                allowedQualities = filter.AllowedQualityLevels;
+                disallowedSpecialFilters = ((List<SpecialThingFilterDef>)typeof(ThingFilter).Field("disallowedSpecialFilters").GetValue(filter)).Select(f => f.defName).ToList();
+            }
             Scribe_Collections.Look(ref allowed, "Allowed");
-            FloatRange allowedHitPointsPercents = filter.AllowedHitPointsPercents;
             Scribe_Values.Look(ref allowedHitPointsPercents, "AllowedHitPointsPercents");
-            QualityRange allowedQualities = filter.AllowedQualityLevels;
             Scribe_Values.Look(ref allowedQualities, "AllowedQualityLevels");
-            List<string> disallowedSpecialFilters = ((List<SpecialThingFilterDef>)typeof(ThingFilter).Field("disallowedSpecialFilters").GetValue(filter)).Select(f => f.defName).ToList();
             Scribe_Collections.Look(ref disallowedSpecialFilters, "DisallowedSpecialFilters");
             
             if (Scribe.mode == LoadSaveMode.LoadingVars)
