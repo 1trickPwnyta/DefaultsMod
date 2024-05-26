@@ -11,6 +11,7 @@ namespace Defaults.StockpileZones
         public string Name;
         public StoragePriority Priority = StoragePriority.Normal;
         public ThingFilter filter;
+        public StorageSettingsPreset Preset;
 
         public ZoneType()
         {
@@ -22,6 +23,7 @@ namespace Defaults.StockpileZones
             Name = name;
             filter = new ThingFilter();
             filter.SetFromPreset(preset);
+            Preset = preset;
         }
 
         public ZoneType(string name, ZoneType other)
@@ -30,6 +32,7 @@ namespace Defaults.StockpileZones
             Priority = other.Priority;
             filter = new ThingFilter();
             filter.CopyAllowancesFrom(other.filter);
+            Preset = other.Preset;
         }
 
         public string RenamableLabel { get => Name; set => Name = value; }
@@ -42,6 +45,7 @@ namespace Defaults.StockpileZones
         {
             Scribe_Values.Look(ref Name, "Name");
             Scribe_Values.Look(ref Priority, "Priority");
+            Scribe_Values.Look(ref Preset, "Preset");
 
             List<string> allowed = null;
             FloatRange allowedHitPointsPercents = FloatRange.ZeroToOne;

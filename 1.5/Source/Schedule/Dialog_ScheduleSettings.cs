@@ -106,7 +106,7 @@ namespace Defaults.Schedule
                 Widgets.Checkbox(new Vector2(x, y + (rowHeight - 24f) / 2), ref schedule.use);
                 x += 24f;
                 
-                if (i > 0)
+                if (DefaultsSettings.DefaultSchedules.Count > 1)
                 {
                     if (Widgets.ButtonImage(new Rect(x, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Delete, Color.white, Color.white * GenUI.SubtleMouseoverColor))
                     {

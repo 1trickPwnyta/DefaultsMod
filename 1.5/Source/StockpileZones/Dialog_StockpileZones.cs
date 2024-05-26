@@ -42,8 +42,16 @@ namespace Defaults.Schedule
             float buttonHeight = 30f;
             if (Widgets.ButtonText(new Rect(inRect.x + inRect.width - buttonWidth, 0f, buttonWidth, buttonHeight), "Defaults_AddNew".Translate()))
             {
-                DefaultsSettings.DefaultStockpileZones.Add(new ZoneType("Defaults_StockpileZoneTypeName".Translate(DefaultsSettings.DefaultStockpileZones.Count + 1), StorageSettingsPreset.DefaultStockpile));
-                SoundDefOf.Click.PlayOneShotOnCamera(null);
+                List<FloatMenuOption> list = new List<FloatMenuOption>();
+                foreach (object obj in Enum.GetValues(typeof(StorageSettingsPreset)))
+                {
+                    StorageSettingsPreset preset = (StorageSettingsPreset)obj;
+                    list.Add(new FloatMenuOption(preset.PresetName().CapitalizeFirst(), delegate ()
+                    {
+                        DefaultsSettings.DefaultStockpileZones.Add(new ZoneType("Defaults_StockpileZoneTypeName".Translate(DefaultsSettings.DefaultStockpileZones.Count + 1), preset));
+                    }));
+                }
+                Find.WindowStack.Add(new FloatMenu(list));
             }
 
             float rowWidth = inRect.width - 300f - 16f;
@@ -56,9 +64,30 @@ namespace Defaults.Schedule
             {
                 ZoneType type = DefaultsSettings.DefaultStockpileZones[i];
 
-                GUI.DrawTexture(new Rect(0f, y, rowHeight, rowHeight), stockpileIcon);
+                if (i < DefaultsSettings.DefaultStockpileZones.Count - 1)
+                {
+                    if (Widgets.ButtonImage(new Rect(3f, y + (rowHeight - 18f) / 2, 18f, 18f), TexButton.ReorderDown, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+                    {
+                        ZoneType next = DefaultsSettings.DefaultStockpileZones[i + 1];
+                        DefaultsSettings.DefaultStockpileZones[i + 1] = type;
+                        DefaultsSettings.DefaultStockpileZones[i] = next;
+                        SoundDefOf.Click.PlayOneShotOnCamera(null);
+                    }
+                }
+                if (i > 0)
+                {
+                    if (Widgets.ButtonImage(new Rect(24f + 3f, y + (rowHeight - 18f) / 2, 18f, 18f), TexButton.ReorderUp, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+                    {
+                        ZoneType prev = DefaultsSettings.DefaultStockpileZones[i - 1];
+                        DefaultsSettings.DefaultStockpileZones[i - 1] = type;
+                        DefaultsSettings.DefaultStockpileZones[i] = prev;
+                        SoundDefOf.Click.PlayOneShotOnCamera(null);
+                    }
+                }
 
-                Widgets.Label(new Rect(rowHeight + 8f, y, rowWidth - rowHeight - 8f - 24f - 24f - 24f - 8f, rowHeight), type.Name);
+                GUI.DrawTexture(new Rect(48f, y, rowHeight, rowHeight), stockpileIcon);
+
+                Widgets.Label(new Rect(48f + rowHeight + 8f, y, rowWidth - rowHeight - 8f - 24f - 24f - 24f - 8f, rowHeight), type.Name);
 
                 if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 24f - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Copy, Color.white, Color.white * GenUI.SubtleMouseoverColor))
                 {
