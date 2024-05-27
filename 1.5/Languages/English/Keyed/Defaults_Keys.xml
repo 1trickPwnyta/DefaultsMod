@@ -14,6 +14,7 @@
 	<Defaults_ResourceCategories>Expanded resource categories</Defaults_ResourceCategories>
 	<Defaults_Storyteller>Storyteller settings</Defaults_Storyteller>
 	<Defaults_StockpileZones>Stockpile zone types</Defaults_StockpileZones>
+	<Defaults_ManualPriorities>Use manual work priorities by default</Defaults_ManualPriorities>
 	<Defaults_ScheduleName>Schedule {0}</Defaults_ScheduleName>
 	<Defaults_UseSchedule>Use</Defaults_UseSchedule>
 	<Defaults_UseScheduleTip>Indicates whether the schedule will automatically be assigned to colonists.</Defaults_UseScheduleTip>

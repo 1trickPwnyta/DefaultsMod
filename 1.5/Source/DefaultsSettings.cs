@@ -40,6 +40,7 @@ namespace Defaults
         public static string DefaultAnomalyPlaystyle;
         public static bool DefaultPermadeath = false;
         public static List<ZoneType> DefaultStockpileZones;
+        public static bool DefaultManualPriorities = false;
 
         public static ZoneType DefaultStockpileZone
         {
@@ -268,6 +269,8 @@ namespace Defaults
                 Find.WindowStack.Add(new Dialog_StockpileZones());
             }
 
+            listingStandard.CheckboxLabeled("Defaults_ManualPriorities".Translate(), ref DefaultManualPriorities);
+
             listingStandard.End();
         }
 
@@ -299,6 +302,7 @@ namespace Defaults
             Scribe_Values.Look(ref DefaultAnomalyPlaystyle, "DefaultAnomalyPlaystyle");
             Scribe_Values.Look(ref DefaultPermadeath, "DefaultPermadeath", false);
             Scribe_Collections.Look(ref DefaultStockpileZones, "DefaultStockpileZones");
+            Scribe_Values.Look(ref DefaultManualPriorities, "DefaultManualPriorities", false);
         }
     }
 }

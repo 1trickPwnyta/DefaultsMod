@@ -7,6 +7,7 @@
         {
             __instance.autoRebuild = DefaultsSettings.DefaultAutoRebuild;
             __instance.autoHomeArea = DefaultsSettings.DefaultAutoHomeArea;
+            __instance.useWorkPriorities = DefaultsSettings.DefaultManualPriorities;
         }
     }
 }
