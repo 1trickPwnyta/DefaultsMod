@@ -1,17 +1,20 @@
-﻿using Defaults.StockpileZones;
-using RimWorld;
+﻿using RimWorld;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
-namespace Defaults.Schedule
+namespace Defaults.StockpileZones
 {
+    [StaticConstructorOnStartup]
     public class Dialog_StockpileZones : Window
     {
+        public static Texture2D DefaultStockpileIcon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_Stockpile", true);
+        public static Texture2D DumpingStockpileIcon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_DumpingStockpile", true);
+        public static Texture2D CorpseStockpileIcon = ContentFinder<Texture2D>.Get("UI/Icons/CorpseStockpileZone", true);
+
         private static Vector2 scrollPos;
-        private static Texture2D stockpileIcon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_Stockpile", true);
         private static ZoneType selectedZoneType;
         private ThingFilterUI.UIState state = new ThingFilterUI.UIState();
 
@@ -48,7 +51,9 @@ namespace Defaults.Schedule
                     StorageSettingsPreset preset = (StorageSettingsPreset)obj;
                     list.Add(new FloatMenuOption(preset.PresetName().CapitalizeFirst(), delegate ()
                     {
-                        DefaultsSettings.DefaultStockpileZones.Add(new ZoneType("Defaults_StockpileZoneTypeName".Translate(DefaultsSettings.DefaultStockpileZones.Count + 1), preset));
+                        ZoneType newZoneType = new ZoneType(preset.PresetName().CapitalizeFirst() + " " + (DefaultsSettings.DefaultStockpileZones.Count + 1), preset);
+                        DefaultsSettings.DefaultStockpileZones.Add(newZoneType);
+                        selectedZoneType = newZoneType;
                     }));
                 }
                 Find.WindowStack.Add(new FloatMenu(list));
@@ -85,26 +90,32 @@ namespace Defaults.Schedule
                     }
                 }
 
-                GUI.DrawTexture(new Rect(48f, y, rowHeight, rowHeight), stockpileIcon);
+                GUI.DrawTexture(new Rect(48f, y, rowHeight, rowHeight), type.Icon);
 
                 Widgets.Label(new Rect(48f + rowHeight + 8f, y, rowWidth - rowHeight - 8f - 24f - 24f - 24f - 8f, rowHeight), type.Name);
 
                 if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 24f - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Copy, Color.white, Color.white * GenUI.SubtleMouseoverColor))
                 {
-                    DefaultsSettings.DefaultStockpileZones.Add(new ZoneType("Defaults_StockpileZoneTypeName".Translate(DefaultsSettings.DefaultStockpileZones.Count + 1), type));
+                    DefaultsSettings.DefaultStockpileZones.Add(new ZoneType(type.Preset.PresetName().CapitalizeFirst() + " " + (DefaultsSettings.DefaultStockpileZones.Count + 1), type));
                     SoundDefOf.Click.PlayOneShotOnCamera(null);
                 }
 
-                if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Rename, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+                if (type.DesignatorType == typeof(Designator_ZoneAddStockpile_Custom))
                 {
-                    Find.WindowStack.Add(new Dialog_RenameZoneType(type));
+                    if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Rename, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+                    {
+                        Find.WindowStack.Add(new Dialog_RenameZoneType(type));
+                    }
                 }
 
-                if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Delete, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+                if (type.DesignatorType == typeof(Designator_ZoneAddStockpile_Custom))
                 {
-                    DefaultsSettings.DefaultStockpileZones.Remove(type);
-                    i--;
-                    SoundDefOf.Click.PlayOneShotOnCamera(null);
+                    if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Delete, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+                    {
+                        DefaultsSettings.DefaultStockpileZones.Remove(type);
+                        i--;
+                        SoundDefOf.Click.PlayOneShotOnCamera(null);
+                    }
                 }
 
                 Rect rowRect = new Rect(0f, y, rowWidth, rowHeight);

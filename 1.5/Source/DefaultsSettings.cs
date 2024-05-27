@@ -41,6 +41,22 @@ namespace Defaults
         public static bool DefaultPermadeath = false;
         public static List<ZoneType> DefaultStockpileZones;
 
+        public static ZoneType DefaultStockpileZone
+        {
+            get
+            {
+                return DefaultStockpileZones.Where(z => z.DesignatorType == typeof(Designator_ZoneAddStockpile_Resources)).FirstOrDefault();
+            }
+        }
+
+        public static ZoneType DefaultDumpingStockpileZone
+        {
+            get
+            {
+                return DefaultStockpileZones.Where(z => z.DesignatorType == typeof(Designator_ZoneAddStockpile_Dumping)).FirstOrDefault();
+            }
+        }
+
         static DefaultsSettings()
         {
             InitializeDefaultSchedules();
@@ -171,6 +187,14 @@ namespace Defaults
                 if (DefaultStockpileZones == null)
                 {
                     DefaultStockpileZones = new List<ZoneType>();
+                }
+                if (!DefaultStockpileZones.Any(z => z.DesignatorType == typeof(Designator_ZoneAddStockpile_Dumping)))
+                {
+                    DefaultStockpileZones.Insert(0, ZoneType.MakeBuiltInDumpingStockpileZone());
+                }
+                if (!DefaultStockpileZones.Any(z => z.DesignatorType == typeof(Designator_ZoneAddStockpile_Resources)))
+                {
+                    DefaultStockpileZones.Insert(0, ZoneType.MakeBuiltInStockpileZone());
                 }
             });
         }

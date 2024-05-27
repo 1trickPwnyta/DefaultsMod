@@ -29,5 +29,5 @@
 	<Defaults_MedicineToCarryTip>The default medicine for pawns to carry when assigned.</Defaults_MedicineToCarryTip>
 	<Defaults_CurrentMedicineToCarry>Current medicine to carry</Defaults_CurrentMedicineToCarry>
 	<Defaults_AddNew>Add new</Defaults_AddNew>
-	<Defaults_StockpileZoneTypeName>Stockpile zone type {0}</Defaults_StockpileZoneTypeName>
+	<Defaults_CorpseStockpileZoneDesc>Create a stockpile where your colonists will store corpses.\nThis tool can also expand any existing stockpile.</Defaults_CorpseStockpileZoneDesc>
 </LanguageData>
