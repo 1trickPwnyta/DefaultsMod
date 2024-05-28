@@ -7,6 +7,7 @@ using Defaults.Storyteller;
 using Defaults.WorldSettings;
 using RimWorld;
 using RimWorld.Planet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,37 +19,87 @@ namespace Defaults
     {
         public static List<Schedule.Schedule> DefaultSchedules;
         private static int NextScheduleIndex = Mathf.Abs(Rand.Int);
-        public static MedicalCareCategory DefaultCareForColonist = MedicalCareCategory.Best;
-        public static MedicalCareCategory DefaultCareForPrisoner = MedicalCareCategory.HerbalOrWorse;
-        public static MedicalCareCategory DefaultCareForSlave = MedicalCareCategory.HerbalOrWorse;
-        public static MedicalCareCategory DefaultCareForGhouls = MedicalCareCategory.NoMeds;
-        public static MedicalCareCategory DefaultCareForTamedAnimal = MedicalCareCategory.HerbalOrWorse;
-        public static MedicalCareCategory DefaultCareForFriendlyFaction = MedicalCareCategory.HerbalOrWorse;
-        public static MedicalCareCategory DefaultCareForNeutralFaction = MedicalCareCategory.HerbalOrWorse;
-        public static MedicalCareCategory DefaultCareForHostileFaction = MedicalCareCategory.HerbalOrWorse;
-        public static MedicalCareCategory DefaultCareForNoFaction = MedicalCareCategory.HerbalOrWorse;
-        public static MedicalCareCategory DefaultCareForWildlife = MedicalCareCategory.HerbalOrWorse;
-        public static MedicalCareCategory DefaultCareForEntities = MedicalCareCategory.NoMeds;
+        public static MedicalCareCategory DefaultCareForColonist;
+        public static MedicalCareCategory DefaultCareForPrisoner;
+        public static MedicalCareCategory DefaultCareForSlave;
+        public static MedicalCareCategory DefaultCareForGhouls;
+        public static MedicalCareCategory DefaultCareForTamedAnimal;
+        public static MedicalCareCategory DefaultCareForFriendlyFaction;
+        public static MedicalCareCategory DefaultCareForNeutralFaction;
+        public static MedicalCareCategory DefaultCareForHostileFaction;
+        public static MedicalCareCategory DefaultCareForNoFaction;
+        public static MedicalCareCategory DefaultCareForWildlife;
+        public static MedicalCareCategory DefaultCareForEntities;
         public static string DefaultMedicineToCarry;
         public static Dictionary<string, RewardPreference> DefaultRewardPreferences;
-        public static HostilityResponseMode DefaultHostilityResponse = HostilityResponseMode.Flee;
+        public static HostilityResponseMode DefaultHostilityResponse;
         public static string DefaultPlantType;
-        public static bool DefaultAutoRebuild = false;
-        public static bool DefaultAutoHomeArea = true;
+        public static bool DefaultAutoRebuild;
+        public static bool DefaultAutoHomeArea;
         public static List<string> DefaultExpandedResourceCategories;
         public static string DefaultStoryteller;
         public static string DefaultDifficulty;
         public static DifficultySub DefaultDifficultyValues;
         public static string DefaultAnomalyPlaystyle;
-        public static bool DefaultPermadeath = false;
+        public static bool DefaultPermadeath;
         public static List<ZoneType> DefaultStockpileZones;
-        public static bool DefaultManualPriorities = false;
-        public static float DefaultPlanetCoverage = 0.3f;
-        public static OverallRainfall DefaultOverallRainfall = OverallRainfall.Normal;
-        public static OverallTemperature DefaultOverallTemperature = OverallTemperature.Normal;
-        public static OverallPopulation DefaultOverallPopulation = OverallPopulation.Normal;
-        public static float DefaultPollution = 0.05f;
+        public static bool DefaultManualPriorities;
+        public static float DefaultPlanetCoverage;
+        public static OverallRainfall DefaultOverallRainfall;
+        public static OverallTemperature DefaultOverallTemperature;
+        public static OverallPopulation DefaultOverallPopulation;
+        public static float DefaultPollution;
         public static List<string> DefaultFactions;
+
+        static DefaultsSettings()
+        {
+            ResetAllSettings();
+        }
+
+        public static void ResetAllSettings()
+        {
+            DefaultSchedules = null;
+            DefaultCareForColonist = MedicalCareCategory.Best;
+            DefaultCareForPrisoner = MedicalCareCategory.HerbalOrWorse;
+            DefaultCareForSlave = MedicalCareCategory.HerbalOrWorse;
+            DefaultCareForGhouls = MedicalCareCategory.NoMeds;
+            DefaultCareForTamedAnimal = MedicalCareCategory.HerbalOrWorse;
+            DefaultCareForFriendlyFaction = MedicalCareCategory.HerbalOrWorse;
+            DefaultCareForNeutralFaction = MedicalCareCategory.HerbalOrWorse;
+            DefaultCareForHostileFaction = MedicalCareCategory.HerbalOrWorse;
+            DefaultCareForNoFaction = MedicalCareCategory.HerbalOrWorse;
+            DefaultCareForWildlife = MedicalCareCategory.HerbalOrWorse;
+            DefaultCareForEntities = MedicalCareCategory.NoMeds;
+            DefaultMedicineToCarry = null;
+            DefaultRewardPreferences = null;
+            DefaultHostilityResponse = HostilityResponseMode.Flee;
+            DefaultPlantType = null;
+            DefaultAutoRebuild = false;
+            DefaultAutoHomeArea = true;
+            DefaultExpandedResourceCategories = null;
+            DefaultStoryteller = null;
+            DefaultDifficulty = null;
+            DefaultDifficultyValues = null;
+            DefaultAnomalyPlaystyle = null;
+            DefaultPermadeath = false;
+            DefaultStockpileZones = null;
+            DefaultManualPriorities = false;
+            DefaultPlanetCoverage = 0.3f;
+            DefaultOverallRainfall = OverallRainfall.Normal;
+            DefaultOverallTemperature = OverallTemperature.Normal;
+            DefaultOverallPopulation = OverallPopulation.Normal;
+            DefaultPollution = 0.05f;
+            DefaultFactions = null;
+
+            InitializeDefaultSchedules();
+            InitializeDefaultMedicineToCarry();
+            InitializeDefaultRewardPreferences();
+            InitializeDefaultPlantType();
+            InitializeDefaultExpandedResourceCategories();
+            InitializeDefaultStorytellerSettings();
+            InitializeDefaultStockpileZones();
+            InitializeDefaultFactions();
+        }
 
         public static ZoneType DefaultStockpileZone
         {
@@ -64,18 +115,6 @@ namespace Defaults
             {
                 return DefaultStockpileZones.Where(z => z.DesignatorType == typeof(Designator_ZoneAddStockpile_Dumping)).FirstOrDefault();
             }
-        }
-
-        static DefaultsSettings()
-        {
-            InitializeDefaultSchedules();
-            InitializeDefaultMedicineToCarry();
-            InitializeDefaultRewardPreferences();
-            InitializeDefaultPlantType();
-            InitializeDefaultExpandedResourceCategories();
-            InitializeDefaultStorytellerSettings();
-            InitializeDefaultStockpileZones();
-            InitializeDefaultFactions();
         }
 
         public static Schedule.Schedule GetNextDefaultSchedule()
@@ -225,41 +264,61 @@ namespace Defaults
             Listing_Standard listingStandard = new Listing_Standard();
             listingStandard.Begin(inRect);
 
-            if (listingStandard.ButtonTextLabeledPct("Defaults_Schedules".Translate(), "Defaults_SetDefaults".Translate(), 0.75f))
+            if (listingStandard.ButtonTextLabeledPct("Defaults_Storyteller".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_Storyteller());
+            }
+
+            if (listingStandard.ButtonTextLabeledPct("Defaults_WorldSettings".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_WorldSettings());
+            }
+
+            if (listingStandard.ButtonTextLabeledPct("Defaults_Schedules".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
             {
                 Find.WindowStack.Add(new Dialog_ScheduleSettings());
             }
 
-            if (listingStandard.ButtonTextLabeledPct("Defaults_Medicine".Translate(), "Defaults_SetDefaults".Translate(), 0.75f))
+            if (listingStandard.ButtonTextLabeledPct("Defaults_Medicine".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
             {
                 Find.WindowStack.Add(new Dialog_MedicineSettings());
             }
 
-            Rect medCarryRect = listingStandard.GetRect(30f);
-            Widgets.Label(medCarryRect, "Defaults_MedicineToCarry".Translate());
-            medCarryRect.x += medCarryRect.width - 32;
-            medCarryRect.width = 32;
-            MedicineUtility.DrawMedicineButton(medCarryRect);
-
-            if (listingStandard.ButtonTextLabeledPct("Defaults_Rewards".Translate(), "Defaults_SetDefaults".Translate(), 0.75f))
+            if (listingStandard.ButtonTextLabeledPct("Defaults_Rewards".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
             {
                 Find.WindowStack.Add(new Dialog_RewardsSettings());
             }
 
+            if (listingStandard.ButtonTextLabeledPct("Defaults_ResourceCategories".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_ResourceCategories());
+            }
+
+            if (listingStandard.ButtonTextLabeledPct("Defaults_StockpileZones".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_StockpileZones());
+            }
+
             Rect hostilityResponseRect = listingStandard.GetRect(30f);
+            Text.Anchor = TextAnchor.MiddleLeft;
             Widgets.Label(hostilityResponseRect, "Defaults_HostilityResponse".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
             hostilityResponseRect.x += hostilityResponseRect.width - 24;
             hostilityResponseRect.width = 24;
             HostilityResponse.HostilityResponseModeUtility.DrawResponseButton(hostilityResponseRect);
 
-            Rect plantTypeRect = listingStandard.GetRect(30f);
-            Widgets.Label(plantTypeRect, "Defaults_PlantType".Translate());
-            plantTypeRect.x += plantTypeRect.width - 24;
-            plantTypeRect.width = 24;
-            PlantType.PlantTypeUtility.DrawPlantButton(plantTypeRect);
+            Rect medCarryRect = listingStandard.GetRect(30f);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(medCarryRect, "Defaults_MedicineToCarry".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+            medCarryRect.x += medCarryRect.width - 32;
+            medCarryRect.width = 32;
+            MedicineUtility.DrawMedicineButton(medCarryRect);
 
             Rect autoRebuildRect = listingStandard.GetRect(30f);
+            Text.Anchor = TextAnchor.MiddleLeft;
             Widgets.Label(autoRebuildRect, "Defaults_AutoRebuild".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
             autoRebuildRect.x += autoRebuildRect.width - 24;
             autoRebuildRect.width = 24;
             autoRebuildRect.y += 3;
@@ -267,33 +326,28 @@ namespace Defaults
             PlaySettings.PlaySettingsUtility.DrawAutoRebuildButton(autoRebuildRect);
 
             Rect autoHomeAreaRect = listingStandard.GetRect(30f);
+            Text.Anchor = TextAnchor.MiddleLeft;
             Widgets.Label(autoHomeAreaRect, "Defaults_AutoHomeArea".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
             autoHomeAreaRect.x += autoHomeAreaRect.width - 24;
             autoHomeAreaRect.width = 24;
             autoHomeAreaRect.y += 3;
             autoHomeAreaRect.height = 24;
             PlaySettings.PlaySettingsUtility.DrawAutoHomeAreaButton(autoHomeAreaRect);
 
-            if (listingStandard.ButtonTextLabeledPct("Defaults_ResourceCategories".Translate(), "Defaults_SetDefaults".Translate(), 0.75f))
-            {
-                Find.WindowStack.Add(new Dialog_ResourceCategories());
-            }
-
-            if (listingStandard.ButtonTextLabeledPct("Defaults_Storyteller".Translate(), "Defaults_SetDefaults".Translate(), 0.75f))
-            {
-                Find.WindowStack.Add(new Dialog_Storyteller());
-            }
-
-            if (listingStandard.ButtonTextLabeledPct("Defaults_StockpileZones".Translate(), "Defaults_SetDefaults".Translate(), 0.75f))
-            {
-                Find.WindowStack.Add(new Dialog_StockpileZones());
-            }
-
             listingStandard.CheckboxLabeled("Defaults_ManualPriorities".Translate(), ref DefaultManualPriorities);
 
-            if (listingStandard.ButtonTextLabeledPct("Defaults_WorldSettings".Translate(), "Defaults_SetDefaults".Translate(), 0.75f))
+            Rect plantTypeRect = listingStandard.GetRect(30f);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(plantTypeRect, "Defaults_PlantType".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+            plantTypeRect.x += plantTypeRect.width - 24;
+            plantTypeRect.width = 24;
+            PlantType.PlantTypeUtility.DrawPlantButton(plantTypeRect);
+
+            if (listingStandard.ButtonText("Defaults_ResetAllSettings".Translate(), null, 0.5f))
             {
-                Find.WindowStack.Add(new Dialog_WorldSettings());
+                Find.WindowStack.Add(new Dialog_MessageBox("Defaults_ConfirmResetAllSettings".Translate(), "Confirm".Translate(), ResetAllSettings, "GoBack".Translate(), null, null, true, ResetAllSettings, null, WindowLayer.Dialog));
             }
 
             listingStandard.End();

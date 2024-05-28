@@ -16,6 +16,8 @@
 	<Defaults_StockpileZones>Stockpile zone types</Defaults_StockpileZones>
 	<Defaults_ManualPriorities>Use manual work priorities by default</Defaults_ManualPriorities>
 	<Defaults_WorldSettings>World settings</Defaults_WorldSettings>
+	<Defaults_ResetAllSettings>Reset all settings to vanilla</Defaults_ResetAllSettings>
+	<Defaults_ConfirmResetAllSettings>Do you want to reset all settings to their vanilla values? This action cannot be undone.</Defaults_ConfirmResetAllSettings>
 	<Defaults_ScheduleName>Schedule {0}</Defaults_ScheduleName>
 	<Defaults_UseSchedule>Use</Defaults_UseSchedule>
 	<Defaults_UseScheduleTip>Indicates whether the schedule will automatically be assigned to colonists.</Defaults_UseScheduleTip>
