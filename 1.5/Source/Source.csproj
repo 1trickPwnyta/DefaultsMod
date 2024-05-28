@@ -109,10 +109,11 @@
     <Compile Include="Storyteller\DifficultySub.cs" />
     <Compile Include="Storyteller\Patch_Difficulty.cs" />
     <Compile Include="Storyteller\Patch_Dialog_AnomalySettings.cs" />
-    <Compile Include="Storyteller\Patch_PageSelectStoryteller.cs" />
+    <Compile Include="Storyteller\Patch_Page_SelectStoryteller.cs" />
     <Compile Include="Storyteller\Patch_StorytellerUI.cs" />
     <Compile Include="WorldSettings\Dialog_WorldSettings.cs" />
     <Compile Include="WorldSettings\FactionsUtility.cs" />
+    <Compile Include="WorldSettings\Patch_Page_CreateWorldParams.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
