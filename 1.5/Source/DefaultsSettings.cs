@@ -4,7 +4,9 @@ using Defaults.Rewards;
 using Defaults.Schedule;
 using Defaults.StockpileZones;
 using Defaults.Storyteller;
+using Defaults.WorldSettings;
 using RimWorld;
+using RimWorld.Planet;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -41,6 +43,12 @@ namespace Defaults
         public static bool DefaultPermadeath = false;
         public static List<ZoneType> DefaultStockpileZones;
         public static bool DefaultManualPriorities = false;
+        public static float DefaultPlanetCoverage = 0.3f;
+        public static OverallRainfall DefaultOverallRainfall = OverallRainfall.Normal;
+        public static OverallTemperature DefaultOverallTemperature = OverallTemperature.Normal;
+        public static OverallPopulation DefaultOverallPopulation = OverallPopulation.Normal;
+        public static float DefaultPollution = 0.05f;
+        public static List<string> DefaultFactions;
 
         public static ZoneType DefaultStockpileZone
         {
@@ -67,6 +75,7 @@ namespace Defaults
             InitializeDefaultExpandedResourceCategories();
             InitializeDefaultStorytellerSettings();
             InitializeDefaultStockpileZones();
+            InitializeDefaultFactions();
         }
 
         public static Schedule.Schedule GetNextDefaultSchedule()
@@ -200,6 +209,17 @@ namespace Defaults
             });
         }
 
+        private static void InitializeDefaultFactions()
+        {
+            LongEventHandler.ExecuteWhenFinished(delegate
+            {
+                if (DefaultFactions == null)
+                {
+                    DefaultFactions = FactionsUtility.GetDefaultSelectableFactions().Select(f => f.defName).ToList();
+                }
+            });
+        }
+
         public static void DoSettingsWindowContents(Rect inRect)
         {
             Listing_Standard listingStandard = new Listing_Standard();
@@ -271,6 +291,11 @@ namespace Defaults
 
             listingStandard.CheckboxLabeled("Defaults_ManualPriorities".Translate(), ref DefaultManualPriorities);
 
+            if (listingStandard.ButtonTextLabeledPct("Defaults_WorldSettings".Translate(), "Defaults_SetDefaults".Translate(), 0.75f))
+            {
+                Find.WindowStack.Add(new Dialog_WorldSettings());
+            }
+
             listingStandard.End();
         }
 
@@ -303,6 +328,12 @@ namespace Defaults
             Scribe_Values.Look(ref DefaultPermadeath, "DefaultPermadeath", false);
             Scribe_Collections.Look(ref DefaultStockpileZones, "DefaultStockpileZones");
             Scribe_Values.Look(ref DefaultManualPriorities, "DefaultManualPriorities", false);
+            Scribe_Values.Look(ref DefaultPlanetCoverage, "DefaultPlanetCoverage", 0.3f);
+            Scribe_Values.Look(ref DefaultOverallRainfall, "DefaultOverallRainfall", OverallRainfall.Normal);
+            Scribe_Values.Look(ref DefaultOverallTemperature, "DefaultOverallTemperature", OverallTemperature.Normal);
+            Scribe_Values.Look(ref DefaultOverallPopulation, "DefaultOverallPopulation", OverallPopulation.Normal);
+            Scribe_Values.Look(ref DefaultPollution, "DefaultPollution", 0.05f);
+            Scribe_Collections.Look(ref DefaultFactions, "DefaultFactions");
         }
     }
 }

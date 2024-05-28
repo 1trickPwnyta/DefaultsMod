@@ -111,6 +111,8 @@
     <Compile Include="Storyteller\Patch_Dialog_AnomalySettings.cs" />
     <Compile Include="Storyteller\Patch_PageSelectStoryteller.cs" />
     <Compile Include="Storyteller\Patch_StorytellerUI.cs" />
+    <Compile Include="WorldSettings\Dialog_WorldSettings.cs" />
+    <Compile Include="WorldSettings\FactionsUtility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
