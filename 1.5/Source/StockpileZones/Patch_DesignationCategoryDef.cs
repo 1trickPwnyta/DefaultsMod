@@ -20,7 +20,7 @@ namespace Defaults.StockpileZones
                     yield return designator;
                 }
 
-                if (__instance == DesignationCategoryDefOf.Zone && designator is Designator_Deconstruct)
+                if (designator is Designator_Deconstruct)
                 {
                     foreach (ZoneType type in DefaultsSettings.DefaultStockpileZones)
                     {
@@ -50,7 +50,10 @@ namespace Defaults.StockpileZones
     {
         public static void Postfix(DesignationCategoryDef __instance, ref List<Designator> __result)
         {
-            __result = PatchUtility_DesignationCategoryDef.AddDesignators(__instance, __result).ToList();
+            if (__instance == DesignationCategoryDefOf.Zone)
+            {
+                __result = PatchUtility_DesignationCategoryDef.AddDesignators(__instance, __result).ToList();
+            }
         }
     }
 
@@ -60,7 +63,10 @@ namespace Defaults.StockpileZones
     {
         public static void Postfix(DesignationCategoryDef __instance, ref IEnumerable<Designator> __result)
         {
-            __result = PatchUtility_DesignationCategoryDef.AddDesignators(__instance, __result);
+            if (__instance == DesignationCategoryDefOf.Zone)
+            {
+                __result = PatchUtility_DesignationCategoryDef.AddDesignators(__instance, __result);
+            }
         }
     }
 
@@ -70,7 +76,10 @@ namespace Defaults.StockpileZones
     {
         public static void Postfix(DesignationCategoryDef __instance, ref IEnumerable<Designator> __result)
         {
-            __result = PatchUtility_DesignationCategoryDef.AddDesignators(__instance, __result);
+            if (__instance == DesignationCategoryDefOf.Zone)
+            {
+                __result = PatchUtility_DesignationCategoryDef.AddDesignators(__instance, __result);
+            }
         }
     }
 }
