@@ -7,7 +7,7 @@
 		<li>1.5</li>
 	</supportedVersions>
 	<description>
-Allows you to customize various default settings to use during gameplay, such as the default schedules your colonists will assume. See below for a full list of settings.
+Tired of having to go through the same ritual every time you start a new colony of configuring your colonists' schedules, setting your quest reward preferences, turning down the medicine setting so you don't waste your good medicine on bruises, and more? This mod allows you to customize various default settings to use during gameplay, such as the default schedules your colonists will assume. See below for a full list of settings.
 
 Supports all DLC and can be safely added mid-playthrough, however many settings will only apply to new colonies.
 
@@ -25,6 +25,9 @@ Full list of settings:
   - Default auto home area setting: Allows you to set the default auto-home area setting to use for a new colony.
   - Use manual work priorities by default: You can do this.
   - Default plant type: Allows you to set the default plant type for new growing zones.
+
+=== Updates ===
+07/23/2024: Fixed bug that caused incompatibility with the Blueprints mod, added error handling for situations where previously installed mods or DLCs are removed.
 	</description>
 	<url>https://github.com/1trickPwnyta/DefaultsMod</url>
 	<modDependencies>
