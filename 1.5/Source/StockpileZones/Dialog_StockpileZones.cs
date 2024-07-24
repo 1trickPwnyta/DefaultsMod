@@ -12,7 +12,7 @@ namespace Defaults.StockpileZones
     {
         public static Texture2D DefaultStockpileIcon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_Stockpile", true);
         public static Texture2D DumpingStockpileIcon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_DumpingStockpile", true);
-        public static Texture2D CorpseStockpileIcon = ContentFinder<Texture2D>.Get("UI/Icons/CorpseStockpileZone", true);
+        public static Texture2D CorpseStockpileIcon = ContentFinder<Texture2D>.Get(ModsConfig.AnomalyActive ? "UI/Icons/CorpseStockpileZone" : "UI/Designators/ZoneCreate_DumpingStockpile", true);
 
         private static Vector2 scrollPos;
         private static ZoneType selectedZoneType;

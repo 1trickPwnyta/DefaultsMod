@@ -91,7 +91,7 @@ namespace Defaults.Schedule
 
         public TimeAssignmentDef GetTimeAssignment(int hour)
         {
-            return DefDatabase<TimeAssignmentDef>.GetNamed(assignments[hour]);
+            return DefDatabase<TimeAssignmentDef>.GetNamedSilentFail(assignments[hour]) ?? TimeAssignmentDefOf.Anything;
         }
 
         public void SetTimeAssignment(int hour, TimeAssignmentDef assignment)

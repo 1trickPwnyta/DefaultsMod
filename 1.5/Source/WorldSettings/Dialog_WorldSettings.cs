@@ -1,6 +1,5 @@
 ﻿using RimWorld;
 using RimWorld.Planet;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -25,7 +24,7 @@ namespace Defaults.WorldSettings
             this.doCloseX = true;
             this.doCloseButton = true;
             this.optionalTitle = "Defaults_WorldSettings".Translate();
-            factions = DefaultsSettings.DefaultFactions.Select(f => DefDatabase<FactionDef>.GetNamed(f)).ToList();
+            factions = DefaultsSettings.DefaultFactions.Select(f => DefDatabase<FactionDef>.GetNamedSilentFail(f)).Where(f => f != null).ToList();
         }
 
         public override Vector2 InitialSize

@@ -28,7 +28,7 @@ namespace Defaults.WorldSettings
     {
         public static void Postfix(ref List<FactionDef> ___factions)
         {
-            ___factions = DefaultsSettings.DefaultFactions.Select(f => DefDatabase<FactionDef>.GetNamed(f)).ToList();
+            ___factions = DefaultsSettings.DefaultFactions.Select(f => DefDatabase<FactionDef>.GetNamedSilentFail(f)).Where(f => f != null).ToList();
         }
     }
 

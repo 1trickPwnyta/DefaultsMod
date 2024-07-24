@@ -135,13 +135,21 @@ namespace Defaults.StockpileZones
                     filter = new ThingFilter();
                     foreach (string allowedThingDef in allowed)
                     {
-                        filter.SetAllow(DefDatabase<ThingDef>.GetNamed(allowedThingDef), true);
+                        ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(allowedThingDef);
+                        if (def != null)
+                        {
+                            filter.SetAllow(def, true);
+                        }
                     }
                     filter.AllowedHitPointsPercents = allowedHitPointsPercents;
                     filter.AllowedQualityLevels = allowedQualities;
                     foreach (string disallowedSpecialFilter in disallowedSpecialFilters)
                     {
-                        filter.SetAllow(DefDatabase<SpecialThingFilterDef>.GetNamed(disallowedSpecialFilter), false);
+                        SpecialThingFilterDef def = DefDatabase<SpecialThingFilterDef>.GetNamedSilentFail(disallowedSpecialFilter);
+                        if (def != null)
+                        {
+                            filter.SetAllow(def, false);
+                        }
                     }
                 });
             }

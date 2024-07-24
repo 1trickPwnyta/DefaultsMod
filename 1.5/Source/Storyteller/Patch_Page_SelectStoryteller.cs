@@ -13,10 +13,13 @@ namespace Defaults.Storyteller
             ___storyteller = DefDatabase<StorytellerDef>.GetNamed(DefaultsSettings.DefaultStoryteller);
             ___difficulty = DefDatabase<DifficultyDef>.GetNamed(DefaultsSettings.DefaultDifficulty);
             ___difficultyValues = DefaultsSettings.DefaultDifficultyValues.GetDifficultyValues();
-            ___difficultyValues.AnomalyPlaystyleDef = DefDatabase<AnomalyPlaystyleDef>.GetNamed(DefaultsSettings.DefaultAnomalyPlaystyle);
-            if (Find.Scenario.standardAnomalyPlaystyleOnly)
+            if (ModsConfig.AnomalyActive)
             {
-                ___difficultyValues.AnomalyPlaystyleDef = AnomalyPlaystyleDefOf.Standard;
+                ___difficultyValues.AnomalyPlaystyleDef = DefDatabase<AnomalyPlaystyleDef>.GetNamed(DefaultsSettings.DefaultAnomalyPlaystyle);
+                if (Find.Scenario.standardAnomalyPlaystyleOnly)
+                {
+                    ___difficultyValues.AnomalyPlaystyleDef = AnomalyPlaystyleDefOf.Standard;
+                }
             }
             Find.GameInitData.permadeathChosen = true;
             Find.GameInitData.permadeath = DefaultsSettings.DefaultPermadeath;
