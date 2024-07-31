@@ -5,12 +5,12 @@ namespace Defaults.WorldSettings
 {
     public static class FactionsUtility
     {
-        public static List<FactionDef> GetDefaultSelectableFactions()
+        private static List<FactionDef> GetDefaultFactions(bool selectable)
         {
             List<FactionDef> factions = new List<FactionDef>();
             foreach (FactionDef factionDef in FactionGenerator.ConfigurableFactions)
             {
-                if (factionDef.displayInFactionSelection && factionDef.startingCountAtWorldCreation > 0)
+                if (factionDef.displayInFactionSelection == selectable && factionDef.startingCountAtWorldCreation > 0)
                 {
                     for (int i = 0; i < factionDef.startingCountAtWorldCreation; i++)
                     {
@@ -30,6 +30,16 @@ namespace Defaults.WorldSettings
                 }
             }
             return factions;
+        }
+
+        public static List<FactionDef> GetDefaultSelectableFactions()
+        {
+            return GetDefaultFactions(true);
+        }
+
+        public static List<FactionDef> GetDefaultNonselectableFactions()
+        {
+            return GetDefaultFactions(false);
         }
     }
 }

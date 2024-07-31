@@ -27,6 +27,7 @@ Full list of settings:
   - Default plant type: Allows you to set the default plant type for new growing zones.
 
 === Updates ===
+07/31/2024: Fixed bug that prevented hidden factions from being generated
 07/23/2024: Fixed bug that caused incompatibility with the Blueprints mod, added error handling for situations where previously installed mods or DLCs are removed.
 	</description>
 	<url>https://github.com/1trickPwnyta/DefaultsMod</url>
