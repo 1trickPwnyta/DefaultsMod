@@ -231,7 +231,7 @@ namespace Defaults
                 {
                     DefaultDifficultyValues = new DifficultySub();
                 }
-                if (DefaultAnomalyPlaystyle == null)
+                if (ModsConfig.AnomalyActive && DefaultAnomalyPlaystyle == null)
                 {
                     DefaultAnomalyPlaystyle = AnomalyPlaystyleDefOf.Standard.defName;
                 }
