@@ -14,7 +14,9 @@ Supports all DLC and can be safely added mid-playthrough, however many settings 
 Full list of settings:
   - Storyteller settings: Allows you to set the default storyteller/difficulty settings to use for a new colony, including custom difficulty settings.
   - World settings: Allows you to set the default world settings to use for a new colony.
+  - Map settings: Allows you to set the default map size and starting season.
   - Colonist schedules: Allows you to set custom default schedules for colonists. You can create alternating schedules and the mod will cycle between them when assigning them to new colonists.
+  - Apparel policies: Allows you to set custom default apparel policies that will be copied to each new colony.
   - Medicine settings: Allows you to set the default medicine settings to use for a new colony.
   - Reward preferences: Allows you to set the default reward preferences to use for a new colony.
   - Expanded resource categories: Allows you to set which resource tree categories are expanded by default in categorized mode.
@@ -27,6 +29,7 @@ Full list of settings:
   - Default plant type: Allows you to set the default plant type for new growing zones.
 
 === Updates ===
+08/02/2024: Added default map settings
 07/31/2024: Fixed bug that prevented hidden factions from being generated
 07/23/2024: Fixed bug that caused incompatibility with the Blueprints mod, added error handling for situations where previously installed mods or DLCs are removed.
 	</description>

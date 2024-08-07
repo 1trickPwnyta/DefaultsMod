@@ -16,6 +16,8 @@
 	<Defaults_StockpileZones>Stockpile zone types</Defaults_StockpileZones>
 	<Defaults_ManualPriorities>Use manual work priorities by default</Defaults_ManualPriorities>
 	<Defaults_WorldSettings>World settings</Defaults_WorldSettings>
+	<Defaults_MapSettings>Map settings</Defaults_MapSettings>
+	<Defaults_ApparelPolicies>Apparel policies</Defaults_ApparelPolicies>
 	<Defaults_ResetAllSettings>Reset all settings to vanilla</Defaults_ResetAllSettings>
 	<Defaults_ConfirmResetAllSettings>Do you want to reset all settings to their vanilla values? This action cannot be undone.</Defaults_ConfirmResetAllSettings>
 	<Defaults_ScheduleName>Schedule {0}</Defaults_ScheduleName>
@@ -34,4 +36,8 @@
 	<Defaults_CurrentMedicineToCarry>Current medicine to carry</Defaults_CurrentMedicineToCarry>
 	<Defaults_AddNew>Add new</Defaults_AddNew>
 	<Defaults_CorpseStockpileZoneDesc>Create a stockpile where your colonists will store corpses.\nThis tool can also expand any existing stockpile.</Defaults_CorpseStockpileZoneDesc>
+	<Defaults_CantDeleteDefaultPolicy>You cannot delete the default policy.</Defaults_CantDeleteDefaultPolicy>
+	<Defaults_SaveNewDefaultPolicy>Save as new default policy</Defaults_SaveNewDefaultPolicy>
+	<Defaults_PolicySavedAs>Policy saved as {0}.</Defaults_PolicySavedAs>
+	<Defaults_LoadDefaultPolicy>Load from defaults</Defaults_LoadDefaultPolicy>
 </LanguageData>

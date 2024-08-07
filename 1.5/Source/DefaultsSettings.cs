@@ -1,10 +1,13 @@
-﻿using Defaults.Medicine;
+﻿using Defaults.ApparelPolicies;
+using Defaults.MapSettings;
+using Defaults.Medicine;
 using Defaults.ResourceCategories;
 using Defaults.Rewards;
 using Defaults.Schedule;
 using Defaults.StockpileZones;
 using Defaults.Storyteller;
 using Defaults.WorldSettings;
+using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using System.Collections.Generic;
@@ -49,6 +52,9 @@ namespace Defaults
         public static OverallPopulation DefaultOverallPopulation;
         public static float DefaultPollution;
         public static List<string> DefaultFactions;
+        public static int DefaultMapSize;
+        public static Season DefaultStartingSeason;
+        public static List<ApparelPolicies.ApparelPolicy> DefaultApparelPolicies;
 
         static DefaultsSettings()
         {
@@ -89,6 +95,9 @@ namespace Defaults
             DefaultOverallPopulation = OverallPopulation.Normal;
             DefaultPollution = 0.05f;
             DefaultFactions = null;
+            DefaultMapSize = 250;
+            DefaultStartingSeason = Season.Undefined;
+            DefaultApparelPolicies = null;
 
             InitializeDefaultSchedules();
             InitializeDefaultMedicineToCarry();
@@ -98,6 +107,7 @@ namespace Defaults
             InitializeDefaultStorytellerSettings();
             InitializeDefaultStockpileZones();
             InitializeDefaultFactions();
+            InitializeDefaultApparelPolicies();
         }
 
         public static ZoneType DefaultStockpileZone
@@ -258,47 +268,121 @@ namespace Defaults
             });
         }
 
+        private static void InitializeDefaultApparelPolicies()
+        {
+            LongEventHandler.ExecuteWhenFinished(delegate
+            {
+                if (DefaultApparelPolicies == null || DefaultApparelPolicies.Empty())
+                {
+                    DefaultApparelPolicies = new List<ApparelPolicies.ApparelPolicy>();
+
+                    DefaultApparelPolicies.Add(new ApparelPolicies.ApparelPolicy(0, "OutfitAnything".Translate()));
+
+                    ApparelPolicies.ApparelPolicy workerPolicy = new ApparelPolicies.ApparelPolicy(0, "OutfitWorker".Translate());
+                    workerPolicy.filter.SetDisallowAll();
+                    workerPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowDeadmansApparel, false);
+                    foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
+                    {
+                        if (thingDef.apparel != null && thingDef.apparel.defaultOutfitTags != null && thingDef.apparel.defaultOutfitTags.Contains("Worker"))
+                        {
+                            workerPolicy.filter.SetAllow(thingDef, true);
+                        }
+                    }
+                    DefaultApparelPolicies.Add(workerPolicy);
+
+                    ApparelPolicies.ApparelPolicy soldierPolicy = new ApparelPolicies.ApparelPolicy(0, "OutfitSoldier".Translate());
+                    soldierPolicy.filter.SetDisallowAll();
+                    soldierPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowDeadmansApparel, false);
+                    foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
+                    {
+                        if (thingDef.apparel != null && thingDef.apparel.defaultOutfitTags != null && thingDef.apparel.defaultOutfitTags.Contains("Soldier"))
+                        {
+                            soldierPolicy.filter.SetAllow(thingDef, true);
+                        }
+                    }
+                    DefaultApparelPolicies.Add(soldierPolicy);
+
+                    ApparelPolicies.ApparelPolicy nudistPolicy = new ApparelPolicies.ApparelPolicy(0, "OutfitNudist".Translate());
+                    nudistPolicy.filter.SetDisallowAll();
+                    nudistPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowDeadmansApparel, false);
+                    foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
+                    {
+                        if (thingDef.apparel != null && (thingDef.apparel.defaultOutfitTags.NotNullAndContains("Nudist") || (!thingDef.apparel.bodyPartGroups.Contains(BodyPartGroupDefOf.Legs) && !thingDef.apparel.bodyPartGroups.Contains(BodyPartGroupDefOf.Torso))))
+                        {
+                            nudistPolicy.filter.SetAllow(thingDef, true);
+                        }
+                    }
+                    DefaultApparelPolicies.Add(nudistPolicy);
+
+                    if (ModsConfig.IdeologyActive)
+                    {
+                        ApparelPolicies.ApparelPolicy slavePolicy = new ApparelPolicies.ApparelPolicy(0, "OutfitSlave".Translate());
+                        slavePolicy.filter.SetDisallowAll();
+                        slavePolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowDeadmansApparel, false);
+                        foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
+                        {
+                            if (thingDef.apparel != null && thingDef.apparel.defaultOutfitTags != null && thingDef.apparel.defaultOutfitTags.Contains("Slave"))
+                            {
+                                slavePolicy.filter.SetAllow(thingDef, true);
+                            }
+                        }
+                        DefaultApparelPolicies.Add(slavePolicy);
+                    }
+                }
+            });
+        }
+
         public static void DoSettingsWindowContents(Rect inRect)
         {
-            Listing_Standard listingStandard = new Listing_Standard();
-            listingStandard.Begin(inRect);
+            Listing_StandardHighlight listing = new Listing_StandardHighlight();
+            listing.Begin(inRect);
 
-            if (listingStandard.ButtonTextLabeledPct("Defaults_Storyteller".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            if (listing.ButtonTextLabeledPct("Defaults_Storyteller".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
             {
                 Find.WindowStack.Add(new Dialog_Storyteller());
             }
 
-            if (listingStandard.ButtonTextLabeledPct("Defaults_WorldSettings".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            if (listing.ButtonTextLabeledPct("Defaults_WorldSettings".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
             {
                 Find.WindowStack.Add(new Dialog_WorldSettings());
             }
 
-            if (listingStandard.ButtonTextLabeledPct("Defaults_Schedules".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            if (listing.ButtonTextLabeledPct("Defaults_MapSettings".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_MapSettings());
+            }
+
+            if (listing.ButtonTextLabeledPct("Defaults_Schedules".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
             {
                 Find.WindowStack.Add(new Dialog_ScheduleSettings());
             }
 
-            if (listingStandard.ButtonTextLabeledPct("Defaults_Medicine".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            if (listing.ButtonTextLabeledPct("Defaults_ApparelPolicies".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_ApparelPolicies(DefaultApparelPolicies.First()));
+            }
+
+            if (listing.ButtonTextLabeledPct("Defaults_Medicine".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
             {
                 Find.WindowStack.Add(new Dialog_MedicineSettings());
             }
 
-            if (listingStandard.ButtonTextLabeledPct("Defaults_Rewards".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            if (listing.ButtonTextLabeledPct("Defaults_Rewards".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
             {
                 Find.WindowStack.Add(new Dialog_RewardsSettings());
             }
 
-            if (listingStandard.ButtonTextLabeledPct("Defaults_ResourceCategories".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            if (listing.ButtonTextLabeledPct("Defaults_ResourceCategories".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
             {
                 Find.WindowStack.Add(new Dialog_ResourceCategories());
             }
 
-            if (listingStandard.ButtonTextLabeledPct("Defaults_StockpileZones".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            if (listing.ButtonTextLabeledPct("Defaults_StockpileZones".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
             {
                 Find.WindowStack.Add(new Dialog_StockpileZones());
             }
-
-            Rect hostilityResponseRect = listingStandard.GetRect(30f);
+            
+            Rect hostilityResponseRect = listing.GetRect(30f);
             Text.Anchor = TextAnchor.MiddleLeft;
             Widgets.Label(hostilityResponseRect, "Defaults_HostilityResponse".Translate());
             Text.Anchor = TextAnchor.UpperLeft;
@@ -306,7 +390,7 @@ namespace Defaults
             hostilityResponseRect.width = 24;
             HostilityResponse.HostilityResponseModeUtility.DrawResponseButton(hostilityResponseRect);
 
-            Rect medCarryRect = listingStandard.GetRect(30f);
+            Rect medCarryRect = listing.GetRect(30f);
             Text.Anchor = TextAnchor.MiddleLeft;
             Widgets.Label(medCarryRect, "Defaults_MedicineToCarry".Translate());
             Text.Anchor = TextAnchor.UpperLeft;
@@ -314,7 +398,7 @@ namespace Defaults
             medCarryRect.width = 32;
             MedicineUtility.DrawMedicineButton(medCarryRect);
 
-            Rect autoRebuildRect = listingStandard.GetRect(30f);
+            Rect autoRebuildRect = listing.GetRect(30f);
             Text.Anchor = TextAnchor.MiddleLeft;
             Widgets.Label(autoRebuildRect, "Defaults_AutoRebuild".Translate());
             Text.Anchor = TextAnchor.UpperLeft;
@@ -324,7 +408,7 @@ namespace Defaults
             autoRebuildRect.height = 24;
             PlaySettings.PlaySettingsUtility.DrawAutoRebuildButton(autoRebuildRect);
 
-            Rect autoHomeAreaRect = listingStandard.GetRect(30f);
+            Rect autoHomeAreaRect = listing.GetRect(30f);
             Text.Anchor = TextAnchor.MiddleLeft;
             Widgets.Label(autoHomeAreaRect, "Defaults_AutoHomeArea".Translate());
             Text.Anchor = TextAnchor.UpperLeft;
@@ -334,9 +418,9 @@ namespace Defaults
             autoHomeAreaRect.height = 24;
             PlaySettings.PlaySettingsUtility.DrawAutoHomeAreaButton(autoHomeAreaRect);
 
-            listingStandard.CheckboxLabeled("Defaults_ManualPriorities".Translate(), ref DefaultManualPriorities);
+            listing.CheckboxLabeled("Defaults_ManualPriorities".Translate(), ref DefaultManualPriorities);
 
-            Rect plantTypeRect = listingStandard.GetRect(30f);
+            Rect plantTypeRect = listing.GetRect(30f);
             Text.Anchor = TextAnchor.MiddleLeft;
             Widgets.Label(plantTypeRect, "Defaults_PlantType".Translate());
             Text.Anchor = TextAnchor.UpperLeft;
@@ -344,12 +428,12 @@ namespace Defaults
             plantTypeRect.width = 24;
             PlantType.PlantTypeUtility.DrawPlantButton(plantTypeRect);
 
-            if (listingStandard.ButtonText("Defaults_ResetAllSettings".Translate(), null, 0.5f))
+            if (listing.ButtonText("Defaults_ResetAllSettings".Translate(), null, 0.5f))
             {
                 Find.WindowStack.Add(new Dialog_MessageBox("Defaults_ConfirmResetAllSettings".Translate(), "Confirm".Translate(), ResetAllSettings, "GoBack".Translate(), null, null, true, ResetAllSettings, null, WindowLayer.Dialog));
             }
 
-            listingStandard.End();
+            listing.End();
         }
 
         public override void ExposeData()
@@ -387,6 +471,47 @@ namespace Defaults
             Scribe_Values.Look(ref DefaultOverallPopulation, "DefaultOverallPopulation", OverallPopulation.Normal);
             Scribe_Values.Look(ref DefaultPollution, "DefaultPollution", 0.05f);
             Scribe_Collections.Look(ref DefaultFactions, "DefaultFactions");
+            Scribe_Values.Look(ref DefaultMapSize, "DefaultMapSize", 250);
+            Scribe_Values.Look(ref DefaultStartingSeason, "DefaultStartingSeason", Season.Undefined);
+            Scribe_Collections.Look(ref DefaultApparelPolicies, "DefaultApparelPolicies", LookMode.Deep);
+        }
+
+        public static void ScribeThingFilter(ThingFilter filter)
+        {
+            List<string> allowed = filter.AllowedThingDefs.Select(d => d.defName).ToList();
+            FloatRange allowedHitPointsPercents = filter.AllowedHitPointsPercents;
+            QualityRange allowedQualities = filter.AllowedQualityLevels;
+            List<string> disallowedSpecialFilters = ((List<SpecialThingFilterDef>)typeof(ThingFilter).Field("disallowedSpecialFilters").GetValue(filter)).Select(f => f.defName).ToList();
+            Scribe_Collections.Look(ref allowed, "Allowed");
+            Scribe_Values.Look(ref allowedHitPointsPercents, "AllowedHitPointsPercents");
+            Scribe_Values.Look(ref allowedQualities, "AllowedQualityLevels");
+            Scribe_Collections.Look(ref disallowedSpecialFilters, "DisallowedSpecialFilters");
+
+            if (Scribe.mode == LoadSaveMode.LoadingVars)
+            {
+                LongEventHandler.ExecuteWhenFinished(delegate
+                {
+                    filter.SetDisallowAll();
+                    foreach (string allowedThingDef in allowed)
+                    {
+                        ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(allowedThingDef);
+                        if (def != null)
+                        {
+                            filter.SetAllow(def, true);
+                        }
+                    }
+                    filter.AllowedHitPointsPercents = allowedHitPointsPercents;
+                    filter.AllowedQualityLevels = allowedQualities;
+                    foreach (string disallowedSpecialFilter in disallowedSpecialFilters)
+                    {
+                        SpecialThingFilterDef def = DefDatabase<SpecialThingFilterDef>.GetNamedSilentFail(disallowedSpecialFilter);
+                        if (def != null)
+                        {
+                            filter.SetAllow(def, false);
+                        }
+                    }
+                });
+            }
         }
     }
 }

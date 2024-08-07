@@ -65,6 +65,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApparelPolicies\ApparelPolicy.cs" />
+    <Compile Include="ApparelPolicies\Dialog_ApparelPolicies.cs" />
+    <Compile Include="ApparelPolicies\Patch_Dialog_ManagePolicies.cs" />
+    <Compile Include="ApparelPolicies\Patch_OutfitDatabase.cs" />
+    <Compile Include="ApparelPolicies\PolicyUtility.cs" />
+    <Compile Include="Listing_StandardHighlight.cs" />
+    <Compile Include="MapSettings\Dialog_MapSettings.cs" />
+    <Compile Include="MapSettings\Patch_Page_SelectStartingSite.cs" />
     <Compile Include="Medicine\MedicineUtility.cs" />
     <Compile Include="Medicine\Patch_Pawn.cs" />
     <Compile Include="Medicine\Patch_PawnGenerator.cs" />

@@ -1,8 +1,5 @@
-﻿using HarmonyLib;
-using RimWorld;
+﻿using RimWorld;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -13,7 +10,7 @@ namespace Defaults.StockpileZones
         private Type designatorType = typeof(Designator_ZoneAddStockpile_Custom);
         public string Name;
         public StoragePriority Priority = StoragePriority.Normal;
-        public ThingFilter filter;
+        public ThingFilter filter = new ThingFilter();
         public StorageSettingsPreset Preset;
 
         public static ZoneType MakeBuiltInStockpileZone()
@@ -38,7 +35,6 @@ namespace Defaults.StockpileZones
         public ZoneType(string name, StorageSettingsPreset preset)
         {
             Name = name;
-            filter = new ThingFilter();
             filter.SetFromPreset(preset);
             Preset = preset;
         }
@@ -47,7 +43,6 @@ namespace Defaults.StockpileZones
         {
             Name = name;
             Priority = other.Priority;
-            filter = new ThingFilter();
             filter.CopyAllowancesFrom(other.filter);
             Preset = other.Preset;
         }
@@ -111,48 +106,7 @@ namespace Defaults.StockpileZones
             Scribe_Values.Look(ref Name, "Name");
             Scribe_Values.Look(ref Priority, "Priority");
             Scribe_Values.Look(ref Preset, "Preset");
-
-            List<string> allowed = null;
-            FloatRange allowedHitPointsPercents = FloatRange.ZeroToOne;
-            QualityRange allowedQualities = QualityRange.All;
-            List<string> disallowedSpecialFilters = null;
-            if (filter != null)
-            {
-                allowed = filter.AllowedThingDefs.Select(d => d.defName).ToList();
-                allowedHitPointsPercents = filter.AllowedHitPointsPercents;
-                allowedQualities = filter.AllowedQualityLevels;
-                disallowedSpecialFilters = ((List<SpecialThingFilterDef>)typeof(ThingFilter).Field("disallowedSpecialFilters").GetValue(filter)).Select(f => f.defName).ToList();
-            }
-            Scribe_Collections.Look(ref allowed, "Allowed");
-            Scribe_Values.Look(ref allowedHitPointsPercents, "AllowedHitPointsPercents");
-            Scribe_Values.Look(ref allowedQualities, "AllowedQualityLevels");
-            Scribe_Collections.Look(ref disallowedSpecialFilters, "DisallowedSpecialFilters");
-            
-            if (Scribe.mode == LoadSaveMode.LoadingVars)
-            {
-                LongEventHandler.ExecuteWhenFinished(delegate
-                {
-                    filter = new ThingFilter();
-                    foreach (string allowedThingDef in allowed)
-                    {
-                        ThingDef def = DefDatabase<ThingDef>.GetNamedSilentFail(allowedThingDef);
-                        if (def != null)
-                        {
-                            filter.SetAllow(def, true);
-                        }
-                    }
-                    filter.AllowedHitPointsPercents = allowedHitPointsPercents;
-                    filter.AllowedQualityLevels = allowedQualities;
-                    foreach (string disallowedSpecialFilter in disallowedSpecialFilters)
-                    {
-                        SpecialThingFilterDef def = DefDatabase<SpecialThingFilterDef>.GetNamedSilentFail(disallowedSpecialFilter);
-                        if (def != null)
-                        {
-                            filter.SetAllow(def, false);
-                        }
-                    }
-                });
-            }
+            DefaultsSettings.ScribeThingFilter(filter);
         }
     }
 }
