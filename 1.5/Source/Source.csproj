@@ -65,11 +65,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApparelPolicies\ApparelPolicy.cs" />
-    <Compile Include="ApparelPolicies\Dialog_ApparelPolicies.cs" />
-    <Compile Include="ApparelPolicies\Patch_Dialog_ManagePolicies.cs" />
-    <Compile Include="ApparelPolicies\Patch_OutfitDatabase.cs" />
-    <Compile Include="ApparelPolicies\PolicyUtility.cs" />
+    <Compile Include="Policies\DrugPolicies\Dialog_DrugPolicies.cs" />
+    <Compile Include="Policies\Patch_Dialog_InfoCard_Hyperlink.cs" />
+    <Compile Include="Policies\Patch_StatWorker.cs" />
+    <Compile Include="Policies\Patch_Dialog_ManagePolicies.cs" />
+    <Compile Include="Policies\PolicyUtility.cs" />
+    <Compile Include="Policies\ApparelPolicies\ApparelPolicy.cs" />
+    <Compile Include="Policies\ApparelPolicies\Dialog_ApparelPolicies.cs" />
+    <Compile Include="Policies\ApparelPolicies\Patch_OutfitDatabase.cs" />
     <Compile Include="Listing_StandardHighlight.cs" />
     <Compile Include="MapSettings\Dialog_MapSettings.cs" />
     <Compile Include="MapSettings\Patch_Page_SelectStartingSite.cs" />
@@ -104,6 +107,7 @@
     <Compile Include="DefaultsMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DefaultsSettings.cs" />
+    <Compile Include="Policies\StatUtility.cs" />
     <Compile Include="StockpileZones\Designator_ZoneAddStockpile_Custom.cs" />
     <Compile Include="StockpileZones\Dialog_RenameZoneType.cs" />
     <Compile Include="StockpileZones\Dialog_StockpileZones.cs" />

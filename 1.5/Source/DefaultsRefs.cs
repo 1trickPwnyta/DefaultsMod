@@ -1,4 +1,4 @@
-﻿using Defaults.ApparelPolicies;
+﻿using Defaults.Policies;
 using Defaults.Storyteller;
 using HarmonyLib;
 using RimWorld;
@@ -27,6 +27,10 @@ namespace Defaults
         public static readonly MethodInfo m_QuickSearchWidget_OnGUI = AccessTools.Method(typeof(QuickSearchWidget), nameof(QuickSearchWidget.OnGUI));
         public static readonly MethodInfo m_PolicyUtility_GetNewPolicyButtonPaddingTop = AccessTools.Method(typeof(PolicyUtility), nameof(PolicyUtility.GetNewPolicyButtonPaddingTop));
         public static readonly MethodInfo m_Dialog_ManagePolicies_GetDefaultPolicy = AccessTools.Method(typeof(Dialog_ManagePolicies<Policy>), "GetDefaultPolicy");
+        public static readonly MethodInfo m_StatUtility_IsGameStartedInClassicMode = AccessTools.Method(typeof(Policies.StatUtility), nameof(Policies.StatUtility.IsGameStartedInClassicMode));
+        public static readonly MethodInfo m_Find_get_IdeoManager = AccessTools.Method(typeof(Find), "get_IdeoManager");
+        public static readonly MethodInfo m_StatUtility_GetScenarioStatFactor = AccessTools.Method(typeof(Policies.StatUtility), nameof(Policies.StatUtility.GetScenarioStatFactor));
+        public static readonly MethodInfo m_Scenario_GetStatFactor = AccessTools.Method(typeof(Scenario), nameof(Scenario.GetStatFactor));
 
         public static readonly FieldInfo f_Difficulty_anomalyPlaystyleDef = AccessTools.Field(typeof(Difficulty), "anomalyPlaystyleDef");
         public static readonly FieldInfo f_DefaultsSettings_DefaultPermadeath = AccessTools.Field(typeof(DefaultsSettings), nameof(DefaultsSettings.DefaultPermadeath));

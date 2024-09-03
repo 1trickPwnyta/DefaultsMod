@@ -1,4 +1,5 @@
-﻿using Defaults.ApparelPolicies;
+﻿using Defaults.Policies.ApparelPolicies;
+using Defaults.Policies.DrugPolicies;
 using Defaults.MapSettings;
 using Defaults.Medicine;
 using Defaults.ResourceCategories;
@@ -14,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
+using Defaults.Policies;
 
 namespace Defaults
 {
@@ -54,7 +56,8 @@ namespace Defaults
         public static List<string> DefaultFactions;
         public static int DefaultMapSize;
         public static Season DefaultStartingSeason;
-        public static List<ApparelPolicies.ApparelPolicy> DefaultApparelPolicies;
+        public static List<Policies.ApparelPolicies.ApparelPolicy> DefaultApparelPolicies;
+        public static List<DrugPolicy> DefaultDrugPolicies;
 
         static DefaultsSettings()
         {
@@ -108,6 +111,7 @@ namespace Defaults
             InitializeDefaultStockpileZones();
             InitializeDefaultFactions();
             InitializeDefaultApparelPolicies();
+            InitializeDefaultDrugPolicies();
         }
 
         public static ZoneType DefaultStockpileZone
@@ -274,11 +278,11 @@ namespace Defaults
             {
                 if (DefaultApparelPolicies == null || DefaultApparelPolicies.Empty())
                 {
-                    DefaultApparelPolicies = new List<ApparelPolicies.ApparelPolicy>();
+                    DefaultApparelPolicies = new List<Policies.ApparelPolicies.ApparelPolicy>();
 
-                    DefaultApparelPolicies.Add(new ApparelPolicies.ApparelPolicy(0, "OutfitAnything".Translate()));
+                    DefaultApparelPolicies.Add(new Policies.ApparelPolicies.ApparelPolicy(0, "OutfitAnything".Translate()));
 
-                    ApparelPolicies.ApparelPolicy workerPolicy = new ApparelPolicies.ApparelPolicy(0, "OutfitWorker".Translate());
+                    Policies.ApparelPolicies.ApparelPolicy workerPolicy = new Policies.ApparelPolicies.ApparelPolicy(0, "OutfitWorker".Translate());
                     workerPolicy.filter.SetDisallowAll();
                     workerPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowDeadmansApparel, false);
                     foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
@@ -290,7 +294,7 @@ namespace Defaults
                     }
                     DefaultApparelPolicies.Add(workerPolicy);
 
-                    ApparelPolicies.ApparelPolicy soldierPolicy = new ApparelPolicies.ApparelPolicy(0, "OutfitSoldier".Translate());
+                    Policies.ApparelPolicies.ApparelPolicy soldierPolicy = new Policies.ApparelPolicies.ApparelPolicy(0, "OutfitSoldier".Translate());
                     soldierPolicy.filter.SetDisallowAll();
                     soldierPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowDeadmansApparel, false);
                     foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
@@ -302,7 +306,7 @@ namespace Defaults
                     }
                     DefaultApparelPolicies.Add(soldierPolicy);
 
-                    ApparelPolicies.ApparelPolicy nudistPolicy = new ApparelPolicies.ApparelPolicy(0, "OutfitNudist".Translate());
+                    Policies.ApparelPolicies.ApparelPolicy nudistPolicy = new Policies.ApparelPolicies.ApparelPolicy(0, "OutfitNudist".Translate());
                     nudistPolicy.filter.SetDisallowAll();
                     nudistPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowDeadmansApparel, false);
                     foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
@@ -316,7 +320,7 @@ namespace Defaults
 
                     if (ModsConfig.IdeologyActive)
                     {
-                        ApparelPolicies.ApparelPolicy slavePolicy = new ApparelPolicies.ApparelPolicy(0, "OutfitSlave".Translate());
+                        Policies.ApparelPolicies.ApparelPolicy slavePolicy = new Policies.ApparelPolicies.ApparelPolicy(0, "OutfitSlave".Translate());
                         slavePolicy.filter.SetDisallowAll();
                         slavePolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowDeadmansApparel, false);
                         foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
@@ -327,6 +331,22 @@ namespace Defaults
                             }
                         }
                         DefaultApparelPolicies.Add(slavePolicy);
+                    }
+                }
+            });
+        }
+
+        private static void InitializeDefaultDrugPolicies()
+        {
+            LongEventHandler.ExecuteWhenFinished(delegate
+            {
+                if (DefaultDrugPolicies == null || DefaultDrugPolicies.Empty())
+                {
+                    DefaultDrugPolicies = new List<DrugPolicy>();
+
+                    foreach (DrugPolicyDef def in DefDatabase<DrugPolicyDef>.AllDefs)
+                    {
+                        PolicyUtility.NewDrugPolicyFromDef(def);
                     }
                 }
             });
@@ -360,6 +380,11 @@ namespace Defaults
             if (listing.ButtonTextLabeledPct("Defaults_ApparelPolicies".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
             {
                 Find.WindowStack.Add(new Dialog_ApparelPolicies(DefaultApparelPolicies.First()));
+            }
+
+            if (listing.ButtonTextLabeledPct("Defaults_DrugPolicies".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_DrugPolicies(DefaultDrugPolicies.First()));
             }
 
             if (listing.ButtonTextLabeledPct("Defaults_Medicine".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
@@ -474,6 +499,7 @@ namespace Defaults
             Scribe_Values.Look(ref DefaultMapSize, "DefaultMapSize", 250);
             Scribe_Values.Look(ref DefaultStartingSeason, "DefaultStartingSeason", Season.Undefined);
             Scribe_Collections.Look(ref DefaultApparelPolicies, "DefaultApparelPolicies", LookMode.Deep);
+            Scribe_Collections.Look(ref DefaultDrugPolicies, "DefaultDrugPolicies", LookMode.Deep);
         }
 
         public static void ScribeThingFilter(ThingFilter filter)

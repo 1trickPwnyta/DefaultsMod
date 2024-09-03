@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using RimWorld;
 
-namespace Defaults.ApparelPolicies
+namespace Defaults.Policies.ApparelPolicies
 {
     [HarmonyPatch(typeof(OutfitDatabase))]
     [HarmonyPatch("GenerateStartingOutfits")]

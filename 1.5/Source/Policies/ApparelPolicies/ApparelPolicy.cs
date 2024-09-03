@@ -1,7 +1,7 @@
 ﻿using RimWorld;
 using Verse;
 
-namespace Defaults.ApparelPolicies
+namespace Defaults.Policies.ApparelPolicies
 {
     public class ApparelPolicy : Policy
     {

@@ -1,11 +1,10 @@
 ﻿using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using UnityEngine;
 using Verse;
 
-namespace Defaults.ApparelPolicies
+namespace Defaults.Policies.ApparelPolicies
 {
     public class Dialog_ApparelPolicies : Dialog_ManagePolicies<ApparelPolicy>
     {
@@ -42,9 +41,9 @@ namespace Defaults.ApparelPolicies
             {
                 name = "ApparelPolicy".Translate() + " " + i++;
             } while (DefaultsSettings.DefaultApparelPolicies.Any(p => p.label == name));
-            ApparelPolicy copy = new ApparelPolicy(0, name);
-            DefaultsSettings.DefaultApparelPolicies.Add(copy);
-            return copy;
+            ApparelPolicy policy = new ApparelPolicy(0, name);
+            DefaultsSettings.DefaultApparelPolicies.Add(policy);
+            return policy;
         }
 
         protected override void DoContentsRect(Rect rect)

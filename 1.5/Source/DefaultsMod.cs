@@ -6,11 +6,21 @@ using System;
 
 namespace Defaults
 {
+    [StaticConstructorOnStartup]
+    public static class DefaultsModInitializer
+    {
+        static DefaultsModInitializer()
+        {
+            DefaultsMod.Settings = DefaultsMod.Mod.GetSettings<DefaultsSettings>();
+        }
+    }
+
     public class DefaultsMod : Mod
     {
         public const string PACKAGE_ID = "defaults.1trickPwnyta";
         public const string PACKAGE_NAME = "1trickPwnyta's Defaults";
 
+        public static DefaultsMod Mod;
         public static DefaultsSettings Settings;
 
         public DefaultsMod(ModContentPack content) : base(content)
@@ -23,7 +33,7 @@ namespace Defaults
             harmony.Patch(typeof(ResourceReadout).GetConstructor(new Type[] { }), null, typeof(ResourceCategories.Patch_ResourceReadout_ctor).GetMethod("Postfix"));
             harmony.Patch(typeof(Dialog_AnomalySettings).GetConstructor(new[] { typeof(Difficulty) }), null, typeof(Storyteller.Patch_Dialog_AnomalySettings_ctor).GetMethod("Postfix"));
 
-            Settings = GetSettings<DefaultsSettings>();
+            Mod = this;
 
             Log.Message($"[{PACKAGE_NAME}] Loaded.");
         }
