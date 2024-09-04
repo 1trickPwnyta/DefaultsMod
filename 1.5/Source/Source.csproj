@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Policies\DrugPolicies\Dialog_DrugPolicies.cs" />
+    <Compile Include="Policies\DrugPolicies\Patch_DrugPolicyDatabase.cs" />
     <Compile Include="Policies\Patch_Dialog_InfoCard_Hyperlink.cs" />
     <Compile Include="Policies\Patch_StatWorker.cs" />
     <Compile Include="Policies\Patch_Dialog_ManagePolicies.cs" />
