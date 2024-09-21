@@ -22,21 +22,24 @@ namespace Defaults.StockpileZones
 
                 if (designator is Designator_Deconstruct)
                 {
-                    foreach (ZoneType type in DefaultsSettings.DefaultStockpileZones)
+                    if (DefaultsSettings.DefaultStockpileZones != null)
                     {
-                        if (type.DesignatorType == typeof(Designator_ZoneAddStockpile_Resources))
+                        foreach (ZoneType type in DefaultsSettings.DefaultStockpileZones)
                         {
-                            yield return builtInStockpileDesignator;
-                        }
-                        if (type.DesignatorType == typeof(Designator_ZoneAddStockpile_Dumping))
-                        {
-                            yield return builtInDumpingStockpileDesignator;
-                        }
-                        if (type.DesignatorType == typeof(Designator_ZoneAddStockpile_Custom))
-                        {
-                            Designator custom = new Designator_ZoneAddStockpile_Custom(type);
-                            custom.isOrder = true;
-                            yield return custom;
+                            if (type.DesignatorType == typeof(Designator_ZoneAddStockpile_Resources))
+                            {
+                                yield return builtInStockpileDesignator;
+                            }
+                            if (type.DesignatorType == typeof(Designator_ZoneAddStockpile_Dumping))
+                            {
+                                yield return builtInDumpingStockpileDesignator;
+                            }
+                            if (type.DesignatorType == typeof(Designator_ZoneAddStockpile_Custom))
+                            {
+                                Designator custom = new Designator_ZoneAddStockpile_Custom(type);
+                                custom.isOrder = true;
+                                yield return custom;
+                            }
                         }
                     }
                 }
