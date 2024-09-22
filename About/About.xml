@@ -30,6 +30,7 @@ Full list of settings:
   - Default plant type: Allows you to set the default plant type for new growing zones.
 
 === Updates ===
+09/21/2024: Add extra error check
 09/11/2024: Added default drug policies
 08/20/2024: Added default apparel policies
 08/02/2024: Added default map settings
