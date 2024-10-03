@@ -19,6 +19,7 @@
 	<Defaults_WorldSettings>World settings</Defaults_WorldSettings>
 	<Defaults_MapSettings>Map settings</Defaults_MapSettings>
 	<Defaults_ApparelPolicies>Apparel policies</Defaults_ApparelPolicies>
+	<Defaults_FoodPolicies>Food policies</Defaults_FoodPolicies>
 	<Defaults_DrugPolicies>Drug policies</Defaults_DrugPolicies>
 	<Defaults_ResetAllSettings>Reset all settings to vanilla</Defaults_ResetAllSettings>
 	<Defaults_ConfirmResetAllSettings>Do you want to reset all settings to their vanilla values? This action cannot be undone.</Defaults_ConfirmResetAllSettings>

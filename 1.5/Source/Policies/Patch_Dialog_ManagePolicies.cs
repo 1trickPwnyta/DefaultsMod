@@ -1,5 +1,6 @@
 ﻿using Defaults.Policies.ApparelPolicies;
 using Defaults.Policies.DrugPolicies;
+using Defaults.Policies.FoodPolicies;
 using HarmonyLib;
 using RimWorld;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Defaults.Policies
     {
         public static void Postfix(Dialog_ManagePolicies<Policy> __instance, Rect inRect, Policy ___policyInt)
         {
-            if (___policyInt != null && __instance.GetType() != typeof(Dialog_ApparelPolicies) && __instance.GetType() != typeof(Dialog_DrugPolicies))
+            if (___policyInt != null && (__instance.GetType() == typeof(Dialog_ManageApparelPolicies) || __instance.GetType() == typeof(Dialog_ManageFoodPolicies) || __instance.GetType() == typeof(Dialog_ManageDrugPolicies)))
             {
                 Rect saveAsDefaultRect = new Rect(inRect.xMax - 158f, inRect.y + 74f, 32f, 32f);
                 if (Widgets.ButtonImage(saveAsDefaultRect, TexButton.Save))
@@ -34,6 +35,18 @@ namespace Defaults.Policies
                         ApparelPolicies.ApparelPolicy policy = new ApparelPolicies.ApparelPolicy(0, name);
                         policy.filter.CopyAllowancesFrom(((RimWorld.ApparelPolicy)___policyInt).filter);
                         DefaultsSettings.DefaultApparelPolicies.Add(policy);
+                    }
+
+                    if (___policyInt is RimWorld.FoodPolicy)
+                    {
+                        int i = DefaultsSettings.DefaultFoodPolicies.Count + 1;
+                        while (DefaultsSettings.DefaultFoodPolicies.Any(p => p.label == name))
+                        {
+                            name = "FoodPolicy".Translate() + " " + i++;
+                        }
+                        FoodPolicies.FoodPolicy policy = new FoodPolicies.FoodPolicy(0, name);
+                        policy.filter.CopyAllowancesFrom(((RimWorld.FoodPolicy)___policyInt).filter);
+                        DefaultsSettings.DefaultFoodPolicies.Add(policy);
                     }
 
                     if (___policyInt is DrugPolicy)
@@ -95,7 +108,7 @@ namespace Defaults.Policies
         public static void Postfix(Dialog_ManagePolicies<Policy> __instance, Rect leftRect)
         {
             object policy = __instance.GetType().Method("GetDefaultPolicy").Invoke(__instance, new object[] { });
-            if (policy != null && __instance.GetType() != typeof(Dialog_ApparelPolicies) && __instance.GetType() != typeof(Dialog_DrugPolicies))
+            if (policy != null && (__instance.GetType() == typeof(Dialog_ManageApparelPolicies) || __instance.GetType() == typeof(Dialog_ManageFoodPolicies) || __instance.GetType() == typeof(Dialog_ManageDrugPolicies)))
             {
                 Rect loadDefaultRect = new Rect(leftRect.x + 10f, leftRect.yMax - 24f - 10f - Window.CloseButSize.y * 2 - 10f, leftRect.width - 20f, Window.CloseButSize.y);
                 if (Widgets.ButtonText(loadDefaultRect, "Defaults_LoadDefaultPolicy".Translate()))
@@ -108,6 +121,16 @@ namespace Defaults.Policies
                             apparelPolicy.label = p.label;
                             apparelPolicy.filter.CopyAllowancesFrom(p.filter);
                             __instance.GetType().Method("set_SelectedPolicy").Invoke(__instance, new[] { apparelPolicy });
+                        })).ToList()));
+                    }
+                    if (policy is RimWorld.FoodPolicy)
+                    {
+                        Find.WindowStack.Add(new FloatMenu(DefaultsSettings.DefaultFoodPolicies.Select(p => new FloatMenuOption(p.label, delegate
+                        {
+                            RimWorld.FoodPolicy foodPolicy = (RimWorld.FoodPolicy)__instance.GetType().Method("CreateNewPolicy").Invoke(__instance, new object[] { });
+                            foodPolicy.label = p.label;
+                            foodPolicy.filter.CopyAllowancesFrom(p.filter);
+                            __instance.GetType().Method("set_SelectedPolicy").Invoke(__instance, new[] { foodPolicy });
                         })).ToList()));
                     }
                     if (policy is DrugPolicy)

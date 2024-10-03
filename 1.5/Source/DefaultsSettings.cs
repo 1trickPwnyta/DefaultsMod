@@ -16,6 +16,7 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Defaults.Policies;
+using Defaults.Policies.FoodPolicies;
 
 namespace Defaults
 {
@@ -58,7 +59,10 @@ namespace Defaults
         public static int DefaultMapSize;
         public static Season DefaultStartingSeason;
         public static List<Policies.ApparelPolicies.ApparelPolicy> DefaultApparelPolicies;
+        public static List<Policies.FoodPolicies.FoodPolicy> DefaultFoodPolicies;
         public static List<DrugPolicy> DefaultDrugPolicies;
+
+        private static Vector2 scrollPosition;
 
         static DefaultsSettings()
         {
@@ -103,6 +107,7 @@ namespace Defaults
             DefaultMapSize = 250;
             DefaultStartingSeason = Season.Undefined;
             DefaultApparelPolicies = null;
+            DefaultFoodPolicies = null;
 
             InitializeDefaultSchedules();
             InitializeDefaultMedicineToCarry();
@@ -113,6 +118,7 @@ namespace Defaults
             InitializeDefaultStockpileZones();
             InitializeDefaultFactions();
             InitializeDefaultApparelPolicies();
+            InitializeDefaultFoodPolicies();
             InitializeDefaultDrugPolicies();
         }
 
@@ -338,6 +344,172 @@ namespace Defaults
             });
         }
 
+        private static void InitializeDefaultFoodPolicies()
+        {
+            LongEventHandler.ExecuteWhenFinished(delegate
+            {
+                if (DefaultFoodPolicies == null || DefaultFoodPolicies.Empty())
+                {
+                    DefaultFoodPolicies = new List<Policies.FoodPolicies.FoodPolicy>();
+
+                    DefaultFoodPolicies.Add(new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionLavish".Translate()));
+
+                    Policies.FoodPolicies.FoodPolicy finePolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionFine".Translate());
+                    foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
+                    {
+                        if (thingDef.ingestible != null && thingDef.ingestible.preferability >= FoodPreferability.MealLavish && thingDef != ThingDefOf.InsectJelly)
+                        {
+                            finePolicy.filter.SetAllow(thingDef, false);
+                        }
+                    }
+                    if (ModsConfig.BiotechActive)
+                    {
+                        finePolicy.filter.SetAllow(ThingDefOf.HemogenPack, false);
+                    }
+                    DefaultFoodPolicies.Add(finePolicy);
+
+                    Policies.FoodPolicies.FoodPolicy simplePolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionSimple".Translate());
+                    foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
+                    {
+                        if (thingDef.ingestible != null && thingDef.ingestible.preferability >= FoodPreferability.MealFine && thingDef != ThingDefOf.InsectJelly)
+                        {
+                            simplePolicy.filter.SetAllow(thingDef, false);
+                        }
+                    }
+                    if (ModsConfig.BiotechActive)
+                    {
+                        simplePolicy.filter.SetAllow(ThingDefOf.HemogenPack, false);
+                    }
+                    DefaultFoodPolicies.Add(simplePolicy);
+
+                    Policies.FoodPolicies.FoodPolicy pastePolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionPaste".Translate());
+                    foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
+                    {
+                        if (thingDef.ingestible != null && thingDef.ingestible.preferability >= FoodPreferability.MealSimple && thingDef != ThingDefOf.MealNutrientPaste && thingDef != ThingDefOf.InsectJelly && thingDef != ThingDefOf.Pemmican)
+                        {
+                            pastePolicy.filter.SetAllow(thingDef, false);
+                        }
+                    }
+                    if (ModsConfig.BiotechActive)
+                    {
+                        pastePolicy.filter.SetAllow(ThingDefOf.HemogenPack, false);
+                    }
+                    DefaultFoodPolicies.Add(pastePolicy);
+
+                    Policies.FoodPolicies.FoodPolicy rawPolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionRaw".Translate());
+                    foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
+                    {
+                        if (thingDef.ingestible != null && thingDef.ingestible.preferability >= FoodPreferability.MealAwful)
+                        {
+                            rawPolicy.filter.SetAllow(thingDef, false);
+                        }
+                    }
+                    rawPolicy.filter.SetAllow(ThingDefOf.Chocolate, false);
+                    if (ModsConfig.BiotechActive)
+                    {
+                        rawPolicy.filter.SetAllow(ThingDefOf.HemogenPack, false);
+                    }
+                    DefaultFoodPolicies.Add(rawPolicy);
+
+                    Policies.FoodPolicies.FoodPolicy nothingPolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionNothing".Translate());
+                    nothingPolicy.filter.SetDisallowAll(null, null);
+                    DefaultFoodPolicies.Add(nothingPolicy);
+
+                    if (ModsConfig.IdeologyActive)
+                    {
+                        Policies.FoodPolicies.FoodPolicy vegetarianPolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionVegetarian".Translate());
+                        foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
+                        {
+                            if (FoodUtility.UnacceptableVegetarian(thingDef))
+                            {
+                                vegetarianPolicy.filter.SetAllow(thingDef, false);
+                            }
+                        }
+                        vegetarianPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowCarnivore, false);
+                        vegetarianPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowCannibal, false);
+                        vegetarianPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowInsectMeat, false);
+                        if (ModsConfig.BiotechActive)
+                        {
+                            vegetarianPolicy.filter.SetAllow(ThingDefOf.HemogenPack, false);
+                        }
+                        DefaultFoodPolicies.Add(vegetarianPolicy);
+
+                        Policies.FoodPolicies.FoodPolicy carnivorePolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionCarnivore".Translate());
+                        foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
+                        {
+                            if (!FoodUtility.UnacceptableCarnivore(thingDef) && FoodUtility.GetMeatSourceCategory(thingDef) != MeatSourceCategory.Humanlike)
+                            {
+                                if (!thingDef.IsCorpse)
+                                {
+                                    continue;
+                                }
+                                ThingDef sourceDef = thingDef.ingestible.sourceDef;
+                                bool flag;
+                                if (sourceDef == null)
+                                {
+                                    flag = false;
+                                }
+                                else
+                                {
+                                    RaceProperties race = sourceDef.race;
+                                    bool? flag2 = (race != null) ? new bool?(race.Humanlike) : null;
+                                    bool flag3 = true;
+                                    flag = (flag2.GetValueOrDefault() == flag3 & flag2 != null);
+                                }
+                                if (!flag)
+                                {
+                                    continue;
+                                }
+                            }
+                            carnivorePolicy.filter.SetAllow(thingDef, false);
+                        }
+                        carnivorePolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowVegetarian, false);
+                        carnivorePolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowCannibal, false);
+                        carnivorePolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowInsectMeat, false);
+                        if (ModsConfig.BiotechActive)
+                        {
+                            carnivorePolicy.filter.SetAllow(ThingDefOf.HemogenPack, false);
+                        }
+                        DefaultFoodPolicies.Add(carnivorePolicy);
+
+                        Policies.FoodPolicies.FoodPolicy cannibalPolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionCannibal".Translate());
+                        foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
+                        {
+                            if (!FoodUtility.MaybeAcceptableCannibalDef(thingDef))
+                            {
+                                cannibalPolicy.filter.SetAllow(thingDef, false);
+                            }
+                        }
+                        cannibalPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowVegetarian, false);
+                        cannibalPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowCarnivore, false);
+                        cannibalPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowInsectMeat, false);
+                        if (ModsConfig.BiotechActive)
+                        {
+                            cannibalPolicy.filter.SetAllow(ThingDefOf.HemogenPack, false);
+                        }
+                        DefaultFoodPolicies.Add(cannibalPolicy);
+
+                        Policies.FoodPolicies.FoodPolicy insectMeatPolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionInsectMeat".Translate());
+                        foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
+                        {
+                            if (!FoodUtility.MaybeAcceptableInsectMeatEatersDef(thingDef))
+                            {
+                                insectMeatPolicy.filter.SetAllow(thingDef, false);
+                            }
+                        }
+                        insectMeatPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowVegetarian, false);
+                        insectMeatPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowCarnivore, false);
+                        insectMeatPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowCannibal, false);
+                        if (ModsConfig.BiotechActive)
+                        {
+                            insectMeatPolicy.filter.SetAllow(ThingDefOf.HemogenPack, false);
+                        }
+                        DefaultFoodPolicies.Add(insectMeatPolicy);
+                    }
+                }
+            });
+        }
+
         private static void InitializeDefaultDrugPolicies()
         {
             LongEventHandler.ExecuteWhenFinished(delegate
@@ -356,8 +528,10 @@ namespace Defaults
 
         public static void DoSettingsWindowContents(Rect inRect)
         {
+            Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width - 16f, 31f * 18);
+            Widgets.BeginScrollView(new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 38f), ref scrollPosition, viewRect);
             Listing_StandardHighlight listing = new Listing_StandardHighlight();
-            listing.Begin(inRect);
+            listing.Begin(viewRect);
 
             if (listing.ButtonTextLabeledPct("Defaults_Storyteller".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
             {
@@ -382,6 +556,11 @@ namespace Defaults
             if (listing.ButtonTextLabeledPct("Defaults_ApparelPolicies".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
             {
                 Find.WindowStack.Add(new Dialog_ApparelPolicies(DefaultApparelPolicies.First()));
+            }
+
+            if (listing.ButtonTextLabeledPct("Defaults_FoodPolicies".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_FoodPolicies(DefaultFoodPolicies.First()));
             }
 
             if (listing.ButtonTextLabeledPct("Defaults_DrugPolicies".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
@@ -468,13 +647,14 @@ namespace Defaults
             plantTypeRect.x += plantTypeRect.width - 24;
             plantTypeRect.width = 24;
             PlantType.PlantTypeUtility.DrawPlantButton(plantTypeRect);
+            
+            listing.End();
+            Widgets.EndScrollView();
 
-            if (listing.ButtonText("Defaults_ResetAllSettings".Translate(), null, 0.5f))
+            if (Widgets.ButtonText(new Rect(inRect.x + inRect.width / 4, inRect.yMax - 30f, inRect.width / 2, 30f), "Defaults_ResetAllSettings".Translate()))
             {
                 Find.WindowStack.Add(new Dialog_MessageBox("Defaults_ConfirmResetAllSettings".Translate(), "Confirm".Translate(), ResetAllSettings, "GoBack".Translate(), null, null, true, ResetAllSettings, null, WindowLayer.Dialog));
             }
-
-            listing.End();
         }
 
         public override void ExposeData()
@@ -516,6 +696,7 @@ namespace Defaults
             Scribe_Values.Look(ref DefaultMapSize, "DefaultMapSize", 250);
             Scribe_Values.Look(ref DefaultStartingSeason, "DefaultStartingSeason", Season.Undefined);
             Scribe_Collections.Look(ref DefaultApparelPolicies, "DefaultApparelPolicies", LookMode.Deep);
+            Scribe_Collections.Look(ref DefaultFoodPolicies, "DefaultFoodPolicies", LookMode.Deep);
             Scribe_Collections.Look(ref DefaultDrugPolicies, "DefaultDrugPolicies", LookMode.Deep);
         }
 

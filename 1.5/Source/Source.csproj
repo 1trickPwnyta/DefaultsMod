@@ -65,6 +65,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Policies\FoodPolicies\FoodPolicy.cs" />
+    <Compile Include="Policies\FoodPolicies\Dialog_FoodPolicies.cs" />
+    <Compile Include="Policies\FoodPolicies\Patch_FoodRestrictionDatabase.cs" />
     <Compile Include="Policies\DrugPolicies\Dialog_DrugPolicies.cs" />
     <Compile Include="Policies\DrugPolicies\Patch_DrugPolicyDatabase.cs" />
     <Compile Include="Policies\Patch_Dialog_InfoCard_Hyperlink.cs" />
