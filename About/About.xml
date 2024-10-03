@@ -23,7 +23,7 @@ Full list of settings:
   - Expanded resource categories: Allows you to set which resource tree categories are expanded by default in categorized mode.
   - Stockpile zone types: Allows you to configure the default settings for stockpile zones and dumping stockpile zones. You can also create your own custom stockpile zone types with their own settings.
   - Default hostility response: Allows you to set the default hostility response to use for new colonists.
-  - Default medicine to carry: Allows you to set the default medicine type that new colonists will carry (if you assign them to carry any).
+  - Default medicine to carry: Allows you to set the default medicine type and amount that new colonists will carry.
   - Default auto rebuild setting: Allows you to set the default auto-rebuild setting to use for a new colony.
   - Default auto home area setting: Allows you to set the default auto-home area setting to use for a new colony.
   - Use manual work priorities by default: You can do this.

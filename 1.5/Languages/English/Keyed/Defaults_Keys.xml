@@ -6,6 +6,7 @@
 	<Defaults_Schedules>Colonist schedules</Defaults_Schedules>
 	<Defaults_Medicine>Medicine settings</Defaults_Medicine>
 	<Defaults_MedicineToCarry>Default medicine to carry</Defaults_MedicineToCarry>
+	<Defaults_MedicineAmountToCarry>Default medicine amount to carry</Defaults_MedicineAmountToCarry>
 	<Defaults_Rewards>Reward preferences</Defaults_Rewards>
 	<Defaults_HostilityResponse>Default hostility response</Defaults_HostilityResponse>
 	<Defaults_PlantType>Default plant type</Defaults_PlantType>

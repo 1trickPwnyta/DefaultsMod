@@ -13,6 +13,7 @@ namespace Defaults.Medicine
             if (inventoryStock != null && pawn.Faction == Faction.OfPlayer && !pawn.IsGhoul)
             {
                 inventoryStock.SetThingForGroup(InventoryStockGroupDefOf.Medicine, DefDatabase<ThingDef>.GetNamed(DefaultsSettings.DefaultMedicineToCarry));
+                inventoryStock.SetCountForGroup(InventoryStockGroupDefOf.Medicine, DefaultsSettings.DefaultMedicineAmountToCarry);
             }
         }
 
