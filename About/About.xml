@@ -16,8 +16,7 @@ Full list of settings:
   - World settings: Allows you to set the default world settings to use for a new colony.
   - Map settings: Allows you to set the default map size and starting season.
   - Colonist schedules: Allows you to set custom default schedules for colonists. You can create alternating schedules and the mod will cycle between them when assigning them to new colonists.
-  - Apparel policies: Allows you to set custom default apparel policies that will be copied to each new colony.
-  - Drug policies: Allows you to set custom default drug policies that will be copied to each new colony.
+  - Policies: Allows you to set custom default apparel, food, and drug policies that will be copied to each new colony. (Reading policies coming in a later update!)
   - Medicine settings: Allows you to set the default medicine settings to use for a new colony.
   - Reward preferences: Allows you to set the default reward preferences to use for a new colony.
   - Expanded resource categories: Allows you to set which resource tree categories are expanded by default in categorized mode.
@@ -30,6 +29,7 @@ Full list of settings:
   - Default plant type: Allows you to set the default plant type for new growing zones.
 
 === Updates ===
+10/10/2024: Add default food policies
 09/21/2024: Add extra error check
 09/11/2024: Added default drug policies
 08/20/2024: Added default apparel policies
