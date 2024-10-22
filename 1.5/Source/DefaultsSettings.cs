@@ -37,6 +37,7 @@ namespace Defaults
         public static MedicalCareCategory DefaultCareForEntities;
         public static string DefaultMedicineToCarry;
         public static int DefaultMedicineAmountToCarry;
+        public static bool GuestsCarryMedicine;
         public static Dictionary<string, RewardPreference> DefaultRewardPreferences;
         public static HostilityResponseMode DefaultHostilityResponse;
         public static string DefaultPlantType;
@@ -85,6 +86,7 @@ namespace Defaults
             DefaultCareForEntities = MedicalCareCategory.NoMeds;
             DefaultMedicineToCarry = null;
             DefaultMedicineAmountToCarry = 0;
+            GuestsCarryMedicine = false;
             DefaultRewardPreferences = null;
             DefaultHostilityResponse = HostilityResponseMode.Flee;
             DefaultPlantType = null;
@@ -528,7 +530,7 @@ namespace Defaults
 
         public static void DoSettingsWindowContents(Rect inRect)
         {
-            Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width - 16f, 31f * 18);
+            Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width - 16f, 31f * 19);
             Widgets.BeginScrollView(new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 38f), ref scrollPosition, viewRect);
             Listing_StandardHighlight listing = new Listing_StandardHighlight();
             listing.Begin(viewRect);
@@ -618,6 +620,8 @@ namespace Defaults
                 Find.WindowStack.Add(new FloatMenu(options));
             }
 
+            listing.CheckboxLabeled("Defaults_GuestsCarryMedicine".Translate(), ref GuestsCarryMedicine);
+
             Rect autoRebuildRect = listing.GetRect(30f);
             Text.Anchor = TextAnchor.MiddleLeft;
             Widgets.Label(autoRebuildRect, "Defaults_AutoRebuild".Translate());
@@ -673,7 +677,8 @@ namespace Defaults
             Scribe_Values.Look(ref DefaultCareForWildlife, "DefaultCareForWildlife", MedicalCareCategory.HerbalOrWorse);
             Scribe_Values.Look(ref DefaultCareForEntities, "DefaultCareForEntities", MedicalCareCategory.NoMeds);
             Scribe_Values.Look(ref DefaultMedicineToCarry, "DefaultMedicineToCarry");
-            Scribe_Values.Look(ref DefaultMedicineAmountToCarry, "DefaultMedicineAmountToCarry");
+            Scribe_Values.Look(ref DefaultMedicineAmountToCarry, "DefaultMedicineAmountToCarry", 0);
+            Scribe_Values.Look(ref GuestsCarryMedicine, "GuestsCarryMedicine", false);
             Scribe_Collections.Look(ref DefaultRewardPreferences, "DefaultRewardPreferences");
             Scribe_Values.Look(ref DefaultHostilityResponse, "DefaultHostilityResponse", HostilityResponseMode.Flee);
             Scribe_Values.Look(ref DefaultPlantType, "DefaultPlantType");
