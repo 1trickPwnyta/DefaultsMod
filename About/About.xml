@@ -29,6 +29,7 @@ Full list of settings:
   - Default plant type: Allows you to set the default plant type for new growing zones.
 
 === Updates ===
+10/29/2024: Fix issue when world settings include more than one of same faction type
 10/10/2024: Add default food policies
 09/21/2024: Add extra error check
 09/11/2024: Added default drug policies
