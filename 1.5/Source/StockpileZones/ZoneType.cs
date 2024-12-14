@@ -26,6 +26,7 @@ namespace Defaults.StockpileZones
         {
             ZoneType zoneType = new ZoneType(StorageSettingsPreset.DumpingStockpile.PresetName(), StorageSettingsPreset.DumpingStockpile);
             zoneType.designatorType = typeof(Designator_ZoneAddStockpile_Dumping);
+            zoneType.locked = false;
             return zoneType;
         }
 
