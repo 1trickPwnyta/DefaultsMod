@@ -44,4 +44,5 @@
 	<Defaults_SaveNewDefaultPolicy>Save as new default policy</Defaults_SaveNewDefaultPolicy>
 	<Defaults_PolicySavedAs>Policy saved as {0}.</Defaults_PolicySavedAs>
 	<Defaults_LoadDefaultPolicy>Load from defaults</Defaults_LoadDefaultPolicy>
+	<Defaults_LockSetting>Lock this setting to prevent automatic changes when new mods or DLC are added</Defaults_LockSetting>
 </LanguageData>

@@ -66,6 +66,22 @@ namespace Defaults.Policies
                 }
                 TooltipHandler.TipRegionByKey(saveAsDefaultRect, "Defaults_SaveNewDefaultPolicy");
             }
+
+            if (___policyInt != null && (__instance.GetType() == typeof(Dialog_ApparelPolicies) || __instance.GetType() == typeof(Dialog_FoodPolicies) || __instance.GetType() == typeof(Dialog_DrugPolicies)))
+            {
+                Rect lockRect = new Rect(inRect.xMax - 158f, inRect.y + 74f, 32f, 32f);
+                if (___policyInt is ApparelPolicies.ApparelPolicy)
+                {
+                    ApparelPolicies.ApparelPolicy policy = (ApparelPolicies.ApparelPolicy)___policyInt;
+                    ButtonUtility.DrawCheckButton(lockRect, ButtonUtility.LockIcon, "Defaults_LockSetting".Translate(), ref policy.locked);
+                }
+
+                if (___policyInt is FoodPolicies.FoodPolicy)
+                {
+                    FoodPolicies.FoodPolicy policy = (FoodPolicies.FoodPolicy)___policyInt;
+                    ButtonUtility.DrawCheckButton(lockRect, ButtonUtility.LockIcon, "Defaults_LockSetting".Translate(), ref policy.locked);
+                }
+            }
         }
     }
 

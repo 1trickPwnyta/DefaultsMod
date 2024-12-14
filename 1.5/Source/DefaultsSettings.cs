@@ -17,6 +17,7 @@ using UnityEngine;
 using Verse;
 using Defaults.Policies;
 using Defaults.Policies.FoodPolicies;
+using Verse.Noise;
 
 namespace Defaults
 {
@@ -57,17 +58,23 @@ namespace Defaults
         public static OverallPopulation DefaultOverallPopulation;
         public static float DefaultPollution;
         public static List<string> DefaultFactions;
+        public static bool DefaultFactionsLock = false;
         public static int DefaultMapSize;
         public static Season DefaultStartingSeason;
         public static List<Policies.ApparelPolicies.ApparelPolicy> DefaultApparelPolicies;
         public static List<Policies.FoodPolicies.FoodPolicy> DefaultFoodPolicies;
         public static List<DrugPolicy> DefaultDrugPolicies;
 
+        private static List<string> PreviousFactionDefs;
+        private static List<string> PreviousThingDefs;
+        private static List<string> PreviousSpecialThingFilterDefs;
+
         private static Vector2 scrollPosition;
 
         static DefaultsSettings()
         {
             ResetAllSettings();
+            LongEventHandler.ExecuteWhenFinished(CheckForNewContent);
         }
 
         public static void ResetAllSettings()
@@ -106,6 +113,7 @@ namespace Defaults
             DefaultOverallPopulation = OverallPopulation.Normal;
             DefaultPollution = 0.05f;
             DefaultFactions = null;
+            DefaultFactionsLock = false;
             DefaultMapSize = 250;
             DefaultStartingSeason = Season.Undefined;
             DefaultApparelPolicies = null;
@@ -122,6 +130,162 @@ namespace Defaults
             InitializeDefaultApparelPolicies();
             InitializeDefaultFoodPolicies();
             InitializeDefaultDrugPolicies();
+        }
+
+        private static void CheckForNewContent()
+        {
+            List<string> currentFactionDefs = DefDatabase<FactionDef>.AllDefsListForReading.Select(d => d.defName).ToList();
+            if (PreviousFactionDefs != null)
+            {
+                List<string> newFactionDefs = currentFactionDefs.Except(PreviousFactionDefs).ToList();
+                if (newFactionDefs.Count > 0)
+                {
+                    if (!DefaultFactionsLock)
+                    {
+                        DefaultFactions.AddRange(FactionsUtility.GetDefaultSelectableFactions().Where(f => newFactionDefs.Contains(f.defName)).Select(f => f.defName));
+                        DefaultFactions.RemoveAll(f => newFactionDefs.Select(d => DefDatabase<FactionDef>.GetNamed(d).replacesFaction?.defName).Contains(f));
+                    }
+                }
+            }
+            PreviousFactionDefs = currentFactionDefs;
+
+            List<string> currentThingDefs = DefDatabase<ThingDef>.AllDefsListForReading.Select(d => d.defName).ToList();
+            if (PreviousThingDefs != null)
+            {
+                List<string> newThingDefs = currentThingDefs.Except(PreviousThingDefs).ToList();
+                if (newThingDefs.Count > 0)
+                {
+                    LongEventHandler.ExecuteWhenFinished(delegate
+                    {
+                        foreach (Policies.ApparelPolicies.ApparelPolicy policy in DefaultApparelPolicies)
+                        {
+                            if (!policy.locked)
+                            {
+                                foreach (string defName in newThingDefs)
+                                {
+                                    ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
+                                    if (ThingCategoryDefOf.Apparel.DescendantThingDefs.Contains(def))
+                                    {
+                                        policy.filter.SetAllow(def, true);
+                                    }
+                                }
+                            }
+                        }
+
+                        foreach (Policies.FoodPolicies.FoodPolicy policy in DefaultFoodPolicies)
+                        {
+                            if (!policy.locked)
+                            {
+                                foreach (string defName in newThingDefs)
+                                {
+                                    ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
+                                    if (def.GetStatValueAbstract(StatDefOf.Nutrition, null) > 0f)
+                                    {
+                                        policy.filter.SetAllow(def, true);
+                                    }
+                                    if (ModsConfig.BiotechActive && def == ThingDefOf.HemogenPack)
+                                    {
+                                        policy.filter.SetAllow(def, false);
+                                    }
+                                }
+                            }
+                        }
+
+                        foreach (ZoneType zone in DefaultStockpileZones)
+                        {
+                            if (!zone.locked)
+                            {
+                                foreach (string defName in newThingDefs)
+                                {
+                                    ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
+                                    switch (zone.Preset)
+                                    {
+                                        case StorageSettingsPreset.DumpingStockpile:
+                                            if (ThingCategoryDefOf.Corpses.DescendantThingDefs.Union(ThingCategoryDefOf.Chunks.DescendantThingDefs).Contains(def) || (ModsConfig.BiotechActive && def == ThingDefOf.Wastepack))
+                                            {
+                                                zone.filter.SetAllow(def, true);
+                                            }
+                                            break;
+                                        case StorageSettingsPreset.CorpseStockpile:
+                                            if (ThingCategoryDefOf.Corpses.DescendantThingDefs.Contains(def))
+                                            {
+                                                zone.filter.SetAllow(def, true);
+                                            }
+                                            break;
+                                        case StorageSettingsPreset.DefaultStockpile:
+                                        default:
+                                            if (ThingCategoryDefOf.Foods.DescendantThingDefs.Union(ThingCategoryDefOf.Manufactured.DescendantThingDefs).Union(ThingCategoryDefOf.ResourcesRaw.DescendantThingDefs).Union(ThingCategoryDefOf.Items.DescendantThingDefs).Union(ThingCategoryDefOf.Buildings.DescendantThingDefs).Union(ThingCategoryDefOf.Weapons.DescendantThingDefs).Union(ThingCategoryDefOf.Apparel.DescendantThingDefs).Union(ThingCategoryDefOf.BodyParts.DescendantThingDefs).Contains(def) && (!ModsConfig.BiotechActive || def != ThingDefOf.Wastepack))
+                                            {
+                                                zone.filter.SetAllow(def, true);
+                                            }
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+            PreviousThingDefs = currentThingDefs;
+
+            List<string> currentSpecialThingFilterDefs = DefDatabase<SpecialThingFilterDef>.AllDefsListForReading.Select(d => d.defName).ToList();
+            if (PreviousSpecialThingFilterDefs != null)
+            {
+                List<string> newSpecialThingFilterDefs = currentSpecialThingFilterDefs.Except(PreviousSpecialThingFilterDefs).ToList();
+                if (newSpecialThingFilterDefs.Count > 0)
+                {
+                    LongEventHandler.ExecuteWhenFinished(delegate
+                    {
+                        foreach (Policies.ApparelPolicies.ApparelPolicy policy in DefaultApparelPolicies)
+                        {
+                            if (!policy.locked)
+                            {
+                                foreach (string defName in newSpecialThingFilterDefs)
+                                {
+                                    SpecialThingFilterDef def = DefDatabase<SpecialThingFilterDef>.GetNamed(defName);
+                                    if (!def.allowedByDefault)
+                                    {
+                                        policy.filter.SetAllow(def, false);
+                                    }
+                                }
+                            }
+                        }
+
+                        foreach (Policies.FoodPolicies.FoodPolicy policy in DefaultFoodPolicies)
+                        {
+                            if (!policy.locked)
+                            {
+                                foreach (string defName in newSpecialThingFilterDefs)
+                                {
+                                    SpecialThingFilterDef def = DefDatabase<SpecialThingFilterDef>.GetNamed(defName);
+                                    if (!def.allowedByDefault)
+                                    {
+                                        policy.filter.SetAllow(def, false);
+                                    }
+                                }
+                            }
+                        }
+
+                        foreach (ZoneType zone in DefaultStockpileZones)
+                        {
+                            if (!zone.locked)
+                            {
+                                foreach (string defName in newSpecialThingFilterDefs)
+                                {
+                                    SpecialThingFilterDef def = DefDatabase<SpecialThingFilterDef>.GetNamed(defName);
+                                    if (!def.allowedByDefault)
+                                    {
+                                        zone.filter.SetAllow(def, false);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+            PreviousSpecialThingFilterDefs = currentSpecialThingFilterDefs;
+
+            LongEventHandler.ExecuteWhenFinished(DefaultsMod.Settings.Write);
         }
 
         public static ZoneType DefaultStockpileZone
@@ -290,7 +454,9 @@ namespace Defaults
                 {
                     DefaultApparelPolicies = new List<Policies.ApparelPolicies.ApparelPolicy>();
 
-                    DefaultApparelPolicies.Add(new Policies.ApparelPolicies.ApparelPolicy(0, "OutfitAnything".Translate()));
+                    Policies.ApparelPolicies.ApparelPolicy anythingPolicy = new Policies.ApparelPolicies.ApparelPolicy(0, "OutfitAnything".Translate());
+                    anythingPolicy.locked = false;
+                    DefaultApparelPolicies.Add(anythingPolicy);
 
                     Policies.ApparelPolicies.ApparelPolicy workerPolicy = new Policies.ApparelPolicies.ApparelPolicy(0, "OutfitWorker".Translate());
                     workerPolicy.filter.SetDisallowAll();
@@ -354,7 +520,9 @@ namespace Defaults
                 {
                     DefaultFoodPolicies = new List<Policies.FoodPolicies.FoodPolicy>();
 
-                    DefaultFoodPolicies.Add(new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionLavish".Translate()));
+                    Policies.FoodPolicies.FoodPolicy lavishPolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionLavish".Translate());
+                    lavishPolicy.locked = false;
+                    DefaultFoodPolicies.Add(lavishPolicy);
 
                     Policies.FoodPolicies.FoodPolicy finePolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionFine".Translate());
                     foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
@@ -698,11 +866,16 @@ namespace Defaults
             Scribe_Values.Look(ref DefaultOverallPopulation, "DefaultOverallPopulation", OverallPopulation.Normal);
             Scribe_Values.Look(ref DefaultPollution, "DefaultPollution", 0.05f);
             Scribe_Collections.Look(ref DefaultFactions, "DefaultFactions");
+            Scribe_Values.Look(ref DefaultFactionsLock, "DefaultFactionsLock", true);
             Scribe_Values.Look(ref DefaultMapSize, "DefaultMapSize", 250);
             Scribe_Values.Look(ref DefaultStartingSeason, "DefaultStartingSeason", Season.Undefined);
             Scribe_Collections.Look(ref DefaultApparelPolicies, "DefaultApparelPolicies", LookMode.Deep);
             Scribe_Collections.Look(ref DefaultFoodPolicies, "DefaultFoodPolicies", LookMode.Deep);
             Scribe_Collections.Look(ref DefaultDrugPolicies, "DefaultDrugPolicies", LookMode.Deep);
+
+            Scribe_Collections.Look(ref PreviousFactionDefs, "PreviousFactionDefs");
+            Scribe_Collections.Look(ref PreviousThingDefs, "PreviousThingDefs");
+            Scribe_Collections.Look(ref PreviousSpecialThingFilterDefs, "PreviousSpecialThingFilterDefs");
         }
 
         public static void ScribeThingFilter(ThingFilter filter)

@@ -7,6 +7,7 @@ namespace Defaults.Policies.FoodPolicies
     public class FoodPolicy : Policy
     {
         public ThingFilter filter = new ThingFilter();
+        public bool locked = true;
 
         public FoodPolicy()
         {
@@ -43,6 +44,7 @@ namespace Defaults.Policies.FoodPolicies
         {
             base.ExposeData();
             DefaultsSettings.ScribeThingFilter(filter);
+            Scribe_Values.Look(ref locked, "locked", true);
         }
     }
 }

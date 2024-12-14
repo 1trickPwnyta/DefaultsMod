@@ -12,11 +12,13 @@ namespace Defaults.StockpileZones
         public StoragePriority Priority = StoragePriority.Normal;
         public ThingFilter filter = new ThingFilter();
         public StorageSettingsPreset Preset;
+        public bool locked = true;
 
         public static ZoneType MakeBuiltInStockpileZone()
         {
             ZoneType zoneType = new ZoneType(StorageSettingsPreset.DefaultStockpile.PresetName(), StorageSettingsPreset.DefaultStockpile);
             zoneType.designatorType = typeof(Designator_ZoneAddStockpile_Resources);
+            zoneType.locked = false;
             return zoneType;
         }
 
@@ -107,6 +109,7 @@ namespace Defaults.StockpileZones
             Scribe_Values.Look(ref Priority, "Priority");
             Scribe_Values.Look(ref Preset, "Preset");
             DefaultsSettings.ScribeThingFilter(filter);
+            Scribe_Values.Look(ref locked, "locked", true);
         }
     }
 }

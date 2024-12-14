@@ -6,6 +6,7 @@ namespace Defaults.Policies.ApparelPolicies
     public class ApparelPolicy : Policy
     {
         public ThingFilter filter = new ThingFilter();
+        public bool locked = true;
 
         public ApparelPolicy()
         {
@@ -28,6 +29,7 @@ namespace Defaults.Policies.ApparelPolicies
         {
             base.ExposeData();
             DefaultsSettings.ScribeThingFilter(filter);
+            Scribe_Values.Look(ref locked, "locked", true);
         }
     }
 }

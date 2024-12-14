@@ -95,6 +95,8 @@ namespace Defaults.WorldSettings
 
             Rect rect9 = new Rect(mainRect.x + mainRect.xMax - mainRect.width / 2 + 24f, mainRect.y, mainRect.width / 2 - 24f, mainRect.height - 30f);
             WorldFactionsUIUtility.DoWindowContents(rect9, factions, true);
+            Rect rect10 = new Rect(rect9.xMax - 24f, rect9.y, 24f, 24f);
+            ButtonUtility.DrawCheckButton(rect10, ButtonUtility.LockIcon, "Defaults_LockSetting".Translate(), ref DefaultsSettings.DefaultFactionsLock);
 
             if (Widgets.ButtonText(new Rect(mainRect.x + mainRect.width - 150f, mainRect.y + mainRect.height - 30f, 150f, 30f), "ResetFactions".Translate()))
             {
