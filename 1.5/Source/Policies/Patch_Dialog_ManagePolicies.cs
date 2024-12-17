@@ -18,9 +18,11 @@ namespace Defaults.Policies
     {
         public static void Postfix(Dialog_ManagePolicies<Policy> __instance, Rect inRect, Policy ___policyInt)
         {
+            float buttonOffset = 0f;
+
             if (___policyInt != null && (__instance.GetType() == typeof(Dialog_ManageApparelPolicies) || __instance.GetType() == typeof(Dialog_ManageFoodPolicies) || __instance.GetType() == typeof(Dialog_ManageDrugPolicies)))
             {
-                Rect saveAsDefaultRect = new Rect(inRect.xMax - 158f, inRect.y + 74f, 32f, 32f);
+                Rect saveAsDefaultRect = new Rect(inRect.xMax - 158f - buttonOffset, inRect.y + 74f, 32f, 32f);
                 if (Widgets.ButtonImage(saveAsDefaultRect, TexButton.Save))
                 {
                     string name = ___policyInt.label;
@@ -65,22 +67,82 @@ namespace Defaults.Policies
                     Messages.Message("Defaults_PolicySavedAs".Translate(name), MessageTypeDefOf.PositiveEvent, false);
                 }
                 TooltipHandler.TipRegionByKey(saveAsDefaultRect, "Defaults_SaveNewDefaultPolicy");
+                buttonOffset += 42f;
             }
 
             if (___policyInt != null && (__instance.GetType() == typeof(Dialog_ApparelPolicies) || __instance.GetType() == typeof(Dialog_FoodPolicies) || __instance.GetType() == typeof(Dialog_DrugPolicies)))
             {
-                Rect lockRect = new Rect(inRect.xMax - 158f, inRect.y + 74f, 32f, 32f);
+                Rect lockRect = new Rect(inRect.xMax - 158f - buttonOffset, inRect.y + 74f, 32f, 32f);
                 if (___policyInt is ApparelPolicies.ApparelPolicy)
                 {
                     ApparelPolicies.ApparelPolicy policy = (ApparelPolicies.ApparelPolicy)___policyInt;
                     ButtonUtility.DrawCheckButton(lockRect, ButtonUtility.LockIcon, "Defaults_LockSetting".Translate(), ref policy.locked);
+                    buttonOffset += 42f;
                 }
 
                 if (___policyInt is FoodPolicies.FoodPolicy)
                 {
                     FoodPolicies.FoodPolicy policy = (FoodPolicies.FoodPolicy)___policyInt;
                     ButtonUtility.DrawCheckButton(lockRect, ButtonUtility.LockIcon, "Defaults_LockSetting".Translate(), ref policy.locked);
+                    buttonOffset += 42f;
                 }
+            }
+
+            object defaultPolicy = __instance.GetType().Method("GetDefaultPolicy").Invoke(__instance, new object[] { });
+            if (___policyInt != null && ___policyInt != defaultPolicy)
+            {
+                Rect defaultRect = new Rect(inRect.xMax - 158f - buttonOffset, inRect.y + 74f, 32f, 32f);
+                if (Widgets.ButtonImage(defaultRect, ButtonUtility.StarIcon, true, "Defaults_SetAsDefault".Translate()))
+                {
+                    if (___policyInt is RimWorld.ApparelPolicy)
+                    {
+                        List<RimWorld.ApparelPolicy> policies = Current.Game.outfitDatabase.AllOutfits;
+                        int currentIndex = policies.IndexOf((RimWorld.ApparelPolicy)___policyInt);
+                        policies[currentIndex] = policies[0];
+                        policies[0] = (RimWorld.ApparelPolicy)___policyInt;
+                    }
+
+                    if (___policyInt is RimWorld.FoodPolicy)
+                    {
+                        List<RimWorld.FoodPolicy> policies = Current.Game.foodRestrictionDatabase.AllFoodRestrictions;
+                        int currentIndex = policies.IndexOf((RimWorld.FoodPolicy)___policyInt);
+                        policies[currentIndex] = policies[0];
+                        policies[0] = (RimWorld.FoodPolicy)___policyInt;
+                    }
+
+                    if (___policyInt is DrugPolicy && __instance.GetType() == typeof(Dialog_ManageDrugPolicies))
+                    {
+                        List<DrugPolicy> policies = Current.Game.drugPolicyDatabase.AllPolicies;
+                        int currentIndex = policies.IndexOf((DrugPolicy)___policyInt);
+                        policies[currentIndex] = policies[0];
+                        policies[0] = (DrugPolicy)___policyInt;
+                    }
+
+                    if (___policyInt is ApparelPolicies.ApparelPolicy)
+                    {
+                        List<ApparelPolicies.ApparelPolicy> policies = DefaultsSettings.DefaultApparelPolicies;
+                        int currentIndex = policies.IndexOf((ApparelPolicies.ApparelPolicy)___policyInt);
+                        policies[currentIndex] = policies[0];
+                        policies[0] = (ApparelPolicies.ApparelPolicy)___policyInt;
+                    }
+
+                    if (___policyInt is FoodPolicies.FoodPolicy)
+                    {
+                        List<FoodPolicies.FoodPolicy> policies = DefaultsSettings.DefaultFoodPolicies;
+                        int currentIndex = policies.IndexOf((FoodPolicies.FoodPolicy)___policyInt);
+                        policies[currentIndex] = policies[0];
+                        policies[0] = (FoodPolicies.FoodPolicy)___policyInt;
+                    }
+
+                    if (___policyInt is DrugPolicy && __instance.GetType() == typeof(Dialog_DrugPolicies))
+                    {
+                        List<DrugPolicy> policies = DefaultsSettings.DefaultDrugPolicies;
+                        int currentIndex = policies.IndexOf((DrugPolicy)___policyInt);
+                        policies[currentIndex] = policies[0];
+                        policies[0] = (DrugPolicy)___policyInt;
+                    }
+                }
+                buttonOffset += 42f;
             }
         }
     }

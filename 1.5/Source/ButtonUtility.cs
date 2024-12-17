@@ -9,6 +9,7 @@ namespace Defaults
     public static class ButtonUtility
     {
         public static Texture2D LockIcon = ContentFinder<Texture2D>.Get("UI/Defaults_Lock");
+        public static Texture2D StarIcon = ContentFinder<Texture2D>.Get("UI/Defaults_Star");
 
         public static void DrawCheckButton(Rect rect, Texture2D buttonTex, string tooltip, ref bool enabled)
         {
