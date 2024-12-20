@@ -17,7 +17,7 @@ using UnityEngine;
 using Verse;
 using Defaults.Policies;
 using Defaults.Policies.FoodPolicies;
-using Verse.Noise;
+using System;
 
 namespace Defaults
 {
@@ -64,6 +64,7 @@ namespace Defaults
         public static List<Policies.ApparelPolicies.ApparelPolicy> DefaultApparelPolicies;
         public static List<Policies.FoodPolicies.FoodPolicy> DefaultFoodPolicies;
         public static List<DrugPolicy> DefaultDrugPolicies;
+        public static RimWorld.PregnancyApproach DefaultPregnancyApproach;
 
         private static List<string> PreviousFactionDefs;
         private static List<string> PreviousThingDefs;
@@ -118,6 +119,7 @@ namespace Defaults
             DefaultStartingSeason = Season.Undefined;
             DefaultApparelPolicies = null;
             DefaultFoodPolicies = null;
+            DefaultPregnancyApproach = RimWorld.PregnancyApproach.Normal;
 
             InitializeDefaultSchedules();
             InitializeDefaultMedicineToCarry();
@@ -698,7 +700,7 @@ namespace Defaults
 
         public static void DoSettingsWindowContents(Rect inRect)
         {
-            Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width - 16f, 31f * 19);
+            Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width - 16f, 31f * 20);
             Widgets.BeginScrollView(new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 38f), ref scrollPosition, viewRect);
             Listing_StandardHighlight listing = new Listing_StandardHighlight();
             listing.Begin(viewRect);
@@ -790,6 +792,14 @@ namespace Defaults
 
             listing.CheckboxLabeled("Defaults_GuestsCarryMedicine".Translate(), ref GuestsCarryMedicine);
 
+            Rect pregnancyApproachRect = listing.GetRect(30f);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(pregnancyApproachRect, "Defaults_PregnancyApproach".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+            pregnancyApproachRect.x += pregnancyApproachRect.width - 28;
+            pregnancyApproachRect.width = 32;
+            PregnancyApproach.PregnancyApproachUtility.DrawPregnancyApproachButton(pregnancyApproachRect.ContractedBy(4f));
+
             Rect autoRebuildRect = listing.GetRect(30f);
             Text.Anchor = TextAnchor.MiddleLeft;
             Widgets.Label(autoRebuildRect, "Defaults_AutoRebuild".Translate());
@@ -819,7 +829,7 @@ namespace Defaults
             plantTypeRect.x += plantTypeRect.width - 24;
             plantTypeRect.width = 24;
             PlantType.PlantTypeUtility.DrawPlantButton(plantTypeRect);
-            
+
             listing.End();
             Widgets.EndScrollView();
 
@@ -872,6 +882,7 @@ namespace Defaults
             Scribe_Collections.Look(ref DefaultApparelPolicies, "DefaultApparelPolicies", LookMode.Deep);
             Scribe_Collections.Look(ref DefaultFoodPolicies, "DefaultFoodPolicies", LookMode.Deep);
             Scribe_Collections.Look(ref DefaultDrugPolicies, "DefaultDrugPolicies", LookMode.Deep);
+            Scribe_Values.Look(ref DefaultPregnancyApproach, "DefaultPregnancyApproach", RimWorld.PregnancyApproach.Normal);
 
             Scribe_Collections.Look(ref PreviousFactionDefs, "PreviousFactionDefs");
             Scribe_Collections.Look(ref PreviousThingDefs, "PreviousThingDefs");
