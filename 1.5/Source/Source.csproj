@@ -97,6 +97,8 @@
     <Compile Include="Medicine\Patch_PlaySettings.cs" />
     <Compile Include="PlantType\Patch_Zone_Growing.cs" />
     <Compile Include="PlantType\PlantTypeUtility.cs" />
+    <Compile Include="Policies\ReadingPolicies\Dialog_ReadingPolicies.cs" />
+    <Compile Include="Policies\ReadingPolicies\ReadingPolicy.cs" />
     <Compile Include="PregnancyApproach\Patch_Pawn_RelationsTracker.cs" />
     <Compile Include="PregnancyApproach\PregnancyApproachUtility.cs" />
     <Compile Include="ResourceCategories\Dialog_ResourceCategories.cs" />

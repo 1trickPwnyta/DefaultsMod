@@ -1,6 +1,7 @@
 ﻿using Defaults.Policies.ApparelPolicies;
 using Defaults.Policies.DrugPolicies;
 using Defaults.Policies.FoodPolicies;
+using Defaults.Policies.ReadingPolicies;
 using HarmonyLib;
 using RimWorld;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace Defaults.Policies
         {
             float buttonOffset = 0f;
 
-            if (___policyInt != null && (__instance.GetType() == typeof(Dialog_ManageApparelPolicies) || __instance.GetType() == typeof(Dialog_ManageFoodPolicies) || __instance.GetType() == typeof(Dialog_ManageDrugPolicies)))
+            if (___policyInt != null && (__instance.GetType() == typeof(Dialog_ManageApparelPolicies) || __instance.GetType() == typeof(Dialog_ManageFoodPolicies) || __instance.GetType() == typeof(Dialog_ManageDrugPolicies) || __instance.GetType() == typeof(Dialog_ManageReadingPolicies)))
             {
                 Rect saveAsDefaultRect = new Rect(inRect.xMax - 158f - buttonOffset, inRect.y + 74f, 32f, 32f);
                 if (Widgets.ButtonImage(saveAsDefaultRect, TexButton.Save))
@@ -63,6 +64,18 @@ namespace Defaults.Policies
                         DefaultsSettings.DefaultDrugPolicies.Add(policy);
                     }
 
+                    if (___policyInt is RimWorld.ReadingPolicy)
+                    {
+                        int i = DefaultsSettings.DefaultReadingPolicies.Count + 1;
+                        while (DefaultsSettings.DefaultReadingPolicies.Any(p => p.label == name))
+                        {
+                            name = "ReadingPolicy".Translate() + " " + i++;
+                        }
+                        ReadingPolicies.ReadingPolicy policy = new ReadingPolicies.ReadingPolicy(0, name);
+                        policy.CopyFrom(___policyInt);
+                        DefaultsSettings.DefaultReadingPolicies.Add(policy);
+                    }
+
                     LongEventHandler.ExecuteWhenFinished(DefaultsMod.Settings.Write);
                     Messages.Message("Defaults_PolicySavedAs".Translate(name), MessageTypeDefOf.PositiveEvent, false);
                 }
@@ -70,7 +83,7 @@ namespace Defaults.Policies
                 buttonOffset += 42f;
             }
 
-            if (___policyInt != null && (__instance.GetType() == typeof(Dialog_ApparelPolicies) || __instance.GetType() == typeof(Dialog_FoodPolicies) || __instance.GetType() == typeof(Dialog_DrugPolicies)))
+            if (___policyInt != null && (__instance.GetType() == typeof(Dialog_ApparelPolicies) || __instance.GetType() == typeof(Dialog_FoodPolicies) || __instance.GetType() == typeof(Dialog_DrugPolicies) || __instance.GetType() == typeof(Dialog_ReadingPolicies)))
             {
                 Rect lockRect = new Rect(inRect.xMax - 158f - buttonOffset, inRect.y + 74f, 32f, 32f);
                 if (___policyInt is ApparelPolicies.ApparelPolicy)
@@ -83,6 +96,13 @@ namespace Defaults.Policies
                 if (___policyInt is FoodPolicies.FoodPolicy)
                 {
                     FoodPolicies.FoodPolicy policy = (FoodPolicies.FoodPolicy)___policyInt;
+                    ButtonUtility.DrawCheckButton(lockRect, ButtonUtility.LockIcon, "Defaults_LockSetting".Translate(), ref policy.locked);
+                    buttonOffset += 42f;
+                }
+
+                if (___policyInt is ReadingPolicies.ReadingPolicy)
+                {
+                    ReadingPolicies.ReadingPolicy policy = (ReadingPolicies.ReadingPolicy)___policyInt;
                     ButtonUtility.DrawCheckButton(lockRect, ButtonUtility.LockIcon, "Defaults_LockSetting".Translate(), ref policy.locked);
                     buttonOffset += 42f;
                 }
@@ -118,6 +138,14 @@ namespace Defaults.Policies
                         policies[0] = (DrugPolicy)___policyInt;
                     }
 
+                    if (___policyInt is RimWorld.ReadingPolicy && __instance.GetType() == typeof(Dialog_ManageReadingPolicies))
+                    {
+                        List<RimWorld.ReadingPolicy> policies = Current.Game.readingPolicyDatabase.AllReadingPolicies;
+                        int currentIndex = policies.IndexOf((RimWorld.ReadingPolicy)___policyInt);
+                        policies[currentIndex] = policies[0];
+                        policies[0] = (RimWorld.ReadingPolicy)___policyInt;
+                    }
+
                     if (___policyInt is ApparelPolicies.ApparelPolicy)
                     {
                         List<ApparelPolicies.ApparelPolicy> policies = DefaultsSettings.DefaultApparelPolicies;
@@ -140,6 +168,14 @@ namespace Defaults.Policies
                         int currentIndex = policies.IndexOf((DrugPolicy)___policyInt);
                         policies[currentIndex] = policies[0];
                         policies[0] = (DrugPolicy)___policyInt;
+                    }
+
+                    if (___policyInt is ReadingPolicies.ReadingPolicy && __instance.GetType() == typeof(Dialog_ReadingPolicies))
+                    {
+                        List<ReadingPolicies.ReadingPolicy> policies = DefaultsSettings.DefaultReadingPolicies;
+                        int currentIndex = policies.IndexOf((ReadingPolicies.ReadingPolicy)___policyInt);
+                        policies[currentIndex] = policies[0];
+                        policies[0] = (ReadingPolicies.ReadingPolicy)___policyInt;
                     }
                 }
                 buttonOffset += 42f;
@@ -186,7 +222,7 @@ namespace Defaults.Policies
         public static void Postfix(Dialog_ManagePolicies<Policy> __instance, Rect leftRect)
         {
             object policy = __instance.GetType().Method("GetDefaultPolicy").Invoke(__instance, new object[] { });
-            if (policy != null && (__instance.GetType() == typeof(Dialog_ManageApparelPolicies) || __instance.GetType() == typeof(Dialog_ManageFoodPolicies) || __instance.GetType() == typeof(Dialog_ManageDrugPolicies)))
+            if (policy != null && (__instance.GetType() == typeof(Dialog_ManageApparelPolicies) || __instance.GetType() == typeof(Dialog_ManageFoodPolicies) || __instance.GetType() == typeof(Dialog_ManageDrugPolicies) || __instance.GetType() == typeof(Dialog_ManageReadingPolicies)))
             {
                 Rect loadDefaultRect = new Rect(leftRect.x + 10f, leftRect.yMax - 24f - 10f - Window.CloseButSize.y * 2 - 10f, leftRect.width - 20f, Window.CloseButSize.y);
                 if (Widgets.ButtonText(loadDefaultRect, "Defaults_LoadDefaultPolicy".Translate()))
@@ -219,6 +255,16 @@ namespace Defaults.Policies
                             drugPolicy.label = p.label;
                             drugPolicy.CopyFrom(p);
                             __instance.GetType().Method("set_SelectedPolicy").Invoke(__instance, new[] { drugPolicy });
+                        })).ToList()));
+                    }
+                    if (policy is RimWorld.ReadingPolicy)
+                    {
+                        Find.WindowStack.Add(new FloatMenu(DefaultsSettings.DefaultReadingPolicies.Select(p => new FloatMenuOption(p.label, delegate
+                        {
+                            RimWorld.ReadingPolicy readingPolicy = (RimWorld.ReadingPolicy)__instance.GetType().Method("CreateNewPolicy").Invoke(__instance, new object[] { });
+                            readingPolicy.label = p.label;
+                            readingPolicy.CopyFrom(p);
+                            __instance.GetType().Method("set_SelectedPolicy").Invoke(__instance, new[] { readingPolicy });
                         })).ToList()));
                     }
                 }

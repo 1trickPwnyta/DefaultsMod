@@ -43,6 +43,19 @@ namespace Defaults.Policies
             return drugPolicy;
         }
 
+        public static ReadingPolicies.ReadingPolicy NewReadingPolicy()
+        {
+            string name;
+            int i = DefaultsSettings.DefaultReadingPolicies.Count + 1;
+            do
+            {
+                name = "ReadingPolicy".Translate() + " " + i++;
+            } while (DefaultsSettings.DefaultReadingPolicies.Any(p => p.label == name));
+            ReadingPolicies.ReadingPolicy policy = new ReadingPolicies.ReadingPolicy(0, name);
+            DefaultsSettings.DefaultReadingPolicies.Add(policy);
+            return policy;
+        }
+
         public static float GetNewPolicyButtonPaddingTop(Policy policy)
         {
             if (policy != null && (policy is ApparelPolicy || policy is DrugPolicy))

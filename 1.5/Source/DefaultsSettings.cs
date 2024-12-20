@@ -18,6 +18,7 @@ using Verse;
 using Defaults.Policies;
 using Defaults.Policies.FoodPolicies;
 using System;
+using Defaults.Policies.ReadingPolicies;
 
 namespace Defaults
 {
@@ -64,6 +65,7 @@ namespace Defaults
         public static List<Policies.ApparelPolicies.ApparelPolicy> DefaultApparelPolicies;
         public static List<Policies.FoodPolicies.FoodPolicy> DefaultFoodPolicies;
         public static List<DrugPolicy> DefaultDrugPolicies;
+        public static List<Policies.ReadingPolicies.ReadingPolicy> DefaultReadingPolicies;
         public static RimWorld.PregnancyApproach DefaultPregnancyApproach;
 
         private static List<string> PreviousFactionDefs;
@@ -132,6 +134,7 @@ namespace Defaults
             InitializeDefaultApparelPolicies();
             InitializeDefaultFoodPolicies();
             InitializeDefaultDrugPolicies();
+            InitializeDefaultReadingPolicies();
         }
 
         private static void CheckForNewContent()
@@ -188,6 +191,21 @@ namespace Defaults
                                     if (ModsConfig.BiotechActive && def == ThingDefOf.HemogenPack)
                                     {
                                         policy.filter.SetAllow(def, false);
+                                    }
+                                }
+                            }
+                        }
+
+                        foreach (Policies.ReadingPolicies.ReadingPolicy policy in DefaultReadingPolicies)
+                        {
+                            if (!policy.locked)
+                            {
+                                foreach (string defName in newThingDefs)
+                                {
+                                    ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
+                                    if (def.HasComp<CompBook>())
+                                    {
+                                        policy.defFilter.SetAllow(def, true);
                                     }
                                 }
                             }
@@ -263,6 +281,21 @@ namespace Defaults
                                     if (!def.allowedByDefault)
                                     {
                                         policy.filter.SetAllow(def, false);
+                                    }
+                                }
+                            }
+                        }
+
+                        foreach (Policies.ReadingPolicies.ReadingPolicy policy in DefaultReadingPolicies)
+                        {
+                            if (!policy.locked)
+                            {
+                                foreach (string defName in newSpecialThingFilterDefs)
+                                {
+                                    SpecialThingFilterDef def = DefDatabase<SpecialThingFilterDef>.GetNamed(defName);
+                                    if (!def.allowedByDefault && ThingCategoryDefOf.BookEffects.DescendantSpecialThingFilterDefs.Contains(def))
+                                    {
+                                        policy.effectFilter.SetAllow(def, false);
                                     }
                                 }
                             }
@@ -698,6 +731,53 @@ namespace Defaults
             });
         }
 
+        private static void InitializeDefaultReadingPolicies()
+        {
+            LongEventHandler.ExecuteWhenFinished(delegate
+            {
+                if (DefaultReadingPolicies == null || DefaultReadingPolicies.Empty())
+                {
+                    DefaultReadingPolicies = new List<Policies.ReadingPolicies.ReadingPolicy>();
+
+                    Policies.ReadingPolicies.ReadingPolicy allPolicy = PolicyUtility.NewReadingPolicy();
+                    allPolicy.label = "AllReadingPolicy".Translate();
+                    allPolicy.defFilter.SetDisallowAll();
+                    foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading.Where(d => d.HasComp<CompBook>()))
+                    {
+                        allPolicy.defFilter.SetAllow(def, true);
+                    }
+                    allPolicy.locked = false;
+
+                    Policies.ReadingPolicies.ReadingPolicy textbookPolicy = PolicyUtility.NewReadingPolicy();
+                    textbookPolicy.label = "TextbookPolicy".Translate();
+                    textbookPolicy.defFilter.SetDisallowAll();
+                    textbookPolicy.defFilter.SetAllow(ThingDefOf.TextBook, true);
+
+                    Policies.ReadingPolicies.ReadingPolicy schematicPolicy = PolicyUtility.NewReadingPolicy();
+                    schematicPolicy.label = "SchematicPolicy".Translate();
+                    schematicPolicy.defFilter.SetDisallowAll();
+                    schematicPolicy.defFilter.SetAllow(ThingDefOf.Schematic, true);
+
+                    Policies.ReadingPolicies.ReadingPolicy novelPolicy = PolicyUtility.NewReadingPolicy();
+                    novelPolicy.label = "NovelPolicy".Translate();
+                    novelPolicy.defFilter.SetDisallowAll();
+                    novelPolicy.defFilter.SetAllow(ThingDefOf.Novel, true);
+
+                    if (ModsConfig.AnomalyActive)
+                    {
+                        Policies.ReadingPolicies.ReadingPolicy tomePolicy = PolicyUtility.NewReadingPolicy();
+                        tomePolicy.label = "TomePolicy".Translate();
+                        tomePolicy.defFilter.SetDisallowAll();
+                        tomePolicy.defFilter.SetAllow(ThingDefOf.Tome, true);
+                    }
+
+                    Policies.ReadingPolicies.ReadingPolicy nonePolicy = PolicyUtility.NewReadingPolicy();
+                    nonePolicy.label = "NoneReadingPolicy".Translate();
+                    nonePolicy.defFilter.SetDisallowAll();
+                }
+            });
+        }
+
         public static void DoSettingsWindowContents(Rect inRect)
         {
             Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width - 16f, 31f * 20);
@@ -738,6 +818,11 @@ namespace Defaults
             if (listing.ButtonTextLabeledPct("Defaults_DrugPolicies".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
             {
                 Find.WindowStack.Add(new Dialog_DrugPolicies(DefaultDrugPolicies.First()));
+            }
+
+            if (listing.ButtonTextLabeledPct("Defaults_ReadingPolicies".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_ReadingPolicies(DefaultReadingPolicies.First()));
             }
 
             if (listing.ButtonTextLabeledPct("Defaults_Medicine".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
@@ -882,6 +967,7 @@ namespace Defaults
             Scribe_Collections.Look(ref DefaultApparelPolicies, "DefaultApparelPolicies", LookMode.Deep);
             Scribe_Collections.Look(ref DefaultFoodPolicies, "DefaultFoodPolicies", LookMode.Deep);
             Scribe_Collections.Look(ref DefaultDrugPolicies, "DefaultDrugPolicies", LookMode.Deep);
+            Scribe_Collections.Look(ref DefaultReadingPolicies, "DefaultReadingPolicies", LookMode.Deep);
             Scribe_Values.Look(ref DefaultPregnancyApproach, "DefaultPregnancyApproach", RimWorld.PregnancyApproach.Normal);
 
             Scribe_Collections.Look(ref PreviousFactionDefs, "PreviousFactionDefs");
