@@ -741,11 +741,6 @@ namespace Defaults
 
                     Policies.ReadingPolicies.ReadingPolicy allPolicy = PolicyUtility.NewReadingPolicy();
                     allPolicy.label = "AllReadingPolicy".Translate();
-                    allPolicy.defFilter.SetDisallowAll();
-                    foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading.Where(d => d.HasComp<CompBook>()))
-                    {
-                        allPolicy.defFilter.SetAllow(def, true);
-                    }
                     allPolicy.locked = false;
 
                     Policies.ReadingPolicies.ReadingPolicy textbookPolicy = PolicyUtility.NewReadingPolicy();
