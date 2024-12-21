@@ -24,6 +24,8 @@
 	<Defaults_DrugPolicies>Drug policies</Defaults_DrugPolicies>
 	<Defaults_ReadingPolicies>Reading policies</Defaults_ReadingPolicies>
 	<Defaults_PregnancyApproach>Default pregnancy approach</Defaults_PregnancyApproach>
+	<Defaults_TargetTemperatureHeater>Target temperature for heaters</Defaults_TargetTemperatureHeater>
+	<Defaults_TargetTemperatureCooler>Target temperature for coolers</Defaults_TargetTemperatureCooler>
 	<Defaults_ResetAllSettings>Reset all settings to vanilla</Defaults_ResetAllSettings>
 	<Defaults_ConfirmResetAllSettings>Do you want to reset all settings to their vanilla values? This action cannot be undone.</Defaults_ConfirmResetAllSettings>
 	<Defaults_ScheduleName>Schedule {0}</Defaults_ScheduleName>
@@ -47,4 +49,6 @@
 	<Defaults_PolicySavedAs>Policy saved as {0}.</Defaults_PolicySavedAs>
 	<Defaults_LoadDefaultPolicy>Load from defaults</Defaults_LoadDefaultPolicy>
 	<Defaults_LockSetting>Lock this setting to prevent automatic changes when new mods or DLC are added</Defaults_LockSetting>
+	
+	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

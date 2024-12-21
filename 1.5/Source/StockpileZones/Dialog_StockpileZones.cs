@@ -157,7 +157,7 @@ namespace Defaults.StockpileZones
                 }
 
                 Rect lockRect = new Rect(inRect.width - 24f, inRect.y + buttonHeight, 24f, 24f);
-                ButtonUtility.DrawCheckButton(lockRect, ButtonUtility.LockIcon, "Defaults_LockSetting".Translate(), ref selectedZoneType.locked);
+                UIUtility.DrawCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref selectedZoneType.locked);
 
                 Rect filterRect = new Rect(inRect.width  - 300f, inRect.y + buttonHeight * 2, 300f, inRect.height - buttonHeight * 2 - Window.CloseButSize.y);
                 ThingFilterUI.DoThingFilterConfigWindow(filterRect, state, selectedZoneType.filter, StorageSettings.EverStorableFixedSettings().filter, 8);

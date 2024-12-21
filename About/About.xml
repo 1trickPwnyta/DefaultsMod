@@ -28,6 +28,7 @@ Full list of settings:
   - Default auto home area setting: Allows you to set the default auto-home area setting to use for a new colony.
   - Use manual work priorities by default: You can do this.
   - Default plant type: Allows you to set the default plant type for new growing zones.
+  - Default temperature targets: Allows you to set the default temperature targets for heaters and coolers.
 
 === Updates ===
 11/05/2024: Add setting for whether guests will be set to carry medicine automatically

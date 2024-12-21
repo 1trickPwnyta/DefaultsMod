@@ -25,7 +25,6 @@ namespace Defaults
     public class DefaultsSettings : ModSettings
     {
         public static List<Schedule.Schedule> DefaultSchedules;
-        private static int NextScheduleIndex = Mathf.Abs(Rand.Int);
         public static MedicalCareCategory DefaultCareForColonist;
         public static MedicalCareCategory DefaultCareForPrisoner;
         public static MedicalCareCategory DefaultCareForSlave;
@@ -59,7 +58,7 @@ namespace Defaults
         public static OverallPopulation DefaultOverallPopulation;
         public static float DefaultPollution;
         public static List<string> DefaultFactions;
-        public static bool DefaultFactionsLock = false;
+        public static bool DefaultFactionsLock;
         public static int DefaultMapSize;
         public static Season DefaultStartingSeason;
         public static List<Policies.ApparelPolicies.ApparelPolicy> DefaultApparelPolicies;
@@ -67,7 +66,10 @@ namespace Defaults
         public static List<DrugPolicy> DefaultDrugPolicies;
         public static List<Policies.ReadingPolicies.ReadingPolicy> DefaultReadingPolicies;
         public static RimWorld.PregnancyApproach DefaultPregnancyApproach;
+        public static float DefaultTargetTemperatureHeater;
+        public static float DefaultTargetTemperatureCooler;
 
+        private static int NextScheduleIndex = Mathf.Abs(Rand.Int);
         private static List<string> PreviousFactionDefs;
         private static List<string> PreviousThingDefs;
         private static List<string> PreviousSpecialThingFilterDefs;
@@ -122,6 +124,8 @@ namespace Defaults
             DefaultApparelPolicies = null;
             DefaultFoodPolicies = null;
             DefaultPregnancyApproach = RimWorld.PregnancyApproach.Normal;
+            DefaultTargetTemperatureHeater = 21f;
+            DefaultTargetTemperatureCooler = 21f;
 
             InitializeDefaultSchedules();
             InitializeDefaultMedicineToCarry();
@@ -775,7 +779,7 @@ namespace Defaults
 
         public static void DoSettingsWindowContents(Rect inRect)
         {
-            Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width - 16f, 31f * 20);
+            Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width - 16f, 31f * 23);
             Widgets.BeginScrollView(new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 38f), ref scrollPosition, viewRect);
             Listing_StandardHighlight listing = new Listing_StandardHighlight();
             listing.Begin(viewRect);
@@ -910,6 +914,21 @@ namespace Defaults
             plantTypeRect.width = 24;
             PlantType.PlantTypeUtility.DrawPlantButton(plantTypeRect);
 
+            Rect targetTemperatureHeaterRect = listing.GetRect(30f);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(targetTemperatureHeaterRect, "Defaults_TargetTemperatureHeater".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+            targetTemperatureHeaterRect.x += targetTemperatureHeaterRect.width / 2;
+            targetTemperatureHeaterRect.width /= 2;
+            UIUtility.TemperatureEntry(targetTemperatureHeaterRect, ref DefaultTargetTemperatureHeater, 1, -50f, 50f);
+            Rect targetTemperatureCoolerRect = listing.GetRect(30f);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(targetTemperatureCoolerRect, "Defaults_TargetTemperatureCooler".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+            targetTemperatureCoolerRect.x += targetTemperatureCoolerRect.width / 2;
+            targetTemperatureCoolerRect.width /= 2;
+            UIUtility.TemperatureEntry(targetTemperatureCoolerRect, ref DefaultTargetTemperatureCooler, 1, -50f, 50f);
+
             listing.End();
             Widgets.EndScrollView();
 
@@ -964,6 +983,8 @@ namespace Defaults
             Scribe_Collections.Look(ref DefaultDrugPolicies, "DefaultDrugPolicies", LookMode.Deep);
             Scribe_Collections.Look(ref DefaultReadingPolicies, "DefaultReadingPolicies", LookMode.Deep);
             Scribe_Values.Look(ref DefaultPregnancyApproach, "DefaultPregnancyApproach", RimWorld.PregnancyApproach.Normal);
+            Scribe_Values.Look(ref DefaultTargetTemperatureHeater, "DefaultTargetTemperatureHeater", 21f);
+            Scribe_Values.Look(ref DefaultTargetTemperatureCooler, "DefaultTargetTemperatureCooler", 21f);
 
             Scribe_Collections.Look(ref PreviousFactionDefs, "PreviousFactionDefs");
             Scribe_Collections.Look(ref PreviousThingDefs, "PreviousThingDefs");

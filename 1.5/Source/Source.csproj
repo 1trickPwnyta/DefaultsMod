@@ -65,7 +65,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ButtonUtility.cs" />
+    <Compile Include="TargetTemperature\Patch_CompTempControl.cs" />
+    <Compile Include="UIUtility.cs" />
     <Compile Include="Policies\FoodPolicies\FoodPolicy.cs" />
     <Compile Include="Policies\FoodPolicies\Dialog_FoodPolicies.cs" />
     <Compile Include="Policies\FoodPolicies\Patch_FoodRestrictionDatabase.cs" />

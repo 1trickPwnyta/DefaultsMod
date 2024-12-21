@@ -89,21 +89,21 @@ namespace Defaults.Policies
                 if (___policyInt is ApparelPolicies.ApparelPolicy)
                 {
                     ApparelPolicies.ApparelPolicy policy = (ApparelPolicies.ApparelPolicy)___policyInt;
-                    ButtonUtility.DrawCheckButton(lockRect, ButtonUtility.LockIcon, "Defaults_LockSetting".Translate(), ref policy.locked);
+                    UIUtility.DrawCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref policy.locked);
                     buttonOffset += 42f;
                 }
 
                 if (___policyInt is FoodPolicies.FoodPolicy)
                 {
                     FoodPolicies.FoodPolicy policy = (FoodPolicies.FoodPolicy)___policyInt;
-                    ButtonUtility.DrawCheckButton(lockRect, ButtonUtility.LockIcon, "Defaults_LockSetting".Translate(), ref policy.locked);
+                    UIUtility.DrawCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref policy.locked);
                     buttonOffset += 42f;
                 }
 
                 if (___policyInt is ReadingPolicies.ReadingPolicy)
                 {
                     ReadingPolicies.ReadingPolicy policy = (ReadingPolicies.ReadingPolicy)___policyInt;
-                    ButtonUtility.DrawCheckButton(lockRect, ButtonUtility.LockIcon, "Defaults_LockSetting".Translate(), ref policy.locked);
+                    UIUtility.DrawCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref policy.locked);
                     buttonOffset += 42f;
                 }
             }
@@ -112,7 +112,7 @@ namespace Defaults.Policies
             if (___policyInt != null && ___policyInt != defaultPolicy)
             {
                 Rect defaultRect = new Rect(inRect.xMax - 158f - buttonOffset, inRect.y + 74f, 32f, 32f);
-                if (Widgets.ButtonImage(defaultRect, ButtonUtility.StarIcon, true, "Defaults_SetAsDefault".Translate()))
+                if (Widgets.ButtonImage(defaultRect, UIUtility.StarIcon, true, "Defaults_SetAsDefault".Translate()))
                 {
                     if (___policyInt is RimWorld.ApparelPolicy)
                     {
