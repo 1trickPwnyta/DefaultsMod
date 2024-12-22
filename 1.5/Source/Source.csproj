@@ -65,6 +65,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StockpileZones\Dialog_ShelfSettings.cs" />
+    <Compile Include="StockpileZones\Patch_Building_Storage.cs" />
     <Compile Include="TargetTemperature\Patch_CompTempControl.cs" />
     <Compile Include="UIUtility.cs" />
     <Compile Include="Policies\FoodPolicies\FoodPolicy.cs" />

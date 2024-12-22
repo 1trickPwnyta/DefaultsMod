@@ -16,6 +16,7 @@
 	<Defaults_ResourceCategories>Expanded resource categories</Defaults_ResourceCategories>
 	<Defaults_Storyteller>Storyteller settings</Defaults_Storyteller>
 	<Defaults_StockpileZones>Stockpile zone types</Defaults_StockpileZones>
+	<Defaults_ShelfSettings>Shelf storage settings</Defaults_ShelfSettings>
 	<Defaults_ManualPriorities>Use manual work priorities by default</Defaults_ManualPriorities>
 	<Defaults_WorldSettings>World settings</Defaults_WorldSettings>
 	<Defaults_MapSettings>Map settings</Defaults_MapSettings>

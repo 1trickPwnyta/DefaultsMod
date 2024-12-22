@@ -19,6 +19,7 @@ using Defaults.Policies;
 using Defaults.Policies.FoodPolicies;
 using System;
 using Defaults.Policies.ReadingPolicies;
+using System.Security.Policy;
 
 namespace Defaults
 {
@@ -51,6 +52,7 @@ namespace Defaults
         public static string DefaultAnomalyPlaystyle;
         public static bool DefaultPermadeath;
         public static List<ZoneType> DefaultStockpileZones;
+        public static ZoneType DefaultShelfSettings;
         public static bool DefaultManualPriorities;
         public static float DefaultPlanetCoverage;
         public static OverallRainfall DefaultOverallRainfall;
@@ -111,6 +113,7 @@ namespace Defaults
             DefaultAnomalyPlaystyle = null;
             DefaultPermadeath = false;
             DefaultStockpileZones = null;
+            DefaultShelfSettings = null;
             DefaultManualPriorities = false;
             DefaultPlanetCoverage = 0.3f;
             DefaultOverallRainfall = OverallRainfall.Normal;
@@ -247,6 +250,18 @@ namespace Defaults
                                 }
                             }
                         }
+
+                        if (!DefaultShelfSettings.locked)
+                        {
+                            foreach (string defName in newThingDefs)
+                            {
+                                ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
+                                if (ThingCategoryDefOf.Foods.DescendantThingDefs.Union(ThingCategoryDefOf.Manufactured.DescendantThingDefs).Union(ThingCategoryDefOf.ResourcesRaw.DescendantThingDefs).Union(ThingCategoryDefOf.Items.DescendantThingDefs).Union(ThingCategoryDefOf.Weapons.DescendantThingDefs).Union(ThingCategoryDefOf.Apparel.DescendantThingDefs).Union(ThingCategoryDefOf.BodyParts.DescendantThingDefs).Contains(def) && (!ModsConfig.BiotechActive || def != ThingDefOf.Wastepack))
+                                {
+                                    DefaultShelfSettings.filter.SetAllow(def, true);
+                                }
+                            }
+                        }
                     });
                 }
             }
@@ -316,6 +331,18 @@ namespace Defaults
                                     {
                                         zone.filter.SetAllow(def, false);
                                     }
+                                }
+                            }
+                        }
+
+                        if (!DefaultShelfSettings.locked)
+                        {
+                            foreach (string defName in newSpecialThingFilterDefs)
+                            {
+                                SpecialThingFilterDef def = DefDatabase<SpecialThingFilterDef>.GetNamed(defName);
+                                if (!def.allowedByDefault)
+                                {
+                                    DefaultShelfSettings.filter.SetAllow(def, false);
                                 }
                             }
                         }
@@ -470,6 +497,10 @@ namespace Defaults
                 if (!DefaultStockpileZones.Any(z => z.DesignatorType == typeof(Designator_ZoneAddStockpile_Resources)))
                 {
                     DefaultStockpileZones.Insert(0, ZoneType.MakeBuiltInStockpileZone());
+                }
+                if (DefaultShelfSettings == null)
+                {
+                    DefaultShelfSettings = ZoneType.MakeBuiltInShelfSettings();
                 }
             });
         }
@@ -779,7 +810,7 @@ namespace Defaults
 
         public static void DoSettingsWindowContents(Rect inRect)
         {
-            Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width - 16f, 31f * 23);
+            Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width - 16f, 31f * 24);
             Widgets.BeginScrollView(new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 38f), ref scrollPosition, viewRect);
             Listing_StandardHighlight listing = new Listing_StandardHighlight();
             listing.Begin(viewRect);
@@ -842,6 +873,11 @@ namespace Defaults
             if (listing.ButtonTextLabeledPct("Defaults_StockpileZones".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
             {
                 Find.WindowStack.Add(new Dialog_StockpileZones());
+            }
+
+            if (listing.ButtonTextLabeledPct("Defaults_ShelfSettings".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_ShelfSettings());
             }
             
             Rect hostilityResponseRect = listing.GetRect(30f);
@@ -968,6 +1004,7 @@ namespace Defaults
             Scribe_Values.Look(ref DefaultAnomalyPlaystyle, "DefaultAnomalyPlaystyle");
             Scribe_Values.Look(ref DefaultPermadeath, "DefaultPermadeath", false);
             Scribe_Collections.Look(ref DefaultStockpileZones, "DefaultStockpileZones");
+            Scribe_Deep.Look(ref DefaultShelfSettings, "DefaultShelfSettings");
             Scribe_Values.Look(ref DefaultManualPriorities, "DefaultManualPriorities", false);
             Scribe_Values.Look(ref DefaultPlanetCoverage, "DefaultPlanetCoverage", 0.3f);
             Scribe_Values.Look(ref DefaultOverallRainfall, "DefaultOverallRainfall", OverallRainfall.Normal);

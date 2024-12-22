@@ -30,6 +30,18 @@ namespace Defaults.StockpileZones
             return zoneType;
         }
 
+        public static ZoneType MakeBuiltInShelfSettings()
+        {
+            ZoneType zoneType = new ZoneType();
+            zoneType.Priority = StoragePriority.Preferred;
+            Array.ForEach(new[] { ThingCategoryDefOf.Foods, ThingCategoryDefOf.Manufactured, ThingCategoryDefOf.ResourcesRaw, ThingCategoryDefOf.Items, ThingCategoryDefOf.Weapons, ThingCategoryDefOf.Apparel, ThingCategoryDefOf.BodyParts }, d =>
+            {
+                zoneType.filter.SetAllow(d, true);
+            });
+            zoneType.locked = false;
+            return zoneType;
+        }
+
         public ZoneType()
         {
 
