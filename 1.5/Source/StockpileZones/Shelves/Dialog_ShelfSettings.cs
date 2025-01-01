@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using Verse;
 
-namespace Defaults.StockpileZones
+namespace Defaults.StockpileZones.Shelves
 {
     public class Dialog_ShelfSettings : Window
     {

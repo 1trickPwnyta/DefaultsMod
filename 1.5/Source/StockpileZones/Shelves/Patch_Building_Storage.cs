@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using RimWorld;
 
-namespace Defaults.StockpileZones
+namespace Defaults.StockpileZones.Shelves
 {
     [HarmonyPatch(typeof(Building_Storage))]
     [HarmonyPatch(nameof(Building_Storage.PostMake))]
