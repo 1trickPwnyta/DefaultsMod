@@ -9,9 +9,12 @@ namespace Defaults.TargetTemperature
     [HarmonyPatch(nameof(CompTempControl.PostSpawnSetup))]
     public static class Patch_CompTempControl_PostSpawnSetup
     {
-        public static void Postfix(CompTempControl __instance)
+        public static void Postfix(CompTempControl __instance, bool respawningAfterLoad)
         {
-            __instance.TargetTemperature = PatchUtility_CompTempControl.GetDefaultTargetTemperature(__instance);
+            if (!respawningAfterLoad)
+            {
+                __instance.TargetTemperature = PatchUtility_CompTempControl.GetDefaultTargetTemperature(__instance);
+            }
         }
     }
 
