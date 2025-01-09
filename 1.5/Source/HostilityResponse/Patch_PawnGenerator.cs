@@ -8,7 +8,10 @@ namespace Defaults.HostilityResponse
     {
         public static void Postfix(Pawn __result)
         {
-            HostilityResponseModeUtility.SetHostilityResponseMode(__result, __result.playerSettings);
+            if (__result != null)
+            {
+                HostilityResponseModeUtility.SetHostilityResponseMode(__result, __result.playerSettings);
+            }
         }
     }
 }
