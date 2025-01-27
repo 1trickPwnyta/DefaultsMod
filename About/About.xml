@@ -11,6 +11,8 @@ Tired of having to go through the same ritual every time you start a new colony 
 
 Supports all DLC and can be safely added mid-playthrough, however many settings will only apply to new colonies.
 
+Now automatically adds content from newly enabled DLC/mods to various settings, such as stockpile zones. Such settings can be locked to prevent this, if desired.
+
 Full list of settings:
   - Storyteller settings: Allows you to set the default storyteller/difficulty settings to use for a new colony, including custom difficulty settings.
   - World settings: Allows you to set the default world settings to use for a new colony.
@@ -32,6 +34,7 @@ Full list of settings:
   - Default temperature targets: Allows you to set the default temperature targets for heaters and coolers.
 
 === Updates ===
+01/26/2025: Add default reading policies, pregnancy approach, target temperature, and shelf settings. Add button to set a policy as default. Add settings locks.
 01/08/2025: Add null pawn check when setting hostility response
 11/05/2024: Add setting for whether guests will be set to carry medicine automatically
 10/29/2024: Fix issue when world settings include more than one of same faction type
