@@ -19,8 +19,8 @@ using Defaults.Policies;
 using Defaults.Policies.FoodPolicies;
 using System;
 using Defaults.Policies.ReadingPolicies;
-using System.Security.Policy;
 using Defaults.StockpileZones.Shelves;
+using Defaults.WorkbenchBills;
 
 namespace Defaults
 {
@@ -71,6 +71,7 @@ namespace Defaults
         public static RimWorld.PregnancyApproach DefaultPregnancyApproach;
         public static float DefaultTargetTemperatureHeater;
         public static float DefaultTargetTemperatureCooler;
+        public static List<WorkbenchBillStore> DefaultWorkbenchBills;
 
         private static int NextScheduleIndex = Mathf.Abs(Rand.Int);
         private static List<string> PreviousFactionDefs;
@@ -130,6 +131,7 @@ namespace Defaults
             DefaultPregnancyApproach = RimWorld.PregnancyApproach.Normal;
             DefaultTargetTemperatureHeater = 21f;
             DefaultTargetTemperatureCooler = 21f;
+            DefaultWorkbenchBills = null;
 
             InitializeDefaultSchedules();
             InitializeDefaultMedicineToCarry();
@@ -143,6 +145,7 @@ namespace Defaults
             InitializeDefaultFoodPolicies();
             InitializeDefaultDrugPolicies();
             InitializeDefaultReadingPolicies();
+            InitializeDefaultWorkbenchBills();
         }
 
         private static void CheckForNewContent()
@@ -809,9 +812,20 @@ namespace Defaults
             });
         }
 
+        private static void InitializeDefaultWorkbenchBills()
+        {
+            LongEventHandler.ExecuteWhenFinished(delegate
+            {
+                if (DefaultWorkbenchBills == null)
+                {
+                    DefaultWorkbenchBills = new List<WorkbenchBillStore>();
+                }
+            });
+        }
+
         public static void DoSettingsWindowContents(Rect inRect)
         {
-            Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width - 16f, 31f * 24);
+            Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width - 16f, 31f * 25);
             Widgets.BeginScrollView(new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 38f), ref scrollPosition, viewRect);
             Listing_StandardHighlight listing = new Listing_StandardHighlight();
             listing.Begin(viewRect);
@@ -880,7 +894,12 @@ namespace Defaults
             {
                 Find.WindowStack.Add(new Dialog_ShelfSettings());
             }
-            
+
+            if (listing.ButtonTextLabeledPct("Defaults_WorkbenchBills".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_WorkbenchBills());
+            }
+
             Rect hostilityResponseRect = listing.GetRect(30f);
             Text.Anchor = TextAnchor.MiddleLeft;
             Widgets.Label(hostilityResponseRect, "Defaults_HostilityResponse".Translate());
@@ -1023,6 +1042,7 @@ namespace Defaults
             Scribe_Values.Look(ref DefaultPregnancyApproach, "DefaultPregnancyApproach", RimWorld.PregnancyApproach.Normal);
             Scribe_Values.Look(ref DefaultTargetTemperatureHeater, "DefaultTargetTemperatureHeater", 21f);
             Scribe_Values.Look(ref DefaultTargetTemperatureCooler, "DefaultTargetTemperatureCooler", 21f);
+            Scribe_Collections.Look(ref DefaultWorkbenchBills, "DefaultWorkbenchBills");
 
             Scribe_Collections.Look(ref PreviousFactionDefs, "PreviousFactionDefs");
             Scribe_Collections.Look(ref PreviousThingDefs, "PreviousThingDefs");

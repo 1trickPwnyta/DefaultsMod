@@ -138,6 +138,10 @@
     <Compile Include="Storyteller\Patch_Dialog_AnomalySettings.cs" />
     <Compile Include="Storyteller\Patch_Page_SelectStoryteller.cs" />
     <Compile Include="Storyteller\Patch_StorytellerUI.cs" />
+    <Compile Include="WorkbenchBills\BillTemplate.cs" />
+    <Compile Include="WorkbenchBills\Dialog_BillMaker.cs" />
+    <Compile Include="WorkbenchBills\Dialog_WorkbenchBills.cs" />
+    <Compile Include="WorkbenchBills\WorkbenchBillStore.cs" />
     <Compile Include="WorldSettings\Dialog_WorldSettings.cs" />
     <Compile Include="WorldSettings\FactionsUtility.cs" />
     <Compile Include="WorldSettings\Patch_Page_CreateWorldParams.cs" />
