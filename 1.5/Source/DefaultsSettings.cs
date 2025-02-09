@@ -150,212 +150,229 @@ namespace Defaults
 
         private static void CheckForNewContent()
         {
-            List<string> currentFactionDefs = DefDatabase<FactionDef>.AllDefsListForReading.Select(d => d.defName).ToList();
-            if (PreviousFactionDefs != null)
+            HandleNewDefs<FactionDef>(ref PreviousFactionDefs, newFactionDefs =>
             {
-                List<string> newFactionDefs = currentFactionDefs.Except(PreviousFactionDefs).ToList();
-                if (newFactionDefs.Count > 0)
+                if (!DefaultFactionsLock)
                 {
-                    if (!DefaultFactionsLock)
+                    DefaultFactions.AddRange(FactionsUtility.GetDefaultSelectableFactions().Where(f => newFactionDefs.Contains(f.defName)).Select(f => f.defName));
+                    DefaultFactions.RemoveAll(f => newFactionDefs.Select(d => DefDatabase<FactionDef>.GetNamed(d).replacesFaction?.defName).Contains(f));
+                }
+            });
+
+            HandleNewDefs<ThingDef>(ref PreviousThingDefs, newThingDefs =>
+            {
+                foreach (Policies.ApparelPolicies.ApparelPolicy policy in DefaultApparelPolicies)
+                {
+                    if (!policy.locked)
                     {
-                        DefaultFactions.AddRange(FactionsUtility.GetDefaultSelectableFactions().Where(f => newFactionDefs.Contains(f.defName)).Select(f => f.defName));
-                        DefaultFactions.RemoveAll(f => newFactionDefs.Select(d => DefDatabase<FactionDef>.GetNamed(d).replacesFaction?.defName).Contains(f));
+                        foreach (string defName in newThingDefs)
+                        {
+                            ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
+                            if (ThingCategoryDefOf.Apparel.DescendantThingDefs.Contains(def))
+                            {
+                                policy.filter.SetAllow(def, true);
+                            }
+                        }
                     }
                 }
-            }
-            PreviousFactionDefs = currentFactionDefs;
 
-            List<string> currentThingDefs = DefDatabase<ThingDef>.AllDefsListForReading.Select(d => d.defName).ToList();
-            if (PreviousThingDefs != null)
-            {
-                List<string> newThingDefs = currentThingDefs.Except(PreviousThingDefs).ToList();
-                if (newThingDefs.Count > 0)
+                foreach (Policies.FoodPolicies.FoodPolicy policy in DefaultFoodPolicies)
                 {
-                    LongEventHandler.ExecuteWhenFinished(delegate
+                    if (!policy.locked)
                     {
-                        foreach (Policies.ApparelPolicies.ApparelPolicy policy in DefaultApparelPolicies)
+                        foreach (string defName in newThingDefs)
                         {
-                            if (!policy.locked)
+                            ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
+                            if (def.GetStatValueAbstract(StatDefOf.Nutrition, null) > 0f)
                             {
-                                foreach (string defName in newThingDefs)
-                                {
-                                    ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
-                                    if (ThingCategoryDefOf.Apparel.DescendantThingDefs.Contains(def))
-                                    {
-                                        policy.filter.SetAllow(def, true);
-                                    }
-                                }
+                                policy.filter.SetAllow(def, true);
+                            }
+                            if (ModsConfig.BiotechActive && def == ThingDefOf.HemogenPack)
+                            {
+                                policy.filter.SetAllow(def, false);
                             }
                         }
-
-                        foreach (Policies.FoodPolicies.FoodPolicy policy in DefaultFoodPolicies)
-                        {
-                            if (!policy.locked)
-                            {
-                                foreach (string defName in newThingDefs)
-                                {
-                                    ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
-                                    if (def.GetStatValueAbstract(StatDefOf.Nutrition, null) > 0f)
-                                    {
-                                        policy.filter.SetAllow(def, true);
-                                    }
-                                    if (ModsConfig.BiotechActive && def == ThingDefOf.HemogenPack)
-                                    {
-                                        policy.filter.SetAllow(def, false);
-                                    }
-                                }
-                            }
-                        }
-
-                        foreach (Policies.ReadingPolicies.ReadingPolicy policy in DefaultReadingPolicies)
-                        {
-                            if (!policy.locked)
-                            {
-                                foreach (string defName in newThingDefs)
-                                {
-                                    ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
-                                    if (def.HasComp<CompBook>())
-                                    {
-                                        policy.defFilter.SetAllow(def, true);
-                                    }
-                                }
-                            }
-                        }
-
-                        foreach (ZoneType zone in DefaultStockpileZones)
-                        {
-                            if (!zone.locked)
-                            {
-                                foreach (string defName in newThingDefs)
-                                {
-                                    ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
-                                    switch (zone.Preset)
-                                    {
-                                        case StorageSettingsPreset.DumpingStockpile:
-                                            if (ThingCategoryDefOf.Corpses.DescendantThingDefs.Union(ThingCategoryDefOf.Chunks.DescendantThingDefs).Contains(def) || (ModsConfig.BiotechActive && def == ThingDefOf.Wastepack))
-                                            {
-                                                zone.filter.SetAllow(def, true);
-                                            }
-                                            break;
-                                        case StorageSettingsPreset.CorpseStockpile:
-                                            if (ThingCategoryDefOf.Corpses.DescendantThingDefs.Contains(def))
-                                            {
-                                                zone.filter.SetAllow(def, true);
-                                            }
-                                            break;
-                                        case StorageSettingsPreset.DefaultStockpile:
-                                        default:
-                                            if (ThingCategoryDefOf.Foods.DescendantThingDefs.Union(ThingCategoryDefOf.Manufactured.DescendantThingDefs).Union(ThingCategoryDefOf.ResourcesRaw.DescendantThingDefs).Union(ThingCategoryDefOf.Items.DescendantThingDefs).Union(ThingCategoryDefOf.Buildings.DescendantThingDefs).Union(ThingCategoryDefOf.Weapons.DescendantThingDefs).Union(ThingCategoryDefOf.Apparel.DescendantThingDefs).Union(ThingCategoryDefOf.BodyParts.DescendantThingDefs).Contains(def) && (!ModsConfig.BiotechActive || def != ThingDefOf.Wastepack))
-                                            {
-                                                zone.filter.SetAllow(def, true);
-                                            }
-                                            break;
-                                    }
-                                }
-                            }
-                        }
-
-                        if (!DefaultShelfSettings.locked)
-                        {
-                            foreach (string defName in newThingDefs)
-                            {
-                                ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
-                                if (ThingCategoryDefOf.Foods.DescendantThingDefs.Union(ThingCategoryDefOf.Manufactured.DescendantThingDefs).Union(ThingCategoryDefOf.ResourcesRaw.DescendantThingDefs).Union(ThingCategoryDefOf.Items.DescendantThingDefs).Union(ThingCategoryDefOf.Weapons.DescendantThingDefs).Union(ThingCategoryDefOf.Apparel.DescendantThingDefs).Union(ThingCategoryDefOf.BodyParts.DescendantThingDefs).Contains(def) && (!ModsConfig.BiotechActive || def != ThingDefOf.Wastepack))
-                                {
-                                    DefaultShelfSettings.filter.SetAllow(def, true);
-                                }
-                            }
-                        }
-                    });
+                    }
                 }
-            }
-            PreviousThingDefs = currentThingDefs;
 
-            List<string> currentSpecialThingFilterDefs = DefDatabase<SpecialThingFilterDef>.AllDefsListForReading.Select(d => d.defName).ToList();
-            if (PreviousSpecialThingFilterDefs != null)
-            {
-                List<string> newSpecialThingFilterDefs = currentSpecialThingFilterDefs.Except(PreviousSpecialThingFilterDefs).ToList();
-                if (newSpecialThingFilterDefs.Count > 0)
+                foreach (Policies.ReadingPolicies.ReadingPolicy policy in DefaultReadingPolicies)
                 {
-                    LongEventHandler.ExecuteWhenFinished(delegate
+                    if (!policy.locked)
                     {
-                        foreach (Policies.ApparelPolicies.ApparelPolicy policy in DefaultApparelPolicies)
+                        foreach (string defName in newThingDefs)
                         {
-                            if (!policy.locked)
+                            ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
+                            if (def.HasComp<CompBook>())
                             {
-                                foreach (string defName in newSpecialThingFilterDefs)
-                                {
-                                    SpecialThingFilterDef def = DefDatabase<SpecialThingFilterDef>.GetNamed(defName);
-                                    if (!def.allowedByDefault)
-                                    {
-                                        policy.filter.SetAllow(def, false);
-                                    }
-                                }
+                                policy.defFilter.SetAllow(def, true);
                             }
                         }
-
-                        foreach (Policies.FoodPolicies.FoodPolicy policy in DefaultFoodPolicies)
-                        {
-                            if (!policy.locked)
-                            {
-                                foreach (string defName in newSpecialThingFilterDefs)
-                                {
-                                    SpecialThingFilterDef def = DefDatabase<SpecialThingFilterDef>.GetNamed(defName);
-                                    if (!def.allowedByDefault)
-                                    {
-                                        policy.filter.SetAllow(def, false);
-                                    }
-                                }
-                            }
-                        }
-
-                        foreach (Policies.ReadingPolicies.ReadingPolicy policy in DefaultReadingPolicies)
-                        {
-                            if (!policy.locked)
-                            {
-                                foreach (string defName in newSpecialThingFilterDefs)
-                                {
-                                    SpecialThingFilterDef def = DefDatabase<SpecialThingFilterDef>.GetNamed(defName);
-                                    if (!def.allowedByDefault && ThingCategoryDefOf.BookEffects.DescendantSpecialThingFilterDefs.Contains(def))
-                                    {
-                                        policy.effectFilter.SetAllow(def, false);
-                                    }
-                                }
-                            }
-                        }
-
-                        foreach (ZoneType zone in DefaultStockpileZones)
-                        {
-                            if (!zone.locked)
-                            {
-                                foreach (string defName in newSpecialThingFilterDefs)
-                                {
-                                    SpecialThingFilterDef def = DefDatabase<SpecialThingFilterDef>.GetNamed(defName);
-                                    if (!def.allowedByDefault)
-                                    {
-                                        zone.filter.SetAllow(def, false);
-                                    }
-                                }
-                            }
-                        }
-
-                        if (!DefaultShelfSettings.locked)
-                        {
-                            foreach (string defName in newSpecialThingFilterDefs)
-                            {
-                                SpecialThingFilterDef def = DefDatabase<SpecialThingFilterDef>.GetNamed(defName);
-                                if (!def.allowedByDefault)
-                                {
-                                    DefaultShelfSettings.filter.SetAllow(def, false);
-                                }
-                            }
-                        }
-                    });
+                    }
                 }
-            }
-            PreviousSpecialThingFilterDefs = currentSpecialThingFilterDefs;
+
+                foreach (ZoneType zone in DefaultStockpileZones)
+                {
+                    if (!zone.locked)
+                    {
+                        foreach (string defName in newThingDefs)
+                        {
+                            ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
+                            switch (zone.Preset)
+                            {
+                                case StorageSettingsPreset.DumpingStockpile:
+                                    if (ThingCategoryDefOf.Corpses.DescendantThingDefs.Union(ThingCategoryDefOf.Chunks.DescendantThingDefs).Contains(def) || (ModsConfig.BiotechActive && def == ThingDefOf.Wastepack))
+                                    {
+                                        zone.filter.SetAllow(def, true);
+                                    }
+                                    break;
+                                case StorageSettingsPreset.CorpseStockpile:
+                                    if (ThingCategoryDefOf.Corpses.DescendantThingDefs.Contains(def))
+                                    {
+                                        zone.filter.SetAllow(def, true);
+                                    }
+                                    break;
+                                case StorageSettingsPreset.DefaultStockpile:
+                                default:
+                                    if (ThingCategoryDefOf.Foods.DescendantThingDefs.Union(ThingCategoryDefOf.Manufactured.DescendantThingDefs).Union(ThingCategoryDefOf.ResourcesRaw.DescendantThingDefs).Union(ThingCategoryDefOf.Items.DescendantThingDefs).Union(ThingCategoryDefOf.Buildings.DescendantThingDefs).Union(ThingCategoryDefOf.Weapons.DescendantThingDefs).Union(ThingCategoryDefOf.Apparel.DescendantThingDefs).Union(ThingCategoryDefOf.BodyParts.DescendantThingDefs).Contains(def) && (!ModsConfig.BiotechActive || def != ThingDefOf.Wastepack))
+                                    {
+                                        zone.filter.SetAllow(def, true);
+                                    }
+                                    break;
+                            }
+                        }
+                    }
+                }
+
+                if (!DefaultShelfSettings.locked)
+                {
+                    foreach (string defName in newThingDefs)
+                    {
+                        ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
+                        if (ThingCategoryDefOf.Foods.DescendantThingDefs.Union(ThingCategoryDefOf.Manufactured.DescendantThingDefs).Union(ThingCategoryDefOf.ResourcesRaw.DescendantThingDefs).Union(ThingCategoryDefOf.Items.DescendantThingDefs).Union(ThingCategoryDefOf.Weapons.DescendantThingDefs).Union(ThingCategoryDefOf.Apparel.DescendantThingDefs).Union(ThingCategoryDefOf.BodyParts.DescendantThingDefs).Contains(def) && (!ModsConfig.BiotechActive || def != ThingDefOf.Wastepack))
+                        {
+                            DefaultShelfSettings.filter.SetAllow(def, true);
+                        }
+                    }
+                }
+
+                foreach (BillTemplate bill in DefaultWorkbenchBills.SelectMany(s => s.bills))
+                {
+                    if (!bill.locked)
+                    {
+                        foreach (string defName in newThingDefs)
+                        {
+                            ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
+                            bill.ingredientFilter.SetAllow(def, true);
+                        }
+                    }
+                }
+            });
+
+            HandleNewDefs<SpecialThingFilterDef>(ref PreviousSpecialThingFilterDefs, newSpecialThingFilterDefs =>
+            {
+                foreach (Policies.ApparelPolicies.ApparelPolicy policy in DefaultApparelPolicies)
+                {
+                    if (!policy.locked)
+                    {
+                        foreach (string defName in newSpecialThingFilterDefs)
+                        {
+                            SpecialThingFilterDef def = DefDatabase<SpecialThingFilterDef>.GetNamed(defName);
+                            if (!def.allowedByDefault)
+                            {
+                                policy.filter.SetAllow(def, false);
+                            }
+                        }
+                    }
+                }
+
+                foreach (Policies.FoodPolicies.FoodPolicy policy in DefaultFoodPolicies)
+                {
+                    if (!policy.locked)
+                    {
+                        foreach (string defName in newSpecialThingFilterDefs)
+                        {
+                            SpecialThingFilterDef def = DefDatabase<SpecialThingFilterDef>.GetNamed(defName);
+                            if (!def.allowedByDefault)
+                            {
+                                policy.filter.SetAllow(def, false);
+                            }
+                        }
+                    }
+                }
+
+                foreach (Policies.ReadingPolicies.ReadingPolicy policy in DefaultReadingPolicies)
+                {
+                    if (!policy.locked)
+                    {
+                        foreach (string defName in newSpecialThingFilterDefs)
+                        {
+                            SpecialThingFilterDef def = DefDatabase<SpecialThingFilterDef>.GetNamed(defName);
+                            if (!def.allowedByDefault && ThingCategoryDefOf.BookEffects.DescendantSpecialThingFilterDefs.Contains(def))
+                            {
+                                policy.effectFilter.SetAllow(def, false);
+                            }
+                        }
+                    }
+                }
+
+                foreach (ZoneType zone in DefaultStockpileZones)
+                {
+                    if (!zone.locked)
+                    {
+                        foreach (string defName in newSpecialThingFilterDefs)
+                        {
+                            SpecialThingFilterDef def = DefDatabase<SpecialThingFilterDef>.GetNamed(defName);
+                            if (!def.allowedByDefault)
+                            {
+                                zone.filter.SetAllow(def, false);
+                            }
+                        }
+                    }
+                }
+
+                if (!DefaultShelfSettings.locked)
+                {
+                    foreach (string defName in newSpecialThingFilterDefs)
+                    {
+                        SpecialThingFilterDef def = DefDatabase<SpecialThingFilterDef>.GetNamed(defName);
+                        if (!def.allowedByDefault)
+                        {
+                            DefaultShelfSettings.filter.SetAllow(def, false);
+                        }
+                    }
+                }
+
+                foreach (BillTemplate bill in DefaultWorkbenchBills.SelectMany(s => s.bills))
+                {
+                    if (!bill.locked)
+                    {
+                        foreach (string defName in newSpecialThingFilterDefs)
+                        {
+                            SpecialThingFilterDef def = DefDatabase<SpecialThingFilterDef>.GetNamed(defName);
+                            bill.ingredientFilter.SetAllow(def, false);
+                        }
+                    }
+                }
+            });
 
             LongEventHandler.ExecuteWhenFinished(DefaultsMod.Settings.Write);
+        }
+
+        private static void HandleNewDefs<T>(ref List<string> previousDefs, Action<List<string>> newDefHandler) where T : Def
+        {
+            List<string> currentDefs = DefDatabase<T>.AllDefsListForReading.Select(d => d.defName).ToList();
+            if (previousDefs != null)
+            {
+                List<string> newDefs = currentDefs.Except(previousDefs).ToList();
+                if (newDefs.Count > 0)
+                {
+                    LongEventHandler.ExecuteWhenFinished(delegate
+                    {
+                        newDefHandler(newDefs);
+                    });
+                }
+            }
+            previousDefs = currentDefs;
         }
 
         public static ZoneType DefaultStockpileZone

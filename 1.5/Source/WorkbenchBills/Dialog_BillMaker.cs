@@ -51,6 +51,15 @@ namespace Defaults.WorkbenchBills
                     WorkbenchBillStore.Get(workbenchGroup).bills.Add(new BillTemplate(r));
                 }, r.UIIconThing, r.UIIcon, null, true, MenuOptionPriority.Default, null, null, 29f, (Rect rect) => Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, r), null, true, -r.displayPriority)).ToList()));
             }
+            
+            if (BillTemplate.clipboard != null && workbenchGroup.Any(t => t.AllRecipes.Contains(BillTemplate.clipboard.recipe)))
+            {
+                Rect pasteRect = new Rect(buttonRect.xMax - 24f, buttonRect.y - 24f, 24f, 24f);
+                if (Widgets.ButtonImage(pasteRect, TexButton.Paste))
+                {
+                    WorkbenchBillStore.Get(workbenchGroup).bills.Add(BillTemplate.clipboard);
+                }
+            }
 
             Rect outRect = new Rect(inRect.x, titleRect.yMax + padding, inRect.width, inRect.height - titleRect.height - padding - Window.CloseButSize.y - padding);
             Rect viewRect = new Rect(0f, 0f, outRect.width - 20f, y);
@@ -59,7 +68,7 @@ namespace Defaults.WorkbenchBills
             List<BillTemplate> bills = WorkbenchBillStore.Get(workbenchGroup).bills;
             foreach (BillTemplate bill in bills.ListFullCopy())
             {
-                Rect billRect = new Rect(viewRect.x, viewRect.y + y, viewRect.width, 53f);
+                Rect billRect = new Rect(viewRect.x, viewRect.y + y, viewRect.width, 68f);
                 DoBill(billRect, bill, bills);
                 y += billRect.height + padding;
             }
@@ -94,8 +103,16 @@ namespace Defaults.WorkbenchBills
                 TooltipHandler.TipRegionByKey(downRect, "ReorderBillDownTip");
             }
 
-            Rect labelRect = new Rect(rect.x + 28f, rect.y, rect.width - 48f - 20f, rect.height + 5f);
+            Rect labelRect = new Rect(rect.x + 28f, rect.y, rect.width - 48f - 20f, 25f);
             Widgets.Label(labelRect, bill.recipe.LabelCap);
+
+            if (!bill.name.EqualsIgnoreCase(bill.recipe.LabelCap))
+            {
+                Rect nameRect = new Rect(labelRect.x, labelRect.yMax - 4f, labelRect.width, 18f);
+                Text.Font = GameFont.Tiny;
+                Widgets.Label(nameRect, bill.name);
+                Text.Font = GameFont.Small;
+            }
 
             Rect deleteRect = new Rect(rect.xMax - 24f, rect.y, 24f, 24f);
             if (Widgets.ButtonImage(deleteRect, TexButton.Delete, Color.white, GenUI.SubtleMouseoverColor))
@@ -114,7 +131,7 @@ namespace Defaults.WorkbenchBills
             }
             TooltipHandler.TipRegionByKey(copyRect, "CopyBillTip");
 
-            Rect repeatInfoRect = new Rect(rect.x + 28f, rect.y + 32f, 100f, 30f);
+            Rect repeatInfoRect = new Rect(rect.x + 28f, rect.y + 47f, 100f, 30f);
             string repeatInfo = "";
             if (bill.repeatMode == BillRepeatModeDefOf.Forever) 
             {
@@ -132,24 +149,14 @@ namespace Defaults.WorkbenchBills
             Widgets.Label(repeatInfoRect, repeatInfo);
             GUI.color = Color.white;
 
-            WidgetRow row = new WidgetRow(rect.xMax, rect.y + 29f, UIDirection.LeftThenUp);
+            WidgetRow row = new WidgetRow(rect.xMax, rect.y + 44f, UIDirection.LeftThenUp);
             if (row.ButtonText("Details".Translate() + "..."))
             {
-                // Not today
+                Find.WindowStack.Add(new Dialog_Bill(bill));
             }
             if (row.ButtonText(bill.repeatMode.LabelCap.Resolve().PadRight(20)))
             {
-                Find.WindowStack.Add(new FloatMenu(DefDatabase<BillRepeatModeDef>.AllDefsListForReading.Select(d => new FloatMenuOption(d.LabelCap, () =>
-                {
-                    if (d != BillRepeatModeDefOf.TargetCount || bill.recipe.WorkerCounter.CanCountProducts(null))
-                    {
-                        bill.repeatMode = d;
-                    }
-                    else
-                    {
-                        Messages.Message("RecipeCannotHaveTargetCount".Translate(), MessageTypeDefOf.RejectInput, false);
-                    }
-                })).ToList()));
+                bill.DoBillRepeatModeMenu();
             }
             Action<int> countAction = (multiplier) =>
             {

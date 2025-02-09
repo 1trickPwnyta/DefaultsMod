@@ -51,6 +51,12 @@
 	<Defaults_PolicySavedAs>Policy saved as {0}.</Defaults_PolicySavedAs>
 	<Defaults_LoadDefaultPolicy>Load from defaults</Defaults_LoadDefaultPolicy>
 	<Defaults_LockSetting>Lock this setting to prevent automatic changes when new mods or DLC are added</Defaults_LockSetting>
+	<Defaults_UnavailableCaps>UNAVAILABLE</Defaults_UnavailableCaps>
+	<Defaults_SaveNewDefaultBill>Save as new default bill</Defaults_SaveNewDefaultBill>
+	<Defaults_SaveBillConfirmed>Saved bill as default.</Defaults_SaveBillConfirmed>
+	<Defaults_LoadDefaultBill>Load default</Defaults_LoadDefaultBill>
+	<Defaults_UseBill>Use</Defaults_UseBill>
+	<Defaults_UseBillTip>Indicates whether this bill will automatically be added to new workbenches.</Defaults_UseBillTip>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

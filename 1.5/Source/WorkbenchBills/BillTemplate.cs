@@ -3,8 +3,11 @@ using Verse;
 
 namespace Defaults.WorkbenchBills
 {
-    public class BillTemplate : IExposable
+    public class BillTemplate : IExposable, IRenameable
     {
+        public string name;
+        public bool use = true;
+        public bool locked = false;
         public RecipeDef recipe;
         public ThingFilter ingredientFilter;
         public float ingredientSearchRadius = 999f;
@@ -26,10 +29,17 @@ namespace Defaults.WorkbenchBills
 
         public static BillTemplate clipboard;
 
+        public string RenamableLabel { get => name; set => name = value; }
+
+        public string BaseLabel => RenamableLabel;
+
+        public string InspectLabel => RenamableLabel;
+
         private BillTemplate() { }
 
         public BillTemplate(RecipeDef recipe)
         {
+            name = recipe.LabelCap;
             this.recipe = recipe;
             ingredientFilter = new ThingFilter();
             if (recipe.fixedIngredientFilter != null)
@@ -38,10 +48,109 @@ namespace Defaults.WorkbenchBills
             }
         }
 
+        public Bill ToBill()
+        {
+            Bill bill = recipe.MakeNewBill();
+            bill.ingredientFilter.CopyAllowancesFrom(ingredientFilter);
+            bill.ingredientSearchRadius = ingredientSearchRadius;
+            bill.allowedSkillRange = allowedSkillRange;
+            if (slavesOnly)
+            {
+                bill.SetAnySlaveRestriction();
+            }
+            if (mechsOnly)
+            {
+                bill.SetAnyMechRestriction();
+            }
+            if (nonMechsOnly)
+            {
+                bill.SetAnyNonMechRestriction();
+            }
+            Bill_Production productionBill = bill as Bill_Production;
+            if (productionBill != null)
+            {
+                productionBill.repeatMode = repeatMode;
+                productionBill.repeatCount = repeatCount;
+                productionBill.SetStoreMode(storeMode);
+                productionBill.targetCount = targetCount;
+                productionBill.pauseWhenSatisfied = pauseWhenSatisfied;
+                productionBill.unpauseWhenYouHave = unpauseWhenYouHave;
+                productionBill.includeEquipped = includeEquipped;
+                productionBill.includeTainted = includeTainted;
+                productionBill.hpRange = hpRange;
+                productionBill.qualityRange = qualityRange;
+                productionBill.limitToAllowedStuff = limitToAllowedStuff;
+            }
+            
+            return bill;
+        }
+
+        public static BillTemplate FromBill(Bill bill)
+        {
+            BillTemplate template = new BillTemplate(bill.recipe);
+            template.ingredientFilter = new ThingFilter();
+            template.ingredientFilter.CopyAllowancesFrom(bill.ingredientFilter);
+            template.ingredientSearchRadius = bill.ingredientSearchRadius;
+            template.allowedSkillRange = bill.allowedSkillRange;
+            template.slavesOnly = bill.SlavesOnly;
+            template.mechsOnly = bill.MechsOnly;
+            template.nonMechsOnly = bill.NonMechsOnly;
+            Bill_Production productionBill = bill as Bill_Production;
+            if (productionBill != null)
+            {
+                template.repeatMode = productionBill.repeatMode;
+                template.repeatCount = productionBill.repeatCount;
+                template.storeMode = productionBill.GetStoreMode();
+                if (template.storeMode == BillStoreModeDefOf.SpecificStockpile)
+                {
+                    template.storeMode = BillStoreModeDefOf.BestStockpile;
+                }
+                template.targetCount = productionBill.targetCount;
+                template.pauseWhenSatisfied = productionBill.pauseWhenSatisfied;
+                template.unpauseWhenYouHave = productionBill.unpauseWhenYouHave;
+                template.includeEquipped = productionBill.includeEquipped;
+                template.includeTainted = productionBill.includeTainted;
+                template.hpRange = productionBill.hpRange;
+                template.qualityRange = productionBill.qualityRange;
+                template.limitToAllowedStuff = productionBill.limitToAllowedStuff;
+            }
+
+            return template;
+        }
+
+        public void SetAnyPawnRestriction()
+        {
+            slavesOnly = false;
+            mechsOnly = false;
+            nonMechsOnly = false;
+        }
+
+        public void SetAnySlaveRestriction()
+        {
+            slavesOnly = true;
+            mechsOnly = false;
+            nonMechsOnly = false;
+        }
+
+        public void SetAnyMechRestriction()
+        {
+            slavesOnly = false;
+            mechsOnly = true;
+            nonMechsOnly = false;
+        }
+
+        public void SetAnyNonMechRestriction()
+        {
+            slavesOnly = false;
+            mechsOnly = false;
+            nonMechsOnly = true;
+        }
+
         public BillTemplate Clone()
         {
-            BillTemplate clone = new BillTemplate();
-            clone.recipe = recipe;
+            BillTemplate clone = new BillTemplate(recipe);
+            clone.use = use;
+            clone.locked = locked;
             clone.ingredientFilter = new ThingFilter();
             clone.ingredientFilter.CopyAllowancesFrom(ingredientFilter);
             clone.ingredientSearchRadius = ingredientSearchRadius;
@@ -65,6 +174,9 @@ namespace Defaults.WorkbenchBills
 
         public void ExposeData()
         {
+            Scribe_Values.Look(ref name, "name");
+            Scribe_Values.Look(ref use, "use", true);
+            Scribe_Values.Look(ref locked, "locked", false);
             Scribe_Defs.Look(ref recipe, "recipe");
             Scribe_Deep.Look(ref ingredientFilter, "ingredientFilter");
             Scribe_Values.Look(ref ingredientSearchRadius, "ingredientSearchRadius");
