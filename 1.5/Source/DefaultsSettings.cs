@@ -72,6 +72,9 @@ namespace Defaults
         public static float DefaultTargetTemperatureHeater;
         public static float DefaultTargetTemperatureCooler;
         public static List<WorkbenchBillStore> DefaultWorkbenchBills;
+        public static float DefaultBillIngredientSearchRadius;
+        public static IntRange DefaultBillAllowedSkillRange;
+        public static BillStoreModeDef DefaultBillStoreMode;
 
         private static int NextScheduleIndex = Mathf.Abs(Rand.Int);
         private static List<string> PreviousFactionDefs;
@@ -132,6 +135,9 @@ namespace Defaults
             DefaultTargetTemperatureHeater = 21f;
             DefaultTargetTemperatureCooler = 21f;
             DefaultWorkbenchBills = null;
+            DefaultBillIngredientSearchRadius = 999f;
+            DefaultBillAllowedSkillRange = new IntRange(0, 20);
+            DefaultBillStoreMode = null;
 
             InitializeDefaultSchedules();
             InitializeDefaultMedicineToCarry();
@@ -837,6 +843,10 @@ namespace Defaults
                 {
                     DefaultWorkbenchBills = new List<WorkbenchBillStore>();
                 }
+                if (DefaultBillStoreMode == null)
+                {
+                    DefaultBillStoreMode = BillStoreModeDefOf.BestStockpile;
+                }
             });
         }
 
@@ -1060,6 +1070,9 @@ namespace Defaults
             Scribe_Values.Look(ref DefaultTargetTemperatureHeater, "DefaultTargetTemperatureHeater", 21f);
             Scribe_Values.Look(ref DefaultTargetTemperatureCooler, "DefaultTargetTemperatureCooler", 21f);
             Scribe_Collections.Look(ref DefaultWorkbenchBills, "DefaultWorkbenchBills");
+            Scribe_Values.Look(ref DefaultBillIngredientSearchRadius, "DefaultBillIngredientSearchRadius", 999f);
+            Scribe_Values.Look(ref DefaultBillAllowedSkillRange, "DefaultBillAllowedSkillRange", new IntRange(0, 20));
+            Scribe_Defs.Look(ref DefaultBillStoreMode, "DefaultBillStoreMode");
 
             Scribe_Collections.Look(ref PreviousFactionDefs, "PreviousFactionDefs");
             Scribe_Collections.Look(ref PreviousThingDefs, "PreviousThingDefs");

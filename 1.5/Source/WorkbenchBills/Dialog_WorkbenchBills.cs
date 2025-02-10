@@ -40,16 +40,11 @@ namespace Defaults.WorkbenchBills
             doCloseX = true;
             doCloseButton = true;
             closeOnClickedOutside = true;
+            absorbInputAroundWindow = true;
             optionalTitle = "Defaults_WorkbenchBills".Translate();
         }
 
-        public override Vector2 InitialSize
-        {
-            get
-            {
-                return new Vector2(860f, 600f);
-            }
-        }
+        public override Vector2 InitialSize => new Vector2(860f, 600f);
 
         public override void PreOpen()
         {
@@ -59,7 +54,13 @@ namespace Defaults.WorkbenchBills
 
         public override void DoWindowContents(Rect inRect)
         {
-            Rect outRect = new Rect(inRect.x, inRect.y, inRect.width, inRect.height - Window.CloseButSize.y - padding - Window.QuickSearchSize.y - padding);
+            Rect globalRect = new Rect(inRect.xMax - 200f, inRect.y, 200f, 29f);
+            if (Widgets.ButtonText(globalRect, "Defaults_GlobalBillSettings".Translate()))
+            {
+                Find.WindowStack.Add(new Dialog_GlobalBillSettings());
+            }
+
+            Rect outRect = new Rect(inRect.x, globalRect.yMax + padding, inRect.width, inRect.height - Window.CloseButSize.y - padding - Window.QuickSearchSize.y - padding - globalRect.height - padding);
             Rect viewRect = new Rect(0f, 0f, outRect.width - 20f, y);
             Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
             float x = 0f;

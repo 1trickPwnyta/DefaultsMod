@@ -142,6 +142,7 @@
     <Compile Include="WorkbenchBills\BillUtility.cs" />
     <Compile Include="WorkbenchBills\Dialog_Bill.cs" />
     <Compile Include="WorkbenchBills\Dialog_BillMaker.cs" />
+    <Compile Include="WorkbenchBills\Dialog_GlobalBillSettings.cs" />
     <Compile Include="WorkbenchBills\Dialog_RenameBillTemplate.cs" />
     <Compile Include="WorkbenchBills\Dialog_WorkbenchBills.cs" />
     <Compile Include="WorkbenchBills\Patch_Bill.cs" />

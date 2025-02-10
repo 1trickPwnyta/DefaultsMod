@@ -51,15 +51,6 @@ namespace Defaults.WorkbenchBills
                     WorkbenchBillStore.Get(workbenchGroup).bills.Add(new BillTemplate(r));
                 }, r.UIIconThing, r.UIIcon, null, true, MenuOptionPriority.Default, null, null, 29f, (Rect rect) => Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, r), null, true, -r.displayPriority)).ToList()));
             }
-            
-            if (BillTemplate.clipboard != null && workbenchGroup.Any(t => t.AllRecipes.Contains(BillTemplate.clipboard.recipe)))
-            {
-                Rect pasteRect = new Rect(buttonRect.xMax - 24f, buttonRect.y - 24f, 24f, 24f);
-                if (Widgets.ButtonImage(pasteRect, TexButton.Paste))
-                {
-                    WorkbenchBillStore.Get(workbenchGroup).bills.Add(BillTemplate.clipboard);
-                }
-            }
 
             Rect outRect = new Rect(inRect.x, titleRect.yMax + padding, inRect.width, inRect.height - titleRect.height - padding - Window.CloseButSize.y - padding);
             Rect viewRect = new Rect(0f, 0f, outRect.width - 20f, y);
@@ -126,10 +117,9 @@ namespace Defaults.WorkbenchBills
             copyRect.x -= copyRect.width + 4f;
             if (Widgets.ButtonImageFitted(copyRect, TexButton.Copy))
             {
-                BillTemplate.clipboard = bill.Clone();
+                WorkbenchBillStore.Get(workbenchGroup).bills.Add(bill.Clone());
                 SoundDefOf.Tick_High.PlayOneShot(null);
             }
-            TooltipHandler.TipRegionByKey(copyRect, "CopyBillTip");
 
             Rect repeatInfoRect = new Rect(rect.x + 28f, rect.y + 47f, 100f, 30f);
             string repeatInfo = "";

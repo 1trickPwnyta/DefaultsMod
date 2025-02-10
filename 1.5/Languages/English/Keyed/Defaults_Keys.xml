@@ -57,6 +57,7 @@
 	<Defaults_LoadDefaultBill>Load default</Defaults_LoadDefaultBill>
 	<Defaults_UseBill>Use</Defaults_UseBill>
 	<Defaults_UseBillTip>Indicates whether this bill will automatically be added to new workbenches.</Defaults_UseBillTip>
+	<Defaults_GlobalBillSettings>Global bill settings</Defaults_GlobalBillSettings>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

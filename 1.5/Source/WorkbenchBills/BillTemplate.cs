@@ -10,14 +10,14 @@ namespace Defaults.WorkbenchBills
         public bool locked = false;
         public RecipeDef recipe;
         public ThingFilter ingredientFilter;
-        public float ingredientSearchRadius = 999f;
-        public IntRange allowedSkillRange = new IntRange(0, 20);
+        public float ingredientSearchRadius = DefaultsSettings.DefaultBillIngredientSearchRadius;
+        public IntRange allowedSkillRange = DefaultsSettings.DefaultBillAllowedSkillRange;
         public bool slavesOnly = false;
         public bool mechsOnly = false;
         public bool nonMechsOnly = false;
         public BillRepeatModeDef repeatMode = BillRepeatModeDefOf.RepeatCount;
         public int repeatCount = 1;
-        public BillStoreModeDef storeMode = BillStoreModeDefOf.BestStockpile;
+        public BillStoreModeDef storeMode = DefaultsSettings.DefaultBillStoreMode;
         public int targetCount = 10;
         public bool pauseWhenSatisfied = false;
         public int unpauseWhenYouHave = 5;
@@ -26,8 +26,6 @@ namespace Defaults.WorkbenchBills
         public FloatRange hpRange = FloatRange.ZeroToOne;
         public QualityRange qualityRange = QualityRange.All;
         public bool limitToAllowedStuff = false;
-
-        public static BillTemplate clipboard;
 
         public string RenamableLabel { get => name; set => name = value; }
 
