@@ -69,6 +69,7 @@
     <Compile Include="StockpileZones\Shelves\Patch_Blueprint_Storage.cs" />
     <Compile Include="StockpileZones\Shelves\Patch_Building_Storage.cs" />
     <Compile Include="TargetTemperature\Patch_CompTempControl.cs" />
+    <Compile Include="TargetTemperature\Patch_ThingComp.cs" />
     <Compile Include="UIUtility.cs" />
     <Compile Include="Policies\FoodPolicies\FoodPolicy.cs" />
     <Compile Include="Policies\FoodPolicies\Dialog_FoodPolicies.cs" />
@@ -148,8 +149,8 @@
     <Compile Include="WorkbenchBills\Patch_Bill.cs" />
     <Compile Include="WorkbenchBills\Patch_BillStack.cs" />
     <Compile Include="WorkbenchBills\Patch_Bill_Production.cs" />
-    <Compile Include="WorkbenchBills\Patch_Building_WorkTable.cs" />
     <Compile Include="WorkbenchBills\Patch_Dialog_BillConfig.cs" />
+    <Compile Include="WorkbenchBills\Patch_ThingWithComps.cs" />
     <Compile Include="WorkbenchBills\WorkbenchBillStore.cs" />
     <Compile Include="WorldSettings\Dialog_WorldSettings.cs" />
     <Compile Include="WorldSettings\FactionsUtility.cs" />

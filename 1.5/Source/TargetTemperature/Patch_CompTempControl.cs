@@ -5,19 +5,6 @@ using System.Reflection.Emit;
 
 namespace Defaults.TargetTemperature
 {
-    [HarmonyPatch(typeof(CompTempControl))]
-    [HarmonyPatch(nameof(CompTempControl.PostSpawnSetup))]
-    public static class Patch_CompTempControl_PostSpawnSetup
-    {
-        public static void Postfix(CompTempControl __instance, bool respawningAfterLoad)
-        {
-            if (!respawningAfterLoad)
-            {
-                __instance.TargetTemperature = PatchUtility_CompTempControl.GetDefaultTargetTemperature(__instance);
-            }
-        }
-    }
-
     // Patched manually in mod constructor
     public static class Patch_CompTempControl_CompGetGizmosExtra_b__12_2
     {
