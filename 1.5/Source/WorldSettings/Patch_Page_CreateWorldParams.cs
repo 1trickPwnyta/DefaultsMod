@@ -28,7 +28,7 @@ namespace Defaults.WorldSettings
     {
         public static void Postfix(ref List<FactionDef> ___factions)
         {
-            ___factions = DefaultsSettings.DefaultFactions.Select(f => DefDatabase<FactionDef>.GetNamedSilentFail(f)).Where(f => f != null).Concat(FactionsUtility.GetDefaultNonselectableFactions()).ToList();
+            ___factions = DefaultsSettings.DefaultFactions.Select(f => DefDatabase<FactionDef>.GetNamedSilentFail(f)).Where(f => f != null && f.displayInFactionSelection).Concat(FactionsUtility.GetDefaultNonselectableFactions()).ToList();
         }
     }
 
@@ -46,7 +46,7 @@ namespace Defaults.WorldSettings
                 DefaultsSettings.DefaultOverallTemperature = ___temperature;
                 DefaultsSettings.DefaultOverallPopulation = ___population;
                 DefaultsSettings.DefaultPollution = ___pollution;
-                DefaultsSettings.DefaultFactions = ___factions.Select(f => f.defName).ToList();
+                DefaultsSettings.DefaultFactions = ___factions.Where(f => f.displayInFactionSelection).Select(f => f.defName).ToList();
                 LongEventHandler.ExecuteWhenFinished(DefaultsMod.Settings.Write);
                 Messages.Message("Defaults_SetAsDefaultConfirmed".Translate(), MessageTypeDefOf.PositiveEvent, false);
             }
