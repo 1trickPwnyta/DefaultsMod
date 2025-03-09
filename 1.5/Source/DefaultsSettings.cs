@@ -514,6 +514,13 @@ namespace Defaults
                 {
                     DefaultFactions = FactionsUtility.GetDefaultSelectableFactions().Select(f => f.defName).ToList();
                 }
+
+                // Remove any non-selectable factions from the default settings that got in due to bug
+                DefaultFactions.RemoveAll(f => 
+                {
+                    FactionDef d = DefDatabase<FactionDef>.GetNamedSilentFail(f);
+                    return d == null || !d.displayInFactionSelection;
+                });
             });
         }
 
