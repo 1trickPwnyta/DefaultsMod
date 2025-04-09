@@ -3,7 +3,7 @@
 	<name>1trickPwnyta's Defaults</name>
 	<author>1trickPwnyta</author>
 	<packageId>defaults.1trickPwnyta</packageId>
-	<modVersion>1.5.2</modVersion>
+	<modVersion>1.6.0</modVersion>
 	<supportedVersions>
 		<li>1.5</li>
 	</supportedVersions>
@@ -36,6 +36,7 @@ Full list of settings:
   - Default workbench bills: Allows you to set default bills for workbenches that will populate automatically upon building a workbench.
 
 === Updates ===
+04/09/2025: Add default workbench bills
 04/03/2025: Fix bug where default shelf settings apply to non-shelf buildings such as nutrient paste hoppers
 03/08/2025: Fix bug where hidden factions are duplicated
 01/26/2025: Add default reading policies, pregnancy approach, target temperature, and shelf settings. Add button to set a policy as default. Add settings locks.
