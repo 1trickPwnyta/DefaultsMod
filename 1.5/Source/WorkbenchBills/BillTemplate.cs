@@ -48,10 +48,21 @@ namespace Defaults.WorkbenchBills
 
         public Bill ToBill()
         {
+            // Disable bill constructor patch since we will be setting those parameters here and don't want to patch over any values set by another mod (such as EndlessGrowth)
+            Patch_Bill_Production_ctor.Enabled = false;
             Bill bill = recipe.MakeNewBill();
+            Patch_Bill_Production_ctor.Enabled = true;
+
             bill.ingredientFilter.CopyAllowancesFrom(ingredientFilter);
             bill.ingredientSearchRadius = ingredientSearchRadius;
-            bill.allowedSkillRange = allowedSkillRange;
+
+            bill.allowedSkillRange.min = allowedSkillRange.min;
+            // To support mods that increase max skill level, count 20 as unlimited and therefore do not change the max
+            if (allowedSkillRange.max < 20)
+            {
+                bill.allowedSkillRange.max = allowedSkillRange.max;
+            }
+
             if (slavesOnly)
             {
                 bill.SetAnySlaveRestriction();

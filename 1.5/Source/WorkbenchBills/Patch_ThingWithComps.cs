@@ -11,7 +11,7 @@ namespace Defaults.WorkbenchBills
     {
         public static void Postfix(ThingWithComps __instance)
         {
-            if (__instance is Building_WorkTable table)
+            if (__instance is Building_WorkTable table && DefaultsSettings.DefaultWorkbenchBills != null)
             {
                 foreach (BillTemplate bill in DefaultsSettings.DefaultWorkbenchBills.Where(s => s.workbenchGroup.Contains(table.def)).SelectMany(s => s.bills))
                 {

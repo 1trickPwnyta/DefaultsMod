@@ -185,7 +185,7 @@ namespace Defaults.WorkbenchBills
             }
             if (bill.recipe.workSkill != null && !bill.mechsOnly)
             {
-                workerSection.Label("AllowedSkillRange".Translate(bill.recipe.workSkill.label) + ":");
+                workerSection.Label("AllowedSkillRange".Translate(bill.recipe.workSkill.label) + ": " + (bill.allowedSkillRange.max == 20 ? "Unlimited".TranslateSimple() : ""));
                 workerSection.IntRange(ref bill.allowedSkillRange, 0, 20);
             }
             listing.EndSection(workerSection);

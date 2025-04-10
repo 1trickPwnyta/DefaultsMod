@@ -31,7 +31,7 @@ namespace Defaults.WorkbenchBills
                 DefaultsSettings.DefaultBillIngredientSearchRadius = 999f;
             }
 
-            listing.Label("AllowedSkillRange".Translate("") + ":");
+            listing.Label("AllowedSkillRange".Translate("") + ": " + (DefaultsSettings.DefaultBillAllowedSkillRange.max == 20 ? "Unlimited".TranslateSimple() : ""));
             listing.IntRange(ref DefaultsSettings.DefaultBillAllowedSkillRange, 0, 20);
             listing.Gap(12f);
 
