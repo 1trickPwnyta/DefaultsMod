@@ -10,7 +10,7 @@ namespace Defaults.TargetTemperature
     {
         public static void Postfix(ThingComp __instance)
         {
-            if (__instance is CompTempControl comp)
+            if (__instance is CompTempControl comp && !(comp is Comp_AtmosphericHeater))
             {
                 comp.TargetTemperature = PatchUtility_CompTempControl.GetDefaultTargetTemperature(comp);
             }
