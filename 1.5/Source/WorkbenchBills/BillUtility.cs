@@ -1,4 +1,6 @@
-﻿using RimWorld;
+﻿using HarmonyLib;
+using RimWorld;
+using System;
 using System.Linq;
 using Verse;
 
@@ -6,9 +8,18 @@ namespace Defaults.WorkbenchBills
 {
     public static class BillUtility
     {
+        private static readonly Type rr = AccessTools.TypeByName("PeteTimesSix.ResearchReinvented.Extensions.RecipeDefExtensions");
+
         public static bool IsSuspendedOrUnavailable(this Bill bill)
         {
-            return bill.suspended || !bill.recipe.AvailableNow;
+            // Mod compatibility with Research Reinvented
+            bool rrPrototypeAvailable = false;
+            if (rr != null)
+            {
+                rrPrototypeAvailable = (bool)rr.Method("IsAvailableOnlyForPrototyping").Invoke(null, new object[] { bill.recipe, true });
+            }
+
+            return bill.suspended || !(bill.recipe.AvailableNow || rrPrototypeAvailable);
         }
 
         public static void DoBillRepeatModeMenu(this BillTemplate bill)

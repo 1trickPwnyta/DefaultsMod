@@ -3,7 +3,7 @@
 	<name>1trickPwnyta's Defaults</name>
 	<author>1trickPwnyta</author>
 	<packageId>defaults.1trickPwnyta</packageId>
-	<modVersion>1.6.2</modVersion>
+	<modVersion>1.6.3</modVersion>
 	<supportedVersions>
 		<li>1.5</li>
 	</supportedVersions>
@@ -36,6 +36,7 @@ Full list of settings:
   - Default workbench bills: Allows you to set default bills for workbenches that will populate automatically upon building a workbench.
 
 === Updates ===
+05/05/2025: Add mod compatibility with Research Reinvented and Mines 2.0
 04/24/2025: Fix bug that breaks atmospheric heaters
 04/10/2025: Add compatibility with mods that increase max skill level, add null check when building new workbenches
 04/09/2025: Add default workbench bills
@@ -65,4 +66,7 @@ Mod icon: twitter.com/mouse_draws
 			<downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
 		</li>
 	</modDependencies>
+	<loadAfter>
+		<li>cain.mineshaft</li>
+	</loadAfter>
 </ModMetaData>
