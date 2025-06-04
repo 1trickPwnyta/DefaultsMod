@@ -86,7 +86,11 @@ namespace Defaults
         private static List<string> PreviousThingDefs;
         private static List<string> PreviousSpecialThingFilterDefs;
 
+        private static readonly Vector2 settingsCategoryButtonSize = new Vector2(150f, 120f);
+        private static readonly float settingsCategoryButtonMargin = 30f;
+
         private static Vector2 scrollPosition;
+        private static float height;
 
         static DefaultsSettings()
         {
@@ -900,7 +904,30 @@ namespace Defaults
 
         public static void DoSettingsWindowContents(Rect inRect)
         {
-            Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width - 16f, 31f * 29);
+            
+            Rect outRect = new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 30f - 10f);
+            Rect viewRect = new Rect(0f, 0f, inRect.width - 20f, height);
+            Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
+
+            height = 0f;
+            float x = 0f, y = 0f;
+            List<DefaultSettingsCategoryDef> categories = DefDatabase<DefaultSettingsCategoryDef>.AllDefsListForReading;
+            foreach (DefaultSettingsCategoryDef def in categories)
+            {
+                Rect rect = new Rect(x, y, settingsCategoryButtonSize.x, settingsCategoryButtonSize.y);
+                def.Worker.DoButton(rect);
+                x += rect.width + settingsCategoryButtonMargin;
+                if (x + settingsCategoryButtonSize.x > viewRect.xMax)
+                {
+                    x = 0f;
+                    y += rect.height + settingsCategoryButtonMargin;
+                }
+            }
+
+            Widgets.EndScrollView();
+
+
+            /*Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width - 16f, 31f * 29);
             Widgets.BeginScrollView(new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 38f), ref scrollPosition, viewRect);
             Listing_StandardHighlight listing = new Listing_StandardHighlight();
             listing.Begin(viewRect);
@@ -1090,7 +1117,7 @@ namespace Defaults
             MechWorkModes.MechWorkModeUtility.DrawWorkModeButton(workModeAdditionalRect, DefaultWorkModeAdditional, mode => DefaultWorkModeAdditional = mode);
 
             listing.End();
-            Widgets.EndScrollView();
+            Widgets.EndScrollView();*/
 
             if (Widgets.ButtonText(new Rect(inRect.x + inRect.width / 4, inRect.yMax - 30f, inRect.width / 2, 30f), "Defaults_ResetAllSettings".Translate()))
             {
