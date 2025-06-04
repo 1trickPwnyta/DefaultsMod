@@ -22,6 +22,7 @@ namespace Defaults
             harmony.Patch(typeof(ReadingPolicy).GetConstructor(new Type[] { typeof(int), typeof(string) }), null, typeof(Policies.ReadingPolicies.Patch_ReadingPolicy).GetMethod("Postfix"));
             harmony.Patch(typeof(CompTempControl).Method("<CompGetGizmosExtra>b__12_2"), null, null, typeof(TargetTemperature.Patch_CompTempControl_CompGetGizmosExtra_b__12_2).GetMethod("Transpiler"));
             harmony.Patch(typeof(Bill_Production).GetConstructor(new[] { typeof(RecipeDef), typeof(Precept_ThingStyle) }), null, typeof(Patch_Bill_Production_ctor).GetMethod("Postfix"));
+            harmony.Patch(typeof(MechanitorControlGroup).GetConstructor(new[] { typeof(Pawn_MechanitorTracker) }), null, typeof(MechWorkModes.Patch_MechanitorControlGroup).Method(nameof(MechWorkModes.Patch_MechanitorControlGroup.Postfix)));
 
             DefaultsMod.Settings = DefaultsMod.Mod.GetSettings<DefaultsSettings>();
         }

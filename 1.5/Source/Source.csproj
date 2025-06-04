@@ -69,6 +69,9 @@
     <Compile Include="BabyFeeding\Dialog_BabyFeedingSettings.cs" />
     <Compile Include="BabyFeeding\Patch_Pawn_FoodRestrictionTracker.cs" />
     <Compile Include="BabyFeeding\Patch_PregnancyUtility.cs" />
+    <Compile Include="MechWorkModes\MechWorkModeUtility.cs" />
+    <Compile Include="MechWorkModes\Patch_MechanitorControlGroup.cs" />
+    <Compile Include="MechWorkModes\Patch_Pawn_MechanitorTracker.cs" />
     <Compile Include="StockpileZones\Shelves\Dialog_ShelfSettings.cs" />
     <Compile Include="StockpileZones\Shelves\Patch_Blueprint_Storage.cs" />
     <Compile Include="StockpileZones\Shelves\Patch_Building_Storage.cs" />

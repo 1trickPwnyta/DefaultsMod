@@ -77,6 +77,9 @@ namespace Defaults
         public static IntRange DefaultBillAllowedSkillRange;
         public static BillStoreModeDef DefaultBillStoreMode;
         public static BabyFeedingOptions DefaultBabyFeedingOptions;
+        public static MechWorkModeDef DefaultWorkModeFirst;
+        public static MechWorkModeDef DefaultWorkModeSecond;
+        public static MechWorkModeDef DefaultWorkModeAdditional;
 
         private static int NextScheduleIndex = Mathf.Abs(Rand.Int);
         private static List<string> PreviousFactionDefs;
@@ -141,6 +144,9 @@ namespace Defaults
             DefaultBillAllowedSkillRange = new IntRange(0, 20);
             DefaultBillStoreMode = null;
             DefaultBabyFeedingOptions = new BabyFeedingOptions();
+            DefaultWorkModeFirst = null;
+            DefaultWorkModeSecond = null;
+            DefaultWorkModeAdditional = null;
 
             InitializeDefaultSchedules();
             InitializeDefaultMedicineToCarry();
@@ -155,6 +161,7 @@ namespace Defaults
             InitializeDefaultDrugPolicies();
             InitializeDefaultReadingPolicies();
             InitializeDefaultWorkbenchBills();
+            InitializeDefaultWorkModes();
         }
 
         private static void CheckForNewContent()
@@ -872,9 +879,28 @@ namespace Defaults
             });
         }
 
+        private static void InitializeDefaultWorkModes()
+        {
+            LongEventHandler.ExecuteWhenFinished(delegate
+            {
+                if (DefaultWorkModeFirst == null)
+                {
+                    DefaultWorkModeFirst = MechWorkModeDefOf.Work;
+                }
+                if (DefaultWorkModeSecond == null)
+                {
+                    DefaultWorkModeSecond = MechWorkModeDefOf.Work;
+                }
+                if (DefaultWorkModeAdditional == null)
+                {
+                    DefaultWorkModeAdditional = MechWorkModeDefOf.Work;
+                }
+            });
+        }
+
         public static void DoSettingsWindowContents(Rect inRect)
         {
-            Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width - 16f, 31f * 26);
+            Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width - 16f, 31f * 29);
             Widgets.BeginScrollView(new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 38f), ref scrollPosition, viewRect);
             Listing_StandardHighlight listing = new Listing_StandardHighlight();
             listing.Begin(viewRect);
@@ -1039,6 +1065,30 @@ namespace Defaults
             targetTemperatureCoolerRect.width /= 2;
             UIUtility.TemperatureEntry(targetTemperatureCoolerRect, ref DefaultTargetTemperatureCooler, 1, -50f, 50f);
 
+            Rect workModeFirstRect = listing.GetRect(30f);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(workModeFirstRect, "Defaults_WorkModeFirst".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+            workModeFirstRect.x += workModeFirstRect.width - 24;
+            workModeFirstRect.width = 24;
+            MechWorkModes.MechWorkModeUtility.DrawWorkModeButton(workModeFirstRect, DefaultWorkModeFirst, mode => DefaultWorkModeFirst = mode);
+
+            Rect workModeSecondRect = listing.GetRect(30f);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(workModeSecondRect, "Defaults_WorkModeSecond".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+            workModeSecondRect.x += workModeSecondRect.width - 24;
+            workModeSecondRect.width = 24;
+            MechWorkModes.MechWorkModeUtility.DrawWorkModeButton(workModeSecondRect, DefaultWorkModeSecond, mode => DefaultWorkModeSecond = mode);
+
+            Rect workModeAdditionalRect = listing.GetRect(30f);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(workModeAdditionalRect, "Defaults_WorkModeAdditional".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+            workModeAdditionalRect.x += workModeAdditionalRect.width - 24;
+            workModeAdditionalRect.width = 24;
+            MechWorkModes.MechWorkModeUtility.DrawWorkModeButton(workModeAdditionalRect, DefaultWorkModeAdditional, mode => DefaultWorkModeAdditional = mode);
+
             listing.End();
             Widgets.EndScrollView();
 
@@ -1101,6 +1151,9 @@ namespace Defaults
             Scribe_Values.Look(ref DefaultBillAllowedSkillRange, "DefaultBillAllowedSkillRange", new IntRange(0, 20));
             Scribe_Defs.Look(ref DefaultBillStoreMode, "DefaultBillStoreMode");
             Scribe_Deep.Look(ref DefaultBabyFeedingOptions, "DefaultBabyFeedingOptions");
+            Scribe_Defs.Look(ref DefaultWorkModeFirst, "DefaultWorkModeFirst");
+            Scribe_Defs.Look(ref DefaultWorkModeSecond, "DefaultWorkModeSecond");
+            Scribe_Defs.Look(ref DefaultWorkModeAdditional, "DefaultWorkModeAdditional");
 
             Scribe_Collections.Look(ref PreviousFactionDefs, "PreviousFactionDefs");
             Scribe_Collections.Look(ref PreviousThingDefs, "PreviousThingDefs");

@@ -29,6 +29,9 @@
 	<Defaults_TargetTemperatureHeater>Target temperature for heaters</Defaults_TargetTemperatureHeater>
 	<Defaults_TargetTemperatureCooler>Target temperature for coolers</Defaults_TargetTemperatureCooler>
 	<Defaults_BabyFeedingSettings>Baby feeding settings</Defaults_BabyFeedingSettings>
+	<Defaults_WorkModeFirst>First mech control group work mode</Defaults_WorkModeFirst>
+	<Defaults_WorkModeSecond>Second mech control group work mode</Defaults_WorkModeSecond>
+	<Defaults_WorkModeAdditional>Additional mech control groups work mode</Defaults_WorkModeAdditional>
 	<Defaults_ResetAllSettings>Reset all settings to vanilla</Defaults_ResetAllSettings>
 	<Defaults_ConfirmResetAllSettings>Do you want to reset all settings to their vanilla values? This action cannot be undone.</Defaults_ConfirmResetAllSettings>
 	<Defaults_ScheduleName>Schedule {0}</Defaults_ScheduleName>

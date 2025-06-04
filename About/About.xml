@@ -34,6 +34,7 @@ Full list of settings:
   - Use manual work priorities by default: You can do this.
   - Default plant type: Allows you to set the default plant type for new growing zones.
   - Default temperature targets: Allows you to set the default temperature targets for heaters and coolers.
+  - Default mech work modes: Allows you to set the default work modes for the initial two mechanitor control groups as well as a mode for all additional control groups granted by control sublinks.
 
 === Updates ===
 04/03/2025: Fix bug where default shelf settings apply to non-shelf buildings such as nutrient paste hoppers
