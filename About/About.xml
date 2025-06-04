@@ -20,6 +20,7 @@ Full list of settings:
   - Map settings: Allows you to set the default map size and starting season.
   - Colonist schedules: Allows you to set custom default schedules for colonists. You can create alternating schedules and the mod will cycle between them when assigning them to new colonists.
   - Policies: Allows you to set custom default apparel, food, drug, and reading policies that will be copied to each new colony.
+  - Baby feeding settings: Allows you to set the default autofeed setting for colonists based on relationship to baby and whether they are lactating. Also allows you to set which foods babies can be fed by default.
   - Medicine settings: Allows you to set the default medicine settings to use for a new colony.
   - Reward preferences: Allows you to set the default reward preferences to use for a new colony.
   - Expanded resource categories: Allows you to set which resource tree categories are expanded by default in categorized mode.

@@ -14,6 +14,10 @@ namespace Defaults.Storyteller
             {
                 field.SetValue(difficulty, field.GetValue(this));
             }
+            if (difficulty.minThreatPointsRangeCeiling < 35f)
+            {
+                difficulty.minThreatPointsRangeCeiling = 70f;
+            }
             typeof(Difficulty).Method("SetMinThreatPointsCurve").Invoke(difficulty, new object[] { });
             return difficulty;
         }

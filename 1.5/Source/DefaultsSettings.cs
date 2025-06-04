@@ -21,6 +21,7 @@ using System;
 using Defaults.Policies.ReadingPolicies;
 using Defaults.StockpileZones.Shelves;
 using Defaults.WorkbenchBills;
+using Defaults.BabyFeeding;
 
 namespace Defaults
 {
@@ -75,6 +76,7 @@ namespace Defaults
         public static float DefaultBillIngredientSearchRadius;
         public static IntRange DefaultBillAllowedSkillRange;
         public static BillStoreModeDef DefaultBillStoreMode;
+        public static BabyFeedingOptions DefaultBabyFeedingOptions;
 
         private static int NextScheduleIndex = Mathf.Abs(Rand.Int);
         private static List<string> PreviousFactionDefs;
@@ -138,6 +140,7 @@ namespace Defaults
             DefaultBillIngredientSearchRadius = 999f;
             DefaultBillAllowedSkillRange = new IntRange(0, 20);
             DefaultBillStoreMode = null;
+            DefaultBabyFeedingOptions = new BabyFeedingOptions();
 
             InitializeDefaultSchedules();
             InitializeDefaultMedicineToCarry();
@@ -269,6 +272,18 @@ namespace Defaults
                         {
                             ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
                             bill.ingredientFilter.SetAllow(def, true);
+                        }
+                    }
+                }
+
+                if (!DefaultBabyFeedingOptions.locked)
+                {
+                    foreach (string defName in newThingDefs)
+                    {
+                        ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
+                        if (ITab_Pawn_Feeding.BabyConsumableFoods.Contains(def))
+                        {
+                            DefaultBabyFeedingOptions.AllowedConsumables.Add(def);
                         }
                     }
                 }
@@ -859,7 +874,7 @@ namespace Defaults
 
         public static void DoSettingsWindowContents(Rect inRect)
         {
-            Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width - 16f, 31f * 25);
+            Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width - 16f, 31f * 26);
             Widgets.BeginScrollView(new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 38f), ref scrollPosition, viewRect);
             Listing_StandardHighlight listing = new Listing_StandardHighlight();
             listing.Begin(viewRect);
@@ -902,6 +917,11 @@ namespace Defaults
             if (listing.ButtonTextLabeledPct("Defaults_ReadingPolicies".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
             {
                 Find.WindowStack.Add(new Dialog_ReadingPolicies(DefaultReadingPolicies.First()));
+            }
+
+            if (listing.ButtonTextLabeledPct("Defaults_BabyFeedingSettings".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_BabyFeedingSettings());
             }
 
             if (listing.ButtonTextLabeledPct("Defaults_Medicine".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
@@ -1080,6 +1100,7 @@ namespace Defaults
             Scribe_Values.Look(ref DefaultBillIngredientSearchRadius, "DefaultBillIngredientSearchRadius", 999f);
             Scribe_Values.Look(ref DefaultBillAllowedSkillRange, "DefaultBillAllowedSkillRange", new IntRange(0, 20));
             Scribe_Defs.Look(ref DefaultBillStoreMode, "DefaultBillStoreMode");
+            Scribe_Deep.Look(ref DefaultBabyFeedingOptions, "DefaultBabyFeedingOptions");
 
             Scribe_Collections.Look(ref PreviousFactionDefs, "PreviousFactionDefs");
             Scribe_Collections.Look(ref PreviousThingDefs, "PreviousThingDefs");

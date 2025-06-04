@@ -28,6 +28,7 @@
 	<Defaults_PregnancyApproach>Default pregnancy approach</Defaults_PregnancyApproach>
 	<Defaults_TargetTemperatureHeater>Target temperature for heaters</Defaults_TargetTemperatureHeater>
 	<Defaults_TargetTemperatureCooler>Target temperature for coolers</Defaults_TargetTemperatureCooler>
+	<Defaults_BabyFeedingSettings>Baby feeding settings</Defaults_BabyFeedingSettings>
 	<Defaults_ResetAllSettings>Reset all settings to vanilla</Defaults_ResetAllSettings>
 	<Defaults_ConfirmResetAllSettings>Do you want to reset all settings to their vanilla values? This action cannot be undone.</Defaults_ConfirmResetAllSettings>
 	<Defaults_ScheduleName>Schedule {0}</Defaults_ScheduleName>
@@ -58,6 +59,11 @@
 	<Defaults_UseBill>Use</Defaults_UseBill>
 	<Defaults_UseBillTip>Indicates whether this bill will automatically be added to new workbenches.</Defaults_UseBillTip>
 	<Defaults_GlobalBillSettings>Global bill settings</Defaults_GlobalBillSettings>
+	<Defaults_BirtherParent>Birthgiver</Defaults_BirtherParent>
+	<Defaults_ParentLactating>Non-birthgiver parent (lactating)</Defaults_ParentLactating>
+	<Defaults_ParentNonlactating>Non-birthgiver parent (not lactating)</Defaults_ParentNonlactating>
+	<Defaults_NonparentLactating>Non-parent (lactating)</Defaults_NonparentLactating>
+	<Defaults_NonparentNonlactating>Non-parent (not lactating)</Defaults_NonparentNonlactating>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>
