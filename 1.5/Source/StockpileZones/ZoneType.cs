@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using Defaults.StockpileZones.Shelves;
+using RimWorld;
 using System;
 using UnityEngine;
 using Verse;
@@ -12,6 +13,7 @@ namespace Defaults.StockpileZones
         public StoragePriority Priority = StoragePriority.Normal;
         public ThingFilter filter = new ThingFilter();
         public StorageSettingsPreset Preset;
+        public Color IconColor = Color.white;
         public bool locked = true;
 
         public static ZoneType MakeBuiltInStockpileZone()
@@ -32,7 +34,7 @@ namespace Defaults.StockpileZones
 
         public static ZoneType MakeBuiltInShelfSettings()
         {
-            ZoneType zoneType = new ZoneType();
+            ZoneType zoneType = new ZoneType_Shelf();
             zoneType.Priority = StoragePriority.Preferred;
             Array.ForEach(new[] { ThingCategoryDefOf.Foods, ThingCategoryDefOf.Manufactured, ThingCategoryDefOf.ResourcesRaw, ThingCategoryDefOf.Items, ThingCategoryDefOf.Weapons, ThingCategoryDefOf.Apparel, ThingCategoryDefOf.BodyParts }, d =>
             {
@@ -87,7 +89,7 @@ namespace Defaults.StockpileZones
             }
         }
 
-        public Texture2D Icon
+        public virtual Texture2D Icon
         {
             get
             {
@@ -115,13 +117,14 @@ namespace Defaults.StockpileZones
             }
         }
 
-        public void ExposeData()
+        public virtual void ExposeData()
         {
             Scribe_Values.Look(ref designatorType, "designatorType");
             Scribe_Values.Look(ref Name, "Name");
             Scribe_Values.Look(ref Priority, "Priority");
             Scribe_Values.Look(ref Preset, "Preset");
             DefaultsSettings.ScribeThingFilter(filter);
+            Scribe_Values.Look(ref IconColor, "IconColor", Color.white);
             Scribe_Values.Look(ref locked, "locked", true);
         }
     }

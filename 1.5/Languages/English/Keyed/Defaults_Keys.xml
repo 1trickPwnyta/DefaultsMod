@@ -15,12 +15,14 @@
 	<Defaults_AutoHomeArea>Default auto home area setting</Defaults_AutoHomeArea>
 	<Defaults_ResourceCategories>Expanded resource categories</Defaults_ResourceCategories>
 	<Defaults_Storyteller>Storyteller settings</Defaults_Storyteller>
-	<Defaults_StockpileZones>Stockpile zone types</Defaults_StockpileZones>
+	<Defaults_StockpileZones>Storage settings</Defaults_StockpileZones>
 	<Defaults_ShelfSettings>Shelf storage settings</Defaults_ShelfSettings>
 	<Defaults_WorkbenchBills>Workbench bills</Defaults_WorkbenchBills>
+	<Defaults_MiscSettings>Miscellaneous defaults</Defaults_MiscSettings>
 	<Defaults_ManualPriorities>Use manual work priorities by default</Defaults_ManualPriorities>
 	<Defaults_WorldSettings>World settings</Defaults_WorldSettings>
 	<Defaults_MapSettings>Map settings</Defaults_MapSettings>
+	<Defaults_Policies>Policies</Defaults_Policies>
 	<Defaults_ApparelPolicies>Apparel policies</Defaults_ApparelPolicies>
 	<Defaults_FoodPolicies>Food policies</Defaults_FoodPolicies>
 	<Defaults_DrugPolicies>Drug policies</Defaults_DrugPolicies>

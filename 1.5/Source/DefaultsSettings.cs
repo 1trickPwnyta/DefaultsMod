@@ -147,7 +147,7 @@ namespace Defaults
             DefaultBillIngredientSearchRadius = 999f;
             DefaultBillAllowedSkillRange = new IntRange(0, 20);
             DefaultBillStoreMode = null;
-            DefaultBabyFeedingOptions = new BabyFeedingOptions();
+            DefaultBabyFeedingOptions = null;
             DefaultWorkModeFirst = null;
             DefaultWorkModeSecond = null;
             DefaultWorkModeAdditional = null;
@@ -166,6 +166,7 @@ namespace Defaults
             InitializeDefaultReadingPolicies();
             InitializeDefaultWorkbenchBills();
             InitializeDefaultWorkModes();
+            InitializeDefaultBabyFeedingOptions();
         }
 
         private static void CheckForNewContent()
@@ -902,11 +903,22 @@ namespace Defaults
             });
         }
 
+        private static void InitializeDefaultBabyFeedingOptions()
+        {
+            LongEventHandler.ExecuteWhenFinished(delegate
+            {
+                if (DefaultBabyFeedingOptions == null)
+                {
+                    DefaultBabyFeedingOptions = new BabyFeedingOptions();
+                }
+            });
+        }
+
         public static void DoSettingsWindowContents(Rect inRect)
         {
-            
-            Rect outRect = new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 30f - 10f);
-            Rect viewRect = new Rect(0f, 0f, inRect.width - 20f, height);
+            float width = settingsCategoryButtonSize.x * 4 + settingsCategoryButtonMargin * 3;
+            Rect outRect = new Rect(inRect.x + (inRect.width - width) / 2, inRect.y, inRect.width, inRect.height - 30f - 10f);
+            Rect viewRect = new Rect(0f, 0f, width, height);
             Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
 
             height = 0f;
@@ -925,199 +937,6 @@ namespace Defaults
             }
 
             Widgets.EndScrollView();
-
-
-            /*Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width - 16f, 31f * 29);
-            Widgets.BeginScrollView(new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 38f), ref scrollPosition, viewRect);
-            Listing_StandardHighlight listing = new Listing_StandardHighlight();
-            listing.Begin(viewRect);
-
-            if (listing.ButtonTextLabeledPct("Defaults_Storyteller".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
-            {
-                Find.WindowStack.Add(new Dialog_Storyteller());
-            }
-
-            if (listing.ButtonTextLabeledPct("Defaults_WorldSettings".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
-            {
-                Find.WindowStack.Add(new Dialog_WorldSettings());
-            }
-
-            if (listing.ButtonTextLabeledPct("Defaults_MapSettings".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
-            {
-                Find.WindowStack.Add(new Dialog_MapSettings());
-            }
-
-            if (listing.ButtonTextLabeledPct("Defaults_Schedules".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
-            {
-                Find.WindowStack.Add(new Dialog_ScheduleSettings());
-            }
-
-            if (listing.ButtonTextLabeledPct("Defaults_ApparelPolicies".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
-            {
-                Find.WindowStack.Add(new Dialog_ApparelPolicies(DefaultApparelPolicies.First()));
-            }
-
-            if (listing.ButtonTextLabeledPct("Defaults_FoodPolicies".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
-            {
-                Find.WindowStack.Add(new Dialog_FoodPolicies(DefaultFoodPolicies.First()));
-            }
-
-            if (listing.ButtonTextLabeledPct("Defaults_DrugPolicies".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
-            {
-                Find.WindowStack.Add(new Dialog_DrugPolicies(DefaultDrugPolicies.First()));
-            }
-
-            if (listing.ButtonTextLabeledPct("Defaults_ReadingPolicies".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
-            {
-                Find.WindowStack.Add(new Dialog_ReadingPolicies(DefaultReadingPolicies.First()));
-            }
-
-            if (listing.ButtonTextLabeledPct("Defaults_BabyFeedingSettings".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
-            {
-                Find.WindowStack.Add(new Dialog_BabyFeedingSettings());
-            }
-
-            if (listing.ButtonTextLabeledPct("Defaults_Medicine".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
-            {
-                Find.WindowStack.Add(new Dialog_MedicineSettings());
-            }
-
-            if (listing.ButtonTextLabeledPct("Defaults_Rewards".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
-            {
-                Find.WindowStack.Add(new Dialog_RewardsSettings());
-            }
-
-            if (listing.ButtonTextLabeledPct("Defaults_ResourceCategories".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
-            {
-                Find.WindowStack.Add(new Dialog_ResourceCategories());
-            }
-
-            if (listing.ButtonTextLabeledPct("Defaults_StockpileZones".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
-            {
-                Find.WindowStack.Add(new Dialog_StockpileZones());
-            }
-
-            if (listing.ButtonTextLabeledPct("Defaults_ShelfSettings".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
-            {
-                Find.WindowStack.Add(new Dialog_ShelfSettings());
-            }
-
-            if (listing.ButtonTextLabeledPct("Defaults_WorkbenchBills".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
-            {
-                Find.WindowStack.Add(new Dialog_WorkbenchBills());
-            }
-
-            Rect hostilityResponseRect = listing.GetRect(30f);
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(hostilityResponseRect, "Defaults_HostilityResponse".Translate());
-            Text.Anchor = TextAnchor.UpperLeft;
-            hostilityResponseRect.x += hostilityResponseRect.width - 24;
-            hostilityResponseRect.width = 24;
-            HostilityResponse.HostilityResponseModeUtility.DrawResponseButton(hostilityResponseRect);
-
-            Rect medCarryRect = listing.GetRect(30f);
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(medCarryRect, "Defaults_MedicineToCarry".Translate());
-            Text.Anchor = TextAnchor.UpperLeft;
-            medCarryRect.x += medCarryRect.width - 32;
-            medCarryRect.width = 32;
-            MedicineUtility.DrawMedicineButton(medCarryRect);
-
-            if (listing.ButtonTextLabeledPct("Defaults_MedicineAmountToCarry".Translate(), DefaultMedicineAmountToCarry.ToString(), 0.75f, TextAnchor.MiddleLeft))
-            {
-                List<FloatMenuOption> options = new List<FloatMenuOption>();
-                for (int i = InventoryStockGroupDefOf.Medicine.min; i <= InventoryStockGroupDefOf.Medicine.max; i++)
-                {
-                    int amount = i;
-                    options.Add(new FloatMenuOption(i.ToString(), delegate
-                    {
-                        DefaultMedicineAmountToCarry = amount;
-                    }));
-                }
-                Find.WindowStack.Add(new FloatMenu(options));
-            }
-
-            listing.CheckboxLabeled("Defaults_GuestsCarryMedicine".Translate(), ref GuestsCarryMedicine);
-
-            Rect pregnancyApproachRect = listing.GetRect(30f);
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(pregnancyApproachRect, "Defaults_PregnancyApproach".Translate());
-            Text.Anchor = TextAnchor.UpperLeft;
-            pregnancyApproachRect.x += pregnancyApproachRect.width - 28;
-            pregnancyApproachRect.width = 32;
-            PregnancyApproach.PregnancyApproachUtility.DrawPregnancyApproachButton(pregnancyApproachRect.ContractedBy(4f));
-
-            Rect autoRebuildRect = listing.GetRect(30f);
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(autoRebuildRect, "Defaults_AutoRebuild".Translate());
-            Text.Anchor = TextAnchor.UpperLeft;
-            autoRebuildRect.x += autoRebuildRect.width - 24;
-            autoRebuildRect.width = 24;
-            autoRebuildRect.y += 3;
-            autoRebuildRect.height = 24;
-            PlaySettings.PlaySettingsUtility.DrawAutoRebuildButton(autoRebuildRect);
-
-            Rect autoHomeAreaRect = listing.GetRect(30f);
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(autoHomeAreaRect, "Defaults_AutoHomeArea".Translate());
-            Text.Anchor = TextAnchor.UpperLeft;
-            autoHomeAreaRect.x += autoHomeAreaRect.width - 24;
-            autoHomeAreaRect.width = 24;
-            autoHomeAreaRect.y += 3;
-            autoHomeAreaRect.height = 24;
-            PlaySettings.PlaySettingsUtility.DrawAutoHomeAreaButton(autoHomeAreaRect);
-
-            listing.CheckboxLabeled("Defaults_ManualPriorities".Translate(), ref DefaultManualPriorities);
-
-            Rect plantTypeRect = listing.GetRect(30f);
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(plantTypeRect, "Defaults_PlantType".Translate());
-            Text.Anchor = TextAnchor.UpperLeft;
-            plantTypeRect.x += plantTypeRect.width - 24;
-            plantTypeRect.width = 24;
-            PlantType.PlantTypeUtility.DrawPlantButton(plantTypeRect);
-
-            Rect targetTemperatureHeaterRect = listing.GetRect(30f);
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(targetTemperatureHeaterRect, "Defaults_TargetTemperatureHeater".Translate());
-            Text.Anchor = TextAnchor.UpperLeft;
-            targetTemperatureHeaterRect.x += targetTemperatureHeaterRect.width / 2;
-            targetTemperatureHeaterRect.width /= 2;
-            UIUtility.TemperatureEntry(targetTemperatureHeaterRect, ref DefaultTargetTemperatureHeater, 1, -50f, 50f);
-            Rect targetTemperatureCoolerRect = listing.GetRect(30f);
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(targetTemperatureCoolerRect, "Defaults_TargetTemperatureCooler".Translate());
-            Text.Anchor = TextAnchor.UpperLeft;
-            targetTemperatureCoolerRect.x += targetTemperatureCoolerRect.width / 2;
-            targetTemperatureCoolerRect.width /= 2;
-            UIUtility.TemperatureEntry(targetTemperatureCoolerRect, ref DefaultTargetTemperatureCooler, 1, -50f, 50f);
-
-            Rect workModeFirstRect = listing.GetRect(30f);
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(workModeFirstRect, "Defaults_WorkModeFirst".Translate());
-            Text.Anchor = TextAnchor.UpperLeft;
-            workModeFirstRect.x += workModeFirstRect.width - 24;
-            workModeFirstRect.width = 24;
-            MechWorkModes.MechWorkModeUtility.DrawWorkModeButton(workModeFirstRect, DefaultWorkModeFirst, mode => DefaultWorkModeFirst = mode);
-
-            Rect workModeSecondRect = listing.GetRect(30f);
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(workModeSecondRect, "Defaults_WorkModeSecond".Translate());
-            Text.Anchor = TextAnchor.UpperLeft;
-            workModeSecondRect.x += workModeSecondRect.width - 24;
-            workModeSecondRect.width = 24;
-            MechWorkModes.MechWorkModeUtility.DrawWorkModeButton(workModeSecondRect, DefaultWorkModeSecond, mode => DefaultWorkModeSecond = mode);
-
-            Rect workModeAdditionalRect = listing.GetRect(30f);
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(workModeAdditionalRect, "Defaults_WorkModeAdditional".Translate());
-            Text.Anchor = TextAnchor.UpperLeft;
-            workModeAdditionalRect.x += workModeAdditionalRect.width - 24;
-            workModeAdditionalRect.width = 24;
-            MechWorkModes.MechWorkModeUtility.DrawWorkModeButton(workModeAdditionalRect, DefaultWorkModeAdditional, mode => DefaultWorkModeAdditional = mode);
-
-            listing.End();
-            Widgets.EndScrollView();*/
 
             if (Widgets.ButtonText(new Rect(inRect.x + inRect.width / 4, inRect.yMax - 30f, inRect.width / 2, 30f), "Defaults_ResetAllSettings".Translate()))
             {
@@ -1219,6 +1038,14 @@ namespace Defaults
                         if (def != null)
                         {
                             filter.SetAllow(def, false);
+                        }
+                    }
+
+                    if (filter == DefaultShelfSettings.filter)
+                    {
+                        if (DefaultShelfSettings != null && !(DefaultShelfSettings is ZoneType_Shelf))
+                        {
+                            DefaultShelfSettings = new ZoneType_Shelf(DefaultShelfSettings);
                         }
                     }
                 });

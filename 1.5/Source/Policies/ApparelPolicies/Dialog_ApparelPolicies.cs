@@ -19,6 +19,7 @@ namespace Defaults.Policies.ApparelPolicies
 
         public Dialog_ApparelPolicies(ApparelPolicy policy) : base(policy)
         {
+            optionalTitle = "ApparelPolicyTitle".Translate();
         }
 
         public override Vector2 InitialSize

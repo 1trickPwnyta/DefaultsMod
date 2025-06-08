@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
+using System.Linq;
 
 namespace Defaults.StockpileZones
 {
@@ -36,7 +37,7 @@ namespace Defaults.StockpileZones
         public override void PreOpen()
         {
             base.PreOpen();
-            selectedZoneType = null;
+            selectedZoneType = DefaultsSettings.DefaultShelfSettings;
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -65,6 +66,8 @@ namespace Defaults.StockpileZones
             float y = 0f;
 
             Text.Anchor = TextAnchor.MiddleLeft;
+            DoZoneTypeButton(DefaultsSettings.DefaultShelfSettings, y, rowWidth, rowHeight);
+            y += rowHeight;
             for (int i = 0; i < DefaultsSettings.DefaultStockpileZones.Count; i++)
             {
                 ZoneType type = DefaultsSettings.DefaultStockpileZones[i];
@@ -90,10 +93,6 @@ namespace Defaults.StockpileZones
                     }
                 }
 
-                GUI.DrawTexture(new Rect(48f, y, rowHeight, rowHeight), type.Icon);
-
-                Widgets.Label(new Rect(48f + rowHeight + 8f, y, rowWidth - rowHeight - 8f - 24f - 24f - 24f - 8f, rowHeight), type.Name);
-
                 if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 24f - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Copy, Color.white, Color.white * GenUI.SubtleMouseoverColor))
                 {
                     DefaultsSettings.DefaultStockpileZones.Add(new ZoneType(type.Preset.PresetName().CapitalizeFirst() + " " + (DefaultsSettings.DefaultStockpileZones.Count + 1), type));
@@ -118,17 +117,7 @@ namespace Defaults.StockpileZones
                     }
                 }
 
-                Rect rowRect = new Rect(0f, y, rowWidth, rowHeight);
-                if (Widgets.ButtonInvisible(rowRect))
-                {
-                    selectedZoneType = type;
-                    SoundDefOf.Click.PlayOneShotOnCamera(null);
-                }
-                Widgets.DrawHighlightIfMouseover(rowRect);
-                if (type == selectedZoneType)
-                {
-                    Widgets.DrawHighlightSelected(rowRect);
-                }
+                DoZoneTypeButton(type, y, rowWidth, rowHeight);
 
                 y += rowHeight;
             }
@@ -136,7 +125,7 @@ namespace Defaults.StockpileZones
 
             Widgets.EndScrollView();
 
-            if (DefaultsSettings.DefaultStockpileZones.Contains(selectedZoneType))
+            if (DefaultsSettings.DefaultShelfSettings == selectedZoneType || DefaultsSettings.DefaultStockpileZones.Contains(selectedZoneType))
             {
                 if (Widgets.ButtonText(new Rect(inRect.width - 300f, inRect.y + buttonHeight, 160f, buttonHeight), "Priority".Translate() + ": " + selectedZoneType.Priority.Label().CapitalizeFirst()))
                 {
@@ -159,8 +148,28 @@ namespace Defaults.StockpileZones
                 Rect lockRect = new Rect(inRect.width - 24f, inRect.y + buttonHeight, 24f, 24f);
                 UIUtility.DrawCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref selectedZoneType.locked);
 
-                Rect filterRect = new Rect(inRect.width  - 300f, inRect.y + buttonHeight * 2, 300f, inRect.height - buttonHeight * 2 - Window.CloseButSize.y);
+                Rect filterRect = new Rect(inRect.width  - 300f, inRect.y + buttonHeight * 2, 300f, inRect.height - buttonHeight * 2 - CloseButSize.y);
                 ThingFilterUI.DoThingFilterConfigWindow(filterRect, state, selectedZoneType.filter, StorageSettings.EverStorableFixedSettings().filter, 8);
+            }
+        }
+
+        private void DoZoneTypeButton(ZoneType type, float y, float rowWidth, float rowHeight)
+        {
+            GUI.color = type.IconColor;
+            Widgets.DrawTextureFitted(new Rect(48f, y, rowHeight, rowHeight), type.Icon, 1f);
+            GUI.color = Color.white;
+            Widgets.Label(new Rect(48f + rowHeight + 8f, y, rowWidth - rowHeight - 8f - 24f - 24f - 24f - 8f, rowHeight), type.Name);
+
+            Rect rowRect = new Rect(0f, y, rowWidth, rowHeight);
+            if (Widgets.ButtonInvisible(rowRect))
+            {
+                selectedZoneType = type;
+                SoundDefOf.Click.PlayOneShotOnCamera(null);
+            }
+            Widgets.DrawHighlightIfMouseover(rowRect);
+            if (type == selectedZoneType)
+            {
+                Widgets.DrawHighlightSelected(rowRect);
             }
         }
     }

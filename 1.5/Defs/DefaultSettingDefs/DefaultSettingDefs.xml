@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <Defaults.DefaultSettingDef>
+    <defName>HostilityResponse</defName>
+	<label>default hostility response</label>
+	<category>Misc</category>
+	<uiOrder>5</uiOrder>
+    <workerClass>Defaults.HostilityResponse.DefaultSettingWorker_HostilityResponse</workerClass>
+  </Defaults.DefaultSettingDef>
+  
+  <Defaults.DefaultSettingDef>
+    <defName>MedCarry</defName>
+	<label>default medicine to carry</label>
+	<category>Misc</category>
+	<uiOrder>15</uiOrder>
+    <workerClass>Defaults.Medicine.DefaultSettingWorker_MedCarry</workerClass>
+  </Defaults.DefaultSettingDef>
+  
+  <Defaults.DefaultSettingDef>
+    <defName>MedCarryAmount</defName>
+	<label>default medicine amount to carry</label>
+	<category>Misc</category>
+	<uiOrder>25</uiOrder>
+    <workerClass>Defaults.Medicine.DefaultSettingWorker_MedCarryAmount</workerClass>
+  </Defaults.DefaultSettingDef>
+  
+  <Defaults.DefaultSettingDef>
+    <defName>MedCarryGuest</defName>
+	<label>guests pick up medicine to carry, too</label>
+	<category>Misc</category>
+	<uiOrder>35</uiOrder>
+    <workerClass>Defaults.Medicine.DefaultSettingWorker_MedCarryGuest</workerClass>
+  </Defaults.DefaultSettingDef>
+  
+  <Defaults.DefaultSettingDef>
+    <defName>PregnancyApproach</defName>
+	<label>default pregnancy approach</label>
+	<category>Misc</category>
+	<uiOrder>45</uiOrder>
+    <workerClass>Defaults.PregnancyApproach.DefaultSettingWorker_PregnancyApproach</workerClass>
+  </Defaults.DefaultSettingDef>
+  
+  <Defaults.DefaultSettingDef>
+    <defName>AutoRebuild</defName>
+	<label>default auto rebuild setting</label>
+	<category>Misc</category>
+	<uiOrder>55</uiOrder>
+    <workerClass>Defaults.PlaySettings.DefaultSettingWorker_AutoRebuild</workerClass>
+  </Defaults.DefaultSettingDef>
+  
+  <Defaults.DefaultSettingDef>
+    <defName>AutoHomeArea</defName>
+	<label>default auto home area setting</label>
+	<category>Misc</category>
+	<uiOrder>65</uiOrder>
+    <workerClass>Defaults.PlaySettings.DefaultSettingWorker_AutoHomeArea</workerClass>
+  </Defaults.DefaultSettingDef>
+  
+  <Defaults.DefaultSettingDef>
+    <defName>ManualPriorities</defName>
+	<label>use manual work priorities by default</label>
+	<category>Misc</category>
+	<uiOrder>75</uiOrder>
+    <workerClass>Defaults.PlaySettings.DefaultSettingWorker_ManualPriorities</workerClass>
+  </Defaults.DefaultSettingDef>
+  
+  <Defaults.DefaultSettingDef>
+    <defName>PlantType</defName>
+	<label>default plant type</label>
+	<category>Misc</category>
+	<uiOrder>85</uiOrder>
+    <workerClass>Defaults.PlantType.DefaultSettingWorker_PlantType</workerClass>
+  </Defaults.DefaultSettingDef>
+  
+  <Defaults.DefaultSettingDef>
+    <defName>TargetTempHeater</defName>
+	<label>target temperature for heaters</label>
+	<category>Misc</category>
+	<uiOrder>95</uiOrder>
+    <workerClass>Defaults.TargetTemperature.DefaultSettingWorker_TargetTempHeater</workerClass>
+  </Defaults.DefaultSettingDef>
+  
+  <Defaults.DefaultSettingDef>
+    <defName>TargetTempCooler</defName>
+	<label>target temperature for coolers</label>
+	<category>Misc</category>
+	<uiOrder>105</uiOrder>
+    <workerClass>Defaults.TargetTemperature.DefaultSettingWorker_TargetTempCooler</workerClass>
+  </Defaults.DefaultSettingDef>
+  
+  <Defaults.DefaultSettingDef>
+    <defName>WorkModeFirst</defName>
+	<label>first mech control group work mode</label>
+	<category>Misc</category>
+	<uiOrder>115</uiOrder>
+    <workerClass>Defaults.MechWorkModes.DefaultSettingWorker_WorkModeFirst</workerClass>
+  </Defaults.DefaultSettingDef>
+  
+  <Defaults.DefaultSettingDef>
+    <defName>WorkModeSecond</defName>
+	<label>second mech control group work mode</label>
+	<category>Misc</category>
+	<uiOrder>125</uiOrder>
+    <workerClass>Defaults.MechWorkModes.DefaultSettingWorker_WorkModeSecond</workerClass>
+  </Defaults.DefaultSettingDef>
+  
+  <Defaults.DefaultSettingDef>
+    <defName>WorkModeAdditional</defName>
+	<label>additional mech control groups work mode</label>
+	<category>Misc</category>
+	<uiOrder>135</uiOrder>
+    <workerClass>Defaults.MechWorkModes.DefaultSettingWorker_WorkModeAdditional</workerClass>
+  </Defaults.DefaultSettingDef>
+
+</Defs>

@@ -22,6 +22,7 @@ namespace Defaults.Policies.FoodPolicies
 
         public Dialog_FoodPolicies(FoodPolicy policy) : base(policy)
         {
+            optionalTitle = "FoodPolicyTitle".Translate();
         }
 
         public override Vector2 InitialSize

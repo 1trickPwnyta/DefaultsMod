@@ -8,5 +8,93 @@
 	<iconPath>DefaultSettingsCategoryIcons/Storyteller</iconPath>
     <workerClass>Defaults.Storyteller.DefaultSettingsCategoryWorker_Storyteller</workerClass>
   </Defaults.DefaultSettingsCategoryDef>
+  
+  <Defaults.DefaultSettingsCategoryDef>
+    <defName>World</defName>
+	<label>default world settings</label>
+	<description>Allows you to set the default world settings to use for a new colony.</description>
+	<iconPath>DefaultSettingsCategoryIcons/World</iconPath>
+    <workerClass>Defaults.WorldSettings.DefaultSettingsCategoryWorker_World</workerClass>
+  </Defaults.DefaultSettingsCategoryDef>
+  
+  <Defaults.DefaultSettingsCategoryDef>
+    <defName>Map</defName>
+	<label>default map settings</label>
+	<description>Allows you to set the default map size and starting season.</description>
+	<iconPath>DefaultSettingsCategoryIcons/Map</iconPath>
+    <workerClass>Defaults.MapSettings.DefaultSettingsCategoryWorker_Map</workerClass>
+  </Defaults.DefaultSettingsCategoryDef>
+  
+  <Defaults.DefaultSettingsCategoryDef>
+    <defName>Schedule</defName>
+	<label>default colonist schedules</label>
+	<description>Allows you to set custom default schedules for colonists. You can create alternating schedules and the mod will cycle between them when assigning them to new colonists.</description>
+	<iconPath>DefaultSettingsCategoryIcons/Schedule</iconPath>
+    <workerClass>Defaults.Schedule.DefaultSettingsCategoryWorker_Schedule</workerClass>
+  </Defaults.DefaultSettingsCategoryDef>
+  
+  <Defaults.DefaultSettingsCategoryDef>
+    <defName>Policies</defName>
+	<label>default policies</label>
+	<description>Allows you to set custom default apparel, food, drug, and reading policies that will be copied to each new colony.</description>
+	<iconPath>DefaultSettingsCategoryIcons/Policies</iconPath>
+    <workerClass>Defaults.Policies.DefaultSettingsCategoryWorker_Policies</workerClass>
+  </Defaults.DefaultSettingsCategoryDef>
+  
+  <Defaults.DefaultSettingsCategoryDef>
+    <defName>BabyFeeding</defName>
+	<label>default baby feeding settings</label>
+	<description>Allows you to set the default autofeed setting for colonists based on relationship to baby and whether they are lactating. Also allows you to set which foods babies can be fed by default.</description>
+	<iconPath>DefaultSettingsCategoryIcons/BabyFeeding</iconPath>
+    <workerClass>Defaults.BabyFeeding.DefaultSettingsCategoryWorker_BabyFeeding</workerClass>
+  </Defaults.DefaultSettingsCategoryDef>
+  
+  <Defaults.DefaultSettingsCategoryDef>
+    <defName>Medicine</defName>
+	<label>default medicine settings</label>
+	<description>Allows you to set the default medicine settings to use for a new colony.</description>
+	<iconPath>DefaultSettingsCategoryIcons/Medicine</iconPath>
+    <workerClass>Defaults.Medicine.DefaultSettingsCategoryWorker_Medicine</workerClass>
+  </Defaults.DefaultSettingsCategoryDef>
+  
+  <Defaults.DefaultSettingsCategoryDef>
+    <defName>Rewards</defName>
+	<label>default reward preferences</label>
+	<description>Allows you to set the default reward preferences to use for a new colony.</description>
+	<iconPath>DefaultSettingsCategoryIcons/Rewards</iconPath>
+    <workerClass>Defaults.Rewards.DefaultSettingsCategoryWorker_Rewards</workerClass>
+  </Defaults.DefaultSettingsCategoryDef>
+  
+  <Defaults.DefaultSettingsCategoryDef>
+    <defName>ResourceCategories</defName>
+	<label>default expanded resource categories</label>
+	<description>Allows you to set which resource tree categories are expanded by default in categorized mode.</description>
+	<iconPath>DefaultSettingsCategoryIcons/ResourceCategories</iconPath>
+    <workerClass>Defaults.ResourceCategories.DefaultSettingsCategoryWorker_ResourceCategories</workerClass>
+  </Defaults.DefaultSettingsCategoryDef>
+  
+  <Defaults.DefaultSettingsCategoryDef>
+    <defName>Storage</defName>
+	<label>default storage settings</label>
+	<description>Allows you to configure the default settings for stockpile zones, dumping stockpile zones, and shelves. You can also create your own custom stockpile zone types with their own settings.</description>
+	<iconPath>DefaultSettingsCategoryIcons/Storage</iconPath>
+    <workerClass>Defaults.StockpileZones.DefaultSettingsCategoryWorker_Storage</workerClass>
+  </Defaults.DefaultSettingsCategoryDef>
+  
+  <Defaults.DefaultSettingsCategoryDef>
+    <defName>WorkbenchBills</defName>
+	<label>default workbench bills</label>
+	<description>Allows you to set default bills for workbenches that will populate automatically upon building a workbench.</description>
+	<iconPath>DefaultSettingsCategoryIcons/WorkbenchBills</iconPath>
+    <workerClass>Defaults.WorkbenchBills.DefaultSettingsCategoryWorker_WorkbenchBills</workerClass>
+  </Defaults.DefaultSettingsCategoryDef>
+  
+  <Defaults.DefaultSettingsCategoryDef>
+    <defName>Misc</defName>
+	<label>miscellaneous defaults</label>
+	<description>Other default settings that don't fit neatly into one of the other categories.</description>
+	<iconPath>DefaultSettingsCategoryIcons/Misc</iconPath>
+    <workerClass>Defaults.DefaultSettingsCategoryWorker_Misc</workerClass>
+  </Defaults.DefaultSettingsCategoryDef>
 
 </Defs>

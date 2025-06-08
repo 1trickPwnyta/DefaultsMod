@@ -8,7 +8,7 @@ using Verse.Sound;
 
 namespace Defaults.WorldSettings
 {
-    public class Dialog_WorldSettings : Window
+    public class Dialog_WorldSettings : SettingsDialog
     {
         private static readonly List<float> PlanetCoverages = new List<float>
         {
@@ -21,19 +21,12 @@ namespace Defaults.WorldSettings
 
         public Dialog_WorldSettings()
         {
-            this.doCloseX = true;
-            this.doCloseButton = true;
-            this.optionalTitle = "Defaults_WorldSettings".Translate();
             factions = DefaultsSettings.DefaultFactions.Select(f => DefDatabase<FactionDef>.GetNamedSilentFail(f)).Where(f => f != null).ToList();
         }
 
-        public override Vector2 InitialSize
-        {
-            get
-            {
-                return Page.StandardSize;
-            }
-        }
+        public override string Title => "Defaults_WorldSettings".Translate();
+
+        public override Vector2 InitialSize => Page.StandardSize;
 
         public override void PostClose()
         {
@@ -41,9 +34,9 @@ namespace Defaults.WorldSettings
             DefaultsSettings.DefaultFactions = factions.Select(f => f.defName).ToList();
         }
 
-        public override void DoWindowContents(Rect inRect)
+        public override void DoSettings(Rect rect)
         {
-            Rect mainRect = new Rect(inRect.x, inRect.y, inRect.width, inRect.height - Window.CloseButSize.y);
+            Rect mainRect = new Rect(rect.x, rect.y, rect.width, rect.height - Window.CloseButSize.y);
             Rect rect2 = new Rect(mainRect.x, mainRect.y, mainRect.width / 2, mainRect.height);
             Widgets.BeginGroup(rect2);
             Text.Font = GameFont.Small;

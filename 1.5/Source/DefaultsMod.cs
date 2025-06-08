@@ -46,9 +46,8 @@ namespace Defaults
 
         public override void DoSettingsWindowContents(Rect inRect)
         {
-            Rect rect = new Rect(inRect.x + 150f, inRect.y, inRect.width - 300f, inRect.height);
-            base.DoSettingsWindowContents(rect);
-            DefaultsSettings.DoSettingsWindowContents(rect);
+            base.DoSettingsWindowContents(inRect);
+            DefaultsSettings.DoSettingsWindowContents(inRect);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace Defaults.Policies.DrugPolicies
     {
         public Dialog_DrugPolicies(DrugPolicy policy) : base(policy)
         {
+            optionalTitle = TitleKey.Translate();
         }
 
         protected override DrugPolicy CreateNewPolicy()

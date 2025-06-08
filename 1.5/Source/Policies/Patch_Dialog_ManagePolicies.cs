@@ -17,6 +17,16 @@ namespace Defaults.Policies
     [HarmonyPatch(nameof(Dialog_ManagePolicies<Policy>.DoWindowContents))]
     public static class Patch_Dialog_ManagePolicies_DoWindowContents
     {
+        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            List<CodeInstruction> instructionsList = instructions.ToList();
+            CodeInstruction instruction = instructionsList.First(i => i.operand as float? == 32f);
+            instruction.opcode = OpCodes.Call;
+            instruction.operand = typeof(PatchUtility_Dialog_ManagePolicies).Method(nameof(PatchUtility_Dialog_ManagePolicies.GetTitleHeight));
+            instructionsList.Insert(instructionsList.IndexOf(instruction), new CodeInstruction(OpCodes.Ldarg_0));
+            return instructionsList;
+        }
+
         public static void Postfix(Dialog_ManagePolicies<Policy> __instance, Rect inRect, Policy ___policyInt)
         {
             float buttonOffset = 0f;
@@ -85,7 +95,7 @@ namespace Defaults.Policies
 
             if (___policyInt != null && (__instance.GetType() == typeof(Dialog_ApparelPolicies) || __instance.GetType() == typeof(Dialog_FoodPolicies) || __instance.GetType() == typeof(Dialog_DrugPolicies) || __instance.GetType() == typeof(Dialog_ReadingPolicies)))
             {
-                Rect lockRect = new Rect(inRect.xMax - 158f - buttonOffset, inRect.y + 74f, 32f, 32f);
+                Rect lockRect = new Rect(inRect.xMax - 158f - buttonOffset, inRect.y + 10f, 32f, 32f);
                 if (___policyInt is ApparelPolicies.ApparelPolicy)
                 {
                     ApparelPolicies.ApparelPolicy policy = (ApparelPolicies.ApparelPolicy)___policyInt;
@@ -270,5 +280,10 @@ namespace Defaults.Policies
                 }
             }
         }
+    }
+
+    public static class PatchUtility_Dialog_ManagePolicies
+    {
+        public static float GetTitleHeight(Dialog_ManagePolicies<Policy> window) => Find.WindowStack.Windows.Contains(window) ? 32f : 0f;
     }
 }
