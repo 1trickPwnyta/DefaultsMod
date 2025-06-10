@@ -76,6 +76,7 @@
     <Compile Include="DefaultSettingWorker.cs" />
     <Compile Include="DefaultSettingWorker_Checkbox.cs" />
     <Compile Include="Dialog_MiscSettings.cs" />
+    <Compile Include="SettingsDialog_List.cs" />
     <Compile Include="HostilityResponse\DefaultSettingWorker_HostilityResponse.cs" />
     <Compile Include="MapSettings\DefaultSettingsCategoryWorker_Map.cs" />
     <Compile Include="MechWorkModes\DefaultSettingWorker_MechWorkMode.cs" />

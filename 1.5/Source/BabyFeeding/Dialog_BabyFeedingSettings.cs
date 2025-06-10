@@ -1,37 +1,25 @@
 ﻿using RimWorld;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Verse;
 
 namespace Defaults.BabyFeeding
 {
-    public class Dialog_BabyFeedingSettings : Window
+    public class Dialog_BabyFeedingSettings : SettingsDialog
     {
         private static Vector2 scrollPosition;
 
         private float y;
 
-        public Dialog_BabyFeedingSettings()
-        {
-            this.doCloseX = true;
-            this.doCloseButton = true;
-            this.optionalTitle = "Defaults_BabyFeedingSettings".Translate();
-        }
+        public override string Title => "Defaults_BabyFeedingSettings".Translate();
 
-        public override Vector2 InitialSize
-        {
-            get
-            {
-                return new Vector2(500f, 550f);
-            }
-        }
+        public override Vector2 InitialSize => new Vector2(500f, 550f);
 
-        public override void DoWindowContents(Rect inRect)
+        public override void DoSettings(Rect rect)
         {
             Listing_Standard listing = new Listing_Standard();
-            listing.Begin(inRect);
+            listing.Begin(rect);
 
             listing.Label("AutofeedSectionHeader".Translate().CapitalizeFirst());
             listing.GapLine();
@@ -43,12 +31,12 @@ namespace Defaults.BabyFeeding
 
             listing.Gap(24f);
 
-            Rect lockRect = new Rect(inRect.width - 24f, listing.CurHeight, 24f, 24f);
+            Rect lockRect = new Rect(rect.width - 24f, listing.CurHeight, 24f, 24f);
             UIUtility.DrawCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref DefaultsSettings.DefaultBabyFeedingOptions.locked);
             listing.Label("BabyFoodConsumables".Translate().CapitalizeFirst());
             listing.GapLine();
             Rect outRect = listing.GetRect(200f);
-            Rect viewRect = new Rect(0f, 0f, inRect.width, y);
+            Rect viewRect = new Rect(0f, 0f, rect.width, y);
             y = 0f;
             Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
             foreach (ThingDef def in ITab_Pawn_Feeding.BabyConsumableFoods)

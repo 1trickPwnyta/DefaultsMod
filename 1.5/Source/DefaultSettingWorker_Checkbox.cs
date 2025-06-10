@@ -13,11 +13,12 @@ namespace Defaults
 
         public override void DoSetting(Rect rect)
         {
+            bool enabled = Enabled;
+            Widgets.ToggleInvisibleDraggable(rect, ref enabled, true);
+            Enabled = enabled;
             rect.x += rect.width - 24f;
             rect.width = 24f;
-            bool enabled = Enabled;
-            Widgets.Checkbox(rect.xMax - 24f, rect.y + (rect.height - 24f) / 2, ref enabled);
-            Enabled = enabled;
+            Widgets.CheckboxDraw(rect.xMax - 24f, rect.y + (rect.height - 24f) / 2, Enabled, false);
         }
     }
 }

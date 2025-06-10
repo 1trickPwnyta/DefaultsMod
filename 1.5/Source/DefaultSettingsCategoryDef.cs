@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -11,6 +13,7 @@ namespace Defaults
 
         public string iconPath;
         public Type workerClass;
+        public List<string> keywords = new List<string>();
 
         public Texture2D Icon
         {
@@ -38,5 +41,7 @@ namespace Defaults
                 return worker;
             }
         }
+
+        public IEnumerable<DefaultSettingDef> DefaultSettings => DefDatabase<DefaultSettingDef>.AllDefsListForReading.Where(d => d.category == this);
     }
 }

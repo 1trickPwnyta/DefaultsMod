@@ -7,6 +7,39 @@
 	<description>Allows you to set the default storyteller/difficulty settings to use for a new colony, including custom difficulty settings.</description>
 	<iconPath>DefaultSettingsCategoryIcons/Storyteller</iconPath>
     <workerClass>Defaults.Storyteller.DefaultSettingsCategoryWorker_Storyteller</workerClass>
+	<keywords>
+	  <li>cassandra</li>
+	  <li>phoebe</li>
+	  <li>randy</li>
+	  <li>difficulty</li>
+	  <li>peaceful</li>
+	  <li>community</li>
+	  <li>builder</li>
+	  <li>adventure</li>
+	  <li>strive</li>
+	  <li>survive</li>
+	  <li>blood</li>
+	  <li>dust</li>
+	  <li>losing</li>
+	  <li>fun</li>
+	  <li>reload</li>
+	  <li>anytime</li>
+	  <li>commitment</li>
+	  <li>custom</li>
+	  <li>threat</li>
+	  <li>scale</li>
+	  <li>scaria</li>
+	  <li>downed</li>
+	  <li>children</li>
+	  <li>aging</li>
+	  <li>unwavering</li>
+	  <li>mortars</li>
+	  <li>wealth</li>
+	  <li>independent</li>
+	  <li>anomaly</li>
+	  <li>monolith</li>
+	  <li>ambient</li>
+	</keywords>
   </Defaults.DefaultSettingsCategoryDef>
   
   <Defaults.DefaultSettingsCategoryDef>

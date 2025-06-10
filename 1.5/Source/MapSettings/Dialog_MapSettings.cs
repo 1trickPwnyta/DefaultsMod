@@ -6,7 +6,7 @@ using Verse;
 
 namespace Defaults.MapSettings
 {
-    public class Dialog_MapSettings : Window
+    public class Dialog_MapSettings : SettingsDialog
     {
         private static readonly int[] MapSizes = new int[]
         {
@@ -24,31 +24,17 @@ namespace Defaults.MapSettings
             400
         };
 
-        public Dialog_MapSettings()
-        {
-            this.doCloseX = true;
-            this.doCloseButton = true;
-            this.optionalTitle = "Defaults_MapSettings".Translate();
-        }
+        public override Vector2 InitialSize => new Vector2(483f, 500f);
 
-        public override Vector2 InitialSize
+        public override void DoSettings(Rect rect)
         {
-            get
-            {
-                return new Vector2(483f, 500f);
-            }
-        }
-
-        public override void DoWindowContents(Rect inRect)
-        {
-            Listing_Standard listing = new Listing_Standard();
-            listing.ColumnWidth = 200f;
-            listing.Begin(inRect.AtZero());
+            Listing_Standard listing = new Listing_Standard { ColumnWidth = 200f };
+            listing.Begin(rect.AtZero());
 
             Text.Font = GameFont.Medium;
             listing.Label("MapSize".Translate(), -1f, null);
             Text.Font = GameFont.Small;
-            IEnumerable<int> enumerable = MapSizes.AsEnumerable<int>();
+            IEnumerable<int> enumerable = MapSizes.AsEnumerable();
             if (Prefs.TestMapSizes)
             {
                 enumerable = enumerable.Concat(TestMapSizes);

@@ -1,10 +1,4 @@
-﻿using Defaults.Policies.ApparelPolicies;
-using Defaults.Policies.DrugPolicies;
-using Defaults.MapSettings;
-using Defaults.Medicine;
-using Defaults.ResourceCategories;
-using Defaults.Rewards;
-using Defaults.Schedule;
+﻿using Defaults.Rewards;
 using Defaults.StockpileZones;
 using Defaults.Storyteller;
 using Defaults.WorldSettings;
@@ -16,9 +10,7 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Defaults.Policies;
-using Defaults.Policies.FoodPolicies;
 using System;
-using Defaults.Policies.ReadingPolicies;
 using Defaults.StockpileZones.Shelves;
 using Defaults.WorkbenchBills;
 using Defaults.BabyFeeding;
@@ -91,6 +83,7 @@ namespace Defaults
 
         private static Vector2 scrollPosition;
         private static float height;
+        private static QuickSearchWidget search = new QuickSearchWidget();
 
         static DefaultsSettings()
         {
@@ -916,6 +909,8 @@ namespace Defaults
 
         public static void DoSettingsWindowContents(Rect inRect)
         {
+            search.OnGUI(new Rect(inRect.xMax - 250f - 20f, inRect.y - 15f - QuickSearchWidget.WidgetHeight, 250f, QuickSearchWidget.WidgetHeight));
+
             float width = settingsCategoryButtonSize.x * 4 + settingsCategoryButtonMargin * 3;
             Rect outRect = new Rect(inRect.x + (inRect.width - width) / 2, inRect.y, inRect.width, inRect.height - 30f - 10f);
             Rect viewRect = new Rect(0f, 0f, width, height);
@@ -923,7 +918,20 @@ namespace Defaults
 
             height = 0f;
             float x = 0f, y = 0f;
-            List<DefaultSettingsCategoryDef> categories = DefDatabase<DefaultSettingsCategoryDef>.AllDefsListForReading;
+
+            IEnumerable<DefaultSettingsCategoryDef> categories = DefDatabase<DefaultSettingsCategoryDef>.AllDefsListForReading;
+            if (search.filter.Active)
+            {
+                categories = categories.Where(c =>
+                    search.filter.Matches(c.label)
+                    || c.keywords.Any(k => search.filter.Matches(k))
+                    || c.DefaultSettings.Any(s => 
+                        search.filter.Matches(s.label) 
+                        || s.keywords.Any(k => search.filter.Matches(k))
+                    )
+                );
+            }
+
             foreach (DefaultSettingsCategoryDef def in categories)
             {
                 Rect rect = new Rect(x, y, settingsCategoryButtonSize.x, settingsCategoryButtonSize.y);
@@ -938,7 +946,7 @@ namespace Defaults
 
             Widgets.EndScrollView();
 
-            if (Widgets.ButtonText(new Rect(inRect.x + inRect.width / 4, inRect.yMax - 30f, inRect.width / 2, 30f), "Defaults_ResetAllSettings".Translate()))
+            if (Widgets.ButtonText(new Rect(inRect.x + inRect.width / 3, inRect.yMax - 30f, inRect.width / 3, 30f), "Defaults_ResetAllSettings".Translate()))
             {
                 Find.WindowStack.Add(new Dialog_MessageBox("Defaults_ConfirmResetAllSettings".Translate(), "Confirm".Translate(), ResetAllSettings, "GoBack".Translate(), null, null, true, ResetAllSettings, null, WindowLayer.Dialog));
             }

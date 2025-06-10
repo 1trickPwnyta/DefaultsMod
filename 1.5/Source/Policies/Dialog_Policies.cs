@@ -9,7 +9,7 @@ using Verse;
 
 namespace Defaults.Policies
 {
-    public class Dialog_Policies : Window
+    public class Dialog_Policies : SettingsDialog
     {
         private static Window currentWindow;
 
@@ -17,10 +17,6 @@ namespace Defaults.Policies
 
         public Dialog_Policies()
         {
-            doCloseX = true;
-            doCloseButton = true;
-            optionalTitle = "Defaults_Policies".Translate();
-
             tabs.AddRange(new[]
             {
                 new PolicyTab(new Dialog_ApparelPolicies(DefaultsSettings.DefaultApparelPolicies[0])),
@@ -31,13 +27,15 @@ namespace Defaults.Policies
             currentWindow = tabs[0].window;
         }
 
+        public override string Title => "Defaults_Policies".Translate();
+
         public override Vector2 InitialSize => new Vector2(1320f, 807f);
 
-        public override void DoWindowContents(Rect inRect)
+        public override void DoSettings(Rect rect)
         {
-            Rect tabsRect = new Rect(inRect.x, inRect.y + 32f, inRect.width, 1f);
+            Rect tabsRect = new Rect(rect.x, rect.y + 32f, rect.width, 1f);
             TabDrawer.DrawTabs(tabsRect, tabs);
-            Rect contentRect = new Rect(inRect.x, tabsRect.yMax, currentWindow.InitialSize.x - 36f, inRect.height - CloseButSize.y);
+            Rect contentRect = new Rect(rect.x, tabsRect.yMax, currentWindow.InitialSize.x - 36f, rect.height - CloseButSize.y);
             currentWindow.DoWindowContents(contentRect);
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Verse;
 
 namespace Defaults
@@ -10,6 +11,7 @@ namespace Defaults
         public DefaultSettingsCategoryDef category;
         public int uiOrder;
         public Type workerClass;
+        public List<string> keywords = new List<string>();
 
         public DefaultSettingWorker Worker
         {

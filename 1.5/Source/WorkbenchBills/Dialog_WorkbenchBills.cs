@@ -7,7 +7,7 @@ using Verse;
 namespace Defaults.WorkbenchBills
 {
     [StaticConstructorOnStartup]
-    public class Dialog_WorkbenchBills : Window
+    public class Dialog_WorkbenchBills : SettingsDialog
     {
         private const float padding = 6f;
         private const float workbenchGroupHeight = 60f;
@@ -35,14 +35,7 @@ namespace Defaults.WorkbenchBills
         private Vector2 scrollPosition;
         private float y = 0f;
 
-        public Dialog_WorkbenchBills()
-        {
-            doCloseX = true;
-            doCloseButton = true;
-            closeOnClickedOutside = true;
-            absorbInputAroundWindow = true;
-            optionalTitle = "Defaults_WorkbenchBills".Translate();
-        }
+        public override string Title => "Defaults_WorkbenchBills".Translate();
 
         public override Vector2 InitialSize => new Vector2(860f, 600f);
 
@@ -52,15 +45,15 @@ namespace Defaults.WorkbenchBills
             search.Reset();
         }
 
-        public override void DoWindowContents(Rect inRect)
+        public override void DoSettings(Rect rect)
         {
-            Rect globalRect = new Rect(inRect.xMax - 200f, inRect.y, 200f, 29f);
+            Rect globalRect = new Rect(rect.xMax - 200f, rect.y, 200f, 29f);
             if (Widgets.ButtonText(globalRect, "Defaults_GlobalBillSettings".Translate()))
             {
                 Find.WindowStack.Add(new Dialog_GlobalBillSettings());
             }
 
-            Rect outRect = new Rect(inRect.x, globalRect.yMax + padding, inRect.width, inRect.height - Window.CloseButSize.y - padding - Window.QuickSearchSize.y - padding - globalRect.height - padding);
+            Rect outRect = new Rect(rect.x, globalRect.yMax + padding, rect.width, rect.height - Window.CloseButSize.y - padding - Window.QuickSearchSize.y - padding - globalRect.height - padding);
             Rect viewRect = new Rect(0f, 0f, outRect.width - 20f, y);
             Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
             float x = 0f;
@@ -80,7 +73,7 @@ namespace Defaults.WorkbenchBills
             y += workbenchGroupHeight;
             Widgets.EndScrollView();
 
-            Rect searchRect = new Rect(inRect.x, inRect.yMax - Window.CloseButSize.y - padding - Window.QuickSearchSize.y, Window.QuickSearchSize.x, Window.QuickSearchSize.y);
+            Rect searchRect = new Rect(rect.x, rect.yMax - Window.CloseButSize.y - padding - Window.QuickSearchSize.y, Window.QuickSearchSize.x, Window.QuickSearchSize.y);
             search.OnGUI(searchRect);
         }
 
