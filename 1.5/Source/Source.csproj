@@ -74,6 +74,7 @@
     <Compile Include="DefaultSettingsCategoryWorker.cs" />
     <Compile Include="DefaultSettingsCategoryWorker_Misc.cs" />
     <Compile Include="DefaultSettingWorker.cs" />
+    <Compile Include="DefaultSettingWorker_Dropdown.cs" />
     <Compile Include="DefaultSettingWorker_Checkbox.cs" />
     <Compile Include="Dialog_MiscSettings.cs" />
     <Compile Include="Settings.cs" />
