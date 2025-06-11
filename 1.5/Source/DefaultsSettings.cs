@@ -31,14 +31,8 @@ namespace Defaults
         public static MedicalCareCategory DefaultCareForNoFaction;
         public static MedicalCareCategory DefaultCareForWildlife;
         public static MedicalCareCategory DefaultCareForEntities;
-        public static string DefaultMedicineToCarry;
-        public static int DefaultMedicineAmountToCarry;
-        public static bool GuestsCarryMedicine;
         public static Dictionary<string, RewardPreference> DefaultRewardPreferences;
-        public static HostilityResponseMode DefaultHostilityResponse;
-        public static string DefaultPlantType;
-        public static bool DefaultAutoRebuild;
-        public static bool DefaultAutoHomeArea;
+        
         public static List<string> DefaultExpandedResourceCategories;
         public static string DefaultStoryteller;
         public static string DefaultDifficulty;
@@ -47,7 +41,6 @@ namespace Defaults
         public static bool DefaultPermadeath;
         public static List<ZoneType> DefaultStockpileZones;
         public static ZoneType DefaultShelfSettings;
-        public static bool DefaultManualPriorities;
         public static float DefaultPlanetCoverage;
         public static OverallRainfall DefaultOverallRainfall;
         public static OverallTemperature DefaultOverallTemperature;
@@ -61,17 +54,11 @@ namespace Defaults
         public static List<Policies.FoodPolicies.FoodPolicy> DefaultFoodPolicies;
         public static List<DrugPolicy> DefaultDrugPolicies;
         public static List<Policies.ReadingPolicies.ReadingPolicy> DefaultReadingPolicies;
-        public static RimWorld.PregnancyApproach DefaultPregnancyApproach;
-        public static float DefaultTargetTemperatureHeater;
-        public static float DefaultTargetTemperatureCooler;
         public static List<WorkbenchBillStore> DefaultWorkbenchBills;
         public static float DefaultBillIngredientSearchRadius;
         public static IntRange DefaultBillAllowedSkillRange;
         public static BillStoreModeDef DefaultBillStoreMode;
         public static BabyFeedingOptions DefaultBabyFeedingOptions;
-        public static MechWorkModeDef DefaultWorkModeFirst;
-        public static MechWorkModeDef DefaultWorkModeSecond;
-        public static MechWorkModeDef DefaultWorkModeAdditional;
 
         private static int NextScheduleIndex = Mathf.Abs(Rand.Int);
         private static List<string> PreviousFactionDefs;
@@ -80,9 +67,10 @@ namespace Defaults
 
         private static readonly Vector2 settingsCategoryButtonSize = new Vector2(150f, 120f);
         private static readonly float settingsCategoryButtonMargin = 30f;
+        private static readonly List<DefaultSettingsCategoryDef> categories = DefDatabase<DefaultSettingsCategoryDef>.AllDefsListForReading;
 
+        private static float y;
         private static Vector2 scrollPosition;
-        private static float height;
         private static QuickSearchWidget search = new QuickSearchWidget();
 
         static DefaultsSettings()
@@ -105,14 +93,8 @@ namespace Defaults
             DefaultCareForNoFaction = MedicalCareCategory.HerbalOrWorse;
             DefaultCareForWildlife = MedicalCareCategory.HerbalOrWorse;
             DefaultCareForEntities = MedicalCareCategory.NoMeds;
-            DefaultMedicineToCarry = null;
-            DefaultMedicineAmountToCarry = 0;
-            GuestsCarryMedicine = false;
             DefaultRewardPreferences = null;
-            DefaultHostilityResponse = HostilityResponseMode.Flee;
-            DefaultPlantType = null;
-            DefaultAutoRebuild = false;
-            DefaultAutoHomeArea = true;
+            
             DefaultExpandedResourceCategories = null;
             DefaultStoryteller = null;
             DefaultDifficulty = null;
@@ -121,7 +103,6 @@ namespace Defaults
             DefaultPermadeath = false;
             DefaultStockpileZones = null;
             DefaultShelfSettings = null;
-            DefaultManualPriorities = false;
             DefaultPlanetCoverage = 0.3f;
             DefaultOverallRainfall = OverallRainfall.Normal;
             DefaultOverallTemperature = OverallTemperature.Normal;
@@ -133,22 +114,14 @@ namespace Defaults
             DefaultStartingSeason = Season.Undefined;
             DefaultApparelPolicies = null;
             DefaultFoodPolicies = null;
-            DefaultPregnancyApproach = RimWorld.PregnancyApproach.Normal;
-            DefaultTargetTemperatureHeater = 21f;
-            DefaultTargetTemperatureCooler = 21f;
             DefaultWorkbenchBills = null;
             DefaultBillIngredientSearchRadius = 999f;
             DefaultBillAllowedSkillRange = new IntRange(0, 20);
             DefaultBillStoreMode = null;
             DefaultBabyFeedingOptions = null;
-            DefaultWorkModeFirst = null;
-            DefaultWorkModeSecond = null;
-            DefaultWorkModeAdditional = null;
 
             InitializeDefaultSchedules();
-            InitializeDefaultMedicineToCarry();
             InitializeDefaultRewardPreferences();
-            InitializeDefaultPlantType();
             InitializeDefaultExpandedResourceCategories();
             InitializeDefaultStorytellerSettings();
             InitializeDefaultStockpileZones();
@@ -158,8 +131,12 @@ namespace Defaults
             InitializeDefaultDrugPolicies();
             InitializeDefaultReadingPolicies();
             InitializeDefaultWorkbenchBills();
-            InitializeDefaultWorkModes();
             InitializeDefaultBabyFeedingOptions();
+
+            foreach (DefaultSettingsCategoryDef def in categories)
+            {
+                def.Worker.SetDefaults();
+            }
         }
 
         private static void CheckForNewContent()
@@ -454,17 +431,6 @@ namespace Defaults
             });
         }
 
-        private static void InitializeDefaultMedicineToCarry()
-        {
-            LongEventHandler.ExecuteWhenFinished(delegate
-            {
-                if (DefaultMedicineToCarry == null)
-                {
-                    DefaultMedicineToCarry = ThingDefOf.MedicineIndustrial.defName;
-                }
-            });
-        }
-
         private static void InitializeDefaultRewardPreferences()
         {
             LongEventHandler.ExecuteWhenFinished(delegate
@@ -477,17 +443,6 @@ namespace Defaults
                     {
                         DefaultRewardPreferences.Add(def.defName, new RewardPreference());
                     }
-                }
-            });
-        }
-
-        private static void InitializeDefaultPlantType()
-        {
-            LongEventHandler.ExecuteWhenFinished(delegate
-            {
-                if (DefaultPlantType == null)
-                {
-                    DefaultPlantType = ThingDefOf.Plant_Potato.defName;
                 }
             });
         }
@@ -877,25 +832,6 @@ namespace Defaults
             });
         }
 
-        private static void InitializeDefaultWorkModes()
-        {
-            LongEventHandler.ExecuteWhenFinished(delegate
-            {
-                if (DefaultWorkModeFirst == null)
-                {
-                    DefaultWorkModeFirst = MechWorkModeDefOf.Work;
-                }
-                if (DefaultWorkModeSecond == null)
-                {
-                    DefaultWorkModeSecond = MechWorkModeDefOf.Work;
-                }
-                if (DefaultWorkModeAdditional == null)
-                {
-                    DefaultWorkModeAdditional = MechWorkModeDefOf.Work;
-                }
-            });
-        }
-
         private static void InitializeDefaultBabyFeedingOptions()
         {
             LongEventHandler.ExecuteWhenFinished(delegate
@@ -912,35 +848,34 @@ namespace Defaults
             search.OnGUI(new Rect(inRect.xMax - 250f - 20f, inRect.y - 15f - QuickSearchWidget.WidgetHeight, 250f, QuickSearchWidget.WidgetHeight));
 
             float width = settingsCategoryButtonSize.x * 4 + settingsCategoryButtonMargin * 3;
-            Rect outRect = new Rect(inRect.x + (inRect.width - width) / 2, inRect.y, inRect.width, inRect.height - 30f - 10f);
-            Rect viewRect = new Rect(0f, 0f, width, height);
+            Rect outRect = new Rect(inRect.x + (inRect.width - width) / 2, inRect.y, inRect.width - (inRect.width - width) / 2, inRect.height - 30f - 10f);
+            Rect viewRect = new Rect(0f, 0f, width, y);
+            y = 0f;
             Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
-
-            height = 0f;
-            float x = 0f, y = 0f;
 
             IEnumerable<DefaultSettingsCategoryDef> categories = DefDatabase<DefaultSettingsCategoryDef>.AllDefsListForReading;
             if (search.filter.Active)
             {
-                categories = categories.Where(c =>
-                    search.filter.Matches(c.label)
-                    || c.keywords.Any(k => search.filter.Matches(k))
-                    || c.DefaultSettings.Any(s => 
-                        search.filter.Matches(s.label) 
-                        || s.keywords.Any(k => search.filter.Matches(k))
-                    )
-                );
+                categories = categories.Where(c => c.Matches(search.filter));
             }
 
-            foreach (DefaultSettingsCategoryDef def in categories)
+            if (search.filter.Active)
             {
-                Rect rect = new Rect(x, y, settingsCategoryButtonSize.x, settingsCategoryButtonSize.y);
-                def.Worker.DoButton(rect);
-                x += rect.width + settingsCategoryButtonMargin;
-                if (x + settingsCategoryButtonSize.x > viewRect.xMax)
+                using (new TextBlock(GameFont.Medium))
                 {
-                    x = 0f;
-                    y += rect.height + settingsCategoryButtonMargin;
+                    Widgets.Label(new Rect(viewRect.x, y, viewRect.width, Text.LineHeight), ref y, "Defaults_SearchResults".Translate());
+                    y += 10f;
+                }
+            }
+            DoCategories(viewRect, ref y, categories);
+            if (search.filter.Active)
+            {
+                IEnumerable<DefaultSettingDef> settings = DefDatabase<DefaultSettingDef>.AllDefsListForReading.Where(s =>
+                    s.Matches(search.filter)
+                );
+                if (settings.Any())
+                {
+                    DoSettings(viewRect, ref y, settings);
                 }
             }
 
@@ -950,6 +885,52 @@ namespace Defaults
             {
                 Find.WindowStack.Add(new Dialog_MessageBox("Defaults_ConfirmResetAllSettings".Translate(), "Confirm".Translate(), ResetAllSettings, "GoBack".Translate(), null, null, true, ResetAllSettings, null, WindowLayer.Dialog));
             }
+        }
+
+        private static void DoCategories(Rect rect, ref float y, IEnumerable<DefaultSettingsCategoryDef> categories)
+        {
+            if (search.filter.Active)
+            {
+                Widgets.Label(new Rect(rect.x, y, rect.width, Text.LineHeight), ref y, "Default_DefaultSettingsCategories".Translate());
+                Widgets.DrawLineHorizontal(rect.x, y, rect.width);
+                y += 10f;
+            }
+
+            float x = 0f;
+            foreach (DefaultSettingsCategoryDef def in categories)
+            {
+                Rect buttonRect = new Rect(x, y, settingsCategoryButtonSize.x, settingsCategoryButtonSize.y);
+                def.Worker.DoButton(buttonRect);
+                x += buttonRect.width + settingsCategoryButtonMargin;
+                if (x + settingsCategoryButtonSize.x > rect.xMax)
+                {
+                    x = 0f;
+                    y += settingsCategoryButtonSize.y + settingsCategoryButtonMargin;
+                }
+            }
+            if (x > 0)
+            {
+                y += settingsCategoryButtonSize.y + settingsCategoryButtonMargin;
+            }
+        }
+
+        private static void DoSettings(Rect rect, ref float y, IEnumerable<DefaultSettingDef> settings)
+        {
+            Widgets.Label(new Rect(rect.x, y, rect.width, Text.LineHeight), ref y, "Default_DefaultSettings".Translate());
+            Widgets.DrawLineHorizontal(rect.x, y, rect.width);
+            y += 10f;
+
+            Listing_Standard listing = new Listing_StandardHighlight() { maxOneColumn = true };
+            listing.Begin(new Rect(rect.x, y, rect.width, rect.height - y));
+
+            foreach (DefaultSettingDef def in settings)
+            {
+                Rect rowRect = listing.GetRect(30f);
+                def.Worker.DoSetting(rowRect);
+            }
+
+            y += listing.CurHeight;
+            listing.End();
         }
 
         public override void ExposeData()
@@ -967,14 +948,7 @@ namespace Defaults
             Scribe_Values.Look(ref DefaultCareForNoFaction, "DefaultCareForNoFaction", MedicalCareCategory.HerbalOrWorse);
             Scribe_Values.Look(ref DefaultCareForWildlife, "DefaultCareForWildlife", MedicalCareCategory.HerbalOrWorse);
             Scribe_Values.Look(ref DefaultCareForEntities, "DefaultCareForEntities", MedicalCareCategory.NoMeds);
-            Scribe_Values.Look(ref DefaultMedicineToCarry, "DefaultMedicineToCarry");
-            Scribe_Values.Look(ref DefaultMedicineAmountToCarry, "DefaultMedicineAmountToCarry", 0);
-            Scribe_Values.Look(ref GuestsCarryMedicine, "GuestsCarryMedicine", false);
             Scribe_Collections.Look(ref DefaultRewardPreferences, "DefaultRewardPreferences");
-            Scribe_Values.Look(ref DefaultHostilityResponse, "DefaultHostilityResponse", HostilityResponseMode.Flee);
-            Scribe_Values.Look(ref DefaultPlantType, "DefaultPlantType");
-            Scribe_Values.Look(ref DefaultAutoRebuild, "DefaultAutoRebuild", false);
-            Scribe_Values.Look(ref DefaultAutoHomeArea, "DefaultAutoHomeArea", true);
             Scribe_Collections.Look(ref DefaultExpandedResourceCategories, "DefaultExpandedResourceCategories");
             Scribe_Values.Look(ref DefaultStoryteller, "DefaultStoryteller");
             Scribe_Values.Look(ref DefaultDifficulty, "DefaultDifficulty");
@@ -983,7 +957,6 @@ namespace Defaults
             Scribe_Values.Look(ref DefaultPermadeath, "DefaultPermadeath", false);
             Scribe_Collections.Look(ref DefaultStockpileZones, "DefaultStockpileZones");
             Scribe_Deep.Look(ref DefaultShelfSettings, "DefaultShelfSettings");
-            Scribe_Values.Look(ref DefaultManualPriorities, "DefaultManualPriorities", false);
             Scribe_Values.Look(ref DefaultPlanetCoverage, "DefaultPlanetCoverage", 0.3f);
             Scribe_Values.Look(ref DefaultOverallRainfall, "DefaultOverallRainfall", OverallRainfall.Normal);
             Scribe_Values.Look(ref DefaultOverallTemperature, "DefaultOverallTemperature", OverallTemperature.Normal);
@@ -997,17 +970,16 @@ namespace Defaults
             Scribe_Collections.Look(ref DefaultFoodPolicies, "DefaultFoodPolicies", LookMode.Deep);
             Scribe_Collections.Look(ref DefaultDrugPolicies, "DefaultDrugPolicies", LookMode.Deep);
             Scribe_Collections.Look(ref DefaultReadingPolicies, "DefaultReadingPolicies", LookMode.Deep);
-            Scribe_Values.Look(ref DefaultPregnancyApproach, "DefaultPregnancyApproach", RimWorld.PregnancyApproach.Normal);
-            Scribe_Values.Look(ref DefaultTargetTemperatureHeater, "DefaultTargetTemperatureHeater", 21f);
-            Scribe_Values.Look(ref DefaultTargetTemperatureCooler, "DefaultTargetTemperatureCooler", 21f);
             Scribe_Collections.Look(ref DefaultWorkbenchBills, "DefaultWorkbenchBills");
             Scribe_Values.Look(ref DefaultBillIngredientSearchRadius, "DefaultBillIngredientSearchRadius", 999f);
             Scribe_Values.Look(ref DefaultBillAllowedSkillRange, "DefaultBillAllowedSkillRange", new IntRange(0, 20));
             Scribe_Defs.Look(ref DefaultBillStoreMode, "DefaultBillStoreMode");
             Scribe_Deep.Look(ref DefaultBabyFeedingOptions, "DefaultBabyFeedingOptions");
-            Scribe_Defs.Look(ref DefaultWorkModeFirst, "DefaultWorkModeFirst");
-            Scribe_Defs.Look(ref DefaultWorkModeSecond, "DefaultWorkModeSecond");
-            Scribe_Defs.Look(ref DefaultWorkModeAdditional, "DefaultWorkModeAdditional");
+
+            foreach (DefaultSettingsCategoryDef def in categories)
+            {
+                def.Worker.ExposeData();
+            }
 
             Scribe_Collections.Look(ref PreviousFactionDefs, "PreviousFactionDefs");
             Scribe_Collections.Look(ref PreviousThingDefs, "PreviousThingDefs");

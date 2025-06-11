@@ -1,6 +1,4 @@
-﻿using Verse;
-
-namespace Defaults.MechWorkModes
+﻿namespace Defaults.MechWorkModes
 {
     public class DefaultSettingWorker_WorkModeFirst : DefaultSettingWorker_MechWorkMode
     {
@@ -8,11 +6,6 @@ namespace Defaults.MechWorkModes
         {
         }
 
-        public override MechWorkModeDef Default => DefaultsSettings.DefaultWorkModeFirst;
-
-        public override void SetDefault(MechWorkModeDef def)
-        {
-            DefaultsSettings.DefaultWorkModeFirst = def;
-        }
+        public override string Key => Settings.MECH_WORK_MODE_FIRST;
     }
 }

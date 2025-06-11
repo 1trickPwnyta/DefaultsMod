@@ -8,11 +8,6 @@ namespace Defaults.MechWorkModes
         {
         }
 
-        public override MechWorkModeDef Default => DefaultsSettings.DefaultWorkModeSecond;
-
-        public override void SetDefault(MechWorkModeDef def)
-        {
-            DefaultsSettings.DefaultWorkModeSecond = def;
-        }
+        public override string Key => Settings.MECH_WORK_MODE_SECOND;
     }
 }

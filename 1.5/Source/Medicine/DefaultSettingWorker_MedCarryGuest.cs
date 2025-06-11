@@ -6,6 +6,8 @@
         {
         }
 
-        public override bool Enabled { get => DefaultsSettings.GuestsCarryMedicine; set => DefaultsSettings.GuestsCarryMedicine = value; }
+        public override string Key => Settings.GUESTS_CARRY_MEDICINE;
+
+        protected override bool? Default => false;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -24,5 +25,8 @@ namespace Defaults
                 return worker;
             }
         }
+
+        public bool Matches(QuickSearchFilter filter) => filter.Matches(label)
+            || keywords.Any(k => filter.Matches(k));
     }
 }

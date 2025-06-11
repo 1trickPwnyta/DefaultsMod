@@ -7,7 +7,7 @@ namespace Defaults.MechWorkModes
     {
         public static void Postfix(ref MechWorkModeDef ___workMode)
         {
-            ___workMode = DefaultsSettings.DefaultWorkModeAdditional;
+            ___workMode = Settings.Get<MechWorkModeDef>(Settings.MECH_WORK_MODE_ADDITIONAL);
         }
     }
 }

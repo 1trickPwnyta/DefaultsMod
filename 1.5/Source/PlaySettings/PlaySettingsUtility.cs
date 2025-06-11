@@ -8,12 +8,16 @@ namespace Defaults.PlaySettings
     {
         public static void DrawAutoRebuildButton(Rect rect)
         {
-            UIUtility.DrawCheckButton(rect, TexButton.AutoRebuild, "AutoRebuildButton".Translate(), ref DefaultsSettings.DefaultAutoRebuild);
+            bool setting = Settings.GetValue<bool>(Settings.AUTO_REBUILD);
+            UIUtility.DrawCheckButton(rect, TexButton.AutoRebuild, "AutoRebuildButton".Translate(), ref setting);
+            Settings.SetValue(Settings.AUTO_REBUILD, setting);
         }
 
         public static void DrawAutoHomeAreaButton(Rect rect)
         {
-            UIUtility.DrawCheckButton(rect, TexButton.AutoHomeArea, "AutoHomeAreaToggleButton".Translate(), ref DefaultsSettings.DefaultAutoHomeArea);
+            bool setting = Settings.GetValue<bool>(Settings.AUTO_HOME_AREA);
+            UIUtility.DrawCheckButton(rect, TexButton.AutoHomeArea, "AutoHomeAreaToggleButton".Translate(), ref setting);
+            Settings.SetValue(Settings.AUTO_HOME_AREA, setting);
         }
     }
 }

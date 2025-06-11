@@ -6,6 +6,6 @@
         {
         }
 
-        public override float Target { get => DefaultsSettings.DefaultTargetTemperatureHeater; set => DefaultsSettings.DefaultTargetTemperatureHeater = value; }
+        public override string Key => Settings.TARGET_TEMP_HEATER;
     }
 }

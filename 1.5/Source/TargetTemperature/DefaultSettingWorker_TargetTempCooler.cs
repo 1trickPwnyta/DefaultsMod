@@ -6,6 +6,6 @@
         {
         }
 
-        public override float Target { get => DefaultsSettings.DefaultTargetTemperatureCooler; set => DefaultsSettings.DefaultTargetTemperatureCooler = value; }
+        public override string Key => Settings.TARGET_TEMP_COOLER;
     }
 }

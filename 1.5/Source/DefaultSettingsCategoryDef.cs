@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -43,5 +44,10 @@ namespace Defaults
         }
 
         public IEnumerable<DefaultSettingDef> DefaultSettings => DefDatabase<DefaultSettingDef>.AllDefsListForReading.Where(d => d.category == this);
+
+        public bool Matches(QuickSearchFilter filter) => filter.Matches(label)
+            || keywords.Any(k => filter.Matches(k))
+            || DefaultSettings.Any(s => s.Matches(filter)
+        );
     }
 }

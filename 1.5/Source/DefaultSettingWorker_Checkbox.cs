@@ -3,22 +3,25 @@ using Verse;
 
 namespace Defaults
 {
-    public abstract class DefaultSettingWorker_Checkbox : DefaultSettingWorker
+    public abstract class DefaultSettingWorker_Checkbox : DefaultSettingWorker<bool?>
     {
         protected DefaultSettingWorker_Checkbox(DefaultSettingDef def) : base(def)
         {
         }
 
-        public abstract bool Enabled { get; set; }
-
-        public override void DoSetting(Rect rect)
+        protected override void DoWidget(Rect rect)
         {
-            bool enabled = Enabled;
+            bool enabled = setting.Value;
             Widgets.ToggleInvisibleDraggable(rect, ref enabled, true);
-            Enabled = enabled;
+            setting = enabled;
             rect.x += rect.width - 24f;
             rect.width = 24f;
-            Widgets.CheckboxDraw(rect.xMax - 24f, rect.y + (rect.height - 24f) / 2, Enabled, false);
+            Widgets.CheckboxDraw(rect.xMax - 24f, rect.y + (rect.height - 24f) / 2, setting.Value, false);
+        }
+
+        protected override void ExposeSetting()
+        {
+            Scribe_Values.Look(ref setting, Key);
         }
     }
 }

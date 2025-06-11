@@ -5,9 +5,9 @@
     {
         public static void Postfix(RimWorld.PlaySettings __instance)
         {
-            __instance.autoRebuild = DefaultsSettings.DefaultAutoRebuild;
-            __instance.autoHomeArea = DefaultsSettings.DefaultAutoHomeArea;
-            __instance.useWorkPriorities = DefaultsSettings.DefaultManualPriorities;
+            __instance.autoRebuild = Settings.GetValue<bool>(Settings.AUTO_REBUILD);
+            __instance.autoHomeArea = Settings.GetValue<bool>(Settings.AUTO_HOME_AREA);
+            __instance.useWorkPriorities = Settings.GetValue<bool>(Settings.MANUAL_PRIORITIES);
         }
     }
 }

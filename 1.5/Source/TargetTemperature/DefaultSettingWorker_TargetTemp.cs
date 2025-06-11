@@ -1,22 +1,28 @@
 ﻿using UnityEngine;
+using Verse;
 
 namespace Defaults.TargetTemperature
 {
-    public abstract class DefaultSettingWorker_TargetTemp : DefaultSettingWorker
+    public abstract class DefaultSettingWorker_TargetTemp : DefaultSettingWorker<float?>
     {
+        protected override float? Default => 21f;
+
         protected DefaultSettingWorker_TargetTemp(DefaultSettingDef def) : base(def)
         {
         }
 
-        public abstract float Target { get; set; }
-
-        public override void DoSetting(Rect rect)
+        protected override void DoWidget(Rect rect)
         {
             rect.x += rect.width / 2;
             rect.width /= 2;
-            float target = Target;
+            float target = setting.Value;
             UIUtility.TemperatureEntry(rect, ref target, 1, -50f, 50f);
-            Target = target;
+            setting = target;
+        }
+
+        protected override void ExposeSetting()
+        {
+            Scribe_Values.Look(ref setting, Key);
         }
     }
 }

@@ -33,9 +33,6 @@ namespace Defaults
             foreach (DefaultSettingDef def in settings)
             {
                 Rect rowRect = listing.GetRect(30f);
-                Text.Anchor = TextAnchor.MiddleLeft;
-                Widgets.Label(rowRect, def.LabelCap);
-                Text.Anchor = TextAnchor.UpperLeft;
                 def.Worker.DoSetting(rowRect);
             }
 

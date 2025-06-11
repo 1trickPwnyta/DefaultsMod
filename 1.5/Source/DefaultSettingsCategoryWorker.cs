@@ -16,6 +16,53 @@ namespace Defaults
             this.def = def;
         }
 
+        public virtual bool GetSetting<T>(string key, out T value)
+        {
+            foreach (DefaultSettingDef def in def.DefaultSettings)
+            {
+                if (def.Worker.Key == key)
+                {
+                    DefaultSettingWorker<T> worker = def.Worker as DefaultSettingWorker<T>;
+                    if (worker != null)
+                    {
+                        value = worker.setting;
+                        return true;
+                    }
+                }
+            }
+            value = default;
+            return false;
+        }
+
+        public virtual bool SetSetting<T>(string key, T value)
+        {
+            foreach (DefaultSettingDef def in def.DefaultSettings)
+            {
+                if (def.Worker.Key == key)
+                {
+                    (def.Worker as DefaultSettingWorker<T>).setting = value;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public virtual void ExposeData()
+        {
+            foreach (DefaultSettingDef def in def.DefaultSettings)
+            {
+                def.Worker.ExposeData();
+            }
+        }
+
+        public virtual void SetDefaults()
+        {
+            foreach (DefaultSettingDef def in def.DefaultSettings)
+            {
+                def.Worker.SetDefault();
+            }
+        }
+
         public abstract void OpenSettings();
 
         public void DoButton(Rect rect)

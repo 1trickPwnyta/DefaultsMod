@@ -6,6 +6,8 @@
         {
         }
 
-        public override bool Enabled { get => DefaultsSettings.DefaultManualPriorities; set => DefaultsSettings.DefaultManualPriorities = value; }
+        public override string Key => Settings.MANUAL_PRIORITIES;
+
+        protected override bool? Default => false;
     }
 }
