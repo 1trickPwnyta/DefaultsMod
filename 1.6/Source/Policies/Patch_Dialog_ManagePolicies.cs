@@ -83,8 +83,12 @@ namespace Defaults.Policies
                 buttonOffset += 42f;
             }
 
-            if (___policyInt != null && (__instance.GetType() == typeof(Dialog_ApparelPolicies) || __instance.GetType() == typeof(Dialog_FoodPolicies) || __instance.GetType() == typeof(Dialog_DrugPolicies) || __instance.GetType() == typeof(Dialog_ReadingPolicies)))
+            if (___policyInt != null && (__instance.GetType() == typeof(Dialog_ApparelPolicies) || __instance.GetType() == typeof(Dialog_FoodPolicies) || __instance.GetType() == typeof(Dialog_ReadingPolicies)))
             {
+                if (___policyInt != __instance.GetType().Method("GetDefaultPolicy").Invoke(__instance, new object[] { }))
+                {
+                    buttonOffset += 42f;
+                }
                 Rect lockRect = new Rect(inRect.xMax - 158f - buttonOffset, inRect.y + 74f, 32f, 32f);
                 if (___policyInt is ApparelPolicies.ApparelPolicy)
                 {

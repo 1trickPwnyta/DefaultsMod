@@ -569,7 +569,7 @@ namespace Defaults
                     workerPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowDeadmansApparel, false);
                     foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
                     {
-                        if (thingDef.apparel != null && thingDef.apparel.defaultOutfitTags != null && thingDef.apparel.defaultOutfitTags.Contains("Worker"))
+                        if (thingDef.apparel != null && ((thingDef.apparel.defaultOutfitTags != null && thingDef.apparel.defaultOutfitTags.Contains("Worker")) || thingDef.thingCategories.NotNullAndContains(ThingCategoryDefOf.ApparelUtility)))
                         {
                             workerPolicy.filter.SetAllow(thingDef, true);
                         }
@@ -581,7 +581,7 @@ namespace Defaults
                     soldierPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowDeadmansApparel, false);
                     foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
                     {
-                        if (thingDef.apparel != null && thingDef.apparel.defaultOutfitTags != null && thingDef.apparel.defaultOutfitTags.Contains("Soldier"))
+                        if (thingDef.apparel != null && ((thingDef.apparel.defaultOutfitTags != null && thingDef.apparel.defaultOutfitTags.Contains("Soldier")) || thingDef.thingCategories.NotNullAndContains(ThingCategoryDefOf.ApparelUtility)))
                         {
                             soldierPolicy.filter.SetAllow(thingDef, true);
                         }
@@ -613,6 +613,21 @@ namespace Defaults
                             }
                         }
                         DefaultApparelPolicies.Add(slavePolicy);
+                    }
+
+                    if (ModsConfig.OdysseyActive)
+                    {
+                        Policies.ApparelPolicies.ApparelPolicy spacefarerPolicy = new Policies.ApparelPolicies.ApparelPolicy(0, "OutfitSpacefarer".Translate());
+                        spacefarerPolicy.filter.SetDisallowAll();
+                        spacefarerPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowDeadmansApparel, false);
+                        foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
+                        {
+                            if (thingDef.apparel != null && ((thingDef.apparel.defaultOutfitTags != null && thingDef.apparel.defaultOutfitTags.Contains("Spacefarer")) || thingDef.thingCategories.NotNullAndContains(ThingCategoryDefOf.ApparelUtility)))
+                            {
+                                spacefarerPolicy.filter.SetAllow(thingDef, true);
+                            }
+                        }
+                        DefaultApparelPolicies.Add(spacefarerPolicy);
                     }
                 }
             });
@@ -661,7 +676,7 @@ namespace Defaults
                     Policies.FoodPolicies.FoodPolicy pastePolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionPaste".Translate());
                     foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
                     {
-                        if (thingDef.ingestible != null && thingDef.ingestible.preferability >= FoodPreferability.MealSimple && thingDef != ThingDefOf.MealNutrientPaste && thingDef != ThingDefOf.InsectJelly && thingDef != ThingDefOf.Pemmican)
+                        if (thingDef.ingestible != null && thingDef.ingestible.preferability >= FoodPreferability.MealSimple && thingDef != ThingDefOf.MealNutrientPaste && thingDef != ThingDefOf.InsectJelly)
                         {
                             pastePolicy.filter.SetAllow(thingDef, false);
                         }
@@ -835,6 +850,14 @@ namespace Defaults
                         tomePolicy.label = "TomePolicy".Translate();
                         tomePolicy.defFilter.SetDisallowAll();
                         tomePolicy.defFilter.SetAllow(ThingDefOf.Tome, true);
+                    }
+
+                    if (ModsConfig.OdysseyActive)
+                    {
+                        Policies.ReadingPolicies.ReadingPolicy mapPolicy = PolicyUtility.NewReadingPolicy();
+                        mapPolicy.label = "MapPolicy".Translate();
+                        mapPolicy.defFilter.SetDisallowAll();
+                        mapPolicy.defFilter.SetAllow(ThingDefOf.Map, true);
                     }
 
                     Policies.ReadingPolicies.ReadingPolicy nonePolicy = PolicyUtility.NewReadingPolicy();
