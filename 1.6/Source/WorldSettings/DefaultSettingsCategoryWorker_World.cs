@@ -10,7 +10,7 @@ namespace Defaults.WorldSettings
 
         public override void OpenSettings()
         {
-            Find.WindowStack.Add(new Dialog_WorldSettings());
+            Find.WindowStack.Add(new Dialog_WorldSettings(def));
         }
     }
 }

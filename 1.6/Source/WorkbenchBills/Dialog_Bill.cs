@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using Verse;
-using Verse.Sound;
 
 namespace Defaults.WorkbenchBills
 {
@@ -24,7 +23,7 @@ namespace Defaults.WorkbenchBills
 
         public override Vector2 InitialSize => new Vector2(800f, 664f);
 
-        public Dialog_Bill(BillTemplate bill) 
+        public Dialog_Bill(BillTemplate bill)
         {
             this.bill = bill;
             forcePause = true;
@@ -40,22 +39,13 @@ namespace Defaults.WorkbenchBills
             thingFilterState.quickSearch.Reset();
         }
 
-        private void AdjustCount(int offset)
-        {
-            SoundDefOf.DragSlider.PlayOneShot(null);
-            bill.repeatCount += offset;
-            if (bill.repeatCount < 1)
-            {
-                bill.repeatCount = 1;
-            }
-        }
-
         protected override void LateWindowOnGUI(Rect inRect)
         {
             Rect rect = new Rect(inRect.x, inRect.y, 34f, 34f);
             Widgets.DefIcon(rect, bill.recipe);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0045:Convert to conditional expression", Justification = "Would make it ugly af")]
         public override void DoWindowContents(Rect inRect)
         {
             Text.Font = GameFont.Medium;
@@ -79,7 +69,7 @@ namespace Defaults.WorkbenchBills
 
             Text.Font = GameFont.Small;
             Listing_Standard listing = new Listing_Standard();
-            Rect listingRect = new Rect(columnRect.xMax + 17f, 50f, num, inRect.height - 50f - Window.CloseButSize.y);
+            Rect listingRect = new Rect(columnRect.xMax + 17f, 50f, num, inRect.height - 50f - CloseButSize.y);
             listing.Begin(listingRect);
 
             Listing_Standard repeatSection = listing.BeginSection(RepeatModeSubdialogHeight, 4f, 4f);
@@ -116,7 +106,7 @@ namespace Defaults.WorkbenchBills
                     {
                         repeatSection.CheckboxLabeled("IncludeTainted".Translate(), ref bill.includeTainted);
                     }
-                    if (bill.recipe.products.Any((ThingDefCountClass prod) => prod.thingDef.useHitPoints))
+                    if (bill.recipe.products.Any(prod => prod.thingDef.useHitPoints))
                     {
                         Widgets.FloatRange(repeatSection.GetRect(32f, 1f), 997564327, ref bill.hpRange, 0f, 1f, "HitPoints", ToStringStyle.PercentZero);
                         bill.hpRange.min = Mathf.Round(bill.hpRange.min * 100f) / 100f;
@@ -192,8 +182,7 @@ namespace Defaults.WorkbenchBills
 
             listing.End();
 
-            Rect ingredientConfigRect = new Rect(listingRect.xMax + 17f, 50f, 0f, inRect.height - 50f - Window.CloseButSize.y);
-            ingredientConfigRect.xMax = inRect.xMax;
+            Rect ingredientConfigRect = new Rect(listingRect.xMax + 17f, 50f, 0f, inRect.height - 50f - CloseButSize.y) { xMax = inRect.xMax };
             float y = ingredientConfigRect.y;
             DoIngredientConfigPane(ingredientConfigRect.x, ref y, ingredientConfigRect.width, ingredientConfigRect.height);
 
@@ -293,7 +282,7 @@ namespace Defaults.WorkbenchBills
         {
             if (ModsConfig.BiotechActive && bill.recipe.mechanitorOnlyRecipe)
             {
-                yield return new FloatMenuOption("AnyMechanitor".Translate(), () => 
+                yield return new FloatMenuOption("AnyMechanitor".Translate(), () =>
                 {
                     bill.SetAnyPawnRestriction();
                 });

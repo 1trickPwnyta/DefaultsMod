@@ -18,24 +18,27 @@ namespace Defaults.StockpileZones
 
         public static ZoneType MakeBuiltInStockpileZone()
         {
-            ZoneType zoneType = new ZoneType(StorageSettingsPreset.DefaultStockpile.PresetName(), StorageSettingsPreset.DefaultStockpile);
-            zoneType.designatorType = typeof(Designator_ZoneAddStockpile_Resources);
-            zoneType.locked = false;
+            ZoneType zoneType = new ZoneType(StorageSettingsPreset.DefaultStockpile.PresetName(), StorageSettingsPreset.DefaultStockpile)
+            {
+                designatorType = typeof(Designator_ZoneAddStockpile_Resources),
+                locked = false
+            };
             return zoneType;
         }
 
         public static ZoneType MakeBuiltInDumpingStockpileZone()
         {
-            ZoneType zoneType = new ZoneType(StorageSettingsPreset.DumpingStockpile.PresetName(), StorageSettingsPreset.DumpingStockpile);
-            zoneType.designatorType = typeof(Designator_ZoneAddStockpile_Dumping);
-            zoneType.locked = false;
+            ZoneType zoneType = new ZoneType(StorageSettingsPreset.DumpingStockpile.PresetName(), StorageSettingsPreset.DumpingStockpile)
+            {
+                designatorType = typeof(Designator_ZoneAddStockpile_Dumping),
+                locked = false
+            };
             return zoneType;
         }
 
         public static ZoneType MakeBuiltInShelfSettings()
         {
-            ZoneType zoneType = new ZoneType_Shelf();
-            zoneType.Priority = StoragePriority.Preferred;
+            ZoneType zoneType = new ZoneType_Shelf { Priority = StoragePriority.Preferred };
             Array.ForEach(new[] { ThingCategoryDefOf.Foods, ThingCategoryDefOf.Manufactured, ThingCategoryDefOf.ResourcesRaw, ThingCategoryDefOf.Items, ThingCategoryDefOf.Weapons, ThingCategoryDefOf.Apparel, ThingCategoryDefOf.BodyParts }, d =>
             {
                 zoneType.filter.SetAllow(d, true);
@@ -64,16 +67,13 @@ namespace Defaults.StockpileZones
             Preset = other.Preset;
         }
 
-        public Type DesignatorType
-        {
-            get => designatorType;
-        }
+        public Type DesignatorType => designatorType;
 
         public string RenamableLabel { get => Name; set => Name = value; }
 
-        public string BaseLabel { get => RenamableLabel; }
+        public string BaseLabel => RenamableLabel;
 
-        public string InspectLabel { get => RenamableLabel; }
+        public string InspectLabel => RenamableLabel;
 
         public string Desc
         {

@@ -1,5 +1,4 @@
 ﻿using RimWorld;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -25,13 +24,7 @@ namespace Defaults.WorkbenchBills
             closeOnClickedOutside = true;
         }
 
-        public override Vector2 InitialSize
-        {
-            get
-            {
-                return new Vector2(400f, 500f);
-            }
-        }
+        public override Vector2 InitialSize => new Vector2(400f, 500f);
 
         public override void DoWindowContents(Rect inRect)
         {
@@ -49,10 +42,10 @@ namespace Defaults.WorkbenchBills
                 Find.WindowStack.Add(new FloatMenu(workbenchGroup.First().AllRecipes.Select(r => new FloatMenuOption(r.LabelCap, () =>
                 {
                     WorkbenchBillStore.Get(workbenchGroup).bills.Add(new BillTemplate(r));
-                }, r.UIIconThing, r.UIIcon, null, true, MenuOptionPriority.Default, null, null, 29f, (Rect rect) => Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, r), null, true, -r.displayPriority)).ToList()));
+                }, r.UIIconThing, r.UIIcon, null, true, MenuOptionPriority.Default, null, null, 29f, rect => Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, r), null, true, -r.displayPriority)).ToList()));
             }
 
-            Rect outRect = new Rect(inRect.x, titleRect.yMax + padding, inRect.width, inRect.height - titleRect.height - padding - Window.CloseButSize.y - padding);
+            Rect outRect = new Rect(inRect.x, titleRect.yMax + padding, inRect.width, inRect.height - titleRect.height - padding - CloseButSize.y - padding);
             Rect viewRect = new Rect(0f, 0f, outRect.width - 20f, y);
             Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
             y = 0f;
@@ -123,7 +116,7 @@ namespace Defaults.WorkbenchBills
 
             Rect repeatInfoRect = new Rect(rect.x + 28f, rect.y + 47f, 100f, 30f);
             string repeatInfo = "";
-            if (bill.repeatMode == BillRepeatModeDefOf.Forever) 
+            if (bill.repeatMode == BillRepeatModeDefOf.Forever)
             {
                 repeatInfo = "Forever".Translate();
             }
@@ -148,7 +141,8 @@ namespace Defaults.WorkbenchBills
             {
                 bill.DoBillRepeatModeMenu();
             }
-            Action<int> countAction = (multiplier) =>
+
+            void countAction(int multiplier)
             {
                 if (bill.repeatMode == BillRepeatModeDefOf.Forever)
                 {
@@ -166,7 +160,7 @@ namespace Defaults.WorkbenchBills
                     bill.repeatCount = Mathf.Max(0, bill.repeatCount + GenUI.CurrentAdjustmentMultiplier() * multiplier);
                 }
                 SoundDefOf.DragSlider.PlayOneShot(null);
-            };
+            }
             if (row.ButtonIcon(TexButton.Plus))
             {
                 countAction(1);

@@ -10,7 +10,7 @@ namespace Defaults.Storyteller
 
         public override void OpenSettings()
         {
-            Find.WindowStack.Add(new Dialog_Storyteller());
+            Find.WindowStack.Add(new Dialog_Storyteller(def));
         }
     }
 }

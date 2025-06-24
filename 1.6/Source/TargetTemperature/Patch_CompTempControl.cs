@@ -32,7 +32,7 @@ namespace Defaults.TargetTemperature
             {
                 return Settings.GetValue<float>(Settings.TARGET_TEMP_HEATER);
             }
-            if (comp.parent is Building_Cooler)
+            else if (comp.parent is Building_Cooler)
             {
                 return Settings.GetValue<float>(Settings.TARGET_TEMP_COOLER);
             }

@@ -39,8 +39,6 @@ namespace Defaults
             }
             rect.x += rect.width - width;
             rect.width = width;
-            
-
         }
     }
 }

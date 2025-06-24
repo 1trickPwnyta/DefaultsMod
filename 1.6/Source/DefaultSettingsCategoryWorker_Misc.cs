@@ -10,7 +10,7 @@ namespace Defaults
 
         public override void OpenSettings()
         {
-            Find.WindowStack.Add(new Dialog_MiscSettings());
+            Find.WindowStack.Add(new Dialog_MiscSettings(def));
         }
     }
 }

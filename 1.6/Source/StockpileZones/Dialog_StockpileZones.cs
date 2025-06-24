@@ -8,7 +8,7 @@ using Verse.Sound;
 namespace Defaults.StockpileZones
 {
     [StaticConstructorOnStartup]
-    public class Dialog_StockpileZones : SettingsDialog
+    public class Dialog_StockpileZones : Dialog_SettingsCategory
     {
         public static Texture2D DefaultStockpileIcon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_Stockpile", true);
         public static Texture2D DumpingStockpileIcon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_DumpingStockpile", true);
@@ -16,11 +16,15 @@ namespace Defaults.StockpileZones
 
         private static Vector2 scrollPos;
         private static ZoneType selectedZoneType;
-        private ThingFilterUI.UIState state = new ThingFilterUI.UIState();
+        private readonly ThingFilterUI.UIState state = new ThingFilterUI.UIState();
+
+        public Dialog_StockpileZones(DefaultSettingsCategoryDef category) : base(category)
+        {
+        }
 
         public override string Title => "Defaults_StockpileZones".Translate();
 
-        public override Vector2 InitialSize => new Vector2(860f, 600f);
+        public override Vector2 InitialSize => new Vector2(860f, 640f);
 
         public override void PreOpen()
         {
@@ -50,7 +54,7 @@ namespace Defaults.StockpileZones
 
             float rowWidth = rect.width - 300f - 16f;
             float rowHeight = 64f;
-            Widgets.BeginScrollView(new Rect(rect.x, rect.y + buttonHeight, rect.width - 300f, rect.height - buttonHeight - Window.CloseButSize.y), ref scrollPos, new Rect(0f, 0f, rowWidth, rowHeight * DefaultsSettings.DefaultStockpileZones.Count));
+            Widgets.BeginScrollView(new Rect(rect.x, rect.y + buttonHeight, rect.width - 300f, rect.height - buttonHeight - CloseButSize.y - 10f - ResetButtonSize.y - 10f), ref scrollPos, new Rect(0f, 0f, rowWidth, rowHeight * DefaultsSettings.DefaultStockpileZones.Count));
             float y = 0f;
 
             Text.Anchor = TextAnchor.MiddleLeft;
@@ -136,7 +140,7 @@ namespace Defaults.StockpileZones
                 Rect lockRect = new Rect(rect.width - 24f, rect.y + buttonHeight, 24f, 24f);
                 UIUtility.DrawCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref selectedZoneType.locked);
 
-                Rect filterRect = new Rect(rect.width  - 300f, rect.y + buttonHeight * 2, 300f, rect.height - buttonHeight * 2 - CloseButSize.y);
+                Rect filterRect = new Rect(rect.width - 300f, rect.y + buttonHeight * 2, 300f, rect.height - buttonHeight * 2 - CloseButSize.y - 10f - ResetButtonSize.y - 10f);
                 ThingFilterUI.DoThingFilterConfigWindow(filterRect, state, selectedZoneType.filter, StorageSettings.EverStorableFixedSettings().filter, 8);
             }
         }

@@ -42,19 +42,19 @@ namespace Defaults
                 SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera();
             }
 
-            if (Widgets.ButtonText(new Rect(rect.xMin + (float)num, rect.yMin, num, rect.height), "-"))
+            if (Widgets.ButtonText(new Rect(rect.xMin + num, rect.yMin, num, rect.height), "-"))
             {
                 value -= multiplier * GenUI.CurrentAdjustmentMultiplier();
                 SoundDefOf.Checkbox_TurnedOff.PlayOneShotOnCamera();
             }
 
-            if (Widgets.ButtonText(new Rect(rect.xMax - (float)num, rect.yMin, num, rect.height), "++"))
+            if (Widgets.ButtonText(new Rect(rect.xMax - num, rect.yMin, num, rect.height), "++"))
             {
                 value += 10 * multiplier * GenUI.CurrentAdjustmentMultiplier();
                 SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera();
             }
 
-            if (Widgets.ButtonText(new Rect(rect.xMax - (float)(num * 2), rect.yMin, num, rect.height), "+"))
+            if (Widgets.ButtonText(new Rect(rect.xMax - (num * 2), rect.yMin, num, rect.height), "+"))
             {
                 value += multiplier * GenUI.CurrentAdjustmentMultiplier();
                 SoundDefOf.Checkbox_TurnedOn.PlayOneShotOnCamera();
@@ -63,7 +63,7 @@ namespace Defaults
             value = Mathf.Clamp(value, min, max);
 
             Text.Anchor = TextAnchor.MiddleCenter;
-            Widgets.Label(new Rect(rect.xMin + (float)(num * 2), rect.yMin, rect.width - (float)(num * 4), rect.height), value.ToStringTemperature("F0"));
+            Widgets.Label(new Rect(rect.xMin + (num * 2), rect.yMin, rect.width - (num * 4), rect.height), value.ToStringTemperature("F0"));
             Text.Anchor = TextAnchor.UpperLeft;
         }
     }

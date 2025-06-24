@@ -1,6 +1,4 @@
-﻿using RimWorld;
-
-namespace Defaults.Medicine
+﻿namespace Defaults.Medicine
 {
     // Patched manually in mod constructor
     public static class Patch_PlaySettings_ctor

@@ -1,4 +1,5 @@
 ﻿using RimWorld;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -15,10 +16,11 @@ namespace Defaults.Schedule
                 rect = new Rect(rect.x, rect.y, 36f, 30f);
                 MouseoverSounds.DoRegion(rect);
                 Rect rect2 = new Rect(rect.x, rect.y + (rect.height / 2f - 12f), 18f, 24f);
+                List<Schedule> schedules = Settings.Get<List<Schedule>>(Settings.SCHEDULES);
                 if (Widgets.ButtonImage(rect2, TexButton.Save))
                 {
-                    string name = "Defaults_ScheduleName".Translate(DefaultsSettings.DefaultSchedules.Count + 1);
-                    DefaultsSettings.DefaultSchedules.Add(new Schedule(name, pawn));
+                    string name = "Defaults_ScheduleName".Translate(schedules.Count + 1);
+                    schedules.Add(new Schedule(name, pawn));
                     LongEventHandler.ExecuteWhenFinished(DefaultsMod.Settings.Write);
                     Messages.Message("Defaults_ScheduleSavedAs".Translate(name), MessageTypeDefOf.PositiveEvent, false);
                 }
@@ -27,7 +29,8 @@ namespace Defaults.Schedule
                 rect3.x = rect2.xMax;
                 if (Widgets.ButtonImage(rect3, TexButton.HotReloadDefs))
                 {
-                    Find.WindowStack.Add(new FloatMenu(DefaultsSettings.DefaultSchedules.Select(s => new FloatMenuOption(s.name, delegate () {
+                    Find.WindowStack.Add(new FloatMenu(schedules.Select(s => new FloatMenuOption(s.name, () =>
+                    {
                         s.ApplyToPawnTimetable(pawn.timetable);
                     })).ToList()));
                 }
@@ -42,7 +45,7 @@ namespace Defaults.Schedule
 
         public override int GetMaxWidth(PawnTable table)
         {
-            return Mathf.Min(base.GetMaxWidth(table), this.GetMinWidth(table));
+            return Mathf.Min(base.GetMaxWidth(table), GetMinWidth(table));
         }
     }
 }

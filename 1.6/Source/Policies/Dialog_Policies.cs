@@ -9,13 +9,13 @@ using Verse;
 
 namespace Defaults.Policies
 {
-    public class Dialog_Policies : SettingsDialog
+    public class Dialog_Policies : Dialog_SettingsCategory
     {
         private static Window currentWindow;
 
         private readonly List<PolicyTab> tabs = new List<PolicyTab>();
 
-        public Dialog_Policies()
+        public Dialog_Policies(DefaultSettingsCategoryDef category) : base(category)
         {
             tabs.AddRange(new[]
             {
@@ -29,13 +29,13 @@ namespace Defaults.Policies
 
         public override string Title => "Defaults_Policies".Translate();
 
-        public override Vector2 InitialSize => new Vector2(1320f, 807f);
+        public override Vector2 InitialSize => new Vector2(1320f, 847f);
 
         public override void DoSettings(Rect rect)
         {
             Rect tabsRect = new Rect(rect.x, rect.y + 32f, rect.width, 1f);
             TabDrawer.DrawTabs(tabsRect, tabs);
-            Rect contentRect = new Rect(rect.x, tabsRect.yMax, currentWindow.InitialSize.x - 36f, rect.height - CloseButSize.y);
+            Rect contentRect = new Rect(rect.x, tabsRect.yMax, currentWindow.InitialSize.x - 36f, rect.height - CloseButSize.y - 10f - ResetButtonSize.y);
             currentWindow.DoWindowContents(contentRect);
         }
 

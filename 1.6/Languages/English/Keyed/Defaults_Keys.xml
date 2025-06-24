@@ -35,7 +35,9 @@
 	<Defaults_WorkModeSecond>Second mech control group work mode</Defaults_WorkModeSecond>
 	<Defaults_WorkModeAdditional>Additional mech control groups work mode</Defaults_WorkModeAdditional>
 	<Defaults_ResetAllSettings>Reset all settings to vanilla</Defaults_ResetAllSettings>
+	<Defaults_ResetTheseSettings>Reset these settings to vanilla</Defaults_ResetTheseSettings>
 	<Defaults_ConfirmResetAllSettings>Do you want to reset all settings to their vanilla values? This action cannot be undone.</Defaults_ConfirmResetAllSettings>
+	<Defaults_ConfirmResetTheseSettings>Do you want to reset all {0} to their vanilla values? This action cannot be undone.</Defaults_ConfirmResetTheseSettings>
 	<Defaults_ScheduleName>Schedule {0}</Defaults_ScheduleName>
 	<Defaults_UseSchedule>Use</Defaults_UseSchedule>
 	<Defaults_UseScheduleTip>Indicates whether the schedule will automatically be assigned to colonists.</Defaults_UseScheduleTip>
@@ -55,7 +57,7 @@
 	<Defaults_CantDeleteDefaultPolicy>You cannot delete the default policy.</Defaults_CantDeleteDefaultPolicy>
 	<Defaults_SaveNewDefaultPolicy>Save as new default policy</Defaults_SaveNewDefaultPolicy>
 	<Defaults_PolicySavedAs>Policy saved as {0}.</Defaults_PolicySavedAs>
-	<Defaults_LoadDefaultPolicy>Load from defaults</Defaults_LoadDefaultPolicy>
+	<Defaults_LoadDefaultPolicy>Add from...</Defaults_LoadDefaultPolicy>
 	<Defaults_LockSetting>Lock this setting to prevent automatic changes when new mods or DLC are added</Defaults_LockSetting>
 	<Defaults_UnavailableCaps>UNAVAILABLE</Defaults_UnavailableCaps>
 	<Defaults_SaveNewDefaultBill>Save as new default bill</Defaults_SaveNewDefaultBill>
@@ -73,7 +75,9 @@
 	<Defaults_DefaultSettingsCategories>Setting categories</Defaults_DefaultSettingsCategories>
 	<Defaults_DefaultSettings>Individual settings</Defaults_DefaultSettings>
 	<Defaults_NewDLC>New DLC added: {0}</Defaults_NewDLC>
-	<Defaults_NewPoliciesDLC>{0} adds the following default policies to the game. Select the ones you want to enable.</Defaults_NewPoliciesDLC>
+	<Defaults_NewPoliciesDLC>1trickPwnyta's Defaults can incorporate policies available in newly installed DLC if you'd like. {0} adds the following default policies to the game. Select the ones you want to enable.</Defaults_NewPoliciesDLC>
+	<Defaults_Vanilla>Vanilla</Defaults_Vanilla>
+	<Defaults_Defaults>Defaults</Defaults_Defaults>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

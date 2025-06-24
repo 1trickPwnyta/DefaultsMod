@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using RimWorld;
-using Verse;
 
 namespace Defaults.Policies.DrugPolicies
 {
@@ -10,7 +9,7 @@ namespace Defaults.Policies.DrugPolicies
     {
         public static bool Prefix(DrugPolicyDatabase __instance)
         {
-            if (Current.Game != null)
+            if (VanillaPolicyStore.loaded)
             {
                 foreach (DrugPolicy policy in DefaultsSettings.DefaultDrugPolicies)
                 {

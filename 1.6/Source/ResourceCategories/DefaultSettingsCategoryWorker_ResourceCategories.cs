@@ -10,7 +10,7 @@ namespace Defaults.ResourceCategories
 
         public override void OpenSettings()
         {
-            Find.WindowStack.Add(new Dialog_ResourceCategories());
+            Find.WindowStack.Add(new Dialog_ResourceCategories(def));
         }
     }
 }

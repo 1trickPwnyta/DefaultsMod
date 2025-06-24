@@ -12,30 +12,25 @@ namespace Defaults.Policies.ReadingPolicies
             optionalTitle = TitleKey.Translate();
         }
 
-        protected override RimWorld.ReadingPolicy CreateNewPolicy()
-        {
-            return PolicyUtility.NewReadingPolicy();
-        }
+        protected override ReadingPolicy CreateNewPolicy() => PolicyUtility.NewDefaultPolicy<ReadingPolicy>();
 
-        protected override RimWorld.ReadingPolicy GetDefaultPolicy() => DefaultsSettings.DefaultReadingPolicies.First();
+        protected override ReadingPolicy GetDefaultPolicy() => DefaultsSettings.DefaultReadingPolicies.First();
 
-        protected override List<RimWorld.ReadingPolicy> GetPolicies() => DefaultsSettings.DefaultReadingPolicies.Select(p => (RimWorld.ReadingPolicy)p).ToList();
+        protected override List<ReadingPolicy> GetPolicies() => DefaultsSettings.DefaultReadingPolicies;
 
-        protected override void SetDefaultPolicy(RimWorld.ReadingPolicy policy)
+        protected override void SetDefaultPolicy(ReadingPolicy policy)
         {
             List<ReadingPolicy> policies = DefaultsSettings.DefaultReadingPolicies;
-            int currentIndex = policies.IndexOf((ReadingPolicy)policy);
+            int currentIndex = policies.IndexOf(policy);
             policies[currentIndex] = policies[0];
-            policies[0] = (ReadingPolicy) policy;
+            policies[0] = policy;
         }
 
-        protected override AcceptanceReport TryDeletePolicy(RimWorld.ReadingPolicy policy)
+        protected override AcceptanceReport TryDeletePolicy(ReadingPolicy policy)
         {
-            if (policy == GetDefaultPolicy())
-            {
-                return "Defaults_CantDeleteDefaultPolicy".Translate();
-            }
-            return DefaultsSettings.DefaultReadingPolicies.Remove((ReadingPolicy)policy);
+            return policy == GetDefaultPolicy()
+                ? (AcceptanceReport)"Defaults_CantDeleteDefaultPolicy".Translate()
+                : (AcceptanceReport)DefaultsSettings.DefaultReadingPolicies.Remove(policy);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Defaults.StockpileZones
 
         public override void OpenSettings()
         {
-            Find.WindowStack.Add(new Dialog_StockpileZones());
+            Find.WindowStack.Add(new Dialog_StockpileZones(def));
         }
     }
 }

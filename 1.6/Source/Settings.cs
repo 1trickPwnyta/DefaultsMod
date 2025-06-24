@@ -5,6 +5,11 @@ namespace Defaults
 {
     public static class Settings
     {
+        public const string SCHEDULES = "DefaultSchedules";
+        public const string NEXT_SCHEDULE = "NextScheduleIndex";
+        public const string MEDICINE = "DefaultMedicineOptions";
+        public const string BABY_FEEDING = "DefaultBabyFeedingOptions";
+
         public const string HOSTILITY_RESPONSE = "DefaultHostilityResponse";
         public const string MEDICINE_TO_CARRY = "DefaultMedicineToCarry";
         public const string MEDICINE_AMOUNT_TO_CARRY = "DefaultMedicineAmountToCarry";
@@ -24,7 +29,7 @@ namespace Defaults
         {
             foreach (DefaultSettingsCategoryDef category in DefDatabase<DefaultSettingsCategoryDef>.AllDefsListForReading)
             {
-                if (category.Worker.GetSetting<T>(key, out T value))
+                if (category.Worker.GetSetting(key, out T value))
                 {
                     return value;
                 }
@@ -38,7 +43,7 @@ namespace Defaults
         {
             foreach (DefaultSettingsCategoryDef category in DefDatabase<DefaultSettingsCategoryDef>.AllDefsListForReading)
             {
-                if (category.Worker.SetSetting<T>(key, value))
+                if (category.Worker.SetSetting(key, value))
                 {
                     return;
                 }

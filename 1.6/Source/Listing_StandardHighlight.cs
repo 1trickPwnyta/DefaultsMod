@@ -24,9 +24,8 @@ namespace Defaults
     {
         public static void Postfix(Listing __instance, Rect __result)
         {
-            if (__instance is Listing_StandardHighlight)
+            if (__instance is Listing_StandardHighlight listing)
             {
-                Listing_StandardHighlight listing = (Listing_StandardHighlight)__instance;
                 if (listing.Highlight)
                 {
                     Widgets.DrawLightHighlight(__result);

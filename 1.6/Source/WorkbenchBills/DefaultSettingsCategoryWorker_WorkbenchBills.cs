@@ -10,7 +10,7 @@ namespace Defaults.WorkbenchBills
 
         public override void OpenSettings()
         {
-            Find.WindowStack.Add(new Dialog_WorkbenchBills());
+            Find.WindowStack.Add(new Dialog_WorkbenchBills(def));
         }
     }
 }

@@ -12,10 +12,7 @@ namespace Defaults.Policies.DrugPolicies
             optionalTitle = TitleKey.Translate();
         }
 
-        protected override DrugPolicy CreateNewPolicy()
-        {
-            return PolicyUtility.NewDrugPolicy();
-        }
+        protected override DrugPolicy CreateNewPolicy() => PolicyUtility.NewDefaultPolicy<DrugPolicy>();
 
         protected override DrugPolicy GetDefaultPolicy() => DefaultsSettings.DefaultDrugPolicies.First();
 
@@ -31,11 +28,9 @@ namespace Defaults.Policies.DrugPolicies
 
         protected override AcceptanceReport TryDeletePolicy(DrugPolicy policy)
         {
-            if (policy == GetDefaultPolicy())
-            {
-                return "Defaults_CantDeleteDefaultPolicy".Translate();
-            }
-            return DefaultsSettings.DefaultDrugPolicies.Remove(policy);
+            return policy == GetDefaultPolicy()
+                ? (AcceptanceReport)"Defaults_CantDeleteDefaultPolicy".Translate()
+                : (AcceptanceReport)DefaultsSettings.DefaultDrugPolicies.Remove(policy);
         }
     }
 }

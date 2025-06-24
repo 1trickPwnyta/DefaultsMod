@@ -6,15 +6,19 @@ using Verse;
 
 namespace Defaults.BabyFeeding
 {
-    public class Dialog_BabyFeedingSettings : SettingsDialog
+    public class Dialog_BabyFeedingSettings : Dialog_SettingsCategory
     {
         private static Vector2 scrollPosition;
 
         private float y;
 
+        public Dialog_BabyFeedingSettings(DefaultSettingsCategoryDef category) : base(category)
+        {
+        }
+
         public override string Title => "Defaults_BabyFeedingSettings".Translate();
 
-        public override Vector2 InitialSize => new Vector2(500f, 550f);
+        public override Vector2 InitialSize => new Vector2(500f, 590f);
 
         public override void DoSettings(Rect rect)
         {
@@ -23,16 +27,17 @@ namespace Defaults.BabyFeeding
 
             listing.Label("AutofeedSectionHeader".Translate().CapitalizeFirst());
             listing.GapLine();
-            DoAutofeedRow(listing, "Defaults_BirtherParent", DefaultsSettings.DefaultBabyFeedingOptions.BirtherParent, mode => DefaultsSettings.DefaultBabyFeedingOptions.BirtherParent = mode);
-            DoAutofeedRow(listing, "Defaults_ParentLactating", DefaultsSettings.DefaultBabyFeedingOptions.ParentLactating, mode => DefaultsSettings.DefaultBabyFeedingOptions.ParentLactating = mode);
-            DoAutofeedRow(listing, "Defaults_ParentNonlactating", DefaultsSettings.DefaultBabyFeedingOptions.ParentNonlactating, mode => DefaultsSettings.DefaultBabyFeedingOptions.ParentNonlactating = mode);
-            DoAutofeedRow(listing, "Defaults_NonparentLactating", DefaultsSettings.DefaultBabyFeedingOptions.NonparentLactating, mode => DefaultsSettings.DefaultBabyFeedingOptions.NonparentLactating = mode);
-            DoAutofeedRow(listing, "Defaults_NonparentNonlactating", DefaultsSettings.DefaultBabyFeedingOptions.NonparentNonlactating, mode => DefaultsSettings.DefaultBabyFeedingOptions.NonparentNonlactating = mode);
+            BabyFeedingOptions options = Settings.Get<BabyFeedingOptions>(Settings.BABY_FEEDING);
+            DoAutofeedRow(listing, "Defaults_BirtherParent", options.BirtherParent, mode => options.BirtherParent = mode);
+            DoAutofeedRow(listing, "Defaults_ParentLactating", options.ParentLactating, mode => options.ParentLactating = mode);
+            DoAutofeedRow(listing, "Defaults_ParentNonlactating", options.ParentNonlactating, mode => options.ParentNonlactating = mode);
+            DoAutofeedRow(listing, "Defaults_NonparentLactating", options.NonparentLactating, mode => options.NonparentLactating = mode);
+            DoAutofeedRow(listing, "Defaults_NonparentNonlactating", options.NonparentNonlactating, mode => options.NonparentNonlactating = mode);
 
             listing.Gap(24f);
 
             Rect lockRect = new Rect(rect.width - 24f, listing.CurHeight, 24f, 24f);
-            UIUtility.DrawCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref DefaultsSettings.DefaultBabyFeedingOptions.locked);
+            UIUtility.DrawCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref options.locked);
             listing.Label("BabyFoodConsumables".Translate().CapitalizeFirst());
             listing.GapLine();
             Rect outRect = listing.GetRect(200f);
@@ -69,15 +74,16 @@ namespace Defaults.BabyFeeding
             Widgets.DefIcon(new Rect(rect.x, rect.y, rect.height, rect.height), def);
             Widgets.Label(new Rect(rect.x + rect.height + 12f, rect.y, rect.width / 2f, rect.height), def.LabelCap);
             Widgets.InfoCardButton(rect.xMax - 24f, rect.y, def);
-            bool allowed = DefaultsSettings.DefaultBabyFeedingOptions.AllowedConsumables.Contains(def);
+            BabyFeedingOptions options = Settings.Get<BabyFeedingOptions>(Settings.BABY_FEEDING);
+            bool allowed = options.AllowedConsumables.Contains(def);
             Widgets.Checkbox(rect.xMax - 24f - 12f - 24f, rect.y, ref allowed);
             if (allowed)
             {
-                DefaultsSettings.DefaultBabyFeedingOptions.AllowedConsumables.Add(def);
+                options.AllowedConsumables.Add(def);
             }
             else
             {
-                DefaultsSettings.DefaultBabyFeedingOptions.AllowedConsumables.Remove(def);
+                options.AllowedConsumables.Remove(def);
             }
             y += rect.height;
         }

@@ -5,24 +5,26 @@ using Verse.Sound;
 
 namespace Defaults.Medicine
 {
-    public class Dialog_MedicineSettings : SettingsDialog_List
+    [StaticConstructorOnStartup]
+    public class Dialog_MedicineSettings : Dialog_SettingsCategory_List
     {
         private static bool medicalCarePainting = false;
-        private Texture2D[] careTextures;
+        private static readonly Texture2D[] careTextures = new[]
+        {
+            ContentFinder<Texture2D>.Get("UI/Icons/Medical/NoCare"),
+            ContentFinder<Texture2D>.Get("UI/Icons/Medical/NoMeds"),
+            ThingDefOf.MedicineHerbal.uiIcon,
+            ThingDefOf.MedicineIndustrial.uiIcon,
+            ThingDefOf.MedicineUltratech.uiIcon,
+        };
 
         public Dialog_MedicineSettings() : base(DefDatabase<DefaultSettingsCategoryDef>.GetNamed("Medicine"))
         {
-            careTextures = new Texture2D[5];
-            careTextures[0] = ContentFinder<Texture2D>.Get("UI/Icons/Medical/NoCare", true);
-            careTextures[1] = ContentFinder<Texture2D>.Get("UI/Icons/Medical/NoMeds", true);
-            careTextures[2] = ThingDefOf.MedicineHerbal.uiIcon;
-            careTextures[3] = ThingDefOf.MedicineIndustrial.uiIcon;
-            careTextures[4] = ThingDefOf.MedicineUltratech.uiIcon;
         }
 
         public override string Title => "Defaults_Medicine".Translate();
 
-        public override Vector2 InitialSize => new Vector2(426f, 640f);
+        public override Vector2 InitialSize => new Vector2(426f, 680f);
 
         public override float DoPostSettings(Rect rect)
         {

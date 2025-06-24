@@ -25,34 +25,17 @@ namespace Defaults.Policies.FoodPolicies
             optionalTitle = "FoodPolicyTitle".Translate();
         }
 
-        public override Vector2 InitialSize
-        {
-            get
-            {
-                return new Vector2(700f, 700f);
-            }
-        }
+        public override Vector2 InitialSize => new Vector2(700f, 700f);
 
         protected override string TitleKey => "FoodPolicyTitle";
 
         protected override string TipKey => "FoodPolicyTip";
 
-        protected override FoodPolicy CreateNewPolicy()
-        {
-            string name;
-            int i = DefaultsSettings.DefaultFoodPolicies.Count + 1;
-            do
-            {
-                name = "FoodPolicy".Translate() + " " + i++;
-            } while (DefaultsSettings.DefaultFoodPolicies.Any(p => p.label == name));
-            FoodPolicy policy = new FoodPolicy(0, name);
-            DefaultsSettings.DefaultFoodPolicies.Add(policy);
-            return policy;
-        }
+        protected override FoodPolicy CreateNewPolicy() => PolicyUtility.NewDefaultPolicy<FoodPolicy>();
 
         protected override void DoContentsRect(Rect rect)
         {
-            ThingFilterUI.DoThingFilterConfigWindow(rect, thingFilterState, SelectedPolicy.filter, foodGlobalFilter, 1, null, HiddenSpecialThingFilters(), true);
+            ThingFilterUI.DoThingFilterConfigWindow(rect, thingFilterState, SelectedPolicy.filter, foodGlobalFilter, forceHiddenFilters: HiddenSpecialThingFilters(), forceHideHitPointsConfig: true);
         }
 
         protected override FoodPolicy GetDefaultPolicy() => DefaultsSettings.DefaultFoodPolicies.First();
@@ -69,11 +52,9 @@ namespace Defaults.Policies.FoodPolicies
 
         protected override AcceptanceReport TryDeletePolicy(FoodPolicy policy)
         {
-            if (policy == GetDefaultPolicy())
-            {
-                return "Defaults_CantDeleteDefaultPolicy".Translate();
-            }
-            return DefaultsSettings.DefaultFoodPolicies.Remove(policy);
+            return policy == GetDefaultPolicy()
+                ? (AcceptanceReport)"Defaults_CantDeleteDefaultPolicy".Translate()
+                : (AcceptanceReport)DefaultsSettings.DefaultFoodPolicies.Remove(policy);
         }
 
         private IEnumerable<SpecialThingFilterDef> HiddenSpecialThingFilters()

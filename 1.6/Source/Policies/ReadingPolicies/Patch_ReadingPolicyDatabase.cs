@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using RimWorld;
-using Verse;
 
 namespace Defaults.Policies.ReadingPolicies
 {
@@ -10,11 +9,11 @@ namespace Defaults.Policies.ReadingPolicies
     {
         public static bool Prefix(ReadingPolicyDatabase __instance)
         {
-            if (Current.Game != null)
+            if (VanillaPolicyStore.loaded)
             {
                 foreach (ReadingPolicy policy in DefaultsSettings.DefaultReadingPolicies)
                 {
-                    RimWorld.ReadingPolicy readingPolicy = __instance.MakeNewReadingPolicy();
+                    ReadingPolicy readingPolicy = __instance.MakeNewReadingPolicy();
                     readingPolicy.label = policy.label;
                     readingPolicy.CopyFrom(policy);
                 }

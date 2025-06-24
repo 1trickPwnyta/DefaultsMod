@@ -7,26 +7,25 @@ namespace Defaults
 {
     public class DefaultSettingDef : Def
     {
-        private DefaultSettingWorker worker;
+        private IDefaultSettingWorker worker;
 
         public DefaultSettingsCategoryDef category;
         public int uiOrder;
         public Type workerClass;
         public List<string> keywords = new List<string>();
 
-        public DefaultSettingWorker Worker
+        public IDefaultSettingWorker Worker
         {
             get
             {
                 if (worker == null)
                 {
-                    worker = (DefaultSettingWorker)Activator.CreateInstance(workerClass, new[] { this });
+                    worker = (IDefaultSettingWorker)Activator.CreateInstance(workerClass, new[] { this });
                 }
                 return worker;
             }
         }
 
-        public bool Matches(QuickSearchFilter filter) => filter.Matches(label)
-            || keywords.Any(k => filter.Matches(k));
+        public bool Matches(QuickSearchFilter filter) => filter.Matches(label) || keywords.Any(k => filter.Matches(k));
     }
 }

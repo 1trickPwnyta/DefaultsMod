@@ -5,18 +5,16 @@ using Verse;
 
 namespace Defaults
 {
-    public class SettingsDialog_List : SettingsDialog
+    public abstract class Dialog_SettingsCategory_List : Dialog_SettingsCategory
     {
         private static Vector2 scrollPosition;
 
-        public readonly DefaultSettingsCategoryDef category;
         private float settingsHeight;
         private float totalHeight;
         private readonly List<DefaultSettingDef> settings;
 
-        public SettingsDialog_List(DefaultSettingsCategoryDef category)
+        public Dialog_SettingsCategory_List(DefaultSettingsCategoryDef category) : base(category)
         {
-            this.category = category;
             settings = category.DefaultSettings.OrderBy(d => d.uiOrder).ToList();
         }
 
@@ -25,7 +23,7 @@ namespace Defaults
         public override void DoSettings(Rect rect)
         {
             Rect viewRect = new Rect(0f, 0f, rect.width - 20f, totalHeight);
-            Widgets.BeginScrollView(new Rect(rect.x, rect.y, rect.width, rect.height - CloseButSize.y - Margin), ref scrollPosition, viewRect);
+            Widgets.BeginScrollView(new Rect(rect.x, rect.y, rect.width, rect.height - CloseButSize.y - 10f - ResetButtonSize.y - 10f), ref scrollPosition, viewRect);
 
             Listing_Standard listing = new Listing_StandardHighlight() { maxOneColumn = true };
             listing.Begin(viewRect);

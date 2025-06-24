@@ -7,7 +7,7 @@ using Verse;
 namespace Defaults.WorkbenchBills
 {
     [StaticConstructorOnStartup]
-    public class Dialog_WorkbenchBills : SettingsDialog
+    public class Dialog_WorkbenchBills : Dialog_SettingsCategory
     {
         private const float padding = 6f;
         private const float workbenchGroupHeight = 60f;
@@ -21,7 +21,7 @@ namespace Defaults.WorkbenchBills
             foreach (ThingDef workbench in DefDatabase<ThingDef>.AllDefsListForReading.Where(d => typeof(Building_WorkTable).IsAssignableFrom(d.thingClass)))
             {
                 HashSet<ThingDef> workbenchGroup = workbenchGroups.FirstOrDefault(g => g.Any(d => new HashSet<RecipeDef>(d.AllRecipes).SetEquals(new HashSet<RecipeDef>(workbench.AllRecipes))));
-                if (workbenchGroup != null )
+                if (workbenchGroup != null)
                 {
                     workbenchGroup.Add(workbench);
                 }
@@ -30,6 +30,10 @@ namespace Defaults.WorkbenchBills
                     workbenchGroups.Add(new HashSet<ThingDef>() { workbench });
                 }
             }
+        }
+
+        public Dialog_WorkbenchBills(DefaultSettingsCategoryDef category) : base(category)
+        {
         }
 
         private Vector2 scrollPosition;
@@ -53,7 +57,7 @@ namespace Defaults.WorkbenchBills
                 Find.WindowStack.Add(new Dialog_GlobalBillSettings());
             }
 
-            Rect outRect = new Rect(rect.x, globalRect.yMax + padding, rect.width, rect.height - Window.CloseButSize.y - padding - Window.QuickSearchSize.y - padding - globalRect.height - padding);
+            Rect outRect = new Rect(rect.x, globalRect.yMax + padding, rect.width, rect.height - CloseButSize.y - 10f - ResetButtonSize.y - 10f - globalRect.height - padding);
             Rect viewRect = new Rect(0f, 0f, outRect.width - 20f, y);
             Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
             float x = 0f;
@@ -73,7 +77,7 @@ namespace Defaults.WorkbenchBills
             y += workbenchGroupHeight;
             Widgets.EndScrollView();
 
-            Rect searchRect = new Rect(rect.x, rect.yMax - Window.CloseButSize.y - padding - Window.QuickSearchSize.y, Window.QuickSearchSize.x, Window.QuickSearchSize.y);
+            Rect searchRect = new Rect(rect.x, rect.yMax - CloseButSize.y - 10f - QuickSearchSize.y, QuickSearchSize.x, QuickSearchSize.y);
             search.OnGUI(searchRect);
         }
 

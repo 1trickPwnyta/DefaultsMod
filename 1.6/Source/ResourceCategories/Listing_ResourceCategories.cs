@@ -7,8 +7,7 @@ namespace Defaults.ResourceCategories
     {
         public void DoCategory(TreeNode_ThingCategory node, int nestLevel)
         {
-            Rect rect = new Rect(0f, curY, LabelWidth, lineHeight);
-            rect.xMin = XAtIndentLevel(nestLevel) + 18f;
+            Rect rect = new Rect(0f, curY, LabelWidth, lineHeight) { xMin = XAtIndentLevel(nestLevel) + 18f };
             Rect rect2 = rect;
             rect2.width = 80f;
             rect2.yMax -= 3f;
@@ -22,8 +21,7 @@ namespace Defaults.ResourceCategories
             rect3.width = (rect3.height = 28f);
             rect3.y = rect.y + rect.height / 2f - rect3.height / 2f;
             GUI.DrawTexture(rect3, node.catDef.icon);
-            Rect rect4 = new Rect(rect);
-            rect4.xMin = rect3.xMax + 6f;
+            Rect rect4 = new Rect(rect) { xMin = rect3.xMax + 6f };
             Widgets.Label(rect4, node.catDef.LabelCap);
             bool isEnabled = IsEnabled(node);
             Widgets.Checkbox(new Vector2(rect.width - 24f, curY + 2f), ref isEnabled);

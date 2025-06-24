@@ -10,7 +10,7 @@ namespace Defaults.Rewards
 
         public override void OpenSettings()
         {
-            Find.WindowStack.Add(new Dialog_RewardsSettings());
+            Find.WindowStack.Add(new Dialog_RewardsSettings(def));
         }
     }
 }

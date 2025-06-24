@@ -75,8 +75,7 @@ namespace Defaults.WorkbenchBills
             {
                 bill.SetAnyNonMechRestriction();
             }
-            Bill_Production productionBill = bill as Bill_Production;
-            if (productionBill != null)
+            if (bill is Bill_Production productionBill)
             {
                 productionBill.repeatMode = repeatMode;
                 productionBill.repeatCount = repeatCount;
@@ -90,22 +89,20 @@ namespace Defaults.WorkbenchBills
                 productionBill.qualityRange = qualityRange;
                 productionBill.limitToAllowedStuff = limitToAllowedStuff;
             }
-            
+
             return bill;
         }
 
         public static BillTemplate FromBill(Bill bill)
         {
-            BillTemplate template = new BillTemplate(bill.recipe);
-            template.ingredientFilter = new ThingFilter();
+            BillTemplate template = new BillTemplate(bill.recipe) { ingredientFilter = new ThingFilter() };
             template.ingredientFilter.CopyAllowancesFrom(bill.ingredientFilter);
             template.ingredientSearchRadius = bill.ingredientSearchRadius;
             template.allowedSkillRange = bill.allowedSkillRange;
             template.slavesOnly = bill.SlavesOnly;
             template.mechsOnly = bill.MechsOnly;
             template.nonMechsOnly = bill.NonMechsOnly;
-            Bill_Production productionBill = bill as Bill_Production;
-            if (productionBill != null)
+            if (bill is Bill_Production productionBill)
             {
                 template.repeatMode = productionBill.repeatMode;
                 template.repeatCount = productionBill.repeatCount;
@@ -157,27 +154,29 @@ namespace Defaults.WorkbenchBills
 
         public BillTemplate Clone()
         {
-            BillTemplate clone = new BillTemplate(recipe);
-            clone.use = use;
-            clone.locked = locked;
-            clone.ingredientFilter = new ThingFilter();
+            BillTemplate clone = new BillTemplate(recipe)
+            {
+                use = use,
+                locked = locked,
+                ingredientFilter = new ThingFilter(),
+                ingredientSearchRadius = ingredientSearchRadius,
+                allowedSkillRange = allowedSkillRange,
+                slavesOnly = slavesOnly,
+                mechsOnly = mechsOnly,
+                nonMechsOnly = nonMechsOnly,
+                repeatMode = repeatMode,
+                repeatCount = repeatCount,
+                storeMode = storeMode,
+                targetCount = targetCount,
+                pauseWhenSatisfied = pauseWhenSatisfied,
+                unpauseWhenYouHave = unpauseWhenYouHave,
+                includeEquipped = includeEquipped,
+                includeTainted = includeTainted,
+                hpRange = hpRange,
+                qualityRange = qualityRange,
+                limitToAllowedStuff = limitToAllowedStuff
+            };
             clone.ingredientFilter.CopyAllowancesFrom(ingredientFilter);
-            clone.ingredientSearchRadius = ingredientSearchRadius;
-            clone.allowedSkillRange = allowedSkillRange;
-            clone.slavesOnly = slavesOnly;
-            clone.mechsOnly = mechsOnly;
-            clone.nonMechsOnly = nonMechsOnly;
-            clone.repeatMode = repeatMode;
-            clone.repeatCount = repeatCount;
-            clone.storeMode = storeMode;
-            clone.targetCount = targetCount;
-            clone.pauseWhenSatisfied = pauseWhenSatisfied;
-            clone.unpauseWhenYouHave = unpauseWhenYouHave;
-            clone.includeEquipped = includeEquipped;
-            clone.includeTainted = includeTainted;
-            clone.hpRange = hpRange;
-            clone.qualityRange = qualityRange;
-            clone.limitToAllowedStuff = limitToAllowedStuff;
             return clone;
         }
 

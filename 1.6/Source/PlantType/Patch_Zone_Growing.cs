@@ -11,14 +11,9 @@ namespace Defaults.Medicine
         {
             if (___plantDefToGrow == null)
             {
-                if (PollutionUtility.SettableEntirelyPolluted(__instance))
-                {
-                    ___plantDefToGrow = ThingDefOf.Plant_Toxipotato;
-                }
-                else
-                {
-                    ___plantDefToGrow = Settings.Get<ThingDef>(Settings.PLANT_TYPE);
-                }
+                ___plantDefToGrow = PollutionUtility.SettableEntirelyPolluted(__instance)
+                    ? ThingDefOf.Plant_Toxipotato
+                    : Settings.Get<ThingDef>(Settings.PLANT_TYPE);
             }
         }
     }

@@ -12,11 +12,8 @@ namespace Defaults.Schedule
         {
             if (__instance.Faction == Faction.OfPlayer)
             {
-                Schedule schedule = DefaultsSettings.GetNextDefaultSchedule();
-                if (schedule != null)
-                {
-                    schedule.ApplyToPawnTimetable(__instance.timetable);
-                }
+                Schedule schedule = DefaultSettingsCategoryWorker.GetWorker<DefaultSettingsCategoryWorker_Schedule>().GetNextDefaultSchedule();
+                schedule?.ApplyToPawnTimetable(__instance.timetable);
             }
         }
     }

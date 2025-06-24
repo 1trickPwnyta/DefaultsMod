@@ -10,7 +10,7 @@ namespace Defaults.Policies
 
         public override void OpenSettings()
         {
-            Find.WindowStack.Add(new Dialog_Policies());
+            Find.WindowStack.Add(new Dialog_Policies(def));
         }
     }
 }

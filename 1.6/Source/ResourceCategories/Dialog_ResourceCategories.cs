@@ -5,9 +5,13 @@ using Verse;
 
 namespace Defaults.ResourceCategories
 {
-    public class Dialog_ResourceCategories : SettingsDialog
+    public class Dialog_ResourceCategories : Dialog_SettingsCategory
     {
-        private static List<ThingCategoryDef> rootThingCategories = DefDatabase<ThingCategoryDef>.AllDefs.Where(c => c.resourceReadoutRoot && CountAsResource(c)).ToList();
+        private static readonly List<ThingCategoryDef> rootThingCategories = DefDatabase<ThingCategoryDef>.AllDefs.Where(c => c.resourceReadoutRoot && CountAsResource(c)).ToList();
+
+        public Dialog_ResourceCategories(DefaultSettingsCategoryDef category) : base(category)
+        {
+        }
 
         private static bool CountAsResource(ThingCategoryDef def)
         {

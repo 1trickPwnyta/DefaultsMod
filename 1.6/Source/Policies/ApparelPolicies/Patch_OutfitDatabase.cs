@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using RimWorld;
-using Verse;
 
 namespace Defaults.Policies.ApparelPolicies
 {
@@ -10,13 +9,13 @@ namespace Defaults.Policies.ApparelPolicies
     {
         public static bool Prefix(OutfitDatabase __instance)
         {
-            if (Current.Game != null)
+            if (VanillaPolicyStore.loaded)
             {
                 foreach (ApparelPolicy policy in DefaultsSettings.DefaultApparelPolicies)
                 {
-                    RimWorld.ApparelPolicy apparelPolicy = __instance.MakeNewOutfit();
+                    ApparelPolicy apparelPolicy = __instance.MakeNewOutfit();
                     apparelPolicy.label = policy.label;
-                    apparelPolicy.filter.CopyAllowancesFrom(policy.filter);
+                    apparelPolicy.CopyFrom(policy);
                 }
 
                 return false;

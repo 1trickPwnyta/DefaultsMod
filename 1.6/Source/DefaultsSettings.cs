@@ -13,26 +13,13 @@ using Defaults.Policies;
 using System;
 using Defaults.StockpileZones.Shelves;
 using Defaults.WorkbenchBills;
-using Defaults.BabyFeeding;
 
 namespace Defaults
 {
     public class DefaultsSettings : ModSettings
     {
-        public static List<Schedule.Schedule> DefaultSchedules;
-        public static MedicalCareCategory DefaultCareForColonist;
-        public static MedicalCareCategory DefaultCareForPrisoner;
-        public static MedicalCareCategory DefaultCareForSlave;
-        public static MedicalCareCategory DefaultCareForGhouls;
-        public static MedicalCareCategory DefaultCareForTamedAnimal;
-        public static MedicalCareCategory DefaultCareForFriendlyFaction;
-        public static MedicalCareCategory DefaultCareForNeutralFaction;
-        public static MedicalCareCategory DefaultCareForHostileFaction;
-        public static MedicalCareCategory DefaultCareForNoFaction;
-        public static MedicalCareCategory DefaultCareForWildlife;
-        public static MedicalCareCategory DefaultCareForEntities;
         public static Dictionary<string, RewardPreference> DefaultRewardPreferences;
-        
+
         public static List<string> DefaultExpandedResourceCategories;
         public static string DefaultStoryteller;
         public static string DefaultDifficulty;
@@ -50,17 +37,17 @@ namespace Defaults
         public static bool DefaultFactionsLock;
         public static int DefaultMapSize;
         public static Season DefaultStartingSeason;
-        public static List<Policies.ApparelPolicies.ApparelPolicy> DefaultApparelPolicies;
-        public static List<Policies.FoodPolicies.FoodPolicy> DefaultFoodPolicies;
+        public static List<ApparelPolicy> DefaultApparelPolicies;
+        public static List<FoodPolicy> DefaultFoodPolicies;
         public static List<DrugPolicy> DefaultDrugPolicies;
-        public static List<Policies.ReadingPolicies.ReadingPolicy> DefaultReadingPolicies;
+        public static List<ReadingPolicy> DefaultReadingPolicies;
+        public static HashSet<Policy> UnlockedPolicies;
         public static List<WorkbenchBillStore> DefaultWorkbenchBills;
         public static float DefaultBillIngredientSearchRadius;
         public static IntRange DefaultBillAllowedSkillRange;
         public static BillStoreModeDef DefaultBillStoreMode;
-        public static BabyFeedingOptions DefaultBabyFeedingOptions;
 
-        private static int NextScheduleIndex = Mathf.Abs(Rand.Int);
+        public static List<string> KnownDLCs;
         private static List<string> PreviousFactionDefs;
         private static List<string> PreviousThingDefs;
         private static List<string> PreviousSpecialThingFilterDefs;
@@ -71,7 +58,7 @@ namespace Defaults
 
         private static float y;
         private static Vector2 scrollPosition;
-        private static QuickSearchWidget search = new QuickSearchWidget();
+        private static readonly QuickSearchWidget search = new QuickSearchWidget();
 
         static DefaultsSettings()
         {
@@ -80,20 +67,8 @@ namespace Defaults
 
         public static void ResetAllSettings()
         {
-            DefaultSchedules = null;
-            DefaultCareForColonist = MedicalCareCategory.Best;
-            DefaultCareForPrisoner = MedicalCareCategory.HerbalOrWorse;
-            DefaultCareForSlave = MedicalCareCategory.HerbalOrWorse;
-            DefaultCareForGhouls = MedicalCareCategory.NoMeds;
-            DefaultCareForTamedAnimal = MedicalCareCategory.HerbalOrWorse;
-            DefaultCareForFriendlyFaction = MedicalCareCategory.HerbalOrWorse;
-            DefaultCareForNeutralFaction = MedicalCareCategory.HerbalOrWorse;
-            DefaultCareForHostileFaction = MedicalCareCategory.HerbalOrWorse;
-            DefaultCareForNoFaction = MedicalCareCategory.HerbalOrWorse;
-            DefaultCareForWildlife = MedicalCareCategory.HerbalOrWorse;
-            DefaultCareForEntities = MedicalCareCategory.NoMeds;
             DefaultRewardPreferences = null;
-            
+
             DefaultExpandedResourceCategories = null;
             DefaultStoryteller = null;
             DefaultDifficulty = null;
@@ -115,66 +90,29 @@ namespace Defaults
             DefaultFoodPolicies = null;
             DefaultDrugPolicies = null;
             DefaultReadingPolicies = null;
+            UnlockedPolicies = null;
             DefaultWorkbenchBills = null;
             DefaultBillIngredientSearchRadius = 999f;
             DefaultBillAllowedSkillRange = new IntRange(0, 20);
             DefaultBillStoreMode = null;
-            DefaultBabyFeedingOptions = null;
 
-            InitializeDefaultSchedules();
             InitializeDefaultRewardPreferences();
             InitializeDefaultExpandedResourceCategories();
             InitializeDefaultStorytellerSettings();
             InitializeDefaultStockpileZones();
             InitializeDefaultFactions();
-            InitializeDefaultApparelPolicies();
-            InitializeDefaultFoodPolicies();
-            InitializeDefaultDrugPolicies();
-            InitializeDefaultReadingPolicies();
+            InitializeDefaultPolicies();
             InitializeDefaultWorkbenchBills();
-            InitializeDefaultBabyFeedingOptions();
 
             foreach (DefaultSettingsCategoryDef def in categories)
             {
-                def.Worker.SetDefaults();
+                def.Worker.ResetSettings();
             }
         }
 
         public static void CheckForNewContent()
         {
-            ExpansionDef newDLC = ModsConfig.LastInstalledExpansion;
-            if (newDLC != null && ModsConfig.IsExpansionNew(newDLC.linkedMod))
-            {
-                switch (newDLC.defName)
-                {
-                    case "Ideology":
-                        PromptToAddPolicies(newDLC, new Policy[]
-                        {
-                            VanillaPolicyStore.GetVanillaApparelPolicy("OutfitSlave".Translate()), 
-                            VanillaPolicyStore.GetVanillaFoodPolicy("FoodRestrictionVegetarian".Translate()), 
-                            VanillaPolicyStore.GetVanillaFoodPolicy("FoodRestrictionCarnivore".Translate()), 
-                            VanillaPolicyStore.GetVanillaFoodPolicy("FoodRestrictionCannibal".Translate()), 
-                            VanillaPolicyStore.GetVanillaFoodPolicy("FoodRestrictionInsectMeat".Translate())
-                        });
-                        break;
-                    case "Biotech":
-                        //PromptToRemoveHemogenPacksFromFoodPolicies();
-                        break;
-                    case "Anomaly":
-                        PromptToAddPolicies(newDLC, new Policy[]
-                        {
-                            VanillaPolicyStore.GetVanillaReadingPolicy("TomePolicy".Translate())
-                        });
-                        break;
-                    case "Odyssey":
-                        PromptToAddPolicies(newDLC, new Policy[]
-                        {
-                            VanillaPolicyStore.GetVanillaApparelPolicy("OutfitSpacefarer".Translate()),
-                            VanillaPolicyStore.GetVanillaReadingPolicy("MapPolicy".Translate())
-                        });
-                        break;
-                }
-            }
+            DLCUtility.HandleNewDLCs();
 
             HandleNewDefs<FactionDef>(ref PreviousFactionDefs, newFactionDefs =>
             {
@@ -187,9 +125,9 @@ namespace Defaults
 
             HandleNewDefs<ThingDef>(ref PreviousThingDefs, newThingDefs =>
             {
-                foreach (Policies.ApparelPolicies.ApparelPolicy policy in DefaultApparelPolicies)
+                foreach (ApparelPolicy policy in DefaultApparelPolicies)
                 {
-                    if (!policy.locked)
+                    if (!policy.IsLocked())
                     {
                         foreach (string defName in newThingDefs)
                         {
@@ -202,9 +140,9 @@ namespace Defaults
                     }
                 }
 
-                foreach (Policies.FoodPolicies.FoodPolicy policy in DefaultFoodPolicies)
+                foreach (FoodPolicy policy in DefaultFoodPolicies)
                 {
-                    if (!policy.locked)
+                    if (!policy.IsLocked())
                     {
                         foreach (string defName in newThingDefs)
                         {
@@ -221,9 +159,9 @@ namespace Defaults
                     }
                 }
 
-                foreach (Policies.ReadingPolicies.ReadingPolicy policy in DefaultReadingPolicies)
+                foreach (ReadingPolicy policy in DefaultReadingPolicies)
                 {
-                    if (!policy.locked)
+                    if (!policy.IsLocked())
                     {
                         foreach (string defName in newThingDefs)
                         {
@@ -292,25 +230,13 @@ namespace Defaults
                         }
                     }
                 }
-
-                if (!DefaultBabyFeedingOptions.locked)
-                {
-                    foreach (string defName in newThingDefs)
-                    {
-                        ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
-                        if (ITab_Pawn_Feeding.BabyConsumableFoods.Contains(def))
-                        {
-                            DefaultBabyFeedingOptions.AllowedConsumables.Add(def);
-                        }
-                    }
-                }
             });
 
             HandleNewDefs<SpecialThingFilterDef>(ref PreviousSpecialThingFilterDefs, newSpecialThingFilterDefs =>
             {
-                foreach (Policies.ApparelPolicies.ApparelPolicy policy in DefaultApparelPolicies)
+                foreach (ApparelPolicy policy in DefaultApparelPolicies)
                 {
-                    if (!policy.locked)
+                    if (!policy.IsLocked())
                     {
                         foreach (string defName in newSpecialThingFilterDefs)
                         {
@@ -323,9 +249,9 @@ namespace Defaults
                     }
                 }
 
-                foreach (Policies.FoodPolicies.FoodPolicy policy in DefaultFoodPolicies)
+                foreach (FoodPolicy policy in DefaultFoodPolicies)
                 {
-                    if (!policy.locked)
+                    if (!policy.IsLocked())
                     {
                         foreach (string defName in newSpecialThingFilterDefs)
                         {
@@ -338,9 +264,9 @@ namespace Defaults
                     }
                 }
 
-                foreach (Policies.ReadingPolicies.ReadingPolicy policy in DefaultReadingPolicies)
+                foreach (ReadingPolicy policy in DefaultReadingPolicies)
                 {
-                    if (!policy.locked)
+                    if (!policy.IsLocked())
                     {
                         foreach (string defName in newSpecialThingFilterDefs)
                         {
@@ -396,53 +322,6 @@ namespace Defaults
             LongEventHandler.ExecuteWhenFinished(DefaultsMod.Settings.Write);
         }
 
-        private static void PromptToAddPolicies(ExpansionDef dlc, IEnumerable<Policy> newPolicies)
-        {
-            List<Policy> missingPolicies = newPolicies.Where(p => 
-                (p is ApparelPolicy && !DefaultApparelPolicies.Any(a => a.label.EqualsIgnoreCase(p.label))) 
-                || (p is FoodPolicy && !DefaultFoodPolicies.Any(a => a.label.EqualsIgnoreCase(p.label)))
-                || (p is DrugPolicy && !DefaultDrugPolicies.Any(a => a.label.EqualsIgnoreCase(p.label)))
-                || (p is ReadingPolicy && !DefaultReadingPolicies.Any(a => a.label.EqualsIgnoreCase(p.label)))).ToList();
-
-            if (missingPolicies.Any())
-            {
-                Find.WindowStack.Add(new Dialog_PickMany("Defaults_NewDLC".Translate(dlc.LabelCap), "Defaults_NewPoliciesDLC".Translate(dlc.LabelCap), new[]
-                {
-                    new Tuple<string, IEnumerable<TaggedString>>("Defaults_ApparelPolicies", missingPolicies.Where(p => p is ApparelPolicy).Select(p => (TaggedString)p.label)),
-                    new Tuple<string, IEnumerable<TaggedString>>("Defaults_FoodPolicies", missingPolicies.Where(p => p is FoodPolicy).Select(p => (TaggedString)p.label)),
-                    new Tuple<string, IEnumerable<TaggedString>>("Defaults_DrugPolicies", missingPolicies.Where(p => p is DrugPolicy).Select(p => (TaggedString)p.label)),
-                    new Tuple<string, IEnumerable<TaggedString>>("Defaults_ReadingPolicies", missingPolicies.Where(p => p is ReadingPolicy).Select(p => (TaggedString)p.label))
-                }, true, results =>
-                {
-                    foreach (Tuple<string, TaggedString> result in results)
-                    {
-                        switch (result.Item1)
-                        {
-                            case "Defaults_ApparelPolicies":
-                                Policies.ApparelPolicies.ApparelPolicy apparelPolicy = new Policies.ApparelPolicies.ApparelPolicy(0, result.Item2);
-                                apparelPolicy.filter.CopyAllowancesFrom(VanillaPolicyStore.GetVanillaApparelPolicy(result.Item2).filter);
-                                DefaultApparelPolicies.Add(apparelPolicy);
-                                break;
-                            case "Defaults_FoodPolicies":
-                                Policies.FoodPolicies.FoodPolicy foodPolicy = new Policies.FoodPolicies.FoodPolicy(0, result.Item2);
-                                foodPolicy.filter.CopyAllowancesFrom(VanillaPolicyStore.GetVanillaFoodPolicy(result.Item2).filter);
-                                DefaultFoodPolicies.Add(foodPolicy);
-                                break;
-                            case "Defaults_DrugPolicies":
-                                DefaultDrugPolicies.Add(VanillaPolicyStore.GetVanillaDrugPolicy(result.Item2));
-                                break;
-                            case "Defaults_ReadingPolicies":
-                                Policies.ReadingPolicies.ReadingPolicy readingPolicy = new Policies.ReadingPolicies.ReadingPolicy(0, result.Item2);
-                                readingPolicy.CopyFrom(VanillaPolicyStore.GetVanillaReadingPolicy(result.Item2));
-                                DefaultReadingPolicies.Add(readingPolicy);
-                                break;
-                        }
-                    }
-                    LongEventHandler.ExecuteWhenFinished(DefaultsMod.Settings.Write);
-                }));
-            }
-        }
-
         private static void HandleNewDefs<T>(ref List<string> previousDefs, Action<List<string>> newDefHandler) where T : Def
         {
             List<string> currentDefs = DefDatabase<T>.AllDefsListForReading.Select(d => d.defName).ToList();
@@ -453,6 +332,10 @@ namespace Defaults
                 {
                     LongEventHandler.ExecuteWhenFinished(delegate
                     {
+                        foreach (DefaultSettingsCategoryDef def in categories)
+                        {
+                            def.Worker.HandleNewDefs(newDefs.Select(d => DefDatabase<T>.GetNamed(d)));
+                        }
                         newDefHandler(newDefs);
                     });
                 }
@@ -460,58 +343,9 @@ namespace Defaults
             previousDefs = currentDefs;
         }
 
-        public static ZoneType DefaultStockpileZone
-        {
-            get
-            {
-                return DefaultStockpileZones.Where(z => z.DesignatorType == typeof(Designator_ZoneAddStockpile_Resources)).FirstOrDefault();
-            }
-        }
+        public static ZoneType DefaultStockpileZone => DefaultStockpileZones.FirstOrDefault(z => z.DesignatorType == typeof(Designator_ZoneAddStockpile_Resources));
 
-        public static ZoneType DefaultDumpingStockpileZone
-        {
-            get
-            {
-                return DefaultStockpileZones.Where(z => z.DesignatorType == typeof(Designator_ZoneAddStockpile_Dumping)).FirstOrDefault();
-            }
-        }
-
-        public static Schedule.Schedule GetNextDefaultSchedule()
-        {
-            if (DefaultSchedules.Any(s => s.use))
-            {
-                if (NextScheduleIndex >= DefaultSchedules.Count)
-                {
-                    NextScheduleIndex %= DefaultSchedules.Count;
-                }
-                while (!DefaultSchedules[NextScheduleIndex].use)
-                {
-                    NextScheduleIndex++;
-                    if (NextScheduleIndex >= DefaultSchedules.Count)
-                    {
-                        NextScheduleIndex %= DefaultSchedules.Count;
-                    }
-                }
-                Schedule.Schedule nextSchedule = DefaultSchedules[NextScheduleIndex++];
-                LongEventHandler.ExecuteWhenFinished(DefaultsMod.Settings.Write);
-                return nextSchedule;
-            } 
-            else
-            {
-                return null;
-            }
-        }
-
-        private static void InitializeDefaultSchedules()
-        {
-            LongEventHandler.ExecuteWhenFinished(delegate
-            {
-                if (DefaultSchedules == null)
-                {
-                    DefaultSchedules = new[] { new Schedule.Schedule("Defaults_ScheduleName".Translate(1)) }.ToList();
-                }
-            });
-        }
+        public static ZoneType DefaultDumpingStockpileZone => DefaultStockpileZones.FirstOrDefault(z => z.DesignatorType == typeof(Designator_ZoneAddStockpile_Dumping));
 
         private static void InitializeDefaultRewardPreferences()
         {
@@ -599,7 +433,7 @@ namespace Defaults
                 }
 
                 // Remove any non-selectable factions from the default settings that got in due to bug
-                DefaultFactions.RemoveAll(f => 
+                DefaultFactions.RemoveAll(f =>
                 {
                     FactionDef d = DefDatabase<FactionDef>.GetNamedSilentFail(f);
                     return d == null || !d.displayInFactionSelection;
@@ -607,317 +441,35 @@ namespace Defaults
             });
         }
 
-        private static void InitializeDefaultApparelPolicies()
+        private static void InitializeDefaultPolicies()
         {
             LongEventHandler.ExecuteWhenFinished(delegate
             {
-                if (DefaultApparelPolicies == null || DefaultApparelPolicies.Empty())
+                if (UnlockedPolicies == null)
                 {
-                    DefaultApparelPolicies = new List<Policies.ApparelPolicies.ApparelPolicy>();
-
-                    Policies.ApparelPolicies.ApparelPolicy anythingPolicy = new Policies.ApparelPolicies.ApparelPolicy(0, "OutfitAnything".Translate());
-                    anythingPolicy.locked = false;
-                    DefaultApparelPolicies.Add(anythingPolicy);
-
-                    Policies.ApparelPolicies.ApparelPolicy workerPolicy = new Policies.ApparelPolicies.ApparelPolicy(0, "OutfitWorker".Translate());
-                    workerPolicy.filter.SetDisallowAll();
-                    workerPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowDeadmansApparel, false);
-                    foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
-                    {
-                        if (thingDef.apparel != null && ((thingDef.apparel.defaultOutfitTags != null && thingDef.apparel.defaultOutfitTags.Contains("Worker")) || thingDef.thingCategories.NotNullAndContains(ThingCategoryDefOf.ApparelUtility)))
-                        {
-                            workerPolicy.filter.SetAllow(thingDef, true);
-                        }
-                    }
-                    DefaultApparelPolicies.Add(workerPolicy);
-
-                    Policies.ApparelPolicies.ApparelPolicy soldierPolicy = new Policies.ApparelPolicies.ApparelPolicy(0, "OutfitSoldier".Translate());
-                    soldierPolicy.filter.SetDisallowAll();
-                    soldierPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowDeadmansApparel, false);
-                    foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
-                    {
-                        if (thingDef.apparel != null && ((thingDef.apparel.defaultOutfitTags != null && thingDef.apparel.defaultOutfitTags.Contains("Soldier")) || thingDef.thingCategories.NotNullAndContains(ThingCategoryDefOf.ApparelUtility)))
-                        {
-                            soldierPolicy.filter.SetAllow(thingDef, true);
-                        }
-                    }
-                    DefaultApparelPolicies.Add(soldierPolicy);
-
-                    Policies.ApparelPolicies.ApparelPolicy nudistPolicy = new Policies.ApparelPolicies.ApparelPolicy(0, "OutfitNudist".Translate());
-                    nudistPolicy.filter.SetDisallowAll();
-                    nudistPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowDeadmansApparel, false);
-                    foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
-                    {
-                        if (thingDef.apparel != null && (thingDef.apparel.defaultOutfitTags.NotNullAndContains("Nudist") || (!thingDef.apparel.bodyPartGroups.Contains(BodyPartGroupDefOf.Legs) && !thingDef.apparel.bodyPartGroups.Contains(BodyPartGroupDefOf.Torso))))
-                        {
-                            nudistPolicy.filter.SetAllow(thingDef, true);
-                        }
-                    }
-                    DefaultApparelPolicies.Add(nudistPolicy);
-
-                    if (ModsConfig.IdeologyActive)
-                    {
-                        Policies.ApparelPolicies.ApparelPolicy slavePolicy = new Policies.ApparelPolicies.ApparelPolicy(0, "OutfitSlave".Translate());
-                        slavePolicy.filter.SetDisallowAll();
-                        slavePolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowDeadmansApparel, false);
-                        foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
-                        {
-                            if (thingDef.apparel != null && thingDef.apparel.defaultOutfitTags != null && thingDef.apparel.defaultOutfitTags.Contains("Slave"))
-                            {
-                                slavePolicy.filter.SetAllow(thingDef, true);
-                            }
-                        }
-                        DefaultApparelPolicies.Add(slavePolicy);
-                    }
-
-                    if (ModsConfig.OdysseyActive)
-                    {
-                        Policies.ApparelPolicies.ApparelPolicy spacefarerPolicy = new Policies.ApparelPolicies.ApparelPolicy(0, "OutfitSpacefarer".Translate());
-                        spacefarerPolicy.filter.SetDisallowAll();
-                        spacefarerPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowDeadmansApparel, false);
-                        foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
-                        {
-                            if (thingDef.apparel != null && ((thingDef.apparel.defaultOutfitTags != null && thingDef.apparel.defaultOutfitTags.Contains("Spacefarer")) || thingDef.thingCategories.NotNullAndContains(ThingCategoryDefOf.ApparelUtility)))
-                            {
-                                spacefarerPolicy.filter.SetAllow(thingDef, true);
-                            }
-                        }
-                        DefaultApparelPolicies.Add(spacefarerPolicy);
-                    }
+                    UnlockedPolicies = new HashSet<Policy>();
                 }
-            });
-        }
-
-        private static void InitializeDefaultFoodPolicies()
-        {
-            LongEventHandler.ExecuteWhenFinished(delegate
-            {
-                if (DefaultFoodPolicies == null || DefaultFoodPolicies.Empty())
+                if (DefaultApparelPolicies.NullOrEmpty())
                 {
-                    DefaultFoodPolicies = new List<Policies.FoodPolicies.FoodPolicy>();
-
-                    Policies.FoodPolicies.FoodPolicy lavishPolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionLavish".Translate());
-                    lavishPolicy.locked = false;
-                    DefaultFoodPolicies.Add(lavishPolicy);
-
-                    Policies.FoodPolicies.FoodPolicy finePolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionFine".Translate());
-                    foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
-                    {
-                        if (thingDef.ingestible != null && thingDef.ingestible.preferability >= FoodPreferability.MealLavish && thingDef != ThingDefOf.InsectJelly)
-                        {
-                            finePolicy.filter.SetAllow(thingDef, false);
-                        }
-                    }
-                    if (ModsConfig.BiotechActive)
-                    {
-                        finePolicy.filter.SetAllow(ThingDefOf.HemogenPack, false);
-                    }
-                    DefaultFoodPolicies.Add(finePolicy);
-
-                    Policies.FoodPolicies.FoodPolicy simplePolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionSimple".Translate());
-                    foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
-                    {
-                        if (thingDef.ingestible != null && thingDef.ingestible.preferability >= FoodPreferability.MealFine && thingDef != ThingDefOf.InsectJelly)
-                        {
-                            simplePolicy.filter.SetAllow(thingDef, false);
-                        }
-                    }
-                    if (ModsConfig.BiotechActive)
-                    {
-                        simplePolicy.filter.SetAllow(ThingDefOf.HemogenPack, false);
-                    }
-                    DefaultFoodPolicies.Add(simplePolicy);
-
-                    Policies.FoodPolicies.FoodPolicy pastePolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionPaste".Translate());
-                    foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
-                    {
-                        if (thingDef.ingestible != null && thingDef.ingestible.preferability >= FoodPreferability.MealSimple && thingDef != ThingDefOf.MealNutrientPaste && thingDef != ThingDefOf.InsectJelly)
-                        {
-                            pastePolicy.filter.SetAllow(thingDef, false);
-                        }
-                    }
-                    if (ModsConfig.BiotechActive)
-                    {
-                        pastePolicy.filter.SetAllow(ThingDefOf.HemogenPack, false);
-                    }
-                    DefaultFoodPolicies.Add(pastePolicy);
-
-                    Policies.FoodPolicies.FoodPolicy rawPolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionRaw".Translate());
-                    foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
-                    {
-                        if (thingDef.ingestible != null && thingDef.ingestible.preferability >= FoodPreferability.MealAwful)
-                        {
-                            rawPolicy.filter.SetAllow(thingDef, false);
-                        }
-                    }
-                    rawPolicy.filter.SetAllow(ThingDefOf.Chocolate, false);
-                    if (ModsConfig.BiotechActive)
-                    {
-                        rawPolicy.filter.SetAllow(ThingDefOf.HemogenPack, false);
-                    }
-                    DefaultFoodPolicies.Add(rawPolicy);
-
-                    Policies.FoodPolicies.FoodPolicy nothingPolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionNothing".Translate());
-                    nothingPolicy.filter.SetDisallowAll(null, null);
-                    DefaultFoodPolicies.Add(nothingPolicy);
-
-                    if (ModsConfig.IdeologyActive)
-                    {
-                        Policies.FoodPolicies.FoodPolicy vegetarianPolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionVegetarian".Translate());
-                        foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
-                        {
-                            if (FoodUtility.UnacceptableVegetarian(thingDef))
-                            {
-                                vegetarianPolicy.filter.SetAllow(thingDef, false);
-                            }
-                        }
-                        vegetarianPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowCarnivore, false);
-                        vegetarianPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowCannibal, false);
-                        vegetarianPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowInsectMeat, false);
-                        if (ModsConfig.BiotechActive)
-                        {
-                            vegetarianPolicy.filter.SetAllow(ThingDefOf.HemogenPack, false);
-                        }
-                        DefaultFoodPolicies.Add(vegetarianPolicy);
-
-                        Policies.FoodPolicies.FoodPolicy carnivorePolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionCarnivore".Translate());
-                        foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
-                        {
-                            if (!FoodUtility.UnacceptableCarnivore(thingDef) && FoodUtility.GetMeatSourceCategory(thingDef) != MeatSourceCategory.Humanlike)
-                            {
-                                if (!thingDef.IsCorpse)
-                                {
-                                    continue;
-                                }
-                                ThingDef sourceDef = thingDef.ingestible.sourceDef;
-                                bool flag;
-                                if (sourceDef == null)
-                                {
-                                    flag = false;
-                                }
-                                else
-                                {
-                                    RaceProperties race = sourceDef.race;
-                                    bool? flag2 = (race != null) ? new bool?(race.Humanlike) : null;
-                                    bool flag3 = true;
-                                    flag = (flag2.GetValueOrDefault() == flag3 & flag2 != null);
-                                }
-                                if (!flag)
-                                {
-                                    continue;
-                                }
-                            }
-                            carnivorePolicy.filter.SetAllow(thingDef, false);
-                        }
-                        carnivorePolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowVegetarian, false);
-                        carnivorePolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowCannibal, false);
-                        carnivorePolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowInsectMeat, false);
-                        if (ModsConfig.BiotechActive)
-                        {
-                            carnivorePolicy.filter.SetAllow(ThingDefOf.HemogenPack, false);
-                        }
-                        DefaultFoodPolicies.Add(carnivorePolicy);
-
-                        Policies.FoodPolicies.FoodPolicy cannibalPolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionCannibal".Translate());
-                        foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
-                        {
-                            if (!FoodUtility.MaybeAcceptableCannibalDef(thingDef))
-                            {
-                                cannibalPolicy.filter.SetAllow(thingDef, false);
-                            }
-                        }
-                        cannibalPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowVegetarian, false);
-                        cannibalPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowCarnivore, false);
-                        cannibalPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowInsectMeat, false);
-                        if (ModsConfig.BiotechActive)
-                        {
-                            cannibalPolicy.filter.SetAllow(ThingDefOf.HemogenPack, false);
-                        }
-                        DefaultFoodPolicies.Add(cannibalPolicy);
-
-                        Policies.FoodPolicies.FoodPolicy insectMeatPolicy = new Policies.FoodPolicies.FoodPolicy(0, "FoodRestrictionInsectMeat".Translate());
-                        foreach (ThingDef thingDef in DefDatabase<ThingDef>.AllDefs)
-                        {
-                            if (!FoodUtility.MaybeAcceptableInsectMeatEatersDef(thingDef))
-                            {
-                                insectMeatPolicy.filter.SetAllow(thingDef, false);
-                            }
-                        }
-                        insectMeatPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowVegetarian, false);
-                        insectMeatPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowCarnivore, false);
-                        insectMeatPolicy.filter.SetAllow(SpecialThingFilterDefOf.AllowCannibal, false);
-                        if (ModsConfig.BiotechActive)
-                        {
-                            insectMeatPolicy.filter.SetAllow(ThingDefOf.HemogenPack, false);
-                        }
-                        DefaultFoodPolicies.Add(insectMeatPolicy);
-                    }
+                    UnlockedPolicies.RemoveWhere(p => p is ApparelPolicy);
+                    DefaultApparelPolicies = VanillaPolicyStore.VanillaApparelPolicies.ListFullCopy();
+                    UnlockedPolicies.Add(DefaultApparelPolicies[0]);
                 }
-            });
-        }
-
-        private static void InitializeDefaultDrugPolicies()
-        {
-            LongEventHandler.ExecuteWhenFinished(delegate
-            {
-                if (DefaultDrugPolicies == null || DefaultDrugPolicies.Empty())
+                if (DefaultFoodPolicies.NullOrEmpty())
                 {
-                    DefaultDrugPolicies = new List<DrugPolicy>();
-
-                    foreach (DrugPolicyDef def in DefDatabase<DrugPolicyDef>.AllDefs)
-                    {
-                        PolicyUtility.NewDrugPolicyFromDef(def);
-                    }
+                    UnlockedPolicies.RemoveWhere(p => p is FoodPolicy);
+                    DefaultFoodPolicies = VanillaPolicyStore.VanillaFoodPolicies.ListFullCopy();
+                    UnlockedPolicies.Add(DefaultFoodPolicies[0]);
                 }
-            });
-        }
-
-        private static void InitializeDefaultReadingPolicies()
-        {
-            LongEventHandler.ExecuteWhenFinished(delegate
-            {
-                if (DefaultReadingPolicies == null || DefaultReadingPolicies.Empty())
+                if (DefaultDrugPolicies.NullOrEmpty())
                 {
-                    DefaultReadingPolicies = new List<Policies.ReadingPolicies.ReadingPolicy>();
-
-                    Policies.ReadingPolicies.ReadingPolicy allPolicy = PolicyUtility.NewReadingPolicy();
-                    allPolicy.label = "AllReadingPolicy".Translate();
-                    allPolicy.locked = false;
-
-                    Policies.ReadingPolicies.ReadingPolicy textbookPolicy = PolicyUtility.NewReadingPolicy();
-                    textbookPolicy.label = "TextbookPolicy".Translate();
-                    textbookPolicy.defFilter.SetDisallowAll();
-                    textbookPolicy.defFilter.SetAllow(ThingDefOf.TextBook, true);
-
-                    Policies.ReadingPolicies.ReadingPolicy schematicPolicy = PolicyUtility.NewReadingPolicy();
-                    schematicPolicy.label = "SchematicPolicy".Translate();
-                    schematicPolicy.defFilter.SetDisallowAll();
-                    schematicPolicy.defFilter.SetAllow(ThingDefOf.Schematic, true);
-
-                    Policies.ReadingPolicies.ReadingPolicy novelPolicy = PolicyUtility.NewReadingPolicy();
-                    novelPolicy.label = "NovelPolicy".Translate();
-                    novelPolicy.defFilter.SetDisallowAll();
-                    novelPolicy.defFilter.SetAllow(ThingDefOf.Novel, true);
-
-                    if (ModsConfig.AnomalyActive)
-                    {
-                        Policies.ReadingPolicies.ReadingPolicy tomePolicy = PolicyUtility.NewReadingPolicy();
-                        tomePolicy.label = "TomePolicy".Translate();
-                        tomePolicy.defFilter.SetDisallowAll();
-                        tomePolicy.defFilter.SetAllow(ThingDefOf.Tome, true);
-                    }
-
-                    if (ModsConfig.OdysseyActive)
-                    {
-                        Policies.ReadingPolicies.ReadingPolicy mapPolicy = PolicyUtility.NewReadingPolicy();
-                        mapPolicy.label = "MapPolicy".Translate();
-                        mapPolicy.defFilter.SetDisallowAll();
-                        mapPolicy.defFilter.SetAllow(ThingDefOf.Map, true);
-                    }
-
-                    Policies.ReadingPolicies.ReadingPolicy nonePolicy = PolicyUtility.NewReadingPolicy();
-                    nonePolicy.label = "NoneReadingPolicy".Translate();
-                    nonePolicy.defFilter.SetDisallowAll();
+                    DefaultDrugPolicies = VanillaPolicyStore.VanillaDrugPolicies.ListFullCopy();
+                }
+                if (DefaultReadingPolicies.NullOrEmpty())
+                {
+                    UnlockedPolicies.RemoveWhere(p => p is ReadingPolicy);
+                    DefaultReadingPolicies = VanillaPolicyStore.VanillaReadingPolicies.ListFullCopy();
+                    UnlockedPolicies.Add(DefaultReadingPolicies[0]);
                 }
             });
         }
@@ -933,17 +485,6 @@ namespace Defaults
                 if (DefaultBillStoreMode == null)
                 {
                     DefaultBillStoreMode = BillStoreModeDefOf.BestStockpile;
-                }
-            });
-        }
-
-        private static void InitializeDefaultBabyFeedingOptions()
-        {
-            LongEventHandler.ExecuteWhenFinished(delegate
-            {
-                if (DefaultBabyFeedingOptions == null)
-                {
-                    DefaultBabyFeedingOptions = new BabyFeedingOptions();
                 }
             });
         }
@@ -986,9 +527,9 @@ namespace Defaults
 
             Widgets.EndScrollView();
 
-            if (Widgets.ButtonText(new Rect(inRect.x + inRect.width / 3, inRect.yMax - 30f, inRect.width / 3, 30f), "Defaults_ResetAllSettings".Translate()))
+            if (Widgets.ButtonText(new Rect(inRect.x + inRect.width / 3, inRect.yMax - 30f - 8f, inRect.width / 3, 30f), "Defaults_ResetAllSettings".Translate()))
             {
-                Find.WindowStack.Add(new Dialog_MessageBox("Defaults_ConfirmResetAllSettings".Translate(), "Confirm".Translate(), ResetAllSettings, "GoBack".Translate(), null, null, true, ResetAllSettings, null, WindowLayer.Dialog));
+                Find.WindowStack.Add(new Dialog_MessageBox("Defaults_ConfirmResetAllSettings".Translate(), "Confirm".Translate(), ResetAllSettings, "GoBack".Translate(), null, null, true, ResetAllSettings));
             }
         }
 
@@ -1040,19 +581,6 @@ namespace Defaults
 
         public override void ExposeData()
         {
-            Scribe_Collections.Look(ref DefaultSchedules, "DefaultSchedules");
-            Scribe_Values.Look(ref NextScheduleIndex, "NextScheduleIndex", Mathf.Abs(Rand.Int));
-            Scribe_Values.Look(ref DefaultCareForColonist, "DefaultCareForColonist", MedicalCareCategory.Best);
-            Scribe_Values.Look(ref DefaultCareForPrisoner, "DefaultCareForPrisoner", MedicalCareCategory.HerbalOrWorse);
-            Scribe_Values.Look(ref DefaultCareForSlave, "DefaultCareForSlave", MedicalCareCategory.HerbalOrWorse);
-            Scribe_Values.Look(ref DefaultCareForGhouls, "DefaultCareForGhouls", MedicalCareCategory.NoMeds);
-            Scribe_Values.Look(ref DefaultCareForTamedAnimal, "DefaultCareForTamedAnimal", MedicalCareCategory.HerbalOrWorse);
-            Scribe_Values.Look(ref DefaultCareForFriendlyFaction, "DefaultCareForFriendlyFaction", MedicalCareCategory.HerbalOrWorse);
-            Scribe_Values.Look(ref DefaultCareForNeutralFaction, "DefaultCareForNeutralFaction", MedicalCareCategory.HerbalOrWorse);
-            Scribe_Values.Look(ref DefaultCareForHostileFaction, "DefaultCareForHostileFaction", MedicalCareCategory.HerbalOrWorse);
-            Scribe_Values.Look(ref DefaultCareForNoFaction, "DefaultCareForNoFaction", MedicalCareCategory.HerbalOrWorse);
-            Scribe_Values.Look(ref DefaultCareForWildlife, "DefaultCareForWildlife", MedicalCareCategory.HerbalOrWorse);
-            Scribe_Values.Look(ref DefaultCareForEntities, "DefaultCareForEntities", MedicalCareCategory.NoMeds);
             Scribe_Collections.Look(ref DefaultRewardPreferences, "DefaultRewardPreferences");
             Scribe_Collections.Look(ref DefaultExpandedResourceCategories, "DefaultExpandedResourceCategories");
             Scribe_Values.Look(ref DefaultStoryteller, "DefaultStoryteller");
@@ -1075,20 +603,21 @@ namespace Defaults
             Scribe_Collections.Look(ref DefaultFoodPolicies, "DefaultFoodPolicies", LookMode.Deep);
             Scribe_Collections.Look(ref DefaultDrugPolicies, "DefaultDrugPolicies", LookMode.Deep);
             Scribe_Collections.Look(ref DefaultReadingPolicies, "DefaultReadingPolicies", LookMode.Deep);
+            Scribe_Collections.Look(ref UnlockedPolicies, "UnlockedPolicies", LookMode.Reference);
             Scribe_Collections.Look(ref DefaultWorkbenchBills, "DefaultWorkbenchBills");
             Scribe_Values.Look(ref DefaultBillIngredientSearchRadius, "DefaultBillIngredientSearchRadius", 999f);
             Scribe_Values.Look(ref DefaultBillAllowedSkillRange, "DefaultBillAllowedSkillRange", new IntRange(0, 20));
             Scribe_Defs.Look(ref DefaultBillStoreMode, "DefaultBillStoreMode");
-            Scribe_Deep.Look(ref DefaultBabyFeedingOptions, "DefaultBabyFeedingOptions");
+
+            Scribe_Collections.Look(ref KnownDLCs, "KnownDLCs");
+            Scribe_Collections.Look(ref PreviousFactionDefs, "PreviousFactionDefs");
+            Scribe_Collections.Look(ref PreviousThingDefs, "PreviousThingDefs");
+            Scribe_Collections.Look(ref PreviousSpecialThingFilterDefs, "PreviousSpecialThingFilterDefs");
 
             foreach (DefaultSettingsCategoryDef def in categories)
             {
                 def.Worker.ExposeData();
             }
-
-            Scribe_Collections.Look(ref PreviousFactionDefs, "PreviousFactionDefs");
-            Scribe_Collections.Look(ref PreviousThingDefs, "PreviousThingDefs");
-            Scribe_Collections.Look(ref PreviousSpecialThingFilterDefs, "PreviousSpecialThingFilterDefs");
         }
 
         public static void ScribeThingFilter(ThingFilter filter)

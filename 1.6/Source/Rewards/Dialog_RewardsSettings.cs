@@ -6,14 +6,18 @@ using Verse;
 
 namespace Defaults.Rewards
 {
-    public class Dialog_RewardsSettings : SettingsDialog
+    public class Dialog_RewardsSettings : Dialog_SettingsCategory
     {
         private Vector2 scrollPosition;
         private float viewRectHeight;
 
+        public Dialog_RewardsSettings(DefaultSettingsCategoryDef category) : base(category)
+        {
+        }
+
         public override string Title => "Defaults_Rewards".Translate();
 
-        public override Vector2 InitialSize => new Vector2(700f, 440f);
+        public override Vector2 InitialSize => new Vector2(700f, 480f);
 
         public override void DoSettings(Rect rect)
         {
@@ -23,7 +27,7 @@ namespace Defaults.Rewards
             Widgets.Label(descRect, text);
             IEnumerable<FactionDef> allFactionDefs = DefDatabase<FactionDef>.AllDefs.OrderBy(def => def.configurationListOrderPriority);
             Rect outRect = new Rect(rect);
-            outRect.yMax -= CloseButSize.y;
+            outRect.yMax -= CloseButSize.y + 10f + ResetButtonSize.y + 10f;
             outRect.yMin += 44f + descRect.height + 4f;
             float num2 = 0f;
             Rect rect2 = new Rect(0f, num2, outRect.width - 16f, viewRectHeight);

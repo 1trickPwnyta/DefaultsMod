@@ -4,11 +4,17 @@ using Verse;
 
 namespace Defaults.Storyteller
 {
-    public class Dialog_Storyteller : SettingsDialog
+    public class Dialog_Storyteller : Dialog_SettingsCategory
     {
+        public Dialog_Storyteller(DefaultSettingsCategoryDef category) : base(category)
+        {
+        }
+
         public override string Title => "Defaults_Storyteller".Translate();
 
-        public override Vector2 InitialSize => Page.StandardSize;
+        public override Vector2 InitialSize => new Vector2(Page.StandardSize.x, Page.StandardSize.y);
+
+        protected override Vector2 ResetButtonPosition(Rect rect) => new Vector2(rect.xMax - ResetButtonSize.x, rect.yMax - CloseButSize.y - 10f - ResetButtonSize.y);
 
         public override void PreOpen()
         {
@@ -35,8 +41,8 @@ namespace Defaults.Storyteller
         public static void DoPermadeathSelection(Listing_Standard infoListing, Difficulty difficulty)
         {
             bool settingsOpen = difficulty is DifficultySub;
-            bool active = settingsOpen? DefaultsSettings.DefaultPermadeath: Find.GameInitData.permadeathChosen && Find.GameInitData.permadeath;
-            bool active2 = settingsOpen? !DefaultsSettings.DefaultPermadeath: Find.GameInitData.permadeathChosen && !Find.GameInitData.permadeath;
+            bool active = settingsOpen ? DefaultsSettings.DefaultPermadeath : Find.GameInitData.permadeathChosen && Find.GameInitData.permadeath;
+            bool active2 = settingsOpen ? !DefaultsSettings.DefaultPermadeath : Find.GameInitData.permadeathChosen && !Find.GameInitData.permadeath;
             if (infoListing.RadioButton("ReloadAnytimeMode".Translate(), active2, 0f, "ReloadAnytimeModeInfo".Translate(), null))
             {
                 if (settingsOpen)
@@ -71,14 +77,9 @@ namespace Defaults.Storyteller
 
         public static AnomalyPlaystyleDef GetAnomalyPlaystyleDef(Difficulty difficulty)
         {
-            if (difficulty is DifficultySub)
-            {
-                return DefDatabase<AnomalyPlaystyleDef>.GetNamed(DefaultsSettings.DefaultAnomalyPlaystyle);
-            }
-            else
-            {
-                return difficulty.AnomalyPlaystyleDef;
-            }
+            return difficulty is DifficultySub
+                ? DefDatabase<AnomalyPlaystyleDef>.GetNamed(DefaultsSettings.DefaultAnomalyPlaystyle)
+                : difficulty.AnomalyPlaystyleDef;
         }
 
         public static void SetAnomalyPlaystyleDef(Difficulty difficulty, AnomalyPlaystyleDef def)

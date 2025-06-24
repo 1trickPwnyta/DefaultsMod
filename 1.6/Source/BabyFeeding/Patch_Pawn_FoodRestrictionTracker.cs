@@ -16,7 +16,7 @@ namespace Defaults.BabyFeeding
                 ___allowedBabyFoodTypes = new Dictionary<ThingDef, bool>();
                 foreach (ThingDef def in ITab_Pawn_Feeding.BabyConsumableFoods)
                 {
-                    ___allowedBabyFoodTypes.Add(def, DefaultsSettings.DefaultBabyFeedingOptions.AllowedConsumables.Contains(def));
+                    ___allowedBabyFoodTypes.Add(def, Settings.Get<BabyFeedingOptions>(Settings.BABY_FEEDING).AllowedConsumables.Contains(def));
                 }
             }
         }

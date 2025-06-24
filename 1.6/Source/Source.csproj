@@ -79,10 +79,11 @@
     <Compile Include="Dialog_InputBox.cs" />
     <Compile Include="Dialog_MiscSettings.cs" />
     <Compile Include="Dialog_PickMany.cs" />
+    <Compile Include="DLCUtility.cs" />
     <Compile Include="Patch_UIRoot_Entry.cs" />
     <Compile Include="Policies\VanillaPolicyStore.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="SettingsDialog_List.cs" />
+    <Compile Include="Dialog_SettingsCategory_List.cs" />
     <Compile Include="HostilityResponse\DefaultSettingWorker_HostilityResponse.cs" />
     <Compile Include="MapSettings\DefaultSettingsCategoryWorker_Map.cs" />
     <Compile Include="MechWorkModes\DefaultSettingWorker_MechWorkMode.cs" />
@@ -119,9 +120,8 @@
     <Compile Include="TargetTemperature\DefaultSettingWorker_TargetTempHeater.cs" />
     <Compile Include="TargetTemperature\Patch_CompTempControl.cs" />
     <Compile Include="TargetTemperature\Patch_ThingComp.cs" />
-    <Compile Include="SettingsDialog.cs" />
+    <Compile Include="Dialog_SettingsCategory.cs" />
     <Compile Include="UIUtility.cs" />
-    <Compile Include="Policies\FoodPolicies\FoodPolicy.cs" />
     <Compile Include="Policies\FoodPolicies\Dialog_FoodPolicies.cs" />
     <Compile Include="Policies\FoodPolicies\Patch_FoodRestrictionDatabase.cs" />
     <Compile Include="Policies\DrugPolicies\Dialog_DrugPolicies.cs" />
@@ -130,7 +130,6 @@
     <Compile Include="Policies\Patch_StatWorker.cs" />
     <Compile Include="Policies\Patch_Dialog_ManagePolicies.cs" />
     <Compile Include="Policies\PolicyUtility.cs" />
-    <Compile Include="Policies\ApparelPolicies\ApparelPolicy.cs" />
     <Compile Include="Policies\ApparelPolicies\Dialog_ApparelPolicies.cs" />
     <Compile Include="Policies\ApparelPolicies\Patch_OutfitDatabase.cs" />
     <Compile Include="Listing_StandardHighlight.cs" />
@@ -153,9 +152,7 @@
     <Compile Include="PlantType\Patch_Zone_Growing.cs" />
     <Compile Include="PlantType\PlantTypeUtility.cs" />
     <Compile Include="Policies\ReadingPolicies\Dialog_ReadingPolicies.cs" />
-    <Compile Include="Policies\ReadingPolicies\Patch_ReadingPolicy.cs" />
     <Compile Include="Policies\ReadingPolicies\Patch_ReadingPolicyDatabase.cs" />
-    <Compile Include="Policies\ReadingPolicies\ReadingPolicy.cs" />
     <Compile Include="PregnancyApproach\Patch_Pawn_RelationsTracker.cs" />
     <Compile Include="PregnancyApproach\PregnancyApproachUtility.cs" />
     <Compile Include="ResourceCategories\Dialog_ResourceCategories.cs" />
@@ -210,6 +207,7 @@
     <Compile Include="WorldSettings\Patch_WorldFactionsUIUtility.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".editorconfig" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

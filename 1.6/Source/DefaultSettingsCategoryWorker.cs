@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using Verse;
 
 namespace Defaults
@@ -11,6 +13,8 @@ namespace Defaults
 
         public readonly DefaultSettingsCategoryDef def;
 
+        public static T GetWorker<T>() where T : DefaultSettingsCategoryWorker => DefDatabase<DefaultSettingsCategoryDef>.AllDefsListForReading.First(d => d.Worker is T).Worker as T;
+
         public DefaultSettingsCategoryWorker(DefaultSettingsCategoryDef def)
         {
             this.def = def;
@@ -18,24 +22,41 @@ namespace Defaults
 
         public virtual bool GetSetting<T>(string key, out T value)
         {
+            if (GetCategorySetting(key, out object o))
+            {
+                value = (T)o;
+                return true;
+            }
+
             foreach (DefaultSettingDef def in def.DefaultSettings)
             {
                 if (def.Worker.Key == key)
                 {
-                    DefaultSettingWorker<T> worker = def.Worker as DefaultSettingWorker<T>;
-                    if (worker != null)
+                    if (def.Worker is DefaultSettingWorker<T> worker)
                     {
                         value = worker.setting;
                         return true;
                     }
                 }
             }
+
+            value = default;
+            return false;
+        }
+
+        protected virtual bool GetCategorySetting(string key, out object value)
+        {
             value = default;
             return false;
         }
 
         public virtual bool SetSetting<T>(string key, T value)
         {
+            if (SetCategorySetting(key, value))
+            {
+                return true;
+            }
+
             foreach (DefaultSettingDef def in def.DefaultSettings)
             {
                 if (def.Worker.Key == key)
@@ -44,7 +65,14 @@ namespace Defaults
                     return true;
                 }
             }
+
             return false;
+        }
+
+        protected virtual bool SetCategorySetting(string key, object value) => false;
+
+        public virtual void HandleNewDefs(IEnumerable<Def> defs)
+        {
         }
 
         public virtual void ExposeData()
@@ -55,11 +83,11 @@ namespace Defaults
             }
         }
 
-        public virtual void SetDefaults()
+        public virtual void ResetSettings()
         {
             foreach (DefaultSettingDef def in def.DefaultSettings)
             {
-                def.Worker.SetDefault();
+                def.Worker.ResetSetting();
             }
         }
 

@@ -6,7 +6,7 @@ using Verse;
 
 namespace Defaults.MapSettings
 {
-    public class Dialog_MapSettings : SettingsDialog
+    public class Dialog_MapSettings : Dialog_SettingsCategory
     {
         private static readonly int[] MapSizes = new int[]
         {
@@ -23,6 +23,10 @@ namespace Defaults.MapSettings
             350,
             400
         };
+
+        public Dialog_MapSettings(DefaultSettingsCategoryDef category) : base(category)
+        {
+        }
 
         public override Vector2 InitialSize => new Vector2(483f, 500f);
 

@@ -19,14 +19,14 @@ namespace Defaults.BabyFeeding
                         AutofeedMode mode;
                         if (feeder == birtherThing)
                         {
-                            mode = DefaultsSettings.DefaultBabyFeedingOptions.BirtherParent;
+                            mode = Settings.Get<BabyFeedingOptions>(Settings.BABY_FEEDING).BirtherParent;
                         }
                         else
                         {
                             bool isParent = baby.GetMother() == feeder || baby.GetFather() == feeder;
                             bool isLactating = feeder.health.hediffSet.HasHediff(HediffDefOf.Lactating);
                             mode = PatchUtility_PregnancyUtility.GetMode(isParent, isLactating);
-                        } 
+                        }
                         if (mode != AutofeedMode.Childcare)
                         {
                             baby.mindState.SetAutofeeder(feeder, mode);
@@ -41,28 +41,10 @@ namespace Defaults.BabyFeeding
     {
         public static AutofeedMode GetMode(bool isParent, bool isLactating)
         {
-            if (isParent)
-            {
-                if (isLactating)
-                {
-                    return DefaultsSettings.DefaultBabyFeedingOptions.ParentLactating;
-                }
-                else
-                {
-                    return DefaultsSettings.DefaultBabyFeedingOptions.ParentNonlactating;
-                }
-            }
-            else
-            {
-                if (isLactating)
-                {
-                    return DefaultsSettings.DefaultBabyFeedingOptions.NonparentLactating;
-                }
-                else
-                {
-                    return DefaultsSettings.DefaultBabyFeedingOptions.NonparentNonlactating;
-                }
-            }
+            BabyFeedingOptions options = Settings.Get<BabyFeedingOptions>(Settings.BABY_FEEDING);
+            return isParent
+                ? isLactating ? options.ParentLactating : options.ParentNonlactating
+                : isLactating ? options.NonparentLactating : options.NonparentNonlactating;
         }
     }
 }

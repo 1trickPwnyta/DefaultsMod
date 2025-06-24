@@ -6,25 +6,19 @@ namespace Defaults.StockpileZones
 {
     public class Designator_ZoneAddStockpile_Custom : Designator_ZoneAddStockpile
     {
-        private ZoneType zoneType;
+        private readonly ZoneType zoneType;
 
         public Designator_ZoneAddStockpile_Custom(ZoneType type)
         {
             zoneType = type;
-            this.defaultLabel = type.Name;
-            this.defaultDesc = type.Desc;
-            this.icon = type.Icon;
-            this.soundSucceeded = type.Sound;
-            this.hotKey = null;
+            defaultLabel = type.Name;
+            defaultDesc = type.Desc;
+            icon = type.Icon;
+            soundSucceeded = type.Sound;
+            hotKey = null;
         }
 
-        protected override string NewZoneLabel
-        {
-            get
-            {
-                return zoneType.Name;
-            }
-        }
+        protected override string NewZoneLabel => zoneType.Name;
 
         protected override Zone MakeNewZone()
         {

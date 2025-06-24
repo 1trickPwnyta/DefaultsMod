@@ -10,7 +10,7 @@ namespace Defaults.MapSettings
 
         public override void OpenSettings()
         {
-            Find.WindowStack.Add(new Dialog_MapSettings());
+            Find.WindowStack.Add(new Dialog_MapSettings(def));
         }
     }
 }

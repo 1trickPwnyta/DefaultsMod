@@ -2,16 +2,21 @@
 using UnityEngine;
 using Verse.Sound;
 using Verse;
+using System.Collections.Generic;
 
 namespace Defaults.Schedule
 {
-    public class Dialog_ScheduleSettings : SettingsDialog
+    public class Dialog_ScheduleSettings : Dialog_SettingsCategory
     {
         private static Vector2 scrollPos;
 
+        public Dialog_ScheduleSettings(DefaultSettingsCategoryDef category) : base(category)
+        {
+        }
+
         public override string Title => "Defaults_Schedules".Translate();
 
-        public override Vector2 InitialSize => new Vector2(860f, 600f);
+        public override Vector2 InitialSize => new Vector2(860f, 640f);
 
         public override void DoSettings(Rect rect)
         {
@@ -21,7 +26,8 @@ namespace Defaults.Schedule
             float buttonWidth = 160f;
             if (Widgets.ButtonText(new Rect(rect.x + rect.width - buttonWidth, rect.y, buttonWidth, 30f), "Defaults_AddAlternateSchedule".Translate()))
             {
-                DefaultsSettings.DefaultSchedules.Add(new Schedule("Defaults_ScheduleName".Translate(DefaultsSettings.DefaultSchedules.Count + 1)));
+                List<Schedule> defaultSchedules = Settings.Get<List<Schedule>>(Settings.SCHEDULES);
+                defaultSchedules.Add(new Schedule("Defaults_ScheduleName".Translate(defaultSchedules.Count + 1)));
                 SoundDefOf.Click.PlayOneShotOnCamera(null);
             }
 
@@ -42,23 +48,24 @@ namespace Defaults.Schedule
             Widgets.Label(useLabelRect, "Defaults_UseSchedule".Translate());
             TooltipHandler.TipRegionByKey(useLabelRect, "Defaults_UseScheduleTip");
 
-            Widgets.BeginScrollView(new Rect(rect.x, rect.y + rowHeight * 2, rect.width, rect.height - rowHeight * 4), ref scrollPos, new Rect(0f, 0f, rect.width - 16f, rowHeight * DefaultsSettings.DefaultSchedules.Count));
+            List<Schedule> schedules = Settings.Get<List<Schedule>>(Settings.SCHEDULES);
+            Widgets.BeginScrollView(new Rect(rect.x, rect.y + rowHeight * 2, rect.width, rect.height - rowHeight * 2 - CloseButSize.y - 10f - ResetButtonSize.y - 10f), ref scrollPos, new Rect(0f, 0f, rect.width - 16f, rowHeight * schedules.Count));
 
             Text.Font = GameFont.Small;
             Text.Anchor = TextAnchor.MiddleLeft;
             float y = 0f;
-            for (int i = 0; i < DefaultsSettings.DefaultSchedules.Count; i++)
+            for (int i = 0; i < schedules.Count; i++)
             {
-                Schedule schedule = DefaultsSettings.DefaultSchedules[i];
+                Schedule schedule = schedules[i];
                 x = rect.x;
 
-                if (i < DefaultsSettings.DefaultSchedules.Count - 1)
+                if (i < schedules.Count - 1)
                 {
                     if (Widgets.ButtonImage(new Rect(x + 3f, y + (rowHeight - 18f) / 2, 18f, 18f), TexButton.ReorderDown, Color.white, Color.white * GenUI.SubtleMouseoverColor))
                     {
-                        Schedule next = DefaultsSettings.DefaultSchedules[i + 1];
-                        DefaultsSettings.DefaultSchedules[i + 1] = schedule;
-                        DefaultsSettings.DefaultSchedules[i] = next;
+                        Schedule next = schedules[i + 1];
+                        schedules[i + 1] = schedule;
+                        schedules[i] = next;
                         SoundDefOf.Click.PlayOneShotOnCamera(null);
                     }
                 }
@@ -68,9 +75,9 @@ namespace Defaults.Schedule
                 {
                     if (Widgets.ButtonImage(new Rect(x + 3f, y + (rowHeight - 18f) / 2, 18f, 18f), TexButton.ReorderUp, Color.white, Color.white * GenUI.SubtleMouseoverColor))
                     {
-                        Schedule prev = DefaultsSettings.DefaultSchedules[i - 1];
-                        DefaultsSettings.DefaultSchedules[i - 1] = schedule;
-                        DefaultsSettings.DefaultSchedules[i] = prev;
+                        Schedule prev = schedules[i - 1];
+                        schedules[i - 1] = schedule;
+                        schedules[i] = prev;
                         SoundDefOf.Click.PlayOneShotOnCamera(null);
                     }
                 }
@@ -81,7 +88,7 @@ namespace Defaults.Schedule
 
                 CopyPasteUI.DoCopyPasteButtons(new Rect(x, y, copyButtonWidth * 2, rowHeight), delegate
                 {
-                    DefaultsSettings.DefaultSchedules.Add(new Schedule("Defaults_ScheduleName".Translate(DefaultsSettings.DefaultSchedules.Count + 1), schedule));
+                    schedules.Add(new Schedule("Defaults_ScheduleName".Translate(schedules.Count + 1), schedule));
                 }, null);
                 x += copyButtonWidth;
 
@@ -94,12 +101,12 @@ namespace Defaults.Schedule
                 x += 8f;
                 Widgets.Checkbox(new Vector2(x, y + (rowHeight - 24f) / 2), ref schedule.use);
                 x += 24f;
-                
-                if (DefaultsSettings.DefaultSchedules.Count > 1)
+
+                if (schedules.Count > 1)
                 {
                     if (Widgets.ButtonImage(new Rect(x, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Delete, Color.white, Color.white * GenUI.SubtleMouseoverColor))
                     {
-                        DefaultsSettings.DefaultSchedules.Remove(schedule);
+                        schedules.Remove(schedule);
                         i--;
                         SoundDefOf.Click.PlayOneShotOnCamera(null);
                     }

@@ -22,30 +22,13 @@ namespace Defaults.Policies.ApparelPolicies
             optionalTitle = "ApparelPolicyTitle".Translate();
         }
 
-        public override Vector2 InitialSize
-        {
-            get
-            {
-                return new Vector2(700f, 700f);
-            }
-        }
+        public override Vector2 InitialSize => new Vector2(700f, 700f);
 
         protected override string TitleKey => "ApparelPolicyTitle";
 
         protected override string TipKey => "ApparelPolicyTip";
 
-        protected override ApparelPolicy CreateNewPolicy()
-        {
-            string name;
-            int i = DefaultsSettings.DefaultApparelPolicies.Count + 1;
-            do
-            {
-                name = "ApparelPolicy".Translate() + " " + i++;
-            } while (DefaultsSettings.DefaultApparelPolicies.Any(p => p.label == name));
-            ApparelPolicy policy = new ApparelPolicy(0, name);
-            DefaultsSettings.DefaultApparelPolicies.Add(policy);
-            return policy;
-        }
+        protected override ApparelPolicy CreateNewPolicy() => PolicyUtility.NewDefaultPolicy<ApparelPolicy>();
 
         protected override void DoContentsRect(Rect rect)
         {
@@ -66,11 +49,9 @@ namespace Defaults.Policies.ApparelPolicies
 
         protected override AcceptanceReport TryDeletePolicy(ApparelPolicy policy)
         {
-            if (policy == GetDefaultPolicy())
-            {
-                return "Defaults_CantDeleteDefaultPolicy".Translate();
-            }
-            return DefaultsSettings.DefaultApparelPolicies.Remove(policy);
+            return policy == GetDefaultPolicy()
+                ? (AcceptanceReport)"Defaults_CantDeleteDefaultPolicy".Translate()
+                : (AcceptanceReport)DefaultsSettings.DefaultApparelPolicies.Remove(policy);
         }
 
         private IEnumerable<SpecialThingFilterDef> HiddenSpecialThingFilters()

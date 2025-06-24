@@ -19,7 +19,7 @@ namespace Defaults.Storyteller
 
             foreach (CodeInstruction instruction in instructions)
             {
-                if (instruction.opcode == OpCodes.Call && instruction.operand is MethodInfo && (MethodInfo)instruction.operand == DefaultsRefs.m_Current_get_ProgramState)
+                if (instruction.opcode == OpCodes.Call && instruction.operand is MethodInfo info1 && info1 == DefaultsRefs.m_Current_get_ProgramState)
                 {
                     yield return instruction;
                     yield return new CodeInstruction(OpCodes.Pop);
@@ -28,7 +28,7 @@ namespace Defaults.Storyteller
                     yield return new CodeInstruction(OpCodes.Call, DefaultsRefs.m_Dialog_Storyteller_ShouldNotDoPermadeathSelection);
                     continue;
                 }
-                if (!foundGameInitData && instruction.opcode == OpCodes.Call && instruction.operand is MethodInfo && (MethodInfo)instruction.operand == DefaultsRefs.m_Find_get_GameInitData)
+                if (!foundGameInitData && instruction.opcode == OpCodes.Call && instruction.operand is MethodInfo info2 && info2 == DefaultsRefs.m_Find_get_GameInitData)
                 {
                     yield return new CodeInstruction(OpCodes.Ldarg_S, 4);
                     yield return new CodeInstruction(OpCodes.Ldarg_3);

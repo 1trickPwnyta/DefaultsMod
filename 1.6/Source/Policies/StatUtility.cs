@@ -12,14 +12,7 @@ namespace Defaults.Policies
 
         public static float GetScenarioStatFactor(StatDef stat)
         {
-            if (Find.Scenario != null)
-            {
-                return Find.Scenario.GetStatFactor(stat);
-            }
-            else
-            {
-                return 1f;
-            }
+            return Find.Scenario != null ? Find.Scenario.GetStatFactor(stat) : 1f;
         }
     }
 }

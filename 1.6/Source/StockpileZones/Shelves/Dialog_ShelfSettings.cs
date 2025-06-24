@@ -8,22 +8,16 @@ namespace Defaults.StockpileZones.Shelves
 {
     public class Dialog_ShelfSettings : Window
     {
-        private ThingFilterUI.UIState state = new ThingFilterUI.UIState();
+        private readonly ThingFilterUI.UIState state = new ThingFilterUI.UIState();
 
         public Dialog_ShelfSettings()
         {
-            this.doCloseX = true;
-            this.doCloseButton = true;
-            this.optionalTitle = "Defaults_ShelfSettings".Translate();
+            doCloseX = true;
+            doCloseButton = true;
+            optionalTitle = "Defaults_ShelfSettings".Translate();
         }
 
-        public override Vector2 InitialSize
-        {
-            get
-            {
-                return new Vector2(400f, 600f);
-            }
-        }
+        public override Vector2 InitialSize => new Vector2(400f, 600f);
 
         public override void DoWindowContents(Rect inRect)
         {
@@ -50,7 +44,7 @@ namespace Defaults.StockpileZones.Shelves
             Rect lockRect = new Rect(inRect.width - 24f, inRect.y, 24f, 24f);
             UIUtility.DrawCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref DefaultsSettings.DefaultShelfSettings.locked);
 
-            Rect filterRect = new Rect(inRect.x, inRect.y + buttonHeight, inRect.width, inRect.height - buttonHeight - Window.CloseButSize.y);
+            Rect filterRect = new Rect(inRect.x, inRect.y + buttonHeight, inRect.width, inRect.height - buttonHeight - CloseButSize.y);
             ThingFilterUI.DoThingFilterConfigWindow(filterRect, state, DefaultsSettings.DefaultShelfSettings.filter, DefDatabase<ThingDef>.GetNamed("Shelf").building.fixedStorageSettings.filter, 8);
         }
     }

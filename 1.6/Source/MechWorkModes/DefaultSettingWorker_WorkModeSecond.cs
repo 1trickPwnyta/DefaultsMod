@@ -1,6 +1,4 @@
-﻿using Verse;
-
-namespace Defaults.MechWorkModes
+﻿namespace Defaults.MechWorkModes
 {
     public class DefaultSettingWorker_WorkModeSecond : DefaultSettingWorker_MechWorkMode
     {

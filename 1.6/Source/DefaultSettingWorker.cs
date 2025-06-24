@@ -3,18 +3,18 @@ using Verse;
 
 namespace Defaults
 {
-    public abstract class DefaultSettingWorker
+    public interface IDefaultSettingWorker
     {
-        public abstract string Key { get; }
+        string Key { get; }
 
-        public abstract void ExposeData();
+        void ExposeData();
 
-        public abstract void SetDefault();
+        void ResetSetting();
 
-        public abstract void DoSetting(Rect rect);
+        void DoSetting(Rect rect);
     }
 
-    public abstract class DefaultSettingWorker<T> : DefaultSettingWorker
+    public abstract class DefaultSettingWorker<T> : IDefaultSettingWorker
     {
         public readonly DefaultSettingDef def;
         public T setting;
@@ -24,9 +24,11 @@ namespace Defaults
             this.def = def;
         }
 
+        public abstract string Key { get; }
+
         protected abstract void DoWidget(Rect rect);
 
-        public override void DoSetting(Rect rect)
+        public void DoSetting(Rect rect)
         {
             using (new TextBlock(TextAnchor.MiddleLeft))
             {
@@ -37,18 +39,18 @@ namespace Defaults
 
         protected abstract void ExposeSetting();
 
-        public override void ExposeData()
+        public void ExposeData()
         {
             ExposeSetting();
             if (Scribe.mode == LoadSaveMode.PostLoadInit && setting == null)
             {
-                SetDefault();
+                ResetSetting();
             }
         }
 
         protected abstract T Default { get; }
 
-        public override void SetDefault()
+        public void ResetSetting()
         {
             setting = Default;
         }

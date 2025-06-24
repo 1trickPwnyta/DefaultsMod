@@ -22,7 +22,7 @@ namespace Defaults.WorkbenchBills
                     Find.WindowStack.Add(new FloatMenu(defaultBills.Select(b => new FloatMenuOption(b.name, () =>
                     {
                         __instance.AddBill(b.ToBill());
-                    }, b.recipe.UIIconThing, b.recipe.UIIcon, null, true, MenuOptionPriority.Default, null, null, 29f, (Rect r) => Widgets.InfoCardButton(r.x + 5f, r.y + (r.height - 24f) / 2f, b.recipe))).ToList()));
+                    }, b.recipe.UIIconThing, b.recipe.UIIcon, null, true, MenuOptionPriority.Default, null, null, 29f, r => Widgets.InfoCardButton(r.x + 5f, r.y + (r.height - 24f) / 2f, b.recipe))).ToList()));
                 }
             }
         }

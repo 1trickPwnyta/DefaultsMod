@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using RimWorld;
-using Verse;
 
 namespace Defaults.Policies.FoodPolicies
 {
@@ -10,13 +9,13 @@ namespace Defaults.Policies.FoodPolicies
     {
         public static bool Prefix(FoodRestrictionDatabase __instance)
         {
-            if (Current.Game != null)
+            if (VanillaPolicyStore.loaded)
             {
                 foreach (FoodPolicy policy in DefaultsSettings.DefaultFoodPolicies)
                 {
-                    RimWorld.FoodPolicy foodPolicy = __instance.MakeNewFoodRestriction();
+                    FoodPolicy foodPolicy = __instance.MakeNewFoodRestriction();
                     foodPolicy.label = policy.label;
-                    foodPolicy.filter.CopyAllowancesFrom(policy.filter);
+                    foodPolicy.CopyFrom(policy);
                 }
 
                 return false;

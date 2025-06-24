@@ -10,7 +10,7 @@ namespace Defaults
 {
     public static class DefaultsRefs
     {
-        public static readonly MethodInfo m_object_GetType = AccessTools.Method(typeof(object), nameof(object.GetType));
+        public static readonly MethodInfo m_object_GetType = AccessTools.Method(typeof(object), nameof(GetType));
         public static readonly MethodInfo m_Type_GetTypeFromHandle = AccessTools.Method(typeof(Type), nameof(Type.GetTypeFromHandle));
         public static readonly MethodInfo m_Find_get_GameInitData = AccessTools.Method(typeof(Find), "get_GameInitData");
         public static readonly MethodInfo m_Dialog_Storyteller_ShouldNotDoPermadeathSelection = AccessTools.Method(typeof(Dialog_Storyteller), nameof(Dialog_Storyteller.ShouldNotDoPermadeathSelection));
