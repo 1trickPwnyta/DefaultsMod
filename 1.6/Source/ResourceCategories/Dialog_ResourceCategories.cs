@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Defaults.UI;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -17,8 +18,6 @@ namespace Defaults.ResourceCategories
         {
             return def.childThingDefs.Any(d => d.CountAsResource) || def.childCategories.Any(c => CountAsResource(c));
         }
-
-        public override string Title => "Defaults_ResourceCategories".Translate();
 
         public override Vector2 InitialSize => new Vector2(406f, 640f);
 

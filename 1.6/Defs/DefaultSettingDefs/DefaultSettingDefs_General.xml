@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <Defaults.DefaultSettingDef>
+    <defName>HideSetAsDefault</defName>
+	<label>hide "save as default" buttons</label>
+	<category>General</category>
+	<uiOrder>5</uiOrder>
+    <workerClass>Defaults.General.DefaultSettingWorker_HideSetAsDefault</workerClass>
+	<keywords>
+	  <li>show</li>
+	</keywords>
+  </Defaults.DefaultSettingDef>
+  
+  <Defaults.DefaultSettingDef>
+    <defName>HideLoadDefault</defName>
+	<label>hide "load default" buttons</label>
+	<category>General</category>
+	<uiOrder>15</uiOrder>
+    <workerClass>Defaults.General.DefaultSettingWorker_HideLoadDefault</workerClass>
+	<keywords>
+	  <li>show</li>
+	</keywords>
+  </Defaults.DefaultSettingDef>
+
+</Defs>

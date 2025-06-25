@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Defaults.Workers;
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 

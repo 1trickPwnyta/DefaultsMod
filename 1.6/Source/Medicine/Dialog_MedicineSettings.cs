@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using Defaults.UI;
+using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -21,8 +22,6 @@ namespace Defaults.Medicine
         public Dialog_MedicineSettings() : base(DefDatabase<DefaultSettingsCategoryDef>.GetNamed("Medicine"))
         {
         }
-
-        public override string Title => "Defaults_Medicine".Translate();
 
         public override Vector2 InitialSize => new Vector2(426f, 680f);
 

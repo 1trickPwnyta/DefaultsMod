@@ -348,7 +348,15 @@
 	<label>miscellaneous defaults</label>
 	<description>Other default settings that don't fit neatly into one of the other categories.</description>
 	<iconPath>DefaultSettingsCategoryIcons/Misc</iconPath>
-    <workerClass>Defaults.DefaultSettingsCategoryWorker_Misc</workerClass>
+    <workerClass>Defaults.Misc.DefaultSettingsCategoryWorker_Misc</workerClass>
+  </Defaults.DefaultSettingsCategoryDef>
+  
+  <Defaults.DefaultSettingsCategoryDef>
+    <defName>General</defName>
+	<label>general settings</label>
+	<description>General settings for this mod.</description>
+	<iconPath>DefaultSettingsCategoryIcons/General</iconPath>
+    <workerClass>Defaults.General.DefaultSettingsCategoryWorker_General</workerClass>
   </Defaults.DefaultSettingsCategoryDef>
 
 </Defs>

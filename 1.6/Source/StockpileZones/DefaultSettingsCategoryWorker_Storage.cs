@@ -1,4 +1,5 @@
 ﻿using Defaults.StockpileZones.Shelves;
+using Defaults.Workers;
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using Defaults.UI;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,8 +16,6 @@ namespace Defaults.BabyFeeding
         public Dialog_BabyFeedingSettings(DefaultSettingsCategoryDef category) : base(category)
         {
         }
-
-        public override string Title => "Defaults_BabyFeedingSettings".Translate();
 
         public override Vector2 InitialSize => new Vector2(500f, 590f);
 

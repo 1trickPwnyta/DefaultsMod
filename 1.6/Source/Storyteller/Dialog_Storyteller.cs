@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using Defaults.UI;
+using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -9,8 +10,6 @@ namespace Defaults.Storyteller
         public Dialog_Storyteller(DefaultSettingsCategoryDef category) : base(category)
         {
         }
-
-        public override string Title => "Defaults_Storyteller".Translate();
 
         public override Vector2 InitialSize => new Vector2(Page.StandardSize.x, Page.StandardSize.y + 40f);
 

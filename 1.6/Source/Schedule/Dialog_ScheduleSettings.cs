@@ -3,6 +3,7 @@ using UnityEngine;
 using Verse.Sound;
 using Verse;
 using System.Collections.Generic;
+using Defaults.UI;
 
 namespace Defaults.Schedule
 {
@@ -13,8 +14,6 @@ namespace Defaults.Schedule
         public Dialog_ScheduleSettings(DefaultSettingsCategoryDef category) : base(category)
         {
         }
-
-        public override string Title => "Defaults_Schedules".Translate();
 
         public override Vector2 InitialSize => new Vector2(860f, 640f);
 

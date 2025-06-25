@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
+using Defaults.UI;
 
 namespace Defaults.StockpileZones
 {
@@ -21,8 +22,6 @@ namespace Defaults.StockpileZones
         public Dialog_StockpileZones(DefaultSettingsCategoryDef category) : base(category)
         {
         }
-
-        public override string Title => "Defaults_StockpileZones".Translate();
 
         public override Vector2 InitialSize => new Vector2(860f, 640f);
 

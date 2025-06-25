@@ -1,4 +1,5 @@
 ﻿using Defaults.MapSettings;
+using Defaults.UI;
 using RimWorld;
 using RimWorld.Planet;
 using System.Collections.Generic;
@@ -23,8 +24,6 @@ namespace Defaults.WorldSettings
         {
             factions = Settings.Get<List<FactionDef>>(Settings.FACTIONS);
         }
-
-        public override string Title => "Defaults_WorldSettings".Translate();
 
         public override Vector2 InitialSize => Page.StandardSize;
 

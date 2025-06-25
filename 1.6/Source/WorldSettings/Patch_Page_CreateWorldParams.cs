@@ -39,18 +39,24 @@ namespace Defaults.WorldSettings
     {
         public static void Postfix(Rect rect, float ___planetCoverage, OverallRainfall ___rainfall, OverallTemperature ___temperature, OverallPopulation ___population, float ___pollution, List<FactionDef> ___factions)
         {
-            Rect buttonRect = new Rect(rect.x + rect.width - 150f - 16f, rect.y + 4f, 150f, 40f);
-            if (Widgets.ButtonText(buttonRect, "Defaults_SetAsDefault".Translate()))
+            if (!Settings.GetValue<bool>(Settings.HIDE_SETASDEFAULT))
             {
-                PlanetOptions options = Settings.Get<PlanetOptions>(Settings.PLANET);
-                options.DefaultPlanetCoverage = ___planetCoverage;
-                options.DefaultOverallRainfall = ___rainfall;
-                options.DefaultOverallTemperature = ___temperature;
-                options.DefaultOverallPopulation = ___population;
-                options.DefaultPollution = ___pollution;
-                Settings.Set(Settings.FACTIONS, ___factions.Where(f => f.displayInFactionSelection).ToList());
-                DefaultsMod.Settings.Write();
-                Messages.Message("Defaults_SetAsDefaultConfirmed".Translate(), MessageTypeDefOf.PositiveEvent, false);
+                Rect buttonRect = new Rect(rect.x + rect.width - 150f - 16f, rect.y + 4f, 150f, 40f);
+                if (Widgets.ButtonText(buttonRect, "Defaults_SetAsDefault".Translate()))
+                {
+                    PlanetOptions planetOptions = Settings.Get<PlanetOptions>(Settings.PLANET);
+                    planetOptions.DefaultPlanetCoverage = ___planetCoverage;
+                    planetOptions.DefaultOverallRainfall = ___rainfall;
+                    planetOptions.DefaultOverallTemperature = ___temperature;
+                    planetOptions.DefaultOverallPopulation = ___population;
+                    planetOptions.DefaultPollution = ___pollution;
+                    MapOptions mapOptions = Settings.Get<MapOptions>(Settings.MAP);
+                    mapOptions.DefaultMapSize = Find.GameInitData.mapSize;
+                    mapOptions.DefaultStartingSeason = Find.GameInitData.startingSeason;
+                    Settings.Set(Settings.FACTIONS, ___factions.Where(f => f.displayInFactionSelection).ToList());
+                    DefaultsMod.Settings.Write();
+                    Messages.Message("Defaults_SetAsDefaultConfirmed".Translate(), MessageTypeDefOf.PositiveEvent, false);
+                }
             }
         }
     }

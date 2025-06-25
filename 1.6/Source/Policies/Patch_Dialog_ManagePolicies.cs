@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using Defaults.UI;
+using HarmonyLib;
 using RimWorld;
 using System;
 using System.Collections;
@@ -30,7 +31,7 @@ namespace Defaults.Policies
             float buttonOffset = 0f;
             bool isDefaultPolicy = ___policyInt == __instance.GetType().Method("GetDefaultPolicy").Invoke(__instance, new object[] { });
 
-            if (___policyInt != null && __instance.IsGamePolicyDialog())
+            if (___policyInt != null && __instance.IsGamePolicyDialog() && !Settings.GetValue<bool>(Settings.HIDE_SETASDEFAULT))
             {
                 if (!isDefaultPolicy)
                 {
@@ -89,7 +90,6 @@ namespace Defaults.Policies
             {
                 if (instruction == targetInstruction)
                 {
-                    yield return new CodeInstruction(OpCodes.Ldarg_0);
                     yield return new CodeInstruction(OpCodes.Call, typeof(PatchUtility_Dialog_ManagePolicies).Method(nameof(PatchUtility_Dialog_ManagePolicies.GetNewPolicyButtonPaddingTop)));
                     continue;
                 }
@@ -100,14 +100,17 @@ namespace Defaults.Policies
 
         public static void Postfix(Window __instance, Rect leftRect)
         {
-            Type type = __instance.GetType().Method("GetDefaultPolicy").Invoke(__instance, new object[] { }).GetType();
-            Rect loadDefaultRect = new Rect(leftRect.x + 10f, leftRect.yMax - 24f - 10f - Window.CloseButSize.y * 2 - 10f, leftRect.width - 20f, Window.CloseButSize.y);
-            if (Widgets.ButtonText(loadDefaultRect, "Defaults_LoadDefaultPolicy".Translate()))
+            if (!Settings.GetValue<bool>(Settings.HIDE_LOADDEFAULT))
             {
-                FloatMenu menu = __instance.IsGamePolicyDialog()
-                    ? PatchUtility_Dialog_ManagePolicies.GetFloatMenu(type, __instance, PolicyUtility.GetVanillaPolicies(type), PolicyUtility.GetDefaultPolicies(type))
-                    : PatchUtility_Dialog_ManagePolicies.GetFloatMenu(type, __instance, PolicyUtility.GetVanillaPolicies(type));
-                Find.WindowStack.Add(menu);
+                Type type = __instance.GetType().Method("GetDefaultPolicy").Invoke(__instance, new object[] { }).GetType();
+                Rect loadDefaultRect = new Rect(leftRect.x + 10f, leftRect.yMax - 24f - 10f - Window.CloseButSize.y * 2 - 10f, leftRect.width - 20f, Window.CloseButSize.y);
+                if (Widgets.ButtonText(loadDefaultRect, "Defaults_LoadDefaultPolicy".Translate()))
+                {
+                    FloatMenu menu = __instance.IsGamePolicyDialog()
+                        ? PatchUtility_Dialog_ManagePolicies.GetFloatMenu(type, __instance, PolicyUtility.GetVanillaPolicies(type), PolicyUtility.GetDefaultPolicies(type))
+                        : PatchUtility_Dialog_ManagePolicies.GetFloatMenu(type, __instance, PolicyUtility.GetVanillaPolicies(type));
+                    Find.WindowStack.Add(menu);
+                }
             }
         }
     }
@@ -116,17 +119,7 @@ namespace Defaults.Policies
     {
         public static float GetTitleHeight(Dialog_ManagePolicies<Policy> window) => Find.WindowStack.Windows.Contains(window) ? 32f : 0f;
 
-        public static float GetNewPolicyButtonPaddingTop(Window window)
-        {
-            Type type = window.GetType();
-            return new[]
-            {
-                typeof(Dialog_ManageApparelPolicies),
-                typeof(Dialog_ManageFoodPolicies),
-                typeof(Dialog_ManageDrugPolicies),
-                typeof(Dialog_ManageReadingPolicies)
-            }.Contains(type) ? 10f + Window.CloseButSize.y : 10f;
-        }
+        public static float GetNewPolicyButtonPaddingTop() => !Settings.GetValue<bool>(Settings.HIDE_LOADDEFAULT) ? 10f + Window.CloseButSize.y : 10f;
 
         public static FloatMenu GetFloatMenu(Type type, Window dialog, IList vanillaChoices, IList defaultChoices = null)
         {

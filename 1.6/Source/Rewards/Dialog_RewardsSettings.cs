@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using Defaults.UI;
+using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,8 +15,6 @@ namespace Defaults.Rewards
         public Dialog_RewardsSettings(DefaultSettingsCategoryDef category) : base(category)
         {
         }
-
-        public override string Title => "Defaults_Rewards".Translate();
 
         public override Vector2 InitialSize => new Vector2(700f, 480f);
 

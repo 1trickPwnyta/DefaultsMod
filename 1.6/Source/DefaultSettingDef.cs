@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using Defaults.Workers;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using Verse;

@@ -1,4 +1,6 @@
-﻿namespace Defaults.Medicine
+﻿using Defaults.Workers;
+
+namespace Defaults.Medicine
 {
     public class DefaultSettingWorker_MedCarryGuest : DefaultSettingWorker_Checkbox
     {

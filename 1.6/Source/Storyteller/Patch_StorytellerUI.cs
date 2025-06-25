@@ -49,7 +49,7 @@ namespace Defaults.Storyteller
 
         public static void Postfix(Rect rect, StorytellerDef chosenStoryteller, DifficultyDef difficulty, Difficulty difficultyValues)
         {
-            if (!Find.WindowStack.IsOpen<Dialog_Storyteller>())
+            if (!Find.WindowStack.IsOpen<Dialog_Storyteller>() && !Settings.GetValue<bool>(Settings.HIDE_SETASDEFAULT))
             {
                 Rect buttonRect = new Rect(rect.x + rect.width - 150f - 16f, rect.y - 40f, 150f, 40f);
                 if (Widgets.ButtonText(buttonRect, "Defaults_SetAsDefault".Translate()))

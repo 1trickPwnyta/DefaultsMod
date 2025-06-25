@@ -28,6 +28,8 @@ namespace Defaults
         public const string UNLOCKED_POLICIES = "UnlockedPolicies";
         public const string WORKBENCH_BILLS = "DefaultWorkbenchBills";
         public const string GLOBAL_BILL_OPTIONS = "DefaultGlobalBillOptions";
+        public const string HIDE_SETASDEFAULT = "HideSetAsDefaultButtons";
+        public const string HIDE_LOADDEFAULT = "HideLoadDefaultButtons";
 
         public const string HOSTILITY_RESPONSE = "DefaultHostilityResponse";
         public const string MEDICINE_TO_CARRY = "DefaultMedicineToCarry";

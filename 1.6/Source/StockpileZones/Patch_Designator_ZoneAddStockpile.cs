@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using Defaults.Workers;
+using HarmonyLib;
 using RimWorld;
 using Verse;
 

@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using Defaults.Workers;
+using RimWorld;
 using Verse;
 
 namespace Defaults.Storyteller

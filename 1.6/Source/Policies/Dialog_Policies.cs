@@ -2,6 +2,7 @@
 using Defaults.Policies.DrugPolicies;
 using Defaults.Policies.FoodPolicies;
 using Defaults.Policies.ReadingPolicies;
+using Defaults.UI;
 using RimWorld;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,8 +27,6 @@ namespace Defaults.Policies
             });
             currentWindow = tabs[0].window;
         }
-
-        public override string Title => "Defaults_Policies".Translate();
 
         public override Vector2 InitialSize => new Vector2(1320f, 847f);
 

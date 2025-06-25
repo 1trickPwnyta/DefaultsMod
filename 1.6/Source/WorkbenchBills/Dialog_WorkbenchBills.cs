@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using Defaults.UI;
+using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -38,8 +39,6 @@ namespace Defaults.WorkbenchBills
 
         private Vector2 scrollPosition;
         private float y = 0f;
-
-        public override string Title => "Defaults_WorkbenchBills".Translate();
 
         public override Vector2 InitialSize => new Vector2(860f, 600f);
 
