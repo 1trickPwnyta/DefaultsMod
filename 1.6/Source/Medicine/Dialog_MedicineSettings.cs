@@ -32,27 +32,28 @@ namespace Defaults.Medicine
             Widgets.Label(rect, ref y, "DefaultMedicineSettingsDesc".Translate());
             y += 10f;
             Text.Anchor = TextAnchor.MiddleLeft;
-            DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForColonist, "MedGroupColonists", "MedGroupColonistsDesc");
-            DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForPrisoner, "MedGroupPrisoners", "MedGroupPrisonersDesc");
+            MedicineOptions options = Settings.Get<MedicineOptions>(Settings.MEDICINE);
+            DoRow(rect, ref y, ref options.DefaultCareForColonist, "MedGroupColonists", "MedGroupColonistsDesc");
+            DoRow(rect, ref y, ref options.DefaultCareForPrisoner, "MedGroupPrisoners", "MedGroupPrisonersDesc");
             if (ModsConfig.IdeologyActive)
             {
-                DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForSlave, "MedGroupSlaves", "MedGroupSlavesDesc");
+                DoRow(rect, ref y, ref options.DefaultCareForSlave, "MedGroupSlaves", "MedGroupSlavesDesc");
             }
             if (ModsConfig.AnomalyActive)
             {
-                DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForGhouls, "MedGroupGhouls", "MedGroupGhoulsDesc");
+                DoRow(rect, ref y, ref options.DefaultCareForGhouls, "MedGroupGhouls", "MedGroupGhoulsDesc");
             }
-            DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForTamedAnimal, "MedGroupTamedAnimals", "MedGroupTamedAnimalsDesc");
+            DoRow(rect, ref y, ref options.DefaultCareForTamedAnimal, "MedGroupTamedAnimals", "MedGroupTamedAnimalsDesc");
             y += 17f;
-            DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForFriendlyFaction, "MedGroupFriendlyFaction", "MedGroupFriendlyFactionDesc");
-            DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForNeutralFaction, "MedGroupNeutralFaction", "MedGroupNeutralFactionDesc");
-            DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForHostileFaction, "MedGroupHostileFaction", "MedGroupHostileFactionDesc");
+            DoRow(rect, ref y, ref options.DefaultCareForFriendlyFaction, "MedGroupFriendlyFaction", "MedGroupFriendlyFactionDesc");
+            DoRow(rect, ref y, ref options.DefaultCareForNeutralFaction, "MedGroupNeutralFaction", "MedGroupNeutralFactionDesc");
+            DoRow(rect, ref y, ref options.DefaultCareForHostileFaction, "MedGroupHostileFaction", "MedGroupHostileFactionDesc");
             y += 17f;
-            DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForNoFaction, "MedGroupNoFaction", "MedGroupNoFactionDesc");
-            DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForWildlife, "MedGroupWildlife", "MedGroupWildlifeDesc");
+            DoRow(rect, ref y, ref options.DefaultCareForNoFaction, "MedGroupNoFaction", "MedGroupNoFactionDesc");
+            DoRow(rect, ref y, ref options.DefaultCareForWildlife, "MedGroupWildlife", "MedGroupWildlifeDesc");
             if (ModsConfig.AnomalyActive)
             {
-                DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForEntities, "MedGroupEntities", "MedGroupEntitiesDesc");
+                DoRow(rect, ref y, ref options.DefaultCareForEntities, "MedGroupEntities", "MedGroupEntitiesDesc");
             }
             Text.Anchor = TextAnchor.UpperLeft;
             return y - rect.y;

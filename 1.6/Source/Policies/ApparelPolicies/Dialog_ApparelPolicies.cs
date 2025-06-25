@@ -1,69 +1,46 @@
 ﻿using RimWorld;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 using Verse;
 
 namespace Defaults.Policies.ApparelPolicies
 {
-    public class Dialog_ApparelPolicies : Dialog_ManagePolicies<ApparelPolicy>
+    public class Dialog_ApparelPolicies : Dialog_ManageApparelPolicies, IPolicyDialog
     {
-        private static readonly ThingFilter apparelGlobalFilter = new ThingFilter();
+        private static List<ApparelPolicy> Policies => Settings.Get<List<ApparelPolicy>>(Settings.POLICIES_APPAREL);
 
-        private readonly ThingFilterUI.UIState thingFilterState = new ThingFilterUI.UIState();
-
-        static Dialog_ApparelPolicies()
+        public Dialog_ApparelPolicies() : base(Policies[0])
         {
-            apparelGlobalFilter.SetAllow(ThingCategoryDefOf.Apparel, true);
+            optionalTitle = TitleKey.Translate();
         }
 
-        public Dialog_ApparelPolicies(ApparelPolicy policy) : base(policy)
+        public string Topic => "Defaults_ApparelPolicies".Translate();
+
+        public string Title => TitleKey.Translate();
+
+        public void ResetPolicies()
         {
-            optionalTitle = "ApparelPolicyTitle".Translate();
+            DefaultSettingsCategoryWorker.GetWorker<DefaultSettingsCategoryWorker_Policies>().ResetApparelPolicies();
+            SelectedPolicy = GetDefaultPolicy();
         }
-
-        public override Vector2 InitialSize => new Vector2(700f, 700f);
-
-        protected override string TitleKey => "ApparelPolicyTitle";
-
-        protected override string TipKey => "ApparelPolicyTip";
 
         protected override ApparelPolicy CreateNewPolicy() => PolicyUtility.NewDefaultPolicy<ApparelPolicy>();
 
-        protected override void DoContentsRect(Rect rect)
-        {
-            ThingFilterUI.DoThingFilterConfigWindow(rect, thingFilterState, SelectedPolicy.filter, apparelGlobalFilter, 16, null, HiddenSpecialThingFilters());
-        }
+        protected override ApparelPolicy GetDefaultPolicy() => Policies[0];
 
-        protected override ApparelPolicy GetDefaultPolicy() => DefaultsSettings.DefaultApparelPolicies.First();
-
-        protected override List<ApparelPolicy> GetPolicies() => DefaultsSettings.DefaultApparelPolicies;
+        protected override List<ApparelPolicy> GetPolicies() => Policies;
 
         protected override void SetDefaultPolicy(ApparelPolicy policy)
         {
-            List<ApparelPolicy> policies = DefaultsSettings.DefaultApparelPolicies;
-            int currentIndex = policies.IndexOf(policy);
-            policies[currentIndex] = policies[0];
-            policies[0] = policy;
+            int currentIndex = Policies.IndexOf(policy);
+            Policies[currentIndex] = Policies[0];
+            Policies[0] = policy;
         }
 
         protected override AcceptanceReport TryDeletePolicy(ApparelPolicy policy)
         {
             return policy == GetDefaultPolicy()
                 ? (AcceptanceReport)"Defaults_CantDeleteDefaultPolicy".Translate()
-                : (AcceptanceReport)DefaultsSettings.DefaultApparelPolicies.Remove(policy);
-        }
-
-        private IEnumerable<SpecialThingFilterDef> HiddenSpecialThingFilters()
-        {
-            yield return SpecialThingFilterDefOf.AllowNonDeadmansApparel;
-            if (ModsConfig.IdeologyActive)
-            {
-                yield return SpecialThingFilterDefOf.AllowVegetarian;
-                yield return SpecialThingFilterDefOf.AllowCarnivore;
-                yield return SpecialThingFilterDefOf.AllowCannibal;
-                yield return SpecialThingFilterDefOf.AllowInsectMeat;
-            }
+                : (AcceptanceReport)Policies.Remove(policy);
         }
     }
 }

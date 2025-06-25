@@ -39,10 +39,9 @@ namespace Defaults.Policies
                 Rect saveAsDefaultRect = new Rect(inRect.xMax - 158f - buttonOffset, inRect.y + 74f, 32f, 32f);
                 if (Widgets.ButtonImage(saveAsDefaultRect, TexButton.Save))
                 {
-                    string name = ___policyInt.label;
                     Policy policy = PolicyUtility.NewDefaultPolicy(___policyInt.GetType(), ___policyInt.label); ;
                     policy.CopyFrom(___policyInt);
-                    LongEventHandler.ExecuteWhenFinished(DefaultsMod.Settings.Write);
+                    DefaultsMod.Settings.Write();
                     Messages.Message("Defaults_PolicySavedAs".Translate(policy?.label ?? "?"), MessageTypeDefOf.PositiveEvent, false);
                 }
                 TooltipHandler.TipRegionByKey(saveAsDefaultRect, "Defaults_SaveNewDefaultPolicy");
@@ -75,7 +74,7 @@ namespace Defaults.Policies
 
             foreach (CodeInstruction instruction in instructions.Reverse())
             {
-                if (instruction.opcode == OpCodes.Callvirt && (MethodInfo)instruction.operand == DefaultsRefs.m_QuickSearchWidget_OnGUI)
+                if (instruction.opcode == OpCodes.Callvirt && (MethodInfo)instruction.operand == typeof(QuickSearchWidget).Method(nameof(QuickSearchWidget.OnGUI)))
                 {
                     foundQuickSearch = true;
                 }
@@ -91,7 +90,7 @@ namespace Defaults.Policies
                 if (instruction == targetInstruction)
                 {
                     yield return new CodeInstruction(OpCodes.Ldarg_0);
-                    yield return new CodeInstruction(OpCodes.Call, DefaultsRefs.m_PolicyUtility_GetNewPolicyButtonPaddingTop);
+                    yield return new CodeInstruction(OpCodes.Call, typeof(PatchUtility_Dialog_ManagePolicies).Method(nameof(PatchUtility_Dialog_ManagePolicies.GetNewPolicyButtonPaddingTop)));
                     continue;
                 }
 
@@ -116,6 +115,18 @@ namespace Defaults.Policies
     public static class PatchUtility_Dialog_ManagePolicies
     {
         public static float GetTitleHeight(Dialog_ManagePolicies<Policy> window) => Find.WindowStack.Windows.Contains(window) ? 32f : 0f;
+
+        public static float GetNewPolicyButtonPaddingTop(Window window)
+        {
+            Type type = window.GetType();
+            return new[]
+            {
+                typeof(Dialog_ManageApparelPolicies),
+                typeof(Dialog_ManageFoodPolicies),
+                typeof(Dialog_ManageDrugPolicies),
+                typeof(Dialog_ManageReadingPolicies)
+            }.Contains(type) ? 10f + Window.CloseButSize.y : 10f;
+        }
 
         public static FloatMenu GetFloatMenu(Type type, Window dialog, IList vanillaChoices, IList defaultChoices = null)
         {

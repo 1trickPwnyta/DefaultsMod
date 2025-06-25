@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using RimWorld;
+using Verse;
 
 namespace Defaults.StockpileZones.Shelves
 {
@@ -9,10 +10,20 @@ namespace Defaults.StockpileZones.Shelves
     {
         public static void Postfix(Building_Storage __instance)
         {
-            if (__instance.def.IsShelf())
+            PatchUtility_Building_Storage.SetDefaultShelfSettings(__instance.def, __instance);
+        }
+    }
+
+    public static class PatchUtility_Building_Storage
+    {
+        public static void SetDefaultShelfSettings(ThingDef def, IStoreSettingsParent parent)
+        {
+            if (def.IsShelf())
             {
-                __instance.settings.Priority = DefaultsSettings.DefaultShelfSettings.Priority;
-                __instance.settings.filter.CopyAllowancesFrom(DefaultsSettings.DefaultShelfSettings.filter);
+                ZoneType shelfSettings = Settings.Get<ZoneType>(Settings.SHELF_SETTINGS);
+                StorageSettings settings = parent.GetStoreSettings();
+                settings.Priority = shelfSettings.Priority;
+                settings.filter.CopyAllowancesFrom(shelfSettings.filter);
             }
         }
     }

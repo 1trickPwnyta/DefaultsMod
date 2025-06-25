@@ -23,10 +23,10 @@
 	<Defaults_WorldSettings>World settings</Defaults_WorldSettings>
 	<Defaults_MapSettings>Advanced world settings</Defaults_MapSettings>
 	<Defaults_Policies>Policies</Defaults_Policies>
-	<Defaults_ApparelPolicies>Apparel policies</Defaults_ApparelPolicies>
-	<Defaults_FoodPolicies>Food policies</Defaults_FoodPolicies>
-	<Defaults_DrugPolicies>Drug policies</Defaults_DrugPolicies>
-	<Defaults_ReadingPolicies>Reading policies</Defaults_ReadingPolicies>
+	<Defaults_ApparelPolicies>apparel policies</Defaults_ApparelPolicies>
+	<Defaults_FoodPolicies>food policies</Defaults_FoodPolicies>
+	<Defaults_DrugPolicies>drug policies</Defaults_DrugPolicies>
+	<Defaults_ReadingPolicies>reading policies</Defaults_ReadingPolicies>
 	<Defaults_PregnancyApproach>Default pregnancy approach</Defaults_PregnancyApproach>
 	<Defaults_TargetTemperatureHeater>Target temperature for heaters</Defaults_TargetTemperatureHeater>
 	<Defaults_TargetTemperatureCooler>Target temperature for coolers</Defaults_TargetTemperatureCooler>
@@ -38,6 +38,7 @@
 	<Defaults_ResetTheseSettings>Reset these settings to vanilla</Defaults_ResetTheseSettings>
 	<Defaults_ConfirmResetAllSettings>Do you want to reset all settings to their vanilla values? This action cannot be undone.</Defaults_ConfirmResetAllSettings>
 	<Defaults_ConfirmResetTheseSettings>Do you want to reset all {0} to their vanilla values? This action cannot be undone.</Defaults_ConfirmResetTheseSettings>
+	<Defaults_ConfirmResetWorkbenchBills>Do you want to reset all default workbench bill settings to their vanilla values? This action will delete all default workbench bills and cannot be undone.</Defaults_ConfirmResetWorkbenchBills>
 	<Defaults_ScheduleName>Schedule {0}</Defaults_ScheduleName>
 	<Defaults_UseSchedule>Use</Defaults_UseSchedule>
 	<Defaults_UseScheduleTip>Indicates whether the schedule will automatically be assigned to colonists.</Defaults_UseScheduleTip>
@@ -78,6 +79,8 @@
 	<Defaults_NewPoliciesDLC>1trickPwnyta's Defaults can incorporate policies available in newly installed DLC if you'd like. {0} adds the following default policies to the game. Select the ones you want to enable.</Defaults_NewPoliciesDLC>
 	<Defaults_Vanilla>Vanilla</Defaults_Vanilla>
 	<Defaults_Defaults>Defaults</Defaults_Defaults>
+	<Defaults_HostilityReponseTip>Change how colonists will react to nearby enemies when not drafted.</Defaults_HostilityReponseTip>
+	<Defaults_NoSearchResults>Your search "{0}" did not match any settings.</Defaults_NoSearchResults>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

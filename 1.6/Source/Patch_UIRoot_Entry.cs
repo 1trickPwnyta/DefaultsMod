@@ -9,7 +9,7 @@ namespace Defaults
     {
         public static void Postfix()
         {
-            DefaultsSettings.CheckForNewContent();
+            DLCUtility.HandleNewDLCs();
         }
     }
 }

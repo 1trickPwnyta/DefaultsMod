@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using RimWorld;
+using System.Collections.Generic;
 
 namespace Defaults.Policies.FoodPolicies
 {
@@ -11,7 +12,7 @@ namespace Defaults.Policies.FoodPolicies
         {
             if (VanillaPolicyStore.loaded)
             {
-                foreach (FoodPolicy policy in DefaultsSettings.DefaultFoodPolicies)
+                foreach (FoodPolicy policy in Settings.Get<List<FoodPolicy>>(Settings.POLICIES_FOOD))
                 {
                     FoodPolicy foodPolicy = __instance.MakeNewFoodRestriction();
                     foodPolicy.label = policy.label;

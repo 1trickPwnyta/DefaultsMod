@@ -67,16 +67,6 @@
 	  <li>mechanoids</li>
 	  <li>insects</li>
 	  <li>bugs</li>
-	</keywords>
-  </Defaults.DefaultSettingsCategoryDef>
-  
-  <Defaults.DefaultSettingsCategoryDef>
-    <defName>Map</defName>
-	<label>default advanced world settings</label>
-	<description>Allows you to set the default map size and starting season.</description>
-	<iconPath>DefaultSettingsCategoryIcons/Map</iconPath>
-    <workerClass>Defaults.MapSettings.DefaultSettingsCategoryWorker_Map</workerClass>
-	<keywords>
 	  <li>map</li>
 	  <li>size</li>
 	  <li>starting</li>

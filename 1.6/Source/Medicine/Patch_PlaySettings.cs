@@ -5,17 +5,18 @@
     {
         public static void Postfix(RimWorld.PlaySettings __instance)
         {
-            __instance.defaultCareForColonist = DefaultsSettings.DefaultCareForColonist;
-            __instance.defaultCareForPrisoner = DefaultsSettings.DefaultCareForPrisoner;
-            __instance.defaultCareForSlave = DefaultsSettings.DefaultCareForSlave;
-            __instance.defaultCareForTamedAnimal = DefaultsSettings.DefaultCareForTamedAnimal;
-            __instance.defaultCareForFriendlyFaction = DefaultsSettings.DefaultCareForFriendlyFaction;
-            __instance.defaultCareForNeutralFaction = DefaultsSettings.DefaultCareForNeutralFaction;
-            __instance.defaultCareForHostileFaction = DefaultsSettings.DefaultCareForHostileFaction;
-            __instance.defaultCareForNoFaction = DefaultsSettings.DefaultCareForNoFaction;
-            __instance.defaultCareForWildlife = DefaultsSettings.DefaultCareForWildlife;
-            __instance.defaultCareForEntities = DefaultsSettings.DefaultCareForEntities;
-            __instance.defaultCareForGhouls = DefaultsSettings.DefaultCareForGhouls;
+            MedicineOptions options = Settings.Get<MedicineOptions>(Settings.MEDICINE);
+            __instance.defaultCareForColonist = options.DefaultCareForColonist;
+            __instance.defaultCareForPrisoner = options.DefaultCareForPrisoner;
+            __instance.defaultCareForSlave = options.DefaultCareForSlave;
+            __instance.defaultCareForTamedAnimal = options.DefaultCareForTamedAnimal;
+            __instance.defaultCareForFriendlyFaction = options.DefaultCareForFriendlyFaction;
+            __instance.defaultCareForNeutralFaction = options.DefaultCareForNeutralFaction;
+            __instance.defaultCareForHostileFaction = options.DefaultCareForHostileFaction;
+            __instance.defaultCareForNoFaction = options.DefaultCareForNoFaction;
+            __instance.defaultCareForWildlife = options.DefaultCareForWildlife;
+            __instance.defaultCareForEntities = options.DefaultCareForEntities;
+            __instance.defaultCareForGhouls = options.DefaultCareForGhouls;
         }
     }
 }

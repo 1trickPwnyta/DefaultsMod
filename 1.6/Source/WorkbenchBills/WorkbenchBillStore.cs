@@ -11,11 +11,12 @@ namespace Defaults.WorkbenchBills
 
         public static WorkbenchBillStore Get(HashSet<ThingDef> workbenchGroup)
         {
-            WorkbenchBillStore store = DefaultsSettings.DefaultWorkbenchBills.FirstOrDefault(s => s.workbenchGroup.Any(w => workbenchGroup.Contains(w)));
+            List<WorkbenchBillStore> workbenchBills = Settings.Get<List<WorkbenchBillStore>>(Settings.WORKBENCH_BILLS);
+            WorkbenchBillStore store = workbenchBills.FirstOrDefault(s => s.workbenchGroup.Any(w => workbenchGroup.Contains(w)));
             if (store == null)
             {
                 store = new WorkbenchBillStore(workbenchGroup);
-                DefaultsSettings.DefaultWorkbenchBills.Add(store);
+                workbenchBills.Add(store);
             }
             store.workbenchGroup = workbenchGroup;
             return store;

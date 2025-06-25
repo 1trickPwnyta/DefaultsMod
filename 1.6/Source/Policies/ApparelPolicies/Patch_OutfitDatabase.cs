@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using RimWorld;
+using System.Collections.Generic;
 
 namespace Defaults.Policies.ApparelPolicies
 {
@@ -11,7 +12,7 @@ namespace Defaults.Policies.ApparelPolicies
         {
             if (VanillaPolicyStore.loaded)
             {
-                foreach (ApparelPolicy policy in DefaultsSettings.DefaultApparelPolicies)
+                foreach (ApparelPolicy policy in Settings.Get<List<ApparelPolicy>>(Settings.POLICIES_APPAREL))
                 {
                     ApparelPolicy apparelPolicy = __instance.MakeNewOutfit();
                     apparelPolicy.label = policy.label;

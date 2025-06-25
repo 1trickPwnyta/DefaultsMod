@@ -123,7 +123,7 @@ namespace Defaults.StockpileZones
             Scribe_Values.Look(ref Name, "Name");
             Scribe_Values.Look(ref Priority, "Priority");
             Scribe_Values.Look(ref Preset, "Preset");
-            DefaultsSettings.ScribeThingFilter(filter);
+            Scribe_Deep.Look(ref filter, "filter");
             Scribe_Values.Look(ref IconColor, "IconColor", Color.white);
             Scribe_Values.Look(ref locked, "locked", true);
         }

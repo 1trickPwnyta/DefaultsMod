@@ -7,36 +7,6 @@ using Verse;
 
 namespace Defaults.Storyteller
 {
-    // Patched manually in mod constructor
-    public static class Patch_Dialog_AnomalySettings_ctor
-    {
-        public static void Postfix(Difficulty difficulty, ref AnomalyPlaystyleDef ___anomalyPlaystyleDef)
-        {
-            if (difficulty is DifficultySub)
-            {
-                ___anomalyPlaystyleDef = DefDatabase<AnomalyPlaystyleDef>.GetNamed(DefaultsSettings.DefaultAnomalyPlaystyle);
-            }
-        }
-    }
-
-    [HarmonyPatch(typeof(Dialog_AnomalySettings))]
-    [HarmonyPatch(nameof(Dialog_AnomalySettings.DoWindowContents))]
-    public static class Patch_Dialog_AnomalySettings_DoWindowContents
-    {
-        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-        {
-            foreach (CodeInstruction instruction in instructions)
-            {
-                if (instruction.opcode == OpCodes.Callvirt && (MethodInfo)instruction.operand == DefaultsRefs.m_Difficulty_set_AnomalyPlaystyleDef)
-                {
-                    instruction.operand = DefaultsRefs.m_Dialog_Storyteller_SetAnomalyPlaystyleDef;
-                }
-
-                yield return instruction;
-            }
-        }
-    }
-
     [HarmonyPatch(typeof(Dialog_AnomalySettings))]
     [HarmonyPatch("DrawPlaystyles")]
     public static class Patch_Dialog_AnomalySettings_DrawPlaystyles
@@ -48,12 +18,10 @@ namespace Defaults.Storyteller
 
             foreach (CodeInstruction instruction in instructions)
             {
-                if (!foundScenario && instruction.opcode == OpCodes.Call && (MethodInfo)instruction.operand == DefaultsRefs.m_Find_get_Scenario)
+                if (!foundScenario && instruction.opcode == OpCodes.Call && (MethodInfo)instruction.operand == typeof(Find).Method("get_Scenario"))
                 {
                     yield return new CodeInstruction(OpCodes.Ldloc_1);
-                    yield return new CodeInstruction(OpCodes.Ldarg_0);
-                    yield return new CodeInstruction(OpCodes.Ldfld, DefaultsRefs.f_Dialog_AnomalySettings_difficulty);
-                    yield return new CodeInstruction(OpCodes.Call, DefaultsRefs.m_Dialog_Storyteller_NonStandardAnomalyPlaystylesAllowed);
+                    yield return new CodeInstruction(OpCodes.Call, typeof(PatchUtility_Dialog_AnomalySettings).Method(nameof(PatchUtility_Dialog_AnomalySettings.NonStandardAnomalyPlaystylesAllowed)));
                     foundScenario = true;
                     continue;
                 }
@@ -69,6 +37,14 @@ namespace Defaults.Storyteller
 
                 yield return instruction;
             }
+        }
+    }
+
+    public static class PatchUtility_Dialog_AnomalySettings
+    {
+        public static bool NonStandardAnomalyPlaystylesAllowed(AnomalyPlaystyleDef def)
+        {
+            return Find.WindowStack.IsOpen<Dialog_Storyteller>() || !Find.Scenario.standardAnomalyPlaystyleOnly || def == AnomalyPlaystyleDefOf.Standard;
         }
     }
 }

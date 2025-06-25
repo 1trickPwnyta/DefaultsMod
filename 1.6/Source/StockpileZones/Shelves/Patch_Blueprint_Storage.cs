@@ -9,11 +9,7 @@ namespace Defaults.StockpileZones.Shelves
     {
         public static void Postfix(Blueprint_Storage __instance)
         {
-            if (__instance.BuildDef.IsShelf())
-            {
-                __instance.settings.Priority = DefaultsSettings.DefaultShelfSettings.Priority;
-                __instance.settings.filter.CopyAllowancesFrom(DefaultsSettings.DefaultShelfSettings.filter);
-            }
+            PatchUtility_Building_Storage.SetDefaultShelfSettings(__instance.BuildDef, __instance);
         }
     }
 }

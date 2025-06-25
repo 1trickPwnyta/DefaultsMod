@@ -24,6 +24,8 @@ namespace Defaults
 
         protected virtual Vector2 ResetButtonPosition(Rect rect) => new Vector2(rect.x + rect.width / 2 - ResetButtonSize.x / 2, rect.yMax - CloseButSize.y - 10f - ResetButtonSize.y);
 
+        protected virtual string ResetButtonText => "Defaults_ResetTheseSettings".Translate();
+
         protected virtual void OnResetButtonClicked()
         {
             Find.WindowStack.Add(new Dialog_MessageBox(ResetButtonWarning, "Confirm".Translate(), category.Worker.ResetSettings, "GoBack".Translate(), null, null, true, category.Worker.ResetSettings));
@@ -46,7 +48,7 @@ namespace Defaults
             }
             DoSettings(new Rect(inRect.x, inRect.y + y, inRect.width, inRect.height - y));
 
-            if (Widgets.ButtonText(new Rect(ResetButtonPosition(inRect), ResetButtonSize), "Defaults_ResetTheseSettings".Translate()))
+            if (Widgets.ButtonText(new Rect(ResetButtonPosition(inRect), ResetButtonSize), ResetButtonText))
             {
                 OnResetButtonClicked();
             }

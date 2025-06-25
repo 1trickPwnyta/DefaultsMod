@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using RimWorld;
+using System.Collections.Generic;
 
 namespace Defaults.Policies.DrugPolicies
 {
@@ -11,7 +12,7 @@ namespace Defaults.Policies.DrugPolicies
         {
             if (VanillaPolicyStore.loaded)
             {
-                foreach (DrugPolicy policy in DefaultsSettings.DefaultDrugPolicies)
+                foreach (DrugPolicy policy in Settings.Get<List<DrugPolicy>>(Settings.POLICIES_DRUG))
                 {
                     DrugPolicy drugPolicy = __instance.MakeNewDrugPolicy();
                     drugPolicy.label = policy.label;

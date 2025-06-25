@@ -18,6 +18,7 @@ namespace Defaults
         public DefaultSettingsCategoryWorker(DefaultSettingsCategoryDef def)
         {
             this.def = def;
+            ResetCategorySettings(false);
         }
 
         public virtual bool GetSetting<T>(string key, out T value)
@@ -75,19 +76,33 @@ namespace Defaults
         {
         }
 
-        public virtual void ExposeData()
+        protected virtual void ExposeCategorySettings()
         {
+        }
+
+        public void ExposeData()
+        {
+            ExposeCategorySettings();
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                ResetCategorySettings(false);
+            }
             foreach (DefaultSettingDef def in def.DefaultSettings)
             {
                 def.Worker.ExposeData();
             }
         }
 
-        public virtual void ResetSettings()
+        protected virtual void ResetCategorySettings(bool forced)
         {
+        }
+
+        public void ResetSettings()
+        {
+            ResetCategorySettings(true);
             foreach (DefaultSettingDef def in def.DefaultSettings)
             {
-                def.Worker.ResetSetting();
+                def.Worker.ResetSetting(true);
             }
         }
 

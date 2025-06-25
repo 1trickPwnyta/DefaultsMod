@@ -10,19 +10,15 @@ namespace Defaults.Storyteller
     {
         public static void Postfix(ref StorytellerDef ___storyteller, ref DifficultyDef ___difficulty, ref Difficulty ___difficultyValues)
         {
-            ___storyteller = DefDatabase<StorytellerDef>.GetNamed(DefaultsSettings.DefaultStoryteller);
-            ___difficulty = DefDatabase<DifficultyDef>.GetNamed(DefaultsSettings.DefaultDifficulty);
-            ___difficultyValues = DefaultsSettings.DefaultDifficultyValues.GetDifficultyValues();
-            if (ModsConfig.AnomalyActive)
+            ___storyteller = Settings.Get<StorytellerDef>(Settings.STORYTELLER);
+            ___difficulty = Settings.Get<DifficultyDef>(Settings.DIFFICULTY);
+            ___difficultyValues = Settings.Get<Difficulty>(Settings.DIFFICULTY_VALUES);
+            if (Find.Scenario.standardAnomalyPlaystyleOnly)
             {
-                ___difficultyValues.AnomalyPlaystyleDef = DefDatabase<AnomalyPlaystyleDef>.GetNamed(DefaultsSettings.DefaultAnomalyPlaystyle);
-                if (Find.Scenario.standardAnomalyPlaystyleOnly)
-                {
-                    ___difficultyValues.AnomalyPlaystyleDef = AnomalyPlaystyleDefOf.Standard;
-                }
+                ___difficultyValues.AnomalyPlaystyleDef = AnomalyPlaystyleDefOf.Standard;
             }
             Find.GameInitData.permadeathChosen = true;
-            Find.GameInitData.permadeath = DefaultsSettings.DefaultPermadeath;
+            Find.GameInitData.permadeath = Settings.Get<bool>(Settings.PERMADEATH);
         }
     }
 }

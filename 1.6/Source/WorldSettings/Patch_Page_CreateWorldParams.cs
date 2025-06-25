@@ -14,11 +14,12 @@ namespace Defaults.WorldSettings
     {
         public static void Postfix(ref float ___planetCoverage, ref OverallRainfall ___rainfall, ref OverallTemperature ___temperature, ref OverallPopulation ___population, ref float ___pollution)
         {
-            ___planetCoverage = DefaultsSettings.DefaultPlanetCoverage;
-            ___rainfall = DefaultsSettings.DefaultOverallRainfall;
-            ___temperature = DefaultsSettings.DefaultOverallTemperature;
-            ___population = DefaultsSettings.DefaultOverallPopulation;
-            ___pollution = DefaultsSettings.DefaultPollution;
+            PlanetOptions options = Settings.Get<PlanetOptions>(Settings.PLANET);
+            ___planetCoverage = options.DefaultPlanetCoverage;
+            ___rainfall = options.DefaultOverallRainfall;
+            ___temperature = options.DefaultOverallTemperature;
+            ___population = options.DefaultOverallPopulation;
+            ___pollution = options.DefaultPollution;
         }
     }
 
@@ -28,7 +29,7 @@ namespace Defaults.WorldSettings
     {
         public static void Postfix(ref List<FactionDef> ___factions)
         {
-            ___factions = DefaultsSettings.DefaultFactions.Select(f => DefDatabase<FactionDef>.GetNamedSilentFail(f)).Where(f => f != null && f.displayInFactionSelection).Concat(FactionsUtility.GetDefaultNonselectableFactions()).ToList();
+            ___factions = Settings.Get<List<FactionDef>>(Settings.FACTIONS).Where(f => f != null && f.displayInFactionSelection).Concat(FactionsUtility.GetDefaultNonselectableFactions()).ToList();
         }
     }
 
@@ -41,15 +42,28 @@ namespace Defaults.WorldSettings
             Rect buttonRect = new Rect(rect.x + rect.width - 150f - 16f, rect.y + 4f, 150f, 40f);
             if (Widgets.ButtonText(buttonRect, "Defaults_SetAsDefault".Translate()))
             {
-                DefaultsSettings.DefaultPlanetCoverage = ___planetCoverage;
-                DefaultsSettings.DefaultOverallRainfall = ___rainfall;
-                DefaultsSettings.DefaultOverallTemperature = ___temperature;
-                DefaultsSettings.DefaultOverallPopulation = ___population;
-                DefaultsSettings.DefaultPollution = ___pollution;
-                DefaultsSettings.DefaultFactions = ___factions.Where(f => f.displayInFactionSelection).Select(f => f.defName).ToList();
-                LongEventHandler.ExecuteWhenFinished(DefaultsMod.Settings.Write);
+                PlanetOptions options = Settings.Get<PlanetOptions>(Settings.PLANET);
+                options.DefaultPlanetCoverage = ___planetCoverage;
+                options.DefaultOverallRainfall = ___rainfall;
+                options.DefaultOverallTemperature = ___temperature;
+                options.DefaultOverallPopulation = ___population;
+                options.DefaultPollution = ___pollution;
+                Settings.Set(Settings.FACTIONS, ___factions.Where(f => f.displayInFactionSelection).ToList());
+                DefaultsMod.Settings.Write();
                 Messages.Message("Defaults_SetAsDefaultConfirmed".Translate(), MessageTypeDefOf.PositiveEvent, false);
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(Page_CreateWorldParams))]
+    [HarmonyPatch(nameof(Page_CreateWorldParams.PostOpen))]
+    public static class Patch_Page_CreateWorldParams_PostOpen
+    {
+        public static void Postfix()
+        {
+            MapOptions options = Settings.Get<MapOptions>(Settings.MAP);
+            Find.GameInitData.mapSize = options.DefaultMapSize;
+            Find.GameInitData.startingSeason = options.DefaultStartingSeason;
         }
     }
 }

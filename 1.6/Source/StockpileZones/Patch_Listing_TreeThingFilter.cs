@@ -17,7 +17,7 @@ namespace Defaults.StockpileZones
 
             foreach (CodeInstruction instruction in instructions)
             {
-                if (instruction.opcode == OpCodes.Call && (MethodInfo)instruction.operand == DefaultsRefs.m_Find_get_HiddenItemsManager)
+                if (instruction.opcode == OpCodes.Call && (MethodInfo)instruction.operand == typeof(Find).Method("get_HiddenItemsManager"))
                 {
                     foundManager = true;
                 }
@@ -29,7 +29,7 @@ namespace Defaults.StockpileZones
 
             foreach (CodeInstruction instruction in instructions)
             {
-                if (instruction.opcode == OpCodes.Call && (MethodInfo)instruction.operand == DefaultsRefs.m_Find_get_HiddenItemsManager)
+                if (instruction.opcode == OpCodes.Call && (MethodInfo)instruction.operand == typeof(Find).Method("get_HiddenItemsManager"))
                 {
                     yield return instruction;
                     yield return new CodeInstruction(OpCodes.Brfalse_S, label);

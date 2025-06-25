@@ -52,8 +52,7 @@ namespace Defaults.Schedule
                     value = defaultSchedules;
                     return true;
                 default:
-                    value = default;
-                    return false;
+                    return base.GetCategorySetting(key, out value);
             }
         }
 
@@ -65,22 +64,23 @@ namespace Defaults.Schedule
                     defaultSchedules = value as List<Schedule>;
                     return true;
                 default:
-                    return false;
+                    return base.SetCategorySetting(key, value);
             }
         }
 
-        public override void ResetSettings()
+        protected override void ResetCategorySettings(bool forced)
         {
-            base.ResetSettings();
-            defaultSchedules = new List<Schedule>()
+            if (forced || defaultSchedules == null)
             {
-                new Schedule("Defaults_ScheduleName".Translate(1))
-            };
+                defaultSchedules = new List<Schedule>()
+                {
+                    new Schedule("Defaults_ScheduleName".Translate(1))
+                };
+            }
         }
 
-        public override void ExposeData()
+        protected override void ExposeCategorySettings()
         {
-            base.ExposeData();
             Scribe_Collections.Look(ref defaultSchedules, Settings.SCHEDULES);
             Scribe_Values.Look(ref nextScheduleIndex, Settings.NEXT_SCHEDULE, Mathf.Abs(Rand.Int));
         }

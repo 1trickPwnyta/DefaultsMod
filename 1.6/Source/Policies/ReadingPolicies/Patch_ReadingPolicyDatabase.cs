@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using RimWorld;
+using System.Collections.Generic;
 
 namespace Defaults.Policies.ReadingPolicies
 {
@@ -11,7 +12,7 @@ namespace Defaults.Policies.ReadingPolicies
         {
             if (VanillaPolicyStore.loaded)
             {
-                foreach (ReadingPolicy policy in DefaultsSettings.DefaultReadingPolicies)
+                foreach (ReadingPolicy policy in Settings.Get<List<ReadingPolicy>>(Settings.POLICIES_READING))
                 {
                     ReadingPolicy readingPolicy = __instance.MakeNewReadingPolicy();
                     readingPolicy.label = policy.label;

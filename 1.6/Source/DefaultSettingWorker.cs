@@ -9,7 +9,7 @@ namespace Defaults
 
         void ExposeData();
 
-        void ResetSetting();
+        void ResetSetting(bool forced);
 
         void DoSetting(Rect rect);
     }
@@ -22,6 +22,7 @@ namespace Defaults
         public DefaultSettingWorker(DefaultSettingDef def)
         {
             this.def = def;
+            ResetSetting(false);
         }
 
         public abstract string Key { get; }
@@ -42,17 +43,20 @@ namespace Defaults
         public void ExposeData()
         {
             ExposeSetting();
-            if (Scribe.mode == LoadSaveMode.PostLoadInit && setting == null)
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
-                ResetSetting();
+                ResetSetting(false);
             }
         }
 
         protected abstract T Default { get; }
 
-        public void ResetSetting()
+        public void ResetSetting(bool forced)
         {
-            setting = Default;
+            if (forced || setting == null)
+            {
+                setting = Default;
+            }
         }
     }
 }

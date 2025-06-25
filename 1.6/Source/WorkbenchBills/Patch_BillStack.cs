@@ -13,7 +13,7 @@ namespace Defaults.WorkbenchBills
     {
         public static void Postfix(BillStack __instance, Rect rect)
         {
-            IEnumerable<BillTemplate> defaultBills = DefaultsSettings.DefaultWorkbenchBills.Where(s => s.workbenchGroup.Contains(((Thing)__instance.billGiver).def)).SelectMany(s => s.bills);
+            IEnumerable<BillTemplate> defaultBills = Settings.Get<List<WorkbenchBillStore>>(Settings.WORKBENCH_BILLS).Where(s => s.workbenchGroup.Contains(((Thing)__instance.billGiver).def)).SelectMany(s => s.bills);
             if (__instance.Count < 15 && defaultBills.Count() > 0)
             {
                 Rect loadDefaultRect = new Rect(rect.x + 150f, rect.y, 150f, 29f);

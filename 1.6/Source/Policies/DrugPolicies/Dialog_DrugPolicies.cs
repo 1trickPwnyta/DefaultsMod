@@ -1,36 +1,46 @@
 ﻿using RimWorld;
 using System.Collections.Generic;
-using System.Linq;
 using Verse;
 
 namespace Defaults.Policies.DrugPolicies
 {
-    public class Dialog_DrugPolicies : Dialog_ManageDrugPolicies
+    public class Dialog_DrugPolicies : Dialog_ManageDrugPolicies, IPolicyDialog
     {
-        public Dialog_DrugPolicies(DrugPolicy policy) : base(policy)
+        private static List<DrugPolicy> Policies => Settings.Get<List<DrugPolicy>>(Settings.POLICIES_DRUG);
+
+        public Dialog_DrugPolicies() : base(Policies[0])
         {
             optionalTitle = TitleKey.Translate();
         }
 
+        public string Topic => "Defaults_FoodPolicies".Translate();
+
+        public string Title => TitleKey.Translate();
+
+        public void ResetPolicies()
+        {
+            DefaultSettingsCategoryWorker.GetWorker<DefaultSettingsCategoryWorker_Policies>().ResetDrugPolicies();
+            SelectedPolicy = GetDefaultPolicy();
+        }
+
         protected override DrugPolicy CreateNewPolicy() => PolicyUtility.NewDefaultPolicy<DrugPolicy>();
 
-        protected override DrugPolicy GetDefaultPolicy() => DefaultsSettings.DefaultDrugPolicies.First();
+        protected override DrugPolicy GetDefaultPolicy() => Policies[0];
 
-        protected override List<DrugPolicy> GetPolicies() => DefaultsSettings.DefaultDrugPolicies;
+        protected override List<DrugPolicy> GetPolicies() => Policies;
 
         protected override void SetDefaultPolicy(DrugPolicy policy)
         {
-            List<DrugPolicy> policies = DefaultsSettings.DefaultDrugPolicies;
-            int currentIndex = policies.IndexOf(policy);
-            policies[currentIndex] = policies[0];
-            policies[0] = policy;
+            int currentIndex = Policies.IndexOf(policy);
+            Policies[currentIndex] = Policies[0];
+            Policies[0] = policy;
         }
 
         protected override AcceptanceReport TryDeletePolicy(DrugPolicy policy)
         {
             return policy == GetDefaultPolicy()
                 ? (AcceptanceReport)"Defaults_CantDeleteDefaultPolicy".Translate()
-                : (AcceptanceReport)DefaultsSettings.DefaultDrugPolicies.Remove(policy);
+                : (AcceptanceReport)Policies.Remove(policy);
         }
     }
 }

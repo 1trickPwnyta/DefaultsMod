@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
+using System.Collections.Generic;
 
 namespace Defaults.Rewards
 {
@@ -10,9 +11,9 @@ namespace Defaults.Rewards
     {
         public static void Postfix(Faction __result)
         {
-            if (DefaultsSettings.DefaultRewardPreferences.ContainsKey(__result.def.defName) && DefaultsSettings.DefaultRewardPreferences[__result.def.defName] != null)
+            Dictionary<FactionDef, RewardPreference> rewards = Settings.Get<Dictionary<FactionDef, RewardPreference>>(Settings.REWARDS);
+            if (rewards.TryGetValue(__result.def, out RewardPreference preference))
             {
-                RewardPreference preference = DefaultsSettings.DefaultRewardPreferences[__result.def.defName];
                 __result.allowRoyalFavorRewards = preference.allowRoyalFavorRewards;
                 __result.allowGoodwillRewards = preference.allowGoodwillRewards;
             }

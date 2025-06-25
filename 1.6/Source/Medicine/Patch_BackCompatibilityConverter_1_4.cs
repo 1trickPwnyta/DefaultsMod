@@ -13,17 +13,18 @@ namespace Defaults.Medicine
                 RimWorld.PlaySettings playSettings;
                 if ((playSettings = (obj as RimWorld.PlaySettings)) != null)
                 {
-                    playSettings.defaultCareForColonist = DefaultsSettings.DefaultCareForColonist;
-                    playSettings.defaultCareForPrisoner = DefaultsSettings.DefaultCareForPrisoner;
-                    playSettings.defaultCareForSlave = DefaultsSettings.DefaultCareForSlave;
-                    playSettings.defaultCareForTamedAnimal = DefaultsSettings.DefaultCareForTamedAnimal;
-                    playSettings.defaultCareForFriendlyFaction = DefaultsSettings.DefaultCareForFriendlyFaction;
-                    playSettings.defaultCareForNeutralFaction = DefaultsSettings.DefaultCareForNeutralFaction;
-                    playSettings.defaultCareForHostileFaction = DefaultsSettings.DefaultCareForHostileFaction;
-                    playSettings.defaultCareForNoFaction = DefaultsSettings.DefaultCareForNoFaction;
-                    playSettings.defaultCareForWildlife = DefaultsSettings.DefaultCareForWildlife;
-                    playSettings.defaultCareForEntities = DefaultsSettings.DefaultCareForEntities;
-                    playSettings.defaultCareForGhouls = DefaultsSettings.DefaultCareForGhouls;
+                    MedicineOptions options = Settings.Get<MedicineOptions>(Settings.MEDICINE);
+                    playSettings.defaultCareForColonist = options.DefaultCareForColonist;
+                    playSettings.defaultCareForPrisoner = options.DefaultCareForPrisoner;
+                    playSettings.defaultCareForSlave = options.DefaultCareForSlave;
+                    playSettings.defaultCareForTamedAnimal = options.DefaultCareForTamedAnimal;
+                    playSettings.defaultCareForFriendlyFaction = options.DefaultCareForFriendlyFaction;
+                    playSettings.defaultCareForNeutralFaction = options.DefaultCareForNeutralFaction;
+                    playSettings.defaultCareForHostileFaction = options.DefaultCareForHostileFaction;
+                    playSettings.defaultCareForNoFaction = options.DefaultCareForNoFaction;
+                    playSettings.defaultCareForWildlife = options.DefaultCareForWildlife;
+                    playSettings.defaultCareForEntities = options.DefaultCareForEntities;
+                    playSettings.defaultCareForGhouls = options.DefaultCareForGhouls;
                 }
             }
         }

@@ -1,21 +1,30 @@
 ﻿using RimWorld;
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
 namespace Defaults.MechWorkModes
 {
-    public abstract class DefaultSettingWorker_MechWorkMode : DefaultSettingWorker<MechWorkModeDef>
+    public abstract class DefaultSettingWorker_MechWorkMode : DefaultSettingWorker_Dropdown<MechWorkModeDef>
     {
         protected DefaultSettingWorker_MechWorkMode(DefaultSettingDef def) : base(def)
         {
         }
 
-        protected override void DoWidget(Rect rect)
+        protected override IEnumerable<MechWorkModeDef> Options => DefDatabase<MechWorkModeDef>.AllDefsListForReading;
+
+        protected override Texture2D GetIcon(MechWorkModeDef option) => option.uiIcon;
+
+        protected override TaggedString GetText(MechWorkModeDef option) => option.LabelCap;
+
+        protected override TaggedString GetTip(MechWorkModeDef option) => string.Concat(new string[]
         {
-            rect.x += rect.width - 24f;
-            rect.width = 24f;
-            MechWorkModeUtility.DrawWorkModeButton(rect, setting, m => setting = m);
-        }
+            ("CurrentMechWorkMode".Translate() + ": " + option.LabelCap).Colorize(ColoredText.TipSectionTitleColor),
+            "\n",
+            option.description,
+        });
+
+        protected override TaggedString GetMenuTip(MechWorkModeDef option) => option.description;
 
         protected override void ExposeSetting()
         {

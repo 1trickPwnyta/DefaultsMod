@@ -22,6 +22,7 @@ namespace Defaults.WorkbenchBills
             doCloseX = true;
             doCloseButton = true;
             closeOnClickedOutside = true;
+            absorbInputAroundWindow = true;
         }
 
         public override Vector2 InitialSize => new Vector2(400f, 500f);

@@ -22,9 +22,10 @@ namespace Defaults.StockpileZones
 
                 if (designator is Designator_Deconstruct)
                 {
-                    if (DefaultsSettings.DefaultStockpileZones != null)
+                    List<ZoneType> stockpileZones = Settings.Get<List<ZoneType>>(Settings.STOCKPILE_ZONES);
+                    if (stockpileZones != null)
                     {
-                        foreach (ZoneType type in DefaultsSettings.DefaultStockpileZones)
+                        foreach (ZoneType type in stockpileZones)
                         {
                             if (type.DesignatorType == typeof(Designator_ZoneAddStockpile_Resources))
                             {

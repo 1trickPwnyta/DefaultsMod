@@ -86,7 +86,7 @@ namespace Defaults.Schedule
                 schedule.name = Widgets.TextField(new Rect(x, y, labelWidth, rowHeight), schedule.name);
                 x += labelWidth;
 
-                CopyPasteUI.DoCopyPasteButtons(new Rect(x, y, copyButtonWidth * 2, rowHeight), delegate
+                CopyPasteUI.DoCopyPasteButtons(new Rect(x, y, copyButtonWidth * 2, rowHeight), () =>
                 {
                     schedules.Add(new Schedule("Defaults_ScheduleName".Translate(schedules.Count + 1), schedule));
                 }, null);
@@ -125,7 +125,7 @@ namespace Defaults.Schedule
         {
             rect = rect.ContractedBy(1f);
             bool mouseButton = Input.GetMouseButton(0);
-            TimeAssignmentDef assignment = schedule.GetTimeAssignment(hour);
+            TimeAssignmentDef assignment = schedule[hour];
             GUI.DrawTexture(rect, assignment.ColorTexture);
             if (!mouseButton)
             {
@@ -137,7 +137,7 @@ namespace Defaults.Schedule
                 if (mouseButton && assignment != TimeAssignmentSelector.selectedAssignment && TimeAssignmentSelector.selectedAssignment != null)
                 {
                     SoundDefOf.Designate_DragStandard_Changed_NoCam.PlayOneShotOnCamera(null);
-                    schedule.SetTimeAssignment(hour, TimeAssignmentSelector.selectedAssignment);
+                    schedule[hour] = TimeAssignmentSelector.selectedAssignment;
                 }
             }
         }

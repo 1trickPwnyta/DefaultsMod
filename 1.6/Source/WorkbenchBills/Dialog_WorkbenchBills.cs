@@ -49,6 +49,8 @@ namespace Defaults.WorkbenchBills
             search.Reset();
         }
 
+        protected override TaggedString ResetButtonWarning => "Defaults_ConfirmResetWorkbenchBills".Translate();
+
         public override void DoSettings(Rect rect)
         {
             Rect globalRect = new Rect(rect.xMax - 200f, rect.y, 200f, 29f);
@@ -88,7 +90,8 @@ namespace Defaults.WorkbenchBills
 
             float iconSize = rect.height - padding * 2;
             Rect iconRect = new Rect(rect.x + padding, rect.y + padding, iconSize, iconSize);
-            Widgets.DefIcon(iconRect, workbenchGroup.First(), GenStuff.DefaultStuffFor(workbenchGroup.First()));
+            ThingDef iconDef = workbenchGroup.FirstOrFallback(d => !d.CostList.NullOrEmpty(), workbenchGroup.First());
+            Widgets.DefIcon(iconRect, iconDef, GenStuff.DefaultStuffFor(iconDef));
 
             Rect labelRect = new Rect(rect.x + padding + iconSize + padding, rect.y + padding, rect.width - padding - iconSize - padding - padding - 50f - padding, rect.height - padding * 2);
             Text.Anchor = TextAnchor.MiddleLeft;

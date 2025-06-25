@@ -22,8 +22,9 @@ namespace Defaults.StockpileZones.Shelves
         public override void DoWindowContents(Rect inRect)
         {
             float buttonHeight = 30f;
+            ZoneType shelfSettings = Settings.Get<ZoneType>(Settings.SHELF_SETTINGS);
 
-            if (Widgets.ButtonText(new Rect(inRect.x, inRect.y, 160f, buttonHeight), "Priority".Translate() + ": " + DefaultsSettings.DefaultShelfSettings.Priority.Label().CapitalizeFirst()))
+            if (Widgets.ButtonText(new Rect(inRect.x, inRect.y, 160f, buttonHeight), "Priority".Translate() + ": " + shelfSettings.Priority.Label().CapitalizeFirst()))
             {
                 List<FloatMenuOption> list = new List<FloatMenuOption>();
                 foreach (object obj in Enum.GetValues(typeof(StoragePriority)))
@@ -32,9 +33,9 @@ namespace Defaults.StockpileZones.Shelves
                     if (storagePriority != StoragePriority.Unstored)
                     {
                         StoragePriority localPr = storagePriority;
-                        list.Add(new FloatMenuOption(localPr.Label().CapitalizeFirst(), delegate ()
+                        list.Add(new FloatMenuOption(localPr.Label().CapitalizeFirst(), () =>
                         {
-                            DefaultsSettings.DefaultShelfSettings.Priority = localPr;
+                            shelfSettings.Priority = localPr;
                         }));
                     }
                 }
@@ -42,10 +43,10 @@ namespace Defaults.StockpileZones.Shelves
             }
 
             Rect lockRect = new Rect(inRect.width - 24f, inRect.y, 24f, 24f);
-            UIUtility.DrawCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref DefaultsSettings.DefaultShelfSettings.locked);
+            UIUtility.DrawCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref shelfSettings.locked);
 
             Rect filterRect = new Rect(inRect.x, inRect.y + buttonHeight, inRect.width, inRect.height - buttonHeight - CloseButSize.y);
-            ThingFilterUI.DoThingFilterConfigWindow(filterRect, state, DefaultsSettings.DefaultShelfSettings.filter, DefDatabase<ThingDef>.GetNamed("Shelf").building.fixedStorageSettings.filter, 8);
+            ThingFilterUI.DoThingFilterConfigWindow(filterRect, state, shelfSettings.filter, DefDatabase<ThingDef>.GetNamed("Shelf").building.fixedStorageSettings.filter, 8);
         }
     }
 }

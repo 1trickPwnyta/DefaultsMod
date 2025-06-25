@@ -33,11 +33,12 @@ namespace Defaults.Rewards
             Rect rect2 = new Rect(0f, num2, outRect.width - 16f, viewRectHeight);
             Widgets.BeginScrollView(outRect, ref scrollPosition, rect2, true);
             int num3 = 0;
+            Dictionary<FactionDef, RewardPreference> rewards = Settings.Get<Dictionary<FactionDef, RewardPreference>>(Settings.REWARDS);
             foreach (FactionDef def in allFactionDefs)
             {
-                if (!DefaultsSettings.DefaultRewardPreferences.ContainsKey(def.defName) || DefaultsSettings.DefaultRewardPreferences[def.defName] == null)
+                if (!rewards.ContainsKey(def) || rewards[def] == null)
                 {
-                    DefaultsSettings.DefaultRewardPreferences[def.defName] = new RewardPreference();
+                    rewards[def] = new RewardPreference();
                 }
                 if (!def.isPlayer)
                 {
@@ -55,7 +56,7 @@ namespace Defaults.Rewards
                             TooltipHandler.TipRegion(rect3, "Defaults_AcceptRoyalFavorDesc".Translate(def.royalFavorLabel, def.LabelCap));
                             Widgets.DrawHighlight(rect3);
                         }
-                        Widgets.Checkbox(rect2.width - 150f, num2 + 12f, ref DefaultsSettings.DefaultRewardPreferences[def.defName].allowRoyalFavorRewards, 24f, false, false, null, null);
+                        Widgets.Checkbox(rect2.width - 150f, num2 + 12f, ref rewards[def].allowRoyalFavorRewards, 24f, false, false, null, null);
                         num2 += 45f;
                     }
                     if (!def.permanentEnemy && !def.hidden)
@@ -72,7 +73,7 @@ namespace Defaults.Rewards
                             TooltipHandler.TipRegion(rect4, "Defaults_AcceptGoodwillDesc".Translate(def.LabelCap));
                             Widgets.DrawHighlight(rect4);
                         }
-                        Widgets.Checkbox(rect2.width - 150f, num2 + 12f, ref DefaultsSettings.DefaultRewardPreferences[def.defName].allowGoodwillRewards, 24f, false, false, null, null);
+                        Widgets.Checkbox(rect2.width - 150f, num2 + 12f, ref rewards[def].allowGoodwillRewards, 24f, false, false, null, null);
                         FactionRelationKind relationKind = def.naturalEnemy ? FactionRelationKind.Hostile : FactionRelationKind.Neutral;
                         Widgets.Label(new Rect(rect2.width - 100f, num2 + 12f, 100f, 35f), relationKind.GetLabelCap().Colorize(relationKind.GetColor()));
                         num2 += 45f;

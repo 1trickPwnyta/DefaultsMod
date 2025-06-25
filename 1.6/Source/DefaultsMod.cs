@@ -18,12 +18,12 @@ namespace Defaults
             harmony.Patch(typeof(RimWorld.PlaySettings).GetConstructor(new Type[] { }), null, typeof(Medicine.Patch_PlaySettings_ctor).GetMethod("Postfix"));
             harmony.Patch(typeof(RimWorld.PlaySettings).GetConstructor(new Type[] { }), null, typeof(PlaySettings.Patch_PlaySettings_ctor).GetMethod("Postfix"));
             harmony.Patch(typeof(ResourceReadout).GetConstructor(new Type[] { }), null, typeof(ResourceCategories.Patch_ResourceReadout_ctor).GetMethod("Postfix"));
-            harmony.Patch(typeof(Dialog_AnomalySettings).GetConstructor(new[] { typeof(Difficulty) }), null, typeof(Storyteller.Patch_Dialog_AnomalySettings_ctor).GetMethod("Postfix"));
             harmony.Patch(typeof(CompTempControl).Method("<CompGetGizmosExtra>b__14_2"), null, null, typeof(TargetTemperature.Patch_CompTempControl_CompGetGizmosExtra_b__14_2).GetMethod("Transpiler"));
             harmony.Patch(typeof(Bill_Production).GetConstructor(new[] { typeof(RecipeDef), typeof(Precept_ThingStyle) }), null, typeof(Patch_Bill_Production_ctor).GetMethod("Postfix"));
             harmony.Patch(typeof(MechanitorControlGroup).GetConstructor(new[] { typeof(Pawn_MechanitorTracker) }), null, typeof(MechWorkModes.Patch_MechanitorControlGroup).Method(nameof(MechWorkModes.Patch_MechanitorControlGroup.Postfix)));
 
             DefaultsMod.Settings = DefaultsMod.Mod.GetSettings<DefaultsSettings>();
+            DefaultsSettings.CheckForNewContent();
         }
     }
 

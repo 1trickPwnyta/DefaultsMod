@@ -24,7 +24,7 @@ namespace Defaults.Policies
                 {
                     NameKey = "ApparelPolicy",
                     VanillaPolicies = VanillaPolicyStore.VanillaApparelPolicies,
-                    DefaultPolicies = DefaultsSettings.DefaultApparelPolicies
+                    DefaultPolicies = Settings.Get<List<ApparelPolicy>>(Settings.POLICIES_APPAREL)
                 }
             },
             {
@@ -32,7 +32,7 @@ namespace Defaults.Policies
                 {
                     NameKey = "FoodPolicy",
                     VanillaPolicies = VanillaPolicyStore.VanillaFoodPolicies,
-                    DefaultPolicies = DefaultsSettings.DefaultFoodPolicies
+                    DefaultPolicies = Settings.Get<List<FoodPolicy>>(Settings.POLICIES_FOOD)
                 }
             },
             {
@@ -40,7 +40,7 @@ namespace Defaults.Policies
                 {
                     NameKey = "DrugPolicy",
                     VanillaPolicies = VanillaPolicyStore.VanillaDrugPolicies,
-                    DefaultPolicies = DefaultsSettings.DefaultDrugPolicies
+                    DefaultPolicies = Settings.Get<List<DrugPolicy>>(Settings.POLICIES_DRUG)
                 }
             },
             {
@@ -48,24 +48,25 @@ namespace Defaults.Policies
                 {
                     NameKey = "ReadingPolicy",
                     VanillaPolicies = VanillaPolicyStore.VanillaReadingPolicies,
-                    DefaultPolicies = DefaultsSettings.DefaultReadingPolicies
+                    DefaultPolicies = Settings.Get<List<ReadingPolicy>>(Settings.POLICIES_READING)
                 }
             }
         };
 
-        public static bool IsLocked(this Policy policy) => !DefaultsSettings.UnlockedPolicies.Contains(policy);
+        public static bool IsLocked(this Policy policy) => !Settings.Get<HashSet<Policy>>(Settings.UNLOCKED_POLICIES).Contains(policy);
 
         public static void SetLocked(this Policy policy, bool value)
         {
             if (policy.IsLockable())
             {
+                HashSet<Policy> unlockedPolicies = Settings.Get<HashSet<Policy>>(Settings.UNLOCKED_POLICIES);
                 if (value)
                 {
-                    DefaultsSettings.UnlockedPolicies.Remove(policy);
+                    unlockedPolicies.Remove(policy);
                 }
                 else
                 {
-                    DefaultsSettings.UnlockedPolicies.Add(policy);
+                    unlockedPolicies.Add(policy);
                 }
             }
         }
@@ -125,17 +126,5 @@ namespace Defaults.Policies
             || window.GetType() == typeof(Dialog_ManageFoodPolicies)
             || window.GetType() == typeof(Dialog_ManageDrugPolicies)
             || window.GetType() == typeof(Dialog_ManageReadingPolicies);
-
-        public static float GetNewPolicyButtonPaddingTop(Window window)
-        {
-            Type type = window.GetType();
-            return new[]
-            {
-                typeof(Dialog_ManageApparelPolicies),
-                typeof(Dialog_ManageFoodPolicies),
-                typeof(Dialog_ManageDrugPolicies),
-                typeof(Dialog_ManageReadingPolicies)
-            }.Contains(type) ? 10f + Window.CloseButSize.y : 10f;
-        }
     }
 }

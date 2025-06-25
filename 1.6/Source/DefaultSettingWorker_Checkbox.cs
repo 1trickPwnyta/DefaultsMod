@@ -9,14 +9,26 @@ namespace Defaults
         {
         }
 
+        protected virtual Texture2D Icon => null;
+
+        protected virtual TaggedString Tip => null;
+
         protected override void DoWidget(Rect rect)
         {
+            Rect checkRect = rect;
+            checkRect.x += checkRect.width - checkRect.height;
+            checkRect.width = checkRect.height;
             bool enabled = setting.Value;
-            Widgets.ToggleInvisibleDraggable(rect, ref enabled, true);
+            if (Icon != null)
+            {
+                UIUtility.DrawCheckButton(checkRect.ContractedBy(3f), Icon, Tip, ref enabled);
+            }
+            else
+            {
+                Widgets.ToggleInvisibleDraggable(rect, ref enabled, true);
+                Widgets.CheckboxDraw(checkRect.x + 3f, checkRect.y + 3f, setting.Value, false);
+            }
             setting = enabled;
-            rect.x += rect.width - 24f;
-            rect.width = 24f;
-            Widgets.CheckboxDraw(rect.xMax - 24f, rect.y + (rect.height - 24f) / 2, setting.Value, false);
         }
 
         protected override void ExposeSetting()

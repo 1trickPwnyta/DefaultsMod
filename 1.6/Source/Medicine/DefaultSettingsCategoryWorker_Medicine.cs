@@ -23,8 +23,7 @@ namespace Defaults.Medicine
                     value = defaultMedicineOptions;
                     return true;
                 default:
-                    value = default;
-                    return false;
+                    return base.GetCategorySetting(key, out value);
             }
         }
 
@@ -36,19 +35,20 @@ namespace Defaults.Medicine
                     defaultMedicineOptions = value as MedicineOptions;
                     return true;
                 default:
-                    return false;
+                    return base.SetCategorySetting(key, value);
             }
         }
 
-        public override void ResetSettings()
+        protected override void ResetCategorySettings(bool forced)
         {
-            base.ResetSettings();
-            defaultMedicineOptions = new MedicineOptions();
+            if (forced || defaultMedicineOptions == null)
+            {
+                defaultMedicineOptions = new MedicineOptions();
+            }
         }
 
-        public override void ExposeData()
+        protected override void ExposeCategorySettings()
         {
-            base.ExposeData();
             Scribe_Deep.Look(ref defaultMedicineOptions, Settings.MEDICINE);
         }
     }

@@ -11,7 +11,7 @@ namespace Defaults.Policies
 {
     public class Dialog_Policies : Dialog_SettingsCategory
     {
-        private static Window currentWindow;
+        private static IPolicyDialog currentWindow;
 
         private readonly List<PolicyTab> tabs = new List<PolicyTab>();
 
@@ -19,10 +19,10 @@ namespace Defaults.Policies
         {
             tabs.AddRange(new[]
             {
-                new PolicyTab(new Dialog_ApparelPolicies(DefaultsSettings.DefaultApparelPolicies[0])),
-                new PolicyTab(new Dialog_FoodPolicies(DefaultsSettings.DefaultFoodPolicies[0])),
-                new PolicyTab(new Dialog_DrugPolicies(DefaultsSettings.DefaultDrugPolicies[0])),
-                new PolicyTab(new Dialog_ReadingPolicies(DefaultsSettings.DefaultReadingPolicies[0]))
+                new PolicyTab(new Dialog_ApparelPolicies()),
+                new PolicyTab(new Dialog_FoodPolicies()),
+                new PolicyTab(new Dialog_DrugPolicies()),
+                new PolicyTab(new Dialog_ReadingPolicies())
             });
             currentWindow = tabs[0].window;
         }
@@ -39,11 +39,18 @@ namespace Defaults.Policies
             currentWindow.DoWindowContents(contentRect);
         }
 
+        protected override TaggedString ResetButtonWarning => "Defaults_ConfirmResetTheseSettings".Translate(currentWindow.Topic);
+
+        protected override void OnResetButtonClicked()
+        {
+            Find.WindowStack.Add(new Dialog_MessageBox(ResetButtonWarning, "Confirm".Translate(), currentWindow.ResetPolicies, "GoBack".Translate(), null, null, true, currentWindow.ResetPolicies));
+        }
+
         private class PolicyTab : TabRecord
         {
-            public Window window;
+            public IPolicyDialog window;
 
-            public PolicyTab(Window window) : base(window.optionalTitle, () => currentWindow = window, () => currentWindow == window)
+            public PolicyTab(IPolicyDialog window) : base(window.Title, () => currentWindow = window, () => currentWindow == window)
             {
                 this.window = window;
             }

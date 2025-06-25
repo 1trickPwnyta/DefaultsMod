@@ -13,13 +13,7 @@ namespace Defaults
 
         public static void DrawCheckButton(Rect rect, Texture2D buttonTex, string tooltip, ref bool enabled)
         {
-            bool flag = Widgets.ButtonImage(rect, buttonTex, true, null);
-            TooltipHandler.TipRegion(rect, tooltip);
-            Rect rect2 = new Rect(rect.x + rect.width / 2f, rect.y, rect.width / 2f, rect.height / 2f);
-            Texture2D texture2D = enabled ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex;
-            GUI.DrawTexture(rect2, texture2D);
-            MouseoverSounds.DoRegion(rect, SoundDefOf.Mouseover_ButtonToggle);
-            if (flag)
+            if (Widgets.ButtonImage(rect, buttonTex))
             {
                 enabled = !enabled;
                 if (enabled)
@@ -31,6 +25,9 @@ namespace Defaults
                     SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
                 }
             }
+            TooltipHandler.TipRegion(rect, tooltip);
+            Rect checkRect = new Rect(rect.x + rect.width / 2f, rect.y, rect.width / 2f, rect.height / 2f);
+            GUI.DrawTexture(checkRect, enabled ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex);
         }
 
         public static void TemperatureEntry(Rect rect, ref float value, int multiplier = 1, float min = 0f, float max = 1E+09f)

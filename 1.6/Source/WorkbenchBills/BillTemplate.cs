@@ -10,14 +10,14 @@ namespace Defaults.WorkbenchBills
         public bool locked = false;
         public RecipeDef recipe;
         public ThingFilter ingredientFilter;
-        public float ingredientSearchRadius = DefaultsSettings.DefaultBillIngredientSearchRadius;
-        public IntRange allowedSkillRange = DefaultsSettings.DefaultBillAllowedSkillRange;
+        public float ingredientSearchRadius = Settings.Get<GlobalBillOptions>(Settings.GLOBAL_BILL_OPTIONS).DefaultBillIngredientSearchRadius;
+        public IntRange allowedSkillRange = Settings.Get<GlobalBillOptions>(Settings.GLOBAL_BILL_OPTIONS).DefaultBillAllowedSkillRange;
         public bool slavesOnly = false;
         public bool mechsOnly = false;
         public bool nonMechsOnly = false;
         public BillRepeatModeDef repeatMode = BillRepeatModeDefOf.RepeatCount;
         public int repeatCount = 1;
-        public BillStoreModeDef storeMode = DefaultsSettings.DefaultBillStoreMode;
+        public BillStoreModeDef storeMode = Settings.Get<GlobalBillOptions>(Settings.GLOBAL_BILL_OPTIONS).DefaultBillStoreMode;
         public int targetCount = 10;
         public bool pauseWhenSatisfied = false;
         public int unpauseWhenYouHave = 5;

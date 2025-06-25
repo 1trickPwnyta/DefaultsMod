@@ -3,7 +3,7 @@ using Verse;
 
 namespace Defaults.PlaySettings
 {
-    public class DefaultSettingWorker_AutoRebuild : DefaultSettingWorker<bool?>
+    public class DefaultSettingWorker_AutoRebuild : DefaultSettingWorker_Checkbox
     {
         public DefaultSettingWorker_AutoRebuild(DefaultSettingDef def) : base(def)
         {
@@ -13,14 +13,8 @@ namespace Defaults.PlaySettings
 
         protected override bool? Default => false;
 
-        protected override void DoWidget(Rect rect)
-        {
-            PlaySettingsUtility.DrawAutoRebuildButton(new Rect(rect.x + rect.width - 24f, rect.y + 3f, 24f, 24f));
-        }
+        protected override Texture2D Icon => TexButton.AutoRebuild;
 
-        protected override void ExposeSetting()
-        {
-            Scribe_Values.Look(ref setting, Key);
-        }
+        protected override TaggedString Tip => "AutoRebuildButton".Translate();
     }
 }

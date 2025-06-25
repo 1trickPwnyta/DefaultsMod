@@ -32,24 +32,24 @@ namespace Defaults
                 case "ludeon.rimworld.ideology":
                     policies = new Policy[]
                     {
-                            VanillaPolicyStore.GetVanillaApparelPolicy("OutfitSlave".Translate()),
-                            VanillaPolicyStore.GetVanillaFoodPolicy("FoodRestrictionVegetarian".Translate()),
-                            VanillaPolicyStore.GetVanillaFoodPolicy("FoodRestrictionCarnivore".Translate()),
-                            VanillaPolicyStore.GetVanillaFoodPolicy("FoodRestrictionCannibal".Translate()),
-                            VanillaPolicyStore.GetVanillaFoodPolicy("FoodRestrictionInsectMeat".Translate())
+                        VanillaPolicyStore.GetVanillaApparelPolicy("OutfitSlave".Translate()),
+                        VanillaPolicyStore.GetVanillaFoodPolicy("FoodRestrictionVegetarian".Translate()),
+                        VanillaPolicyStore.GetVanillaFoodPolicy("FoodRestrictionCarnivore".Translate()),
+                        VanillaPolicyStore.GetVanillaFoodPolicy("FoodRestrictionCannibal".Translate()),
+                        VanillaPolicyStore.GetVanillaFoodPolicy("FoodRestrictionInsectMeat".Translate())
                     };
                     break;
                 case "ludeon.rimworld.anomaly":
                     policies = new Policy[]
                     {
-                            VanillaPolicyStore.GetVanillaReadingPolicy("TomePolicy".Translate())
+                        VanillaPolicyStore.GetVanillaReadingPolicy("TomePolicy".Translate())
                     };
                     break;
                 case "ludeon.rimworld.odyssey":
                     policies = new Policy[]
                     {
-                            VanillaPolicyStore.GetVanillaApparelPolicy("OutfitSpacefarer".Translate()),
-                            VanillaPolicyStore.GetVanillaReadingPolicy("MapPolicy".Translate())
+                        VanillaPolicyStore.GetVanillaApparelPolicy("OutfitSpacefarer".Translate()),
+                        VanillaPolicyStore.GetVanillaReadingPolicy("MapPolicy".Translate())
                     };
                     break;
                 default:
@@ -61,10 +61,10 @@ namespace Defaults
         private static void PromptToAddPolicies(ExpansionDef dlc, IEnumerable<Policy> newPolicies)
         {
             List<Policy> missingPolicies = newPolicies.Where(p =>
-                (p is ApparelPolicy && !DefaultsSettings.DefaultApparelPolicies.Any(a => a.label.EqualsIgnoreCase(p.label)))
-                || (p is FoodPolicy && !DefaultsSettings.DefaultFoodPolicies.Any(a => a.label.EqualsIgnoreCase(p.label)))
-                || (p is DrugPolicy && !DefaultsSettings.DefaultDrugPolicies.Any(a => a.label.EqualsIgnoreCase(p.label)))
-                || (p is ReadingPolicy && !DefaultsSettings.DefaultReadingPolicies.Any(a => a.label.EqualsIgnoreCase(p.label)))).ToList();
+                (p is ApparelPolicy && !Settings.Get<List<ApparelPolicy>>(Settings.POLICIES_APPAREL).Any(a => a.label.EqualsIgnoreCase(p.label)))
+                || (p is FoodPolicy && !Settings.Get<List<FoodPolicy>>(Settings.POLICIES_FOOD).Any(a => a.label.EqualsIgnoreCase(p.label)))
+                || (p is DrugPolicy && !Settings.Get<List<DrugPolicy>>(Settings.POLICIES_DRUG).Any(a => a.label.EqualsIgnoreCase(p.label)))
+                || (p is ReadingPolicy && !Settings.Get<List<ReadingPolicy>>(Settings.POLICIES_READING).Any(a => a.label.EqualsIgnoreCase(p.label)))).ToList();
 
             if (missingPolicies.Any())
             {
@@ -100,7 +100,7 @@ namespace Defaults
                                 throw new Exception("Invalid translation key: " + result.Item1);
                         }
                     }
-                    LongEventHandler.ExecuteWhenFinished(DefaultsMod.Settings.Write);
+                    DefaultsMod.Settings.Write();
                 }));
             }
         }

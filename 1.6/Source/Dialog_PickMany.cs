@@ -71,7 +71,7 @@ namespace Defaults
             {
                 foreach (Tuple<string, Dictionary<TaggedString, bool>> category in categorizedChoices.Where(c => c.Item2.Any()))
                 {
-                    listing.Label(category.Item1.Translate());
+                    listing.Label(category.Item1.Translate().CapitalizeFirst());
                     listing.GapLine();
                     foreach (TaggedString choice in category.Item2.Keys.ToList())
                     {

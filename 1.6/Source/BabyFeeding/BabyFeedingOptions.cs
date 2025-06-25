@@ -23,6 +23,10 @@ namespace Defaults.BabyFeeding
             Scribe_Values.Look(ref NonparentLactating, "NonparentLactating", AutofeedMode.Childcare);
             Scribe_Values.Look(ref NonparentNonlactating, "NonparentNonlactating", AutofeedMode.Childcare);
             Scribe_Collections.Look(ref AllowedConsumables, "AllowedConsumables", LookMode.Def);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && AllowedConsumables == null)
+            {
+                AllowedConsumables = ITab_Pawn_Feeding.BabyConsumableFoods.ToHashSet();
+            }
             Scribe_Values.Look(ref locked, "locked", false);
         }
     }

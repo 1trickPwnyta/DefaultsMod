@@ -3,24 +3,18 @@ using Verse;
 
 namespace Defaults.PlaySettings
 {
-    public class DefaultSettingWorker_AutoHomeArea : DefaultSettingWorker<bool?>
+    public class DefaultSettingWorker_AutoHomeArea : DefaultSettingWorker_Checkbox
     {
-        protected override bool? Default => true;
-
-        public override string Key => Settings.AUTO_HOME_AREA;
-
         public DefaultSettingWorker_AutoHomeArea(DefaultSettingDef def) : base(def)
         {
         }
 
-        protected override void ExposeSetting()
-        {
-            Scribe_Values.Look(ref setting, Key);
-        }
+        protected override bool? Default => true;
 
-        protected override void DoWidget(Rect rect)
-        {
-            PlaySettingsUtility.DrawAutoHomeAreaButton(new Rect(rect.x + rect.width - 24f, rect.y + 3f, 24f, 24f));
-        }
+        public override string Key => Settings.AUTO_HOME_AREA;
+
+        protected override Texture2D Icon => TexButton.AutoHomeArea;
+
+        protected override TaggedString Tip => "AutoHomeAreaToggleButton".Translate();
     }
 }

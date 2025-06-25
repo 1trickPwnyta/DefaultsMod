@@ -10,20 +10,22 @@ namespace Defaults.StockpileZones
     {
         public static void Postfix(Designator_ZoneAddStockpile __instance, Zone __result)
         {
+            DefaultSettingsCategoryWorker_Storage worker = DefaultSettingsCategoryWorker.GetWorker<DefaultSettingsCategoryWorker_Storage>();
+
             if (__instance is Designator_ZoneAddStockpile_Resources)
             {
-                if (DefaultsSettings.DefaultStockpileZone != null)
+                if (worker.DefaultStockpileZone != null)
                 {
-                    (__result as Zone_Stockpile).settings.Priority = DefaultsSettings.DefaultStockpileZone.Priority;
-                    (__result as Zone_Stockpile).settings.filter.CopyAllowancesFrom(DefaultsSettings.DefaultStockpileZone.filter);
+                    (__result as Zone_Stockpile).settings.Priority = worker.DefaultStockpileZone.Priority;
+                    (__result as Zone_Stockpile).settings.filter.CopyAllowancesFrom(worker.DefaultStockpileZone.filter);
                 }
             }
             if (__instance is Designator_ZoneAddStockpile_Dumping)
             {
-                if (DefaultsSettings.DefaultDumpingStockpileZone != null)
+                if (worker.DefaultDumpingStockpileZone != null)
                 {
-                    (__result as Zone_Stockpile).settings.Priority = DefaultsSettings.DefaultDumpingStockpileZone.Priority;
-                    (__result as Zone_Stockpile).settings.filter.CopyAllowancesFrom(DefaultsSettings.DefaultDumpingStockpileZone.filter);
+                    (__result as Zone_Stockpile).settings.Priority = worker.DefaultDumpingStockpileZone.Priority;
+                    (__result as Zone_Stockpile).settings.filter.CopyAllowancesFrom(worker.DefaultDumpingStockpileZone.filter);
                 }
             }
         }

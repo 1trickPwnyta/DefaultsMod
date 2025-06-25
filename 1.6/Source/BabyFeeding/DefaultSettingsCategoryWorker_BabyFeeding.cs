@@ -26,8 +26,7 @@ namespace Defaults.BabyFeeding
                     value = defaultBabyFeedingOptions;
                     return true;
                 default:
-                    value = default;
-                    return false;
+                    return base.GetCategorySetting(key, out value);
             }
         }
 
@@ -39,7 +38,7 @@ namespace Defaults.BabyFeeding
                     defaultBabyFeedingOptions = value as BabyFeedingOptions;
                     return true;
                 default:
-                    return false;
+                    return base.SetCategorySetting(key, value);
             }
         }
 
@@ -57,15 +56,16 @@ namespace Defaults.BabyFeeding
             }
         }
 
-        public override void ResetSettings()
+        protected override void ResetCategorySettings(bool forced)
         {
-            base.ResetSettings();
-            defaultBabyFeedingOptions = new BabyFeedingOptions();
+            if (forced || defaultBabyFeedingOptions == null)
+            {
+                defaultBabyFeedingOptions = new BabyFeedingOptions();
+            }
         }
 
-        public override void ExposeData()
+        protected override void ExposeCategorySettings()
         {
-            base.ExposeData();
             Scribe_Deep.Look(ref defaultBabyFeedingOptions, Settings.BABY_FEEDING);
         }
     }

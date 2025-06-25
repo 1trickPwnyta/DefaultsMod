@@ -80,17 +80,17 @@
     <Compile Include="Dialog_MiscSettings.cs" />
     <Compile Include="Dialog_PickMany.cs" />
     <Compile Include="DLCUtility.cs" />
+    <Compile Include="Medicine\MedicineOptions.cs" />
     <Compile Include="Patch_UIRoot_Entry.cs" />
+    <Compile Include="Policies\IPolicyDialog.cs" />
     <Compile Include="Policies\VanillaPolicyStore.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Dialog_SettingsCategory_List.cs" />
     <Compile Include="HostilityResponse\DefaultSettingWorker_HostilityResponse.cs" />
-    <Compile Include="MapSettings\DefaultSettingsCategoryWorker_Map.cs" />
     <Compile Include="MechWorkModes\DefaultSettingWorker_MechWorkMode.cs" />
     <Compile Include="MechWorkModes\DefaultSettingWorker_WorkModeSecond.cs" />
     <Compile Include="MechWorkModes\DefaultSettingWorker_WorkModeAdditional.cs" />
     <Compile Include="MechWorkModes\DefaultSettingWorker_WorkModeFirst.cs" />
-    <Compile Include="MechWorkModes\MechWorkModeUtility.cs" />
     <Compile Include="MechWorkModes\Patch_MechanitorControlGroup.cs" />
     <Compile Include="MechWorkModes\Patch_Pawn_MechanitorTracker.cs" />
     <Compile Include="DefaultSettingsCategoryDef.cs" />
@@ -133,15 +133,13 @@
     <Compile Include="Policies\ApparelPolicies\Dialog_ApparelPolicies.cs" />
     <Compile Include="Policies\ApparelPolicies\Patch_OutfitDatabase.cs" />
     <Compile Include="Listing_StandardHighlight.cs" />
-    <Compile Include="MapSettings\Dialog_MapSettings.cs" />
-    <Compile Include="MapSettings\Patch_Page_CreateWorldParams.cs" />
+    <Compile Include="WorkbenchBills\GlobalBillOptions.cs" />
+    <Compile Include="WorldSettings\Dialog_MapSettings.cs" />
     <Compile Include="Medicine\MedicineUtility.cs" />
     <Compile Include="Medicine\Patch_Pawn.cs" />
     <Compile Include="Medicine\Patch_PawnGenerator.cs" />
-    <Compile Include="PlaySettings\PlaySettingsUtility.cs" />
     <Compile Include="PlaySettings\Patch_PlaySettings.cs" />
     <Compile Include="Debug.cs" />
-    <Compile Include="DefaultsRefs.cs" />
     <Compile Include="Medicine\DraggableResultUtility.cs" />
     <Compile Include="HostilityResponse\HostilityResponseModeUtility.cs" />
     <Compile Include="HostilityResponse\Patch_Pawn.cs" />
@@ -154,7 +152,6 @@
     <Compile Include="Policies\ReadingPolicies\Dialog_ReadingPolicies.cs" />
     <Compile Include="Policies\ReadingPolicies\Patch_ReadingPolicyDatabase.cs" />
     <Compile Include="PregnancyApproach\Patch_Pawn_RelationsTracker.cs" />
-    <Compile Include="PregnancyApproach\PregnancyApproachUtility.cs" />
     <Compile Include="ResourceCategories\Dialog_ResourceCategories.cs" />
     <Compile Include="ResourceCategories\Listing_ResourceCategories.cs" />
     <Compile Include="ResourceCategories\Patch_ResourceReadout.cs" />
@@ -170,7 +167,6 @@
     <Compile Include="DefaultsMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DefaultsSettings.cs" />
-    <Compile Include="Policies\StatUtility.cs" />
     <Compile Include="StockpileZones\Designator_ZoneAddStockpile_Custom.cs" />
     <Compile Include="StockpileZones\Dialog_RenameZoneType.cs" />
     <Compile Include="StockpileZones\Dialog_StockpileZones.cs" />
@@ -181,8 +177,6 @@
     <Compile Include="StockpileZones\Patch_QuickSearchFilter.cs" />
     <Compile Include="StockpileZones\ZoneType.cs" />
     <Compile Include="Storyteller\Dialog_Storyteller.cs" />
-    <Compile Include="Storyteller\DifficultySub.cs" />
-    <Compile Include="Storyteller\Patch_Difficulty.cs" />
     <Compile Include="Storyteller\Patch_Dialog_AnomalySettings.cs" />
     <Compile Include="Storyteller\Patch_Page_SelectStoryteller.cs" />
     <Compile Include="Storyteller\Patch_StorytellerUI.cs" />
@@ -203,6 +197,8 @@
     <Compile Include="WorldSettings\DefaultSettingsCategoryWorker_World.cs" />
     <Compile Include="WorldSettings\Dialog_WorldSettings.cs" />
     <Compile Include="WorldSettings\FactionsUtility.cs" />
+    <Compile Include="WorldSettings\MapOptions.cs" />
+    <Compile Include="WorldSettings\PlanetOptions.cs" />
     <Compile Include="WorldSettings\Patch_Page_CreateWorldParams.cs" />
     <Compile Include="WorldSettings\Patch_WorldFactionsUIUtility.cs" />
   </ItemGroup>

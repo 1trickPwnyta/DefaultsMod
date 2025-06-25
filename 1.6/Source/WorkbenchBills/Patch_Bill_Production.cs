@@ -12,16 +12,18 @@ namespace Defaults.WorkbenchBills
         {
             if (Enabled)
             {
-                __instance.ingredientSearchRadius = DefaultsSettings.DefaultBillIngredientSearchRadius;
+                GlobalBillOptions options = Settings.Get<GlobalBillOptions>(Settings.GLOBAL_BILL_OPTIONS);
 
-                __instance.allowedSkillRange.min = DefaultsSettings.DefaultBillAllowedSkillRange.min;
+                __instance.ingredientSearchRadius = options.DefaultBillIngredientSearchRadius;
+
+                __instance.allowedSkillRange.min = options.DefaultBillAllowedSkillRange.min;
                 // To support mods that increase max skill level, count 20 as unlimited and therefore do not change the max
-                if (DefaultsSettings.DefaultBillAllowedSkillRange.max < 20)
+                if (options.DefaultBillAllowedSkillRange.max < 20)
                 {
-                    __instance.allowedSkillRange.max = DefaultsSettings.DefaultBillAllowedSkillRange.max;
+                    __instance.allowedSkillRange.max = options.DefaultBillAllowedSkillRange.max;
                 }
 
-                __instance.SetStoreMode(DefaultsSettings.DefaultBillStoreMode);
+                __instance.SetStoreMode(options.DefaultBillStoreMode);
             }
         }
     }

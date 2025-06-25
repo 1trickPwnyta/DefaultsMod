@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 
 namespace Defaults.ResourceCategories
@@ -46,23 +47,24 @@ namespace Defaults.ResourceCategories
 
         private bool IsEnabled(TreeNode_ThingCategory node)
         {
-            return DefaultsSettings.DefaultExpandedResourceCategories.Contains(node.catDef.defName);
+            return Settings.Get<List<ThingCategoryDef>>(Settings.EXPANDED_RESOURCE_CATEGORIES).Contains(node.catDef);
         }
 
         private void SetEnabled(TreeNode_ThingCategory node, bool enabled)
         {
+            List<ThingCategoryDef> expandedCategories = Settings.Get<List<ThingCategoryDef>>(Settings.EXPANDED_RESOURCE_CATEGORIES);
             if (enabled)
             {
-                if (!DefaultsSettings.DefaultExpandedResourceCategories.Contains(node.catDef.defName))
+                if (!expandedCategories.Contains(node.catDef))
                 {
-                    DefaultsSettings.DefaultExpandedResourceCategories.Add(node.catDef.defName);
+                    expandedCategories.Add(node.catDef);
                 }
             }
             else
             {
-                if (DefaultsSettings.DefaultExpandedResourceCategories.Contains(node.catDef.defName))
+                if (expandedCategories.Contains(node.catDef))
                 {
-                    DefaultsSettings.DefaultExpandedResourceCategories.Remove(node.catDef.defName);
+                    expandedCategories.Remove(node.catDef);
                     foreach (TreeNode_ThingCategory childNode in node.ChildCategoryNodes)
                     {
                         if (!childNode.catDef.resourceReadoutRoot)
