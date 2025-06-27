@@ -70,8 +70,11 @@
     <Compile Include="BabyFeeding\Dialog_BabyFeedingSettings.cs" />
     <Compile Include="BabyFeeding\Patch_Pawn_FoodRestrictionTracker.cs" />
     <Compile Include="BabyFeeding\Patch_PregnancyUtility.cs" />
+    <Compile Include="BackwardCompatibilityUtility.cs" />
     <Compile Include="DefaultSettingDef.cs" />
     <Compile Include="General\DefaultSettingWorker_HideLoadDefault.cs" />
+    <Compile Include="StockpileZones\Buildings\BuildingUtility.cs" />
+    <Compile Include="StockpileZones\Buildings\ZoneType_Building.cs" />
     <Compile Include="Workers\DefaultSettingsCategoryWorker.cs" />
     <Compile Include="Misc\DefaultSettingsCategoryWorker_Misc.cs" />
     <Compile Include="Workers\DefaultSettingWorker.cs" />
@@ -113,11 +116,8 @@
     <Compile Include="Rewards\DefaultSettingsCategoryWorker_Rewards.cs" />
     <Compile Include="Schedule\DefaultSettingsCategoryWorker_Schedule.cs" />
     <Compile Include="StockpileZones\DefaultSettingsCategoryWorker_Storage.cs" />
-    <Compile Include="StockpileZones\Shelves\Dialog_ShelfSettings.cs" />
-    <Compile Include="StockpileZones\Shelves\Patch_Blueprint_Storage.cs" />
-    <Compile Include="StockpileZones\Shelves\Patch_Building_Storage.cs" />
-    <Compile Include="StockpileZones\Shelves\ShelfUtility.cs" />
-    <Compile Include="StockpileZones\Shelves\ZoneType_Shelf.cs" />
+    <Compile Include="StockpileZones\Buildings\Patch_Blueprint_Storage.cs" />
+    <Compile Include="StockpileZones\Buildings\Patch_Building.cs" />
     <Compile Include="Storyteller\DefaultSettingsCategoryWorker_Storyteller.cs" />
     <Compile Include="Misc\TargetTemperature\DefaultSettingWorker_TargetTemp.cs" />
     <Compile Include="Misc\TargetTemperature\DefaultSettingWorker_TargetTempCooler.cs" />

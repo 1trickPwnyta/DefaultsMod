@@ -88,6 +88,7 @@ namespace Defaults.Storyteller
             Scribe_Defs.Look(ref defaultDifficulty, Settings.DIFFICULTY);
             Scribe_Deep.Look(ref defaultDifficultyValues, Settings.DIFFICULTY_VALUES);
             Scribe_Values.Look(ref defaultPermadeath, Settings.PERMADEATH);
+            BackwardCompatibilityUtility.MigrateAnomalyPlaystyleSettings(defaultDifficultyValues);
         }
     }
 }

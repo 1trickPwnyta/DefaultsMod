@@ -1,4 +1,4 @@
-﻿using Defaults.StockpileZones.Shelves;
+﻿using Defaults.StockpileZones.Buildings;
 using Defaults.Workers;
 using RimWorld;
 using System.Collections.Generic;
@@ -7,10 +7,23 @@ using Verse;
 
 namespace Defaults.StockpileZones
 {
+    [StaticConstructorOnStartup]
     public class DefaultSettingsCategoryWorker_Storage : DefaultSettingsCategoryWorker
     {
+        private static readonly List<ThingDef> buildingsUnlockedByDefault = new List<ThingDef>()
+        {
+            ThingDefOf.Shelf,
+            ThingDefOf.ShelfSmall,
+            ThingDef.Named("Bookcase"),
+            ThingDef.Named("BookcaseSmall"),
+            ThingDefOf.Hopper,
+            ThingDefOf.GrowthVat,
+            ThingDefOf.BiosculpterPod,
+            ThingDef.Named("Artillery_Mortar")
+        };
+
         private List<ZoneType> defaultStockpileZones;
-        private ZoneType defaultShelfSettings;
+        private Dictionary<ThingDef, ZoneType_Building> defaultBuildingStorageSettings;
 
         public DefaultSettingsCategoryWorker_Storage(DefaultSettingsCategoryDef def) : base(def)
         {
@@ -32,8 +45,8 @@ namespace Defaults.StockpileZones
                 case Settings.STOCKPILE_ZONES:
                     value = defaultStockpileZones;
                     return true;
-                case Settings.SHELF_SETTINGS:
-                    value = defaultShelfSettings;
+                case Settings.BUILDING_STORAGE:
+                    value = defaultBuildingStorageSettings;
                     return true;
                 default:
                     return base.GetCategorySetting(key, out value);
@@ -47,8 +60,8 @@ namespace Defaults.StockpileZones
                 case Settings.STOCKPILE_ZONES:
                     defaultStockpileZones = value as List<ZoneType>;
                     return true;
-                case Settings.SHELF_SETTINGS:
-                    defaultShelfSettings = value as ZoneType;
+                case Settings.BUILDING_STORAGE:
+                    defaultBuildingStorageSettings = value as Dictionary<ThingDef, ZoneType_Building>;
                     return true;
                 default:
                     return base.SetCategorySetting(key, value);
@@ -63,7 +76,7 @@ namespace Defaults.StockpileZones
                 {
                     foreach (ThingDef def in defs.OfType<ThingDef>())
                     {
-                        switch (zone.Preset)
+                        switch (zone.preset)
                         {
                             case StorageSettingsPreset.DumpingStockpile:
                                 if (ThingCategoryDefOf.Corpses.DescendantThingDefs.Union(ThingCategoryDefOf.Chunks.DescendantThingDefs).Contains(def) || (ModsConfig.BiotechActive && def == ThingDefOf.Wastepack))
@@ -97,27 +110,30 @@ namespace Defaults.StockpileZones
                 }
             }
 
-            if (!defaultShelfSettings.locked)
+            foreach (ZoneType_Building zone in defaultBuildingStorageSettings.Values)
             {
-                foreach (ThingDef def in defs.OfType<ThingDef>())
+                if (!zone.locked)
                 {
-                    if (ThingCategoryDefOf.Foods.DescendantThingDefs.Union(ThingCategoryDefOf.Manufactured.DescendantThingDefs).Union(ThingCategoryDefOf.ResourcesRaw.DescendantThingDefs).Union(ThingCategoryDefOf.Items.DescendantThingDefs).Union(ThingCategoryDefOf.Weapons.DescendantThingDefs).Union(ThingCategoryDefOf.Apparel.DescendantThingDefs).Union(ThingCategoryDefOf.BodyParts.DescendantThingDefs).Contains(def) && (!ModsConfig.BiotechActive || def != ThingDefOf.Wastepack))
+                    foreach (ThingDef def in defs.OfType<ThingDef>())
                     {
-                        defaultShelfSettings.filter.SetAllow(def, true);
+                        if (zone.buildingDef.building.defaultStorageSettings.filter.Allows(def))
+                        {
+                            zone.filter.SetAllow(def, true);
+                        }
                     }
-                }
 
-                foreach (SpecialThingFilterDef def in defs.OfType<SpecialThingFilterDef>())
-                {
-                    if (!def.allowedByDefault)
+                    foreach (SpecialThingFilterDef def in defs.OfType<SpecialThingFilterDef>())
                     {
-                        defaultShelfSettings.filter.SetAllow(def, false);
+                        if (!zone.buildingDef.building.defaultStorageSettings.filter.Allows(def))
+                        {
+                            zone.filter.SetAllow(def, false);
+                        }
                     }
                 }
             }
         }
 
-        protected override void ResetCategorySettings(bool forced)
+        public void ResetStockpileZoneSettings(bool forced)
         {
             if (forced || defaultStockpileZones == null)
             {
@@ -131,21 +147,37 @@ namespace Defaults.StockpileZones
             {
                 defaultStockpileZones.Insert(0, ZoneType.MakeBuiltInStockpileZone());
             }
-            if (forced || defaultShelfSettings == null)
+        }
+
+        public void ResetBuildingStorageSettings(bool forced)
+        {
+            if (forced || defaultBuildingStorageSettings == null)
             {
-                defaultShelfSettings = ZoneType.MakeBuiltInShelfSettings();
+                defaultBuildingStorageSettings = new Dictionary<ThingDef, ZoneType_Building>();
             }
+            foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading.Where(d => d.building?.defaultStorageSettings != null))
+            {
+                if (!defaultBuildingStorageSettings.ContainsKey(def))
+                {
+                    defaultBuildingStorageSettings[def] = new ZoneType_Building(def)
+                    {
+                        locked = !buildingsUnlockedByDefault.Contains(def)
+                    };
+                }
+            }
+        }
+
+        protected override void ResetCategorySettings(bool forced)
+        {
+            ResetStockpileZoneSettings(forced);
+            ResetBuildingStorageSettings(forced);
         }
 
         protected override void ExposeCategorySettings()
         {
-            Scribe_Collections.Look(ref defaultStockpileZones, Settings.STOCKPILE_ZONES);
-            Scribe_Deep.Look(ref defaultShelfSettings, Settings.SHELF_SETTINGS);
-
-            if (defaultShelfSettings != null && !(defaultShelfSettings is ZoneType_Shelf))
-            {
-                defaultShelfSettings = new ZoneType_Shelf(defaultShelfSettings);
-            }
+            Scribe_Collections.Look(ref defaultStockpileZones, Settings.STOCKPILE_ZONES, LookMode.Deep);
+            Scribe_Collections.Look(ref defaultBuildingStorageSettings, Settings.BUILDING_STORAGE, LookMode.Def, LookMode.Deep);
+            BackwardCompatibilityUtility.MigrateDefaultShelfSettings(ref defaultBuildingStorageSettings);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using HarmonyLib;
 using RimWorld;
 
-namespace Defaults.StockpileZones.Shelves
+namespace Defaults.StockpileZones.Buildings
 {
     [HarmonyPatch(typeof(Blueprint_Storage))]
     [HarmonyPatch(nameof(Blueprint_Storage.PostMake))]
@@ -9,7 +9,7 @@ namespace Defaults.StockpileZones.Shelves
     {
         public static void Postfix(Blueprint_Storage __instance)
         {
-            PatchUtility_Building_Storage.SetDefaultShelfSettings(__instance.BuildDef, __instance);
+            BuildingUtility.SetDefaultBuildingStorageSettings(__instance.BuildDef, __instance);
         }
     }
 }

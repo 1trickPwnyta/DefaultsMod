@@ -1,10 +1,13 @@
-﻿using RimWorld;
-using System.Collections.Generic;
+﻿using Defaults.StockpileZones.Buildings;
+using Defaults.UI;
+using Defaults.Workers;
+using RimWorld;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
-using Defaults.UI;
 
 namespace Defaults.StockpileZones
 {
@@ -15,9 +18,19 @@ namespace Defaults.StockpileZones
         public static Texture2D DumpingStockpileIcon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_DumpingStockpile", true);
         public static Texture2D CorpseStockpileIcon = ContentFinder<Texture2D>.Get(ModsConfig.AnomalyActive ? "UI/Icons/CorpseStockpileZone" : "UI/Designators/ZoneCreate_DumpingStockpile", true);
 
+        private static float y;
         private static Vector2 scrollPos;
         private static ZoneType selectedZoneType;
         private readonly ThingFilterUI.UIState state = new ThingFilterUI.UIState();
+        private static ZoneType clipboard;
+        private static readonly List<StorageTab> tabs = new List<StorageTab>()
+        {
+            new StorageTab_Stockpile(() => currentTab = tabs[0], () => currentTab == tabs[0]),
+            new StorageTab_Building(() => currentTab = tabs[1], () => currentTab == tabs[1])
+        };
+        private static StorageTab currentTab = tabs[0];
+        private static readonly float buttonWidth = 80f;
+        private static readonly float controlHeight = 30f;
 
         public Dialog_StockpileZones(DefaultSettingsCategoryDef category) : base(category)
         {
@@ -25,103 +38,32 @@ namespace Defaults.StockpileZones
 
         public override Vector2 InitialSize => new Vector2(860f, 640f);
 
-        public override void PreOpen()
+        protected override TaggedString ResetButtonWarning => currentTab.ResetWarning;
+
+        protected override void OnResetButtonClicked()
         {
-            base.PreOpen();
-            selectedZoneType = Settings.Get<ZoneType>(Settings.SHELF_SETTINGS);
+            Find.WindowStack.Add(new Dialog_MessageBox(ResetButtonWarning, "Confirm".Translate(), currentTab.ResetSettings, "GoBack".Translate(), null, null, true, currentTab.ResetSettings));
         }
 
         public override void DoSettings(Rect rect)
         {
-            List<ZoneType> stockpileZones = Settings.Get<List<ZoneType>>(Settings.STOCKPILE_ZONES);
-            ZoneType shelfSettings = Settings.Get<ZoneType>(Settings.SHELF_SETTINGS);
-
-            float buttonWidth = 80f;
-            float buttonHeight = 30f;
-            if (Widgets.ButtonText(new Rect(rect.x + rect.width - buttonWidth, 0f, buttonWidth, buttonHeight), "Defaults_AddNew".Translate()))
-            {
-                List<FloatMenuOption> list = new List<FloatMenuOption>();
-                foreach (object obj in Enum.GetValues(typeof(StorageSettingsPreset)))
-                {
-                    StorageSettingsPreset preset = (StorageSettingsPreset)obj;
-                    list.Add(new FloatMenuOption(preset.PresetName().CapitalizeFirst(), () =>
-                    {
-                        ZoneType newZoneType = new ZoneType(preset.PresetName().CapitalizeFirst() + " " + (stockpileZones.Count + 1), preset);
-                        stockpileZones.Add(newZoneType);
-                        selectedZoneType = newZoneType;
-                    }));
-                }
-                Find.WindowStack.Add(new FloatMenu(list));
-            }
+            currentTab.DoControls(new Rect(rect.x, rect.y, rect.width, controlHeight));
 
             float rowWidth = rect.width - 300f - 16f;
             float rowHeight = 64f;
-            Widgets.BeginScrollView(new Rect(rect.x, rect.y + buttonHeight, rect.width - 300f, rect.height - buttonHeight - CloseButSize.y - 10f - ResetButtonSize.y - 10f), ref scrollPos, new Rect(0f, 0f, rowWidth, rowHeight * stockpileZones.Count));
-            float y = 0f;
+            Rect tabsRect = new Rect(rect.x, rect.y + controlHeight + 10f, rowWidth, 1f);
+            TabDrawer.DrawTabs(tabsRect, tabs);
 
-            Text.Anchor = TextAnchor.MiddleLeft;
-            DoZoneTypeButton(shelfSettings, y, rowWidth, rowHeight);
-            y += rowHeight;
-            for (int i = 0; i < stockpileZones.Count; i++)
-            {
-                ZoneType type = stockpileZones[i];
-
-                if (i < stockpileZones.Count - 1)
-                {
-                    if (Widgets.ButtonImage(new Rect(3f, y + (rowHeight - 18f) / 2, 18f, 18f), TexButton.ReorderDown, Color.white, Color.white * GenUI.SubtleMouseoverColor))
-                    {
-                        ZoneType next = stockpileZones[i + 1];
-                        stockpileZones[i + 1] = type;
-                        stockpileZones[i] = next;
-                        SoundDefOf.Click.PlayOneShotOnCamera(null);
-                    }
-                }
-                if (i > 0)
-                {
-                    if (Widgets.ButtonImage(new Rect(24f + 3f, y + (rowHeight - 18f) / 2, 18f, 18f), TexButton.ReorderUp, Color.white, Color.white * GenUI.SubtleMouseoverColor))
-                    {
-                        ZoneType prev = stockpileZones[i - 1];
-                        stockpileZones[i - 1] = type;
-                        stockpileZones[i] = prev;
-                        SoundDefOf.Click.PlayOneShotOnCamera(null);
-                    }
-                }
-
-                if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 24f - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Copy, Color.white, Color.white * GenUI.SubtleMouseoverColor))
-                {
-                    stockpileZones.Add(new ZoneType(type.Preset.PresetName().CapitalizeFirst() + " " + (stockpileZones.Count + 1), type));
-                    SoundDefOf.Click.PlayOneShotOnCamera(null);
-                }
-
-                if (type.DesignatorType == typeof(Designator_ZoneAddStockpile_Custom))
-                {
-                    if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Rename, Color.white, Color.white * GenUI.SubtleMouseoverColor))
-                    {
-                        Find.WindowStack.Add(new Dialog_RenameZoneType(type));
-                    }
-                }
-
-                if (type.DesignatorType == typeof(Designator_ZoneAddStockpile_Custom))
-                {
-                    if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Delete, Color.white, Color.white * GenUI.SubtleMouseoverColor))
-                    {
-                        stockpileZones.Remove(type);
-                        i--;
-                        SoundDefOf.Click.PlayOneShotOnCamera(null);
-                    }
-                }
-
-                DoZoneTypeButton(type, y, rowWidth, rowHeight);
-
-                y += rowHeight;
-            }
-            Text.Anchor = TextAnchor.UpperLeft;
-
+            Rect viewRect = new Rect(0f, 0f, rowWidth, y);
+            Widgets.BeginScrollView(new Rect(rect.x, rect.y + controlHeight + 10f, rect.width - 300f, rect.height - controlHeight - 10f - CloseButSize.y - 10f - ResetButtonSize.y - 10f), ref scrollPos, viewRect);
+            y = 0f;
+            using (new TextBlock(TextAnchor.MiddleLeft)) currentTab.DoTab(rowWidth, rowHeight);
             Widgets.EndScrollView();
 
-            if (shelfSettings == selectedZoneType || stockpileZones.Contains(selectedZoneType))
+            if (selectedZoneType != null)
             {
-                if (Widgets.ButtonText(new Rect(rect.width - 300f, rect.y + buttonHeight, 160f, buttonHeight), "Priority".Translate() + ": " + selectedZoneType.Priority.Label().CapitalizeFirst()))
+                bool hidePriority = selectedZoneType is ZoneType_Building b && (!typeof(IStoreSettingsParent).IsAssignableFrom(b.buildingDef.thingClass) || typeof(IThingHolderWithDrawnPawn).IsAssignableFrom(b.buildingDef.thingClass));
+                if (!hidePriority && Widgets.ButtonText(new Rect(rect.width - 300f, rect.y + controlHeight + 10f, 160f, controlHeight), "Priority".Translate() + ": " + selectedZoneType.priority.Label().CapitalizeFirst()))
                 {
                     List<FloatMenuOption> list = new List<FloatMenuOption>();
                     foreach (object obj in Enum.GetValues(typeof(StoragePriority)))
@@ -132,42 +74,212 @@ namespace Defaults.StockpileZones
                             StoragePriority localPr = storagePriority;
                             list.Add(new FloatMenuOption(localPr.Label().CapitalizeFirst(), () =>
                             {
-                                selectedZoneType.Priority = localPr;
+                                selectedZoneType.priority = localPr;
                             }));
                         }
                     }
                     Find.WindowStack.Add(new FloatMenu(list));
                 }
 
-                Rect lockRect = new Rect(rect.width - 24f, rect.y + buttonHeight, 24f, 24f);
+                Rect lockRect = new Rect(rect.width - 24f, rect.y + controlHeight + 10f, 24f, 24f);
                 UIUtility.DrawCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref selectedZoneType.locked);
 
-                Rect filterRect = new Rect(rect.width - 300f, rect.y + buttonHeight * 2, 300f, rect.height - buttonHeight * 2 - CloseButSize.y - 10f - ResetButtonSize.y - 10f);
-                ThingFilterUI.DoThingFilterConfigWindow(filterRect, state, selectedZoneType.filter, StorageSettings.EverStorableFixedSettings().filter, 8);
-            }
-            else
-            {
-                selectedZoneType = Settings.Get<ZoneType>(Settings.SHELF_SETTINGS);
+                Rect filterRect = new Rect(rect.width - 300f, rect.y + controlHeight * 2 + 10f, 300f, rect.height - controlHeight * 2 - 10f - CloseButSize.y - 10f - ResetButtonSize.y - 10f);
+                StorageSettings parentStorageSettings = StorageSettings.EverStorableFixedSettings();
+                if (selectedZoneType is ZoneType_Building zoneTypeBuilding)
+                {
+                    parentStorageSettings = zoneTypeBuilding.buildingDef.building.fixedStorageSettings;
+                }
+                ThingFilterUI.DoThingFilterConfigWindow(filterRect, state, selectedZoneType.filter, parentStorageSettings.filter, 8);
             }
         }
 
-        private void DoZoneTypeButton(ZoneType type, float y, float rowWidth, float rowHeight)
+        private static void DoZoneTypeButton(ZoneType zone, float rowWidth, float rowHeight)
         {
-            GUI.color = type.IconColor;
-            Widgets.DrawTextureFitted(new Rect(48f, y, rowHeight, rowHeight), type.Icon, 1f);
-            GUI.color = Color.white;
-            Widgets.Label(new Rect(48f + rowHeight + 8f, y, rowWidth - rowHeight - 8f - 24f - 24f - 24f - 8f, rowHeight), type.Name);
+            Rect iconRect = new Rect(48f, y, rowHeight, rowHeight);
+            using (new TextBlock(zone.IconColor)) Widgets.DrawTextureFitted(iconRect, zone.Icon, 1f);
+            Widgets.Label(new Rect(48f + rowHeight + 8f, y, rowWidth - rowHeight - 8f - 24f - 24f - 24f - 8f, rowHeight), zone.Name);
+
+            if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 24f - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Copy, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+            {
+                clipboard = zone;
+                SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
+            }
+
+            if (clipboard != null && Widgets.ButtonImage(new Rect(rowWidth - 24f - 24f - 24f - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Paste, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+            {
+                zone.priority = clipboard.priority;
+                zone.filter.CopyAllowancesFrom(clipboard.filter);
+                if (zone is ZoneType_Building zoneTypeBuilding)
+                {
+                    zoneTypeBuilding.filter.SetDisallowAll(zoneTypeBuilding.buildingDef.building.fixedStorageSettings.filter.AllowedThingDefs);
+                }
+                SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
+            }
 
             Rect rowRect = new Rect(0f, y, rowWidth, rowHeight);
             if (Widgets.ButtonInvisible(rowRect))
             {
-                selectedZoneType = type;
+                selectedZoneType = zone;
                 SoundDefOf.Click.PlayOneShotOnCamera(null);
             }
             Widgets.DrawHighlightIfMouseover(rowRect);
-            if (type == selectedZoneType)
+            if (zone == selectedZoneType)
             {
                 Widgets.DrawHighlightSelected(rowRect);
+            }
+
+            y += rowHeight;
+        }
+
+        private abstract class StorageTab : TabRecord
+        {
+            public StorageTab(string label, Action clickedAction, Func<bool> selected) : base(label.CapitalizeFirst(), clickedAction, selected)
+            {
+            }
+
+            public abstract string Label { get; }
+
+            public abstract TaggedString ResetWarning { get; }
+
+            public abstract void ResetSettings();
+
+            public abstract void DoTab(float rowWidth, float rowHeight);
+
+            public virtual void DoControls(Rect rect)
+            {
+            }
+        }
+
+        private class StorageTab_Stockpile : StorageTab
+        {
+            public static readonly string name = "Defaults_StockpileStorageSettings".Translate();
+
+            public StorageTab_Stockpile(Action clickedAction, Func<bool> selected) : base(name, clickedAction, selected)
+            {
+            }
+
+            public override string Label => name;
+
+            public override TaggedString ResetWarning => "Defaults_ConfirmResetStockpileZoneSettings".Translate();
+
+            public override void DoTab(float rowWidth, float rowHeight)
+            {
+                List<ZoneType> stockpileZones = Settings.Get<List<ZoneType>>(Settings.STOCKPILE_ZONES);
+
+                for (int i = 0; i < stockpileZones.Count; i++)
+                {
+                    ZoneType zone = stockpileZones[i];
+
+                    if (i < stockpileZones.Count - 1)
+                    {
+                        if (Widgets.ButtonImage(new Rect(3f, y + (rowHeight - 18f) / 2, 18f, 18f), TexButton.ReorderDown, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+                        {
+                            ZoneType next = stockpileZones[i + 1];
+                            stockpileZones[i + 1] = zone;
+                            stockpileZones[i] = next;
+                            SoundDefOf.Click.PlayOneShotOnCamera(null);
+                        }
+                    }
+                    if (i > 0)
+                    {
+                        if (Widgets.ButtonImage(new Rect(24f + 3f, y + (rowHeight - 18f) / 2, 18f, 18f), TexButton.ReorderUp, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+                        {
+                            ZoneType prev = stockpileZones[i - 1];
+                            stockpileZones[i - 1] = zone;
+                            stockpileZones[i] = prev;
+                            SoundDefOf.Click.PlayOneShotOnCamera(null);
+                        }
+                    }
+
+                    if (zone.DesignatorType == typeof(Designator_ZoneAddStockpile_Custom))
+                    {
+                        if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Rename, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+                        {
+                            Find.WindowStack.Add(new Dialog_RenameZoneType(zone));
+                        }
+                    }
+
+                    if (zone.DesignatorType == typeof(Designator_ZoneAddStockpile_Custom))
+                    {
+                        if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Delete, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+                        {
+                            stockpileZones.Remove(zone);
+                            i--;
+                            SoundDefOf.Click.PlayOneShotOnCamera(null);
+                        }
+                    }
+
+                    DoZoneTypeButton(zone, rowWidth, rowHeight);
+                }
+
+                if (!stockpileZones.Contains(selectedZoneType))
+                {
+                    selectedZoneType = null;
+                }
+            }
+
+            public override void DoControls(Rect rect)
+            {
+                List<ZoneType> stockpileZones = Settings.Get<List<ZoneType>>(Settings.STOCKPILE_ZONES);
+
+                if (Widgets.ButtonText(new Rect(rect.xMax - buttonWidth, rect.y, buttonWidth, rect.height), "Defaults_AddNew".Translate()))
+                {
+                    List<FloatMenuOption> list = new List<FloatMenuOption>();
+                    foreach (StorageSettingsPreset preset in Enum.GetValues(typeof(StorageSettingsPreset)))
+                    {
+                        list.Add(new FloatMenuOption(preset.PresetName().CapitalizeFirst(), () =>
+                        {
+                            ZoneType newZoneType = new ZoneType(preset.PresetName().CapitalizeFirst() + " " + (stockpileZones.Count + 1), preset);
+                            stockpileZones.Add(newZoneType);
+                            selectedZoneType = newZoneType;
+                        }));
+                    }
+                    Find.WindowStack.Add(new FloatMenu(list));
+                }
+
+                if (clipboard != null && !(clipboard is ZoneType_Building) && Widgets.ButtonImage(new Rect(rect.xMax - buttonWidth - 10f - 24f, rect.y, controlHeight, controlHeight), TexButton.Paste, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+                {
+                    stockpileZones.Add(new ZoneType(clipboard.preset.PresetName().CapitalizeFirst() + " " + (stockpileZones.Count + 1), clipboard));
+                    SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
+                }
+            }
+
+            public override void ResetSettings()
+            {
+                DefaultSettingsCategoryWorker.GetWorker<DefaultSettingsCategoryWorker_Storage>().ResetStockpileZoneSettings(true);
+            }
+
+        }
+
+        private class StorageTab_Building : StorageTab
+        {
+            public static readonly string name = "Defaults_BuildingStorageSettings".Translate();
+
+            public StorageTab_Building(Action clickedAction, Func<bool> selected) : base(name, clickedAction, selected)
+            {
+            }
+
+            public override string Label => name;
+
+            public override TaggedString ResetWarning => "Defaults_ConfirmResetTheseSettings".Translate(Label);
+
+            public override void DoTab(float rowWidth, float rowHeight)
+            {
+                List<ZoneType_Building> buildingStorageSettings = Settings.Get<Dictionary<ThingDef, ZoneType_Building>>(Settings.BUILDING_STORAGE).Values.ToList();
+                foreach (ZoneType zone in buildingStorageSettings.OrderBy(s => s.buildingDef.uiOrder))
+                {
+                    DoZoneTypeButton(zone, rowWidth, rowHeight);
+                }
+                if (!buildingStorageSettings.Contains(selectedZoneType))
+                {
+                    selectedZoneType = null;
+                }
+            }
+
+            public override void ResetSettings()
+            {
+                DefaultSettingsCategoryWorker.GetWorker<DefaultSettingsCategoryWorker_Storage>().ResetBuildingStorageSettings(true);
             }
         }
     }

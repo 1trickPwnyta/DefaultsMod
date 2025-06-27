@@ -1,6 +1,7 @@
 ﻿using Defaults.StockpileZones.Shelves;
 using RimWorld;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Verse;
 
@@ -9,12 +10,16 @@ namespace Defaults.StockpileZones
     public class ZoneType : IExposable, IRenameable
     {
         private Type designatorType = typeof(Designator_ZoneAddStockpile_Custom);
-        public string Name;
-        public StoragePriority Priority = StoragePriority.Normal;
+        private string name;
+        public StoragePriority priority = StoragePriority.Normal;
         public ThingFilter filter = new ThingFilter();
-        public StorageSettingsPreset Preset;
-        public Color IconColor = Color.white;
+        public StorageSettingsPreset preset;
         public bool locked = true;
+
+        private List<ThingDef> compatibility_allowed;
+        private FloatRange compatibility_allowedHitPointsPercents;
+        private QualityRange compatibility_allowedQualityLevels;
+        private List<SpecialThingFilterDef> compatibility_disallowedSpecialFilters;
 
         public static ZoneType MakeBuiltInStockpileZone()
         {
@@ -38,7 +43,7 @@ namespace Defaults.StockpileZones
 
         public static ZoneType MakeBuiltInShelfSettings()
         {
-            ZoneType zoneType = new ZoneType_Shelf { Priority = StoragePriority.Preferred };
+            ZoneType zoneType = new ZoneType_Shelf { priority = StoragePriority.Preferred };
             Array.ForEach(new[] { ThingCategoryDefOf.Foods, ThingCategoryDefOf.Manufactured, ThingCategoryDefOf.ResourcesRaw, ThingCategoryDefOf.Items, ThingCategoryDefOf.Weapons, ThingCategoryDefOf.Apparel, ThingCategoryDefOf.BodyParts }, d =>
             {
                 zoneType.filter.SetAllow(d, true);
@@ -54,22 +59,24 @@ namespace Defaults.StockpileZones
 
         public ZoneType(string name, StorageSettingsPreset preset)
         {
-            Name = name;
+            this.name = name;
             filter.SetFromPreset(preset);
-            Preset = preset;
+            this.preset = preset;
         }
 
         public ZoneType(string name, ZoneType other)
         {
-            Name = name;
-            Priority = other.Priority;
+            this.name = name;
+            priority = other.priority;
             filter.CopyAllowancesFrom(other.filter);
-            Preset = other.Preset;
+            preset = other.preset;
         }
 
         public Type DesignatorType => designatorType;
 
-        public string RenamableLabel { get => Name; set => Name = value; }
+        public virtual string Name => RenamableLabel;
+
+        public string RenamableLabel { get => name; set => name = value; }
 
         public string BaseLabel => RenamableLabel;
 
@@ -79,7 +86,7 @@ namespace Defaults.StockpileZones
         {
             get
             {
-                switch (Preset)
+                switch (preset)
                 {
                     case StorageSettingsPreset.DefaultStockpile: return "DesignatorZoneCreateStorageResourcesDesc".Translate();
                     case StorageSettingsPreset.DumpingStockpile: return "DesignatorZoneCreateStorageDumpingDesc".Translate();
@@ -93,7 +100,7 @@ namespace Defaults.StockpileZones
         {
             get
             {
-                switch (Preset)
+                switch (preset)
                 {
                     case StorageSettingsPreset.DefaultStockpile: return Dialog_StockpileZones.DefaultStockpileIcon;
                     case StorageSettingsPreset.DumpingStockpile: return Dialog_StockpileZones.DumpingStockpileIcon;
@@ -103,11 +110,13 @@ namespace Defaults.StockpileZones
             }
         }
 
+        public virtual Color IconColor => Color.white;
+
         public SoundDef Sound
         {
             get
             {
-                switch (Preset)
+                switch (preset)
                 {
                     case StorageSettingsPreset.DefaultStockpile: return SoundDefOf.Designate_ZoneAdd_Stockpile;
                     case StorageSettingsPreset.DumpingStockpile: return SoundDefOf.Designate_ZoneAdd_Dumping;
@@ -120,12 +129,21 @@ namespace Defaults.StockpileZones
         public virtual void ExposeData()
         {
             Scribe_Values.Look(ref designatorType, "designatorType");
-            Scribe_Values.Look(ref Name, "Name");
-            Scribe_Values.Look(ref Priority, "Priority");
-            Scribe_Values.Look(ref Preset, "Preset");
+            Scribe_Values.Look(ref name, "Name");
+            Scribe_Values.Look(ref priority, "Priority");
+            Scribe_Values.Look(ref preset, "Preset");
             Scribe_Deep.Look(ref filter, "filter");
-            Scribe_Values.Look(ref IconColor, "IconColor", Color.white);
+            if (Scribe.mode == LoadSaveMode.LoadingVars && filter == null)
+            {
+                filter = new ThingFilter();
+            }
             Scribe_Values.Look(ref locked, "locked", true);
+
+            ThingFilter compatibilityFilter = BackwardCompatibilityUtility.LoadExposedThingFilter(ref compatibility_allowed, ref compatibility_allowedHitPointsPercents, ref compatibility_allowedQualityLevels, ref compatibility_disallowedSpecialFilters);
+            if (compatibilityFilter != null)
+            {
+                filter = compatibilityFilter;
+            }
         }
     }
 }

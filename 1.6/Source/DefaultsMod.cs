@@ -4,6 +4,9 @@ using UnityEngine;
 using RimWorld;
 using System;
 using Defaults.WorkbenchBills;
+using System.Linq;
+using Defaults.StockpileZones.Buildings;
+using System.Collections.Generic;
 
 namespace Defaults
 {
@@ -21,6 +24,21 @@ namespace Defaults
             harmony.Patch(typeof(CompTempControl).Method("<CompGetGizmosExtra>b__14_2"), null, null, typeof(Misc.TargetTemperature.Patch_CompTempControl_CompGetGizmosExtra_b__14_2).GetMethod("Transpiler"));
             harmony.Patch(typeof(Bill_Production).GetConstructor(new[] { typeof(RecipeDef), typeof(Precept_ThingStyle) }), null, typeof(Patch_Bill_Production_ctor).GetMethod("Postfix"));
             harmony.Patch(typeof(MechanitorControlGroup).GetConstructor(new[] { typeof(Pawn_MechanitorTracker) }), null, typeof(Misc.MechWorkModes.Patch_MechanitorControlGroup).Method(nameof(Misc.MechWorkModes.Patch_MechanitorControlGroup.Postfix)));
+
+            HashSet<Type> patchedTypes = new HashSet<Type>();
+            foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading.Where(d => d.building?.defaultStorageSettings != null))
+            {
+                Type postMakeType = def.thingClass;
+                while (postMakeType.GetMethod(nameof(Building.PostMake)).DeclaringType != postMakeType)
+                {
+                    postMakeType = postMakeType.BaseType;
+                }
+                if (!patchedTypes.Contains(postMakeType))
+                {
+                    harmony.Patch(postMakeType.Method(nameof(Building.PostMake)), postfix: typeof(Patch_Building_PostMake).Method(nameof(Patch_Building_PostMake.Postfix)));
+                    patchedTypes.Add(postMakeType);
+                }
+            }
 
             DefaultsMod.Settings = DefaultsMod.Mod.GetSettings<DefaultsSettings>();
             DefaultsSettings.CheckForNewContent();

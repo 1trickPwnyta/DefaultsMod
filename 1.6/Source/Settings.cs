@@ -16,7 +16,7 @@ namespace Defaults
         public const string BABY_FEEDING = "DefaultBabyFeedingOptions";
         public const string EXPANDED_RESOURCE_CATEGORIES = "DefaultExpandedResourceCategories";
         public const string STOCKPILE_ZONES = "DefaultStockpileZones";
-        public const string SHELF_SETTINGS = "DefaultShelfSettings";
+        public const string BUILDING_STORAGE = "DefaultBuildingStorageSettings";
         public const string PLANET = "DefaultPlanetOptions";
         public const string MAP = "DefaultMapOptions";
         public const string FACTIONS = "DefaultFactions";

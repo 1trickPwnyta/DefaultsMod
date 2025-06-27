@@ -92,8 +92,7 @@ namespace Defaults.WorldSettings
                 defaultFactionsLock = false;
             }
 
-            // Remove any non-selectable factions from the default settings that got in due to bug
-            defaultFactions.RemoveAll(f => f == null || !f.displayInFactionSelection);
+            BackwardCompatibilityUtility.CleanFactions(defaultFactions);
         }
 
         protected override void ExposeCategorySettings()
@@ -102,6 +101,8 @@ namespace Defaults.WorldSettings
             Scribe_Deep.Look(ref defaultMapOptions, Settings.MAP);
             Scribe_Collections.Look(ref defaultFactions, Settings.FACTIONS);
             Scribe_Values.Look(ref defaultFactionsLock, Settings.FACTIONS_LOCK);
+            BackwardCompatibilityUtility.MigratePlanetOptions(ref defaultPlanetOptions);
+            BackwardCompatibilityUtility.MigrateMapOptions(ref defaultMapOptions);
         }
     }
 }

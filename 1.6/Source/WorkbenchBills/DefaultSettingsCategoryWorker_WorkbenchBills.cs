@@ -83,6 +83,7 @@ namespace Defaults.WorkbenchBills
         {
             Scribe_Collections.Look(ref defaultWorkbenchBills, Settings.WORKBENCH_BILLS);
             Scribe_Deep.Look(ref defaultGlobalBillOptions, Settings.GLOBAL_BILL_OPTIONS);
+            BackwardCompatibilityUtility.MigrateGlobalBillOptions(ref defaultGlobalBillOptions);
         }
     }
 }

@@ -51,6 +51,7 @@ namespace Defaults.Medicine
         protected override void ExposeCategorySettings()
         {
             Scribe_Deep.Look(ref defaultMedicineOptions, Settings.MEDICINE);
+            BackwardCompatibilityUtility.MigrateMedicineOptions(ref defaultMedicineOptions);
         }
     }
 }

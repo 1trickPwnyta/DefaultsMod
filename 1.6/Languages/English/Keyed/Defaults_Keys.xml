@@ -81,6 +81,11 @@
 	<Defaults_Defaults>Defaults</Defaults_Defaults>
 	<Defaults_HostilityReponseTip>Change how colonists will react to nearby enemies when not drafted.</Defaults_HostilityReponseTip>
 	<Defaults_NoSearchResults>Your search "{0}" did not match any settings.</Defaults_NoSearchResults>
+	<Defaults_ChooseRewardsDesc>Tell other factions what kinds of rewards you want in quests.</Defaults_ChooseRewardsDesc>
+	<Defaults_StorageBuildingSettings>{0} storage settings</Defaults_StorageBuildingSettings>
+	<Defaults_StockpileStorageSettings>stockpile zones</Defaults_StockpileStorageSettings>
+	<Defaults_BuildingStorageSettings>storage buildings</Defaults_BuildingStorageSettings>
+	<Defaults_ConfirmResetStockpileZoneSettings>Do you want to reset all default stockpile zone settings to their vanilla values? This action will delete all custom stockpile zones as well and cannot be undone.</Defaults_ConfirmResetStockpileZoneSettings>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

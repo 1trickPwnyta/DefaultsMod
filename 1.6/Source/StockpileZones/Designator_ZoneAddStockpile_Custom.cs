@@ -25,7 +25,7 @@ namespace Defaults.StockpileZones
             Zone_Stockpile zone = new Zone_Stockpile(StorageSettingsPreset.DefaultStockpile, Find.CurrentMap.zoneManager);
             typeof(Zone).Field("baseLabel").SetValue(zone, zoneType.Name);
             zone.label = Find.CurrentMap.zoneManager.NewZoneName(zoneType.Name);
-            zone.settings.Priority = zoneType.Priority;
+            zone.settings.Priority = zoneType.priority;
             zone.settings.filter.CopyAllowancesFrom(zoneType.filter);
             return zone;
         }

@@ -23,6 +23,7 @@ namespace Defaults
                 }
             }
             DefaultsSettings.KnownDLCs = newKnownDLCs.ListFullCopy();
+            DefaultsMod.Settings.Write();
         }
 
         private static void HandleNewDLC(string id)

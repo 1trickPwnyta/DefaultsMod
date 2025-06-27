@@ -14,7 +14,7 @@ namespace Defaults.WorkbenchBills
             Scribe_Values.Look(ref DefaultBillIngredientSearchRadius, "DefaultBillIngredientSearchRadius", 999f);
             Scribe_Values.Look(ref DefaultBillAllowedSkillRange, "DefaultBillAllowedSkillRange", new IntRange(0, 20));
             Scribe_Defs.Look(ref DefaultBillStoreMode, "DefaultBillStoreMode");
-            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && DefaultBillStoreMode == null)
             {
                 DefaultBillStoreMode = BillStoreModeDefOf.BestStockpile;
             }

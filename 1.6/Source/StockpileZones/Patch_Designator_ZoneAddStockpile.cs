@@ -17,7 +17,7 @@ namespace Defaults.StockpileZones
             {
                 if (worker.DefaultStockpileZone != null)
                 {
-                    (__result as Zone_Stockpile).settings.Priority = worker.DefaultStockpileZone.Priority;
+                    (__result as Zone_Stockpile).settings.Priority = worker.DefaultStockpileZone.priority;
                     (__result as Zone_Stockpile).settings.filter.CopyAllowancesFrom(worker.DefaultStockpileZone.filter);
                 }
             }
@@ -25,7 +25,7 @@ namespace Defaults.StockpileZones
             {
                 if (worker.DefaultDumpingStockpileZone != null)
                 {
-                    (__result as Zone_Stockpile).settings.Priority = worker.DefaultDumpingStockpileZone.Priority;
+                    (__result as Zone_Stockpile).settings.Priority = worker.DefaultDumpingStockpileZone.priority;
                     (__result as Zone_Stockpile).settings.filter.CopyAllowancesFrom(worker.DefaultDumpingStockpileZone.filter);
                 }
             }

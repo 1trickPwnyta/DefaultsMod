@@ -198,6 +198,9 @@ namespace Defaults.Policies
             Scribe_Collections.Look(ref defaultDrugPolicies, Settings.POLICIES_DRUG, LookMode.Deep);
             Scribe_Collections.Look(ref defaultReadingPolicies, Settings.POLICIES_READING, LookMode.Deep);
             Scribe_Collections.Look(ref unlockedPolicies, Settings.UNLOCKED_POLICIES, LookMode.Reference);
+            BackwardCompatibilityUtility.MigrateApparelPolicies(defaultApparelPolicies);
+            BackwardCompatibilityUtility.MigrateFoodPolicies(defaultFoodPolicies);
+            BackwardCompatibilityUtility.MigrateReadingPolicies();
         }
     }
 }

@@ -77,6 +77,7 @@ namespace Defaults.WorkbenchBills
             }
             if (bill is Bill_Production productionBill)
             {
+                productionBill.RenamableLabel = name;
                 productionBill.repeatMode = repeatMode;
                 productionBill.repeatCount = repeatCount;
                 productionBill.SetStoreMode(storeMode);
@@ -104,6 +105,7 @@ namespace Defaults.WorkbenchBills
             template.nonMechsOnly = bill.NonMechsOnly;
             if (bill is Bill_Production productionBill)
             {
+                template.name = productionBill.RenamableLabel;
                 template.repeatMode = productionBill.repeatMode;
                 template.repeatCount = productionBill.repeatCount;
                 template.storeMode = productionBill.GetStoreMode();
