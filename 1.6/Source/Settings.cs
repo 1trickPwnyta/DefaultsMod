@@ -30,6 +30,8 @@ namespace Defaults
         public const string GLOBAL_BILL_OPTIONS = "DefaultGlobalBillOptions";
         public const string HIDE_SETASDEFAULT = "HideSetAsDefaultButtons";
         public const string HIDE_LOADDEFAULT = "HideLoadDefaultButtons";
+        public const string ALLOWED_AREAS = "AllowedAreas";
+        public const string ALLOWED_AREAS_PAWN = "PawnAllowedAreas";
 
         public const string HOSTILITY_RESPONSE = "DefaultHostilityResponse";
         public const string MEDICINE_TO_CARRY = "DefaultMedicineToCarry";

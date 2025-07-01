@@ -257,6 +257,9 @@ dotnet_diagnostic.IDE0059.severity = none
 # IDE0011: Add braces
 dotnet_diagnostic.IDE0011.severity = none
 
+# IDE0010: Add missing cases
+dotnet_diagnostic.IDE0010.severity = none
+
 [*.{cs,vb}]
 dotnet_style_coalesce_expression = true:suggestion
 dotnet_style_null_propagation = true:suggestion

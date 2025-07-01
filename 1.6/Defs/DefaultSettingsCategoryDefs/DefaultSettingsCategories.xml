@@ -344,6 +344,21 @@
   </Defaults.DefaultSettingsCategoryDef>
   
   <Defaults.DefaultSettingsCategoryDef>
+    <defName>AllowedAreas</defName>
+	<label>default allowed areas</label>
+	<description>Allows you to create default allowed areas for new colonies and control which types of pawns get automatically assigned to which areas.</description>
+	<iconPath>DefaultSettingsCategoryIcons/AllowedAreas</iconPath>
+    <workerClass>Defaults.AllowedAreas.DefaultSettingsCategoryWorker_AllowedAreas</workerClass>
+	<keywords>
+	  <li>zoning</li>
+	  <li>zones</li>
+	  <li>restrictions</li>
+	  <li>unrestricted</li>
+	  <li>home</li>
+	</keywords>
+  </Defaults.DefaultSettingsCategoryDef>
+  
+  <Defaults.DefaultSettingsCategoryDef>
     <defName>Misc</defName>
 	<label>miscellaneous defaults</label>
 	<description>Other default settings that don't fit neatly into one of the other categories.</description>

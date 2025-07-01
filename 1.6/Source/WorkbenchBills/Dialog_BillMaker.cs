@@ -1,4 +1,6 @@
-﻿using RimWorld;
+﻿using Defaults.UI;
+using RimWorld;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,7 +9,7 @@ using Verse.Sound;
 
 namespace Defaults.WorkbenchBills
 {
-    public class Dialog_BillMaker : Window
+    public class Dialog_BillMaker : Dialog_Reorderable
     {
         private const float padding = 4f;
         private static readonly Color billColor = new Color(0.15f, 0.15f, 0.15f);
@@ -27,8 +29,12 @@ namespace Defaults.WorkbenchBills
 
         public override Vector2 InitialSize => new Vector2(400f, 500f);
 
+        protected override IList ReorderableItems => WorkbenchBillStore.Get(workbenchGroup).bills;
+
         public override void DoWindowContents(Rect inRect)
         {
+            base.DoWindowContents(inRect);
+
             Rect titleRect = new Rect(inRect.x, inRect.y, inRect.width - 75f - padding, 60f);
             Rect titleIconRect = new Rect(titleRect.x, titleRect.y, titleRect.height, titleRect.height);
             Widgets.DefIcon(titleIconRect, workbenchGroup.First(), GenStuff.DefaultStuffFor(workbenchGroup.First()));
@@ -47,6 +53,7 @@ namespace Defaults.WorkbenchBills
             }
 
             Rect outRect = new Rect(inRect.x, titleRect.yMax + padding, inRect.width, inRect.height - titleRect.height - padding - CloseButSize.y - padding);
+            reorderableRect = outRect;
             Rect viewRect = new Rect(0f, 0f, outRect.width - 20f, y);
             Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
             y = 0f;
@@ -64,39 +71,13 @@ namespace Defaults.WorkbenchBills
         {
             Widgets.DrawRectFast(rect, billColor);
 
-            int index = allBills.IndexOf(bill);
-            if (index > 0)
-            {
-                Rect upRect = new Rect(rect.x, rect.y, 24f, 24f);
-                if (Widgets.ButtonImage(upRect, TexButton.ReorderUp))
-                {
-                    allBills.Remove(bill);
-                    allBills.Insert(index - 1, bill);
-                    SoundDefOf.Tick_High.PlayOneShot(null);
-                }
-                TooltipHandler.TipRegionByKey(upRect, "ReorderBillUpTip");
-            }
-            if (index < allBills.Count - 1)
-            {
-                Rect downRect = new Rect(rect.x, rect.y + 24f, 24f, 24f);
-                if (Widgets.ButtonImage(downRect, TexButton.ReorderDown))
-                {
-                    allBills.Remove(bill);
-                    allBills.Insert(index + 1, bill);
-                    SoundDefOf.Tick_Low.PlayOneShot(null);
-                }
-                TooltipHandler.TipRegionByKey(downRect, "ReorderBillDownTip");
-            }
-
-            Rect labelRect = new Rect(rect.x + 28f, rect.y, rect.width - 48f - 20f, 25f);
+            Rect labelRect = new Rect(rect.x + 8f, rect.y, rect.width - 8f - 24f - 4f - 24f - 8f, 25f);
             Widgets.Label(labelRect, bill.recipe.LabelCap);
 
+            Rect nameRect = new Rect(labelRect.x, labelRect.yMax - 4f, labelRect.width, 18f);
             if (!bill.name.EqualsIgnoreCase(bill.recipe.LabelCap))
             {
-                Rect nameRect = new Rect(labelRect.x, labelRect.yMax - 4f, labelRect.width, 18f);
-                Text.Font = GameFont.Tiny;
-                Widgets.Label(nameRect, bill.name);
-                Text.Font = GameFont.Small;
+                using (new TextBlock(GameFont.Tiny)) Widgets.Label(nameRect, bill.name);
             }
 
             Rect deleteRect = new Rect(rect.xMax - 24f, rect.y, 24f, 24f);
@@ -170,6 +151,8 @@ namespace Defaults.WorkbenchBills
             {
                 countAction(-1);
             }
+
+            UIUtility.DoDraggable(ReorderableGroup, rect, tipRect: labelRect.Union(nameRect));
         }
     }
 }

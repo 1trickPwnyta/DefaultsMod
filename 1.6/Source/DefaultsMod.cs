@@ -63,7 +63,6 @@ namespace Defaults
 
         public override void DoSettingsWindowContents(Rect inRect)
         {
-            base.DoSettingsWindowContents(inRect);
             DefaultsSettings.DoSettingsWindowContents(inRect);
         }
     }

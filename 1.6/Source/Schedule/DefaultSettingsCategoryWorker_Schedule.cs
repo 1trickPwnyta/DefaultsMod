@@ -31,7 +31,7 @@ namespace Defaults.Schedule
                     }
                 }
                 Schedule nextSchedule = defaultSchedules[nextScheduleIndex++];
-                DefaultsMod.Settings.Write();
+                LongEventHandler.ExecuteWhenFinished(DefaultsMod.Settings.Write);
                 return nextSchedule;
             }
             else

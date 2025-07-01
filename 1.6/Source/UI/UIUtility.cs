@@ -1,7 +1,8 @@
-﻿using RimWorld;
+﻿using HarmonyLib;
+using RimWorld;
 using UnityEngine;
-using Verse.Sound;
 using Verse;
+using Verse.Sound;
 
 namespace Defaults.UI
 {
@@ -62,6 +63,40 @@ namespace Defaults.UI
             Text.Anchor = TextAnchor.MiddleCenter;
             Widgets.Label(new Rect(rect.xMin + (num * 2), rect.yMin, rect.width - (num * 4), rect.height), value.ToStringTemperature("F0"));
             Text.Anchor = TextAnchor.UpperLeft;
+        }
+
+        public static void DoDraggable(int group, Rect draggableRect, Rect? controlRect = null, Rect? tipRect = null)
+        {
+            if (controlRect.HasValue)
+            {
+                using (new TextBlock(Mouse.IsOver(controlRect.Value) && !ReorderableWidget.Dragging ? GenUI.MouseoverColor : Color.white)) GUI.DrawTexture(controlRect.Value, TexButton.DragHash);
+            }
+            if (tipRect.HasValue)
+            {
+                TooltipHandler.TipRegion(tipRect.Value, "Defaults_DragToReorder".Translate());
+            }
+            if ((Event.current.type != EventType.MouseDown || Mouse.IsOver(controlRect ?? draggableRect)) && ReorderableWidget.Reorderable(group, draggableRect))
+            {
+                Widgets.DrawRectFast(draggableRect, Color.black.WithAlpha(0.5f));
+            }
+        }
+
+        public static void ResizeWindow<T>(Vector2 size) where T : Window
+        {
+            Find.WindowStack.TryGetWindow(out T window);
+            if (window != null)
+            {
+                if (window.windowRect.size != size)
+                {
+                    window.resizeable = true;
+                    typeof(Window).Field("resizeLater").SetValue(window, true);
+                    typeof(Window).Field("resizeLaterRect").SetValue(window, new Rect((Verse.UI.screenWidth - size.x) / 2f, (Verse.UI.screenHeight - size.y) / 2f, size.x, size.y).Rounded());
+                }
+                else
+                {
+                    window.resizeable = false;
+                }
+            }
         }
     }
 }

@@ -21,6 +21,7 @@ namespace Defaults
         private static float y;
         private static Vector2 scrollPosition;
         private static readonly QuickSearchWidget search = new QuickSearchWidget();
+        private static readonly Vector2 settingsWindowSize = new Vector2(730f + Window.StandardMargin * 2, 510f + Window.CloseButSize.y + Window.StandardMargin * 2);
 
         public static void ResetAllSettings()
         {
@@ -57,10 +58,12 @@ namespace Defaults
 
         public static void DoSettingsWindowContents(Rect inRect)
         {
+            UIUtility.ResizeWindow<Dialog_ModSettings>(settingsWindowSize);
+
             search.OnGUI(new Rect(inRect.xMax - 250f - 20f, inRect.y - 15f - QuickSearchWidget.WidgetHeight, 250f, QuickSearchWidget.WidgetHeight));
 
             float width = settingsCategoryButtonSize.x * 4 + settingsCategoryButtonMargin * 3;
-            Rect outRect = new Rect(inRect.x + (inRect.width - width) / 2, inRect.y, inRect.width - (inRect.width - width) / 2, inRect.height - 30f - 10f);
+            Rect outRect = new Rect(inRect.x + (inRect.width - width) / 2, inRect.y, inRect.width - (inRect.width - width) / 2, inRect.height - 10f - 30f - 10f);
             Rect viewRect = new Rect(0f, 0f, width, y);
             y = 0f;
             Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
@@ -90,6 +93,10 @@ namespace Defaults
                 );
                 if (settings.Any())
                 {
+                    if (categories.Any())
+                    {
+                        y += settingsCategoryButtonMargin;
+                    }
                     DoSettings(viewRect, ref y, settings);
                 }
 
@@ -130,7 +137,7 @@ namespace Defaults
             }
             if (x > 0)
             {
-                y += settingsCategoryButtonSize.y + settingsCategoryButtonMargin;
+                y += settingsCategoryButtonSize.y;
             }
         }
 

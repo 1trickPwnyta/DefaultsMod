@@ -65,6 +65,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AllowedAreas\AllowedArea.cs" />
+    <Compile Include="AllowedAreas\AllowedAreaUtility.cs" />
+    <Compile Include="AllowedAreas\AllowedPawn.cs" />
+    <Compile Include="AllowedAreas\CompProperties_SpawnTracker.cs" />
+    <Compile Include="AllowedAreas\Comp_SpawnTracker.cs" />
+    <Compile Include="AllowedAreas\DefaultSettingsCategoryWorker_AllowedAreas.cs" />
+    <Compile Include="AllowedAreas\Dialog_AllowedAreas.cs" />
+    <Compile Include="AllowedAreas\Dialog_ColorPickerAllowedArea.cs" />
+    <Compile Include="AllowedAreas\Dialog_RenameAllowedArea.cs" />
+    <Compile Include="AllowedAreas\Patch_AreaManager.cs" />
+    <Compile Include="AllowedAreas\Patch_Faction.cs" />
+    <Compile Include="AllowedAreas\Patch_Hediff_Pregnant.cs" />
+    <Compile Include="AllowedAreas\Patch_MutantUtility.cs" />
+    <Compile Include="AllowedAreas\Patch_Pawn.cs" />
+    <Compile Include="AllowedAreas\Patch_Pawn_AgeTracker.cs" />
+    <Compile Include="AllowedAreas\Patch_Pawn_GuestTracker.cs" />
     <Compile Include="BabyFeeding\BabyFeedingOptions.cs" />
     <Compile Include="BabyFeeding\DefaultSettingsCategoryWorker_BabyFeeding.cs" />
     <Compile Include="BabyFeeding\Dialog_BabyFeedingSettings.cs" />
@@ -75,6 +91,7 @@
     <Compile Include="General\DefaultSettingWorker_HideLoadDefault.cs" />
     <Compile Include="StockpileZones\Buildings\BuildingUtility.cs" />
     <Compile Include="StockpileZones\Buildings\ZoneType_Building.cs" />
+    <Compile Include="UI\Dialog_Reorderable.cs" />
     <Compile Include="Workers\DefaultSettingsCategoryWorker.cs" />
     <Compile Include="Misc\DefaultSettingsCategoryWorker_Misc.cs" />
     <Compile Include="Workers\DefaultSettingWorker.cs" />

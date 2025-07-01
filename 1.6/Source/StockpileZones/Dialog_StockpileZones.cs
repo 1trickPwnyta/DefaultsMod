@@ -3,6 +3,7 @@ using Defaults.UI;
 using Defaults.Workers;
 using RimWorld;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -45,6 +46,8 @@ namespace Defaults.StockpileZones
             Find.WindowStack.Add(new Dialog_MessageBox(ResetButtonWarning, "Confirm".Translate(), currentTab.ResetSettings, "GoBack".Translate(), null, null, true, currentTab.ResetSettings));
         }
 
+        protected override IList ReorderableItems => Settings.Get<List<ZoneType>>(Settings.STOCKPILE_ZONES);
+
         public override void DoSettings(Rect rect)
         {
             currentTab.DoControls(new Rect(rect.x, rect.y, rect.width, controlHeight));
@@ -54,10 +57,17 @@ namespace Defaults.StockpileZones
             Rect tabsRect = new Rect(rect.x, rect.y + controlHeight + 10f, rowWidth, 1f);
             TabDrawer.DrawTabs(tabsRect, tabs);
 
+            Rect outRect = new Rect(rect.x, rect.y + controlHeight + 10f, rect.width - 300f, rect.height - controlHeight - 10f);
             Rect viewRect = new Rect(0f, 0f, rowWidth, y);
-            Widgets.BeginScrollView(new Rect(rect.x, rect.y + controlHeight + 10f, rect.width - 300f, rect.height - controlHeight - 10f - CloseButSize.y - 10f - ResetButtonSize.y - 10f), ref scrollPos, viewRect);
+            Widgets.BeginScrollView(outRect, ref scrollPos, viewRect);
             y = 0f;
-            using (new TextBlock(TextAnchor.MiddleLeft)) currentTab.DoTab(rowWidth, rowHeight);
+            using (new TextBlock(TextAnchor.MiddleLeft))
+            {
+                if (currentTab.DoTab(rowWidth, rowHeight, ReorderableGroup))
+                {
+                    reorderableRect = outRect;
+                }
+            }
             Widgets.EndScrollView();
 
             if (selectedZoneType != null)
@@ -84,7 +94,7 @@ namespace Defaults.StockpileZones
                 Rect lockRect = new Rect(rect.width - 24f, rect.y + controlHeight + 10f, 24f, 24f);
                 UIUtility.DrawCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref selectedZoneType.locked);
 
-                Rect filterRect = new Rect(rect.width - 300f, rect.y + controlHeight * 2 + 10f, 300f, rect.height - controlHeight * 2 - 10f - CloseButSize.y - 10f - ResetButtonSize.y - 10f);
+                Rect filterRect = new Rect(rect.width - 300f, rect.y + controlHeight * 2 + 10f, 300f, rect.height - controlHeight * 2 - 10f);
                 StorageSettings parentStorageSettings = StorageSettings.EverStorableFixedSettings();
                 if (selectedZoneType is ZoneType_Building zoneTypeBuilding)
                 {
@@ -94,11 +104,11 @@ namespace Defaults.StockpileZones
             }
         }
 
-        private static void DoZoneTypeButton(ZoneType zone, float rowWidth, float rowHeight)
+        private static void DoZoneTypeButton(ZoneType zone, float x, float rowWidth, float rowHeight)
         {
-            Rect iconRect = new Rect(48f, y, rowHeight, rowHeight);
+            Rect iconRect = new Rect(x, y, rowHeight, rowHeight);
             using (new TextBlock(zone.IconColor)) Widgets.DrawTextureFitted(iconRect, zone.Icon, 1f);
-            Widgets.Label(new Rect(48f + rowHeight + 8f, y, rowWidth - rowHeight - 8f - 24f - 24f - 24f - 8f, rowHeight), zone.Name);
+            Widgets.Label(new Rect(x + rowHeight + 8f, y, rowWidth - rowHeight - 8f - 24f - 24f - 24f - 8f, rowHeight), zone.Name);
 
             if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 24f - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Copy, Color.white, Color.white * GenUI.SubtleMouseoverColor))
             {
@@ -118,18 +128,19 @@ namespace Defaults.StockpileZones
             }
 
             Rect rowRect = new Rect(0f, y, rowWidth, rowHeight);
-            if (Widgets.ButtonInvisible(rowRect))
+            if (!ReorderableWidget.Dragging)
             {
-                selectedZoneType = zone;
-                SoundDefOf.Click.PlayOneShotOnCamera(null);
+                if (Widgets.ButtonInvisible(new Rect(x, y, rowWidth - x, rowHeight)))
+                {
+                    selectedZoneType = zone;
+                    SoundDefOf.Click.PlayOneShotOnCamera(null);
+                }
+                Widgets.DrawHighlightIfMouseover(rowRect);
+                if (zone == selectedZoneType)
+                {
+                    Widgets.DrawHighlightSelected(rowRect);
+                }
             }
-            Widgets.DrawHighlightIfMouseover(rowRect);
-            if (zone == selectedZoneType)
-            {
-                Widgets.DrawHighlightSelected(rowRect);
-            }
-
-            y += rowHeight;
         }
 
         private abstract class StorageTab : TabRecord
@@ -144,7 +155,7 @@ namespace Defaults.StockpileZones
 
             public abstract void ResetSettings();
 
-            public abstract void DoTab(float rowWidth, float rowHeight);
+            public abstract bool DoTab(float rowWidth, float rowHeight, int reorderableGroup);
 
             public virtual void DoControls(Rect rect)
             {
@@ -163,34 +174,13 @@ namespace Defaults.StockpileZones
 
             public override TaggedString ResetWarning => "Defaults_ConfirmResetStockpileZoneSettings".Translate();
 
-            public override void DoTab(float rowWidth, float rowHeight)
+            public override bool DoTab(float rowWidth, float rowHeight, int reorderableGroup)
             {
                 List<ZoneType> stockpileZones = Settings.Get<List<ZoneType>>(Settings.STOCKPILE_ZONES);
 
                 for (int i = 0; i < stockpileZones.Count; i++)
                 {
                     ZoneType zone = stockpileZones[i];
-
-                    if (i < stockpileZones.Count - 1)
-                    {
-                        if (Widgets.ButtonImage(new Rect(3f, y + (rowHeight - 18f) / 2, 18f, 18f), TexButton.ReorderDown, Color.white, Color.white * GenUI.SubtleMouseoverColor))
-                        {
-                            ZoneType next = stockpileZones[i + 1];
-                            stockpileZones[i + 1] = zone;
-                            stockpileZones[i] = next;
-                            SoundDefOf.Click.PlayOneShotOnCamera(null);
-                        }
-                    }
-                    if (i > 0)
-                    {
-                        if (Widgets.ButtonImage(new Rect(24f + 3f, y + (rowHeight - 18f) / 2, 18f, 18f), TexButton.ReorderUp, Color.white, Color.white * GenUI.SubtleMouseoverColor))
-                        {
-                            ZoneType prev = stockpileZones[i - 1];
-                            stockpileZones[i - 1] = zone;
-                            stockpileZones[i] = prev;
-                            SoundDefOf.Click.PlayOneShotOnCamera(null);
-                        }
-                    }
 
                     if (zone.DesignatorType == typeof(Designator_ZoneAddStockpile_Custom))
                     {
@@ -210,13 +200,20 @@ namespace Defaults.StockpileZones
                         }
                     }
 
-                    DoZoneTypeButton(zone, rowWidth, rowHeight);
+                    DoZoneTypeButton(zone, 40f, rowWidth, rowHeight);
+                    Rect dragRect = new Rect(0f, y + rowHeight / 2 - 20f, 40f, 40f).ContractedBy(5f);
+                    Rect draggableRect = new Rect(0f, y, rowWidth, rowHeight);
+                    UIUtility.DoDraggable(reorderableGroup, draggableRect, dragRect, dragRect);
+
+                    y += rowHeight;
                 }
 
                 if (!stockpileZones.Contains(selectedZoneType))
                 {
                     selectedZoneType = null;
                 }
+
+                return true;
             }
 
             public override void DoControls(Rect rect)
@@ -264,17 +261,19 @@ namespace Defaults.StockpileZones
 
             public override TaggedString ResetWarning => "Defaults_ConfirmResetTheseSettings".Translate(Label);
 
-            public override void DoTab(float rowWidth, float rowHeight)
+            public override bool DoTab(float rowWidth, float rowHeight, int reorderableGroup)
             {
                 List<ZoneType_Building> buildingStorageSettings = Settings.Get<Dictionary<ThingDef, ZoneType_Building>>(Settings.BUILDING_STORAGE).Values.ToList();
                 foreach (ZoneType zone in buildingStorageSettings.OrderBy(s => s.buildingDef.uiOrder))
                 {
-                    DoZoneTypeButton(zone, rowWidth, rowHeight);
+                    DoZoneTypeButton(zone, 0f, rowWidth, rowHeight);
+                    y += rowHeight;
                 }
                 if (!buildingStorageSettings.Contains(selectedZoneType))
                 {
                     selectedZoneType = null;
                 }
+                return false;
             }
 
             public override void ResetSettings()

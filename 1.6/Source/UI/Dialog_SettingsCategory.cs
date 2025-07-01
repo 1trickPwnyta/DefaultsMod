@@ -3,7 +3,7 @@ using Verse;
 
 namespace Defaults.UI
 {
-    public abstract class Dialog_SettingsCategory : Window
+    public abstract class Dialog_SettingsCategory : Dialog_Reorderable
     {
         private readonly DefaultSettingsCategoryDef category;
 
@@ -37,6 +37,7 @@ namespace Defaults.UI
 
         public override void DoWindowContents(Rect inRect)
         {
+            base.DoWindowContents(inRect);
             float y = 0f;
             if (!Title.NullOrEmpty())
             {
@@ -46,7 +47,8 @@ namespace Defaults.UI
                     y = Text.LineHeight + Margin - 4f;
                 }
             }
-            DoSettings(new Rect(inRect.x, inRect.y + y, inRect.width, inRect.height - y));
+
+            DoSettings(new Rect(inRect.x, inRect.y + y, inRect.width, inRect.height - CloseButSize.y - 10f - (DoResetButton ? ResetButtonSize.y + 10f : 0f) - y));
 
             if (DoResetButton && Widgets.ButtonText(new Rect(ResetButtonPosition(inRect), ResetButtonSize), ResetButtonText))
             {

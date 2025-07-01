@@ -86,6 +86,19 @@
 	<Defaults_StockpileStorageSettings>stockpile zones</Defaults_StockpileStorageSettings>
 	<Defaults_BuildingStorageSettings>storage buildings</Defaults_BuildingStorageSettings>
 	<Defaults_ConfirmResetStockpileZoneSettings>Do you want to reset all default stockpile zone settings to their vanilla values? This action will delete all custom stockpile zones as well and cannot be undone.</Defaults_ConfirmResetStockpileZoneSettings>
+	<Defaults_ConfirmResetAllowedAreaSettings>Do you want to reset all default allowed area settings to their vanilla values? This action will delete all allowed areas and cannot be undone.</Defaults_ConfirmResetAllowedAreaSettings>
+	<Defaults_FullAreaTip>This allowed area will include the full map by default.</Defaults_FullAreaTip>
+	<Defaults_EmptyAreaTip>This allowed area will be empty by default.</Defaults_EmptyAreaTip>
+	<Defaults_ClickToChangeAllowedAreaColor>Click to change allowed area color.</Defaults_ClickToChangeAllowedAreaColor>
+	<Defaults_DragToReorder>Drag to reorder.</Defaults_DragToReorder>
+	<Defaults_DefaultPawnAllowedAreas>Default area restrictions for pawns</Defaults_DefaultPawnAllowedAreas>
+	<Defaults_AdultColonists>adult colonists</Defaults_AdultColonists>
+	<Defaults_ChildColonists>child colonists</Defaults_ChildColonists>
+	<Defaults_Slaves>slaves</Defaults_Slaves>
+	<Defaults_Guests>guests</Defaults_Guests>
+	<Defaults_Mechs>mechs</Defaults_Mechs>
+	<Defaults_Animals>animals</Defaults_Animals>
+	<Defaults_Ghouls>ghouls</Defaults_Ghouls>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>
