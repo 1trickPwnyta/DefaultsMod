@@ -1,4 +1,5 @@
-﻿using Defaults.UI;
+﻿using Defaults.Defs;
+using Defaults.UI;
 using UnityEngine;
 
 namespace Defaults.General
@@ -11,6 +12,6 @@ namespace Defaults.General
 
         public override Vector2 InitialSize => new Vector2(600f, 350f);
 
-        protected override bool DoResetButton => false;
+        protected override bool DoResetOption => false;
     }
 }

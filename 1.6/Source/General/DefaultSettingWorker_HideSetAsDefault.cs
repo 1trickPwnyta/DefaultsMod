@@ -1,4 +1,5 @@
-﻿using Defaults.Workers;
+﻿using Defaults.Defs;
+using Defaults.Workers;
 
 namespace Defaults.General
 {

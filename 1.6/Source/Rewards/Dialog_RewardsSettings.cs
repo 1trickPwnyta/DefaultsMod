@@ -1,4 +1,5 @@
-﻿using Defaults.UI;
+﻿using Defaults.Defs;
+using Defaults.UI;
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,6 @@ namespace Defaults.Rewards
             Widgets.Label(descRect, text);
             IEnumerable<FactionDef> allFactionDefs = DefDatabase<FactionDef>.AllDefs.OrderBy(def => def.configurationListOrderPriority);
             Rect outRect = new Rect(rect);
-            outRect.yMax -= CloseButSize.y + 10f + ResetButtonSize.y + 10f;
             outRect.yMin += 10f + descRect.height + 4f;
             float num2 = 0f;
             Rect rect2 = new Rect(0f, num2, outRect.width - 16f, viewRectHeight);

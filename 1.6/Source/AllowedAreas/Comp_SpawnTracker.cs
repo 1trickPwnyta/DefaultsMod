@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Defaults.Defs;
+using System.Collections.Generic;
 using Verse;
 
 namespace Defaults.AllowedAreas
@@ -11,20 +12,30 @@ namespace Defaults.AllowedAreas
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
-            if (!EverSpawnedOnMap(parent.Map))
+            if (DefaultSettingsCategoryDefOf.AllowedAreas.Enabled)
             {
-                AllowedAreaUtility.SetDefaultAllowedArea(parent as Pawn);
+                if (!EverSpawnedOnMap(parent.Map))
+                {
+                    AllowedAreaUtility.SetDefaultAllowedArea(parent as Pawn);
+                }
+                spawnedOnMapEver.Add(parent.Map);
             }
-            spawnedOnMapEver.Add(parent.Map);
         }
 
         public override void PostExposeData()
         {
-            if (Scribe.mode == LoadSaveMode.Saving)
+            if (DefaultSettingsCategoryDefOf.AllowedAreas.Enabled)
             {
-                spawnedOnMapEver.RemoveWhere(m => !Find.Maps.Contains(m));
+                if (Scribe.mode == LoadSaveMode.Saving)
+                {
+                    spawnedOnMapEver.RemoveWhere(m => !Find.Maps.Contains(m));
+                }
+                Scribe_Collections.Look(ref spawnedOnMapEver, "spawnedOnMapEver", LookMode.Reference);
+                if (Scribe.mode == LoadSaveMode.PostLoadInit && spawnedOnMapEver == null)
+                {
+                    spawnedOnMapEver = new HashSet<Map>();
+                }
             }
-            Scribe_Collections.Look(ref spawnedOnMapEver, "spawnedOnMapEver", LookMode.Reference);
         }
     }
 }

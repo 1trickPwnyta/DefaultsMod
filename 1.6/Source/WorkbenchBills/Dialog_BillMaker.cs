@@ -9,7 +9,7 @@ using Verse.Sound;
 
 namespace Defaults.WorkbenchBills
 {
-    public class Dialog_BillMaker : Dialog_Reorderable
+    public class Dialog_BillMaker : Dialog_Common
     {
         private const float padding = 4f;
         private static readonly Color billColor = new Color(0.15f, 0.15f, 0.15f);

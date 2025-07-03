@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Defaults.Defs;
+using System;
 using Verse;
 
 namespace Defaults
@@ -32,7 +33,6 @@ namespace Defaults
         public const string HIDE_LOADDEFAULT = "HideLoadDefaultButtons";
         public const string ALLOWED_AREAS = "AllowedAreas";
         public const string ALLOWED_AREAS_PAWN = "PawnAllowedAreas";
-
         public const string HOSTILITY_RESPONSE = "DefaultHostilityResponse";
         public const string MEDICINE_TO_CARRY = "DefaultMedicineToCarry";
         public const string MEDICINE_AMOUNT_TO_CARRY = "DefaultMedicineAmountToCarry";
@@ -47,6 +47,7 @@ namespace Defaults
         public const string MECH_WORK_MODE_ADDITIONAL = "DefaultWorkModeAdditional";
         public const string MECH_WORK_MODE_FIRST = "DefaultWorkModeFirst";
         public const string MECH_WORK_MODE_SECOND = "DefaultWorkModeSecond";
+        public const string SHOW_DISABLED_IN_SEARCH = "ShowDisabledInSearch";
 
         public static T Get<T>(string key)
         {

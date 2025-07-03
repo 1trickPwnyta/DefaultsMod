@@ -5,6 +5,7 @@ using Verse;
 
 namespace Defaults.BabyFeeding
 {
+    [HarmonyPatchCategory("BabyFeeding")]
     [HarmonyPatch(typeof(Pawn_FoodRestrictionTracker))]
     [HarmonyPatch("TrySetupAllowedBabyFoodTypes")]
     public static class Patch_Pawn_FoodRestrictionTracker

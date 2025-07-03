@@ -1,4 +1,5 @@
-﻿using Defaults.UI;
+﻿using Defaults.Defs;
+using Defaults.UI;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,6 +15,9 @@ namespace Defaults.ResourceCategories
         {
         }
 
+        private float y;
+        private Vector2 scrollPosition;
+
         private static bool CountAsResource(ThingCategoryDef def)
         {
             return def.childThingDefs.Any(d => d.CountAsResource) || def.childCategories.Any(c => CountAsResource(c));
@@ -23,8 +27,10 @@ namespace Defaults.ResourceCategories
 
         public override void DoSettings(Rect rect)
         {
+            Rect viewRect = new Rect(0f, 0f, rect.width - 20f, y);
+            Widgets.BeginScrollView(rect, ref scrollPosition, viewRect);
             Listing_ResourceCategories listing_ResourceCategories = new Listing_ResourceCategories();
-            listing_ResourceCategories.Begin(rect);
+            listing_ResourceCategories.Begin(viewRect);
             listing_ResourceCategories.nestIndentWidth = 7f;
             listing_ResourceCategories.lineHeight = 24f;
             listing_ResourceCategories.verticalSpacing = 0f;
@@ -32,7 +38,9 @@ namespace Defaults.ResourceCategories
             {
                 listing_ResourceCategories.DoCategory(def.treeNode, 0);
             }
+            y = listing_ResourceCategories.CurHeight;
             listing_ResourceCategories.End();
+            Widgets.EndScrollView();
         }
     }
 }

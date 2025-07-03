@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Defaults.Defs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -57,7 +58,6 @@ namespace Defaults.Workers
                 Widgets.DrawButtonGraphic(rect);
                 GUI.DrawTexture(new Rect(rect.x, rect.y, rect.height, rect.height).ContractedBy(6f), icon);
                 using (new TextBlock(TextAnchor.MiddleLeft)) Widgets.Label(new Rect(rect.x + rect.height, rect.y, rect.width - rect.height, rect.height), text);
-                Widgets.DrawHighlightIfMouseover(rect);
                 if (Widgets.ButtonInvisible(rect))
                 {
                     DoMenu();

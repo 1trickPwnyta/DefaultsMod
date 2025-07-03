@@ -3,6 +3,7 @@ using Verse;
 
 namespace Defaults.Medicine
 {
+    [HarmonyPatchCategory("Medicine")]
     [HarmonyPatch(typeof(Pawn))]
     [HarmonyPatch(nameof(Pawn.SetFaction))]
     public static class Patch_Pawn_SetFaction

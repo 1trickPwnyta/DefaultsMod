@@ -4,6 +4,7 @@ using Verse;
 
 namespace Defaults.AllowedAreas
 {
+    [HarmonyPatchCategory("AllowedAreas")]
     [HarmonyPatch(typeof(Pawn_GuestTracker))]
     [HarmonyPatch(nameof(Pawn_GuestTracker.SetGuestStatus))]
     public static class Patch_Pawn_GuestTracker

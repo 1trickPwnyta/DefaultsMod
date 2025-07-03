@@ -1,4 +1,5 @@
-﻿using Defaults.UI;
+﻿using Defaults.Defs;
+using Defaults.UI;
 using RimWorld;
 using System;
 using System.Collections;
@@ -23,9 +24,9 @@ namespace Defaults.AllowedAreas
         {
         }
 
-        public override Vector2 InitialSize => new Vector2(700f, 500f);
+        public override Vector2 InitialSize => new Vector2(700f, 548f);
 
-        protected override TaggedString ResetButtonWarning => "Defaults_ConfirmResetAllowedAreaSettings".Translate();
+        protected override TaggedString ResetOptionWarning => "Defaults_ConfirmResetAllowedAreaSettings".Translate();
 
         protected override IList ReorderableItems => Settings.Get<List<AllowedArea>>(Settings.ALLOWED_AREAS);
 

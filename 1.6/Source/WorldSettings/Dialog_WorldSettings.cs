@@ -1,4 +1,5 @@
-﻿using Defaults.MapSettings;
+﻿using Defaults.Defs;
+using Defaults.MapSettings;
 using Defaults.UI;
 using RimWorld;
 using RimWorld.Planet;
@@ -18,11 +19,8 @@ namespace Defaults.WorldSettings
             1f
         };
 
-        private readonly List<FactionDef> factions;
-
         public Dialog_WorldSettings(DefaultSettingsCategoryDef category) : base(category)
         {
-            factions = Settings.Get<List<FactionDef>>(Settings.FACTIONS);
         }
 
         public override Vector2 InitialSize => Page.StandardSize;
@@ -87,8 +85,8 @@ namespace Defaults.WorldSettings
 
             Widgets.EndGroup();
 
-            Rect rect9 = new Rect(mainRect.x + mainRect.xMax - mainRect.width / 2 + 24f, mainRect.y, mainRect.width / 2 - 24f, mainRect.height - 30f);
-            WorldFactionsUIUtility.DoWindowContents(rect9, factions, true);
+            Rect rect9 = mainRect.RightPartPixels(mainRect.width / 2 - 24f);
+            WorldFactionsUIUtility.DoWindowContents(rect9, Settings.Get<List<FactionDef>>(Settings.FACTIONS), true);
             Rect rect10 = new Rect(rect9.xMax - 24f, rect9.y, 24f, 24f);
             bool factionsLock = Settings.Get<bool>(Settings.FACTIONS_LOCK);
             UIUtility.DrawCheckButton(rect10, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref factionsLock);

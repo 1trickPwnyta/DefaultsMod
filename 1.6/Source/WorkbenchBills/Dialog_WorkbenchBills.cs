@@ -1,4 +1,5 @@
-﻿using Defaults.UI;
+﻿using Defaults.Defs;
+using Defaults.UI;
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,6 @@ namespace Defaults.WorkbenchBills
         private const float workbenchGroupHeight = 60f;
         private static readonly Color workbenchGroupColor = new Color(0.15f, 0.15f, 0.15f);
         private static readonly List<HashSet<ThingDef>> workbenchGroups;
-        private static readonly QuickSearchWidget search = new QuickSearchWidget();
 
         static Dialog_WorkbenchBills()
         {
@@ -33,22 +33,18 @@ namespace Defaults.WorkbenchBills
             }
         }
 
+        private Vector2 scrollPosition;
+        private float y = 0f;
+
         public Dialog_WorkbenchBills(DefaultSettingsCategoryDef category) : base(category)
         {
         }
 
-        private Vector2 scrollPosition;
-        private float y = 0f;
-
         public override Vector2 InitialSize => new Vector2(860f, 600f);
 
-        public override void PreOpen()
-        {
-            base.PreOpen();
-            search.Reset();
-        }
+        protected override TaggedString ResetOptionWarning => "Defaults_ConfirmResetWorkbenchBills".Translate();
 
-        protected override TaggedString ResetButtonWarning => "Defaults_ConfirmResetWorkbenchBills".Translate();
+        protected override bool DoSearchWidget => true;
 
         public override void DoSettings(Rect rect)
         {
@@ -58,13 +54,13 @@ namespace Defaults.WorkbenchBills
                 Find.WindowStack.Add(new Dialog_GlobalBillSettings());
             }
 
-            Rect outRect = new Rect(rect.x, globalRect.yMax + padding, rect.width, rect.height - CloseButSize.y - 10f - ResetButtonSize.y - 10f - globalRect.height - padding);
+            Rect outRect = new Rect(rect.x, globalRect.yMax + padding, rect.width, rect.height - globalRect.height - padding);
             Rect viewRect = new Rect(0f, 0f, outRect.width - 20f, y);
             Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
             float x = 0f;
             y = 0f;
             float workbenchGroupWidth = (viewRect.width - padding * 2) / 3;
-            foreach (HashSet<ThingDef> workbenchGroup in workbenchGroups.Where(g => g.Any(d => search.filter.Matches(d.label) || d.AllRecipes.Any(r => search.filter.Matches(r.label)))))
+            foreach (HashSet<ThingDef> workbenchGroup in workbenchGroups.Where(g => g.Any(d => CommonSearchWidget.filter.Matches(d.label) || d.AllRecipes.Any(r => CommonSearchWidget.filter.Matches(r.label)))))
             {
                 if (x + workbenchGroupWidth > viewRect.width)
                 {
@@ -77,9 +73,6 @@ namespace Defaults.WorkbenchBills
             }
             y += workbenchGroupHeight;
             Widgets.EndScrollView();
-
-            Rect searchRect = new Rect(rect.x, rect.yMax - CloseButSize.y - 10f - QuickSearchSize.y, QuickSearchSize.x, QuickSearchSize.y);
-            search.OnGUI(searchRect);
         }
 
         private void DoWorkbenchGroup(Rect rect, HashSet<ThingDef> workbenchGroup)

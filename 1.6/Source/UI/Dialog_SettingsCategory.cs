@@ -1,37 +1,49 @@
-﻿using UnityEngine;
+﻿using Defaults.Defs;
+using RimWorld;
+using System.Collections.Generic;
+using UnityEngine;
 using Verse;
+using Verse.Sound;
 
 namespace Defaults.UI
 {
-    public abstract class Dialog_SettingsCategory : Dialog_Reorderable
+    public abstract class Dialog_SettingsCategory : Dialog_Common
     {
         private readonly DefaultSettingsCategoryDef category;
 
-        protected Dialog_SettingsCategory(DefaultSettingsCategoryDef category)
+        public Dialog_SettingsCategory(DefaultSettingsCategoryDef category)
         {
             this.category = category;
-            doCloseX = true;
-            doCloseButton = true;
-            absorbInputAroundWindow = true;
-            closeOnClickedOutside = true;
         }
 
         public virtual string Title => category.LabelCap;
 
-        public Vector2 ResetButtonSize => new Vector2(250f, 30f);
+        protected virtual bool DoResetOption => true;
 
-        protected virtual bool DoResetButton => true;
+        protected virtual string ResetOptionText => "Defaults_ResetTheseSettings".Translate();
 
-        protected virtual Vector2 ResetButtonPosition(Rect rect) => new Vector2(rect.x + rect.width / 2 - ResetButtonSize.x / 2, rect.yMax - CloseButSize.y - 10f - ResetButtonSize.y);
-
-        protected virtual string ResetButtonText => "Defaults_ResetTheseSettings".Translate();
-
-        protected virtual void OnResetButtonClicked()
+        protected virtual void OnResetOptionClicked()
         {
-            Find.WindowStack.Add(new Dialog_MessageBox(ResetButtonWarning, "Confirm".Translate(), category.Worker.ResetSettings, "GoBack".Translate(), null, null, true, category.Worker.ResetSettings));
+            Find.WindowStack.Add(new Dialog_MessageBox(ResetOptionWarning, "Confirm".Translate(), category.Worker.ResetSettings, "GoBack".Translate(), null, null, true, category.Worker.ResetSettings));
         }
 
-        protected virtual TaggedString ResetButtonWarning => "Defaults_ConfirmResetTheseSettings".Translate(category.label);
+        protected virtual TaggedString ResetOptionWarning => "Defaults_ConfirmResetTheseSettings".Translate(category.label);
+
+        protected override IEnumerable<FloatMenuOption> QuickOptions
+        {
+            get
+            {
+                foreach (FloatMenuOption option in category.Worker.FloatMenuOptions)
+                {
+                    yield return option;
+                }
+
+                if (DoResetOption)
+                {
+                    yield return new FloatMenuOption(ResetOptionText, OnResetOptionClicked);
+                }
+            }
+        }
 
         public abstract void DoSettings(Rect rect);
 
@@ -39,21 +51,34 @@ namespace Defaults.UI
         {
             base.DoWindowContents(inRect);
             float y = 0f;
+
             if (!Title.NullOrEmpty())
             {
                 using (new TextBlock(GameFont.Medium))
                 {
                     Widgets.Label(inRect, Title);
-                    y = Text.LineHeight + Margin - 4f;
+                    y += Text.LineHeight + Margin - 4f;
                 }
             }
 
-            DoSettings(new Rect(inRect.x, inRect.y + y, inRect.width, inRect.height - CloseButSize.y - 10f - (DoResetButton ? ResetButtonSize.y + 10f : 0f) - y));
-
-            if (DoResetButton && Widgets.ButtonText(new Rect(ResetButtonPosition(inRect), ResetButtonSize), ResetButtonText))
+            if (!category.Enabled)
             {
-                OnResetButtonClicked();
+                TaggedString message = "Defaults_SettingsCategoryDisabled".Translate(category.LabelCap);
+                Rect disabledRect = new Rect(inRect.x, y, inRect.width, Mathf.Max(Text.CalcHeight(message, inRect.width - 100f) + 6f, 30f));
+                Widgets.DrawRectFast(disabledRect, Color.red.WithAlpha(0.25f));
+                using (new TextBlock(TextAnchor.MiddleLeft))
+                {
+                    Widgets.Label(disabledRect.LeftPartPixels(disabledRect.width - 100f).ContractedBy(3f), message);
+                }
+                if (Widgets.ButtonText(disabledRect.RightPartPixels(100f).MiddlePartPixels(100f, 30f).ContractedBy(3f), "Defaults_Enable".Translate()))
+                {
+                    category.Enabled = true;
+                    SoundDefOf.Click.PlayOneShot(null);
+                }
+                y += disabledRect.height + Margin;
             }
+
+            DoSettings(new Rect(inRect.x, inRect.y + y, inRect.width, inRect.height - CloseButSize.y - 10f - y));
         }
     }
 }

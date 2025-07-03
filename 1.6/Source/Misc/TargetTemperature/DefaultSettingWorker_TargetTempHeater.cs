@@ -1,4 +1,6 @@
-﻿namespace Defaults.Misc.TargetTemperature
+﻿using Defaults.Defs;
+
+namespace Defaults.Misc.TargetTemperature
 {
     public class DefaultSettingWorker_TargetTempHeater : DefaultSettingWorker_TargetTemp
     {

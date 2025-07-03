@@ -4,6 +4,7 @@ using Verse;
 
 namespace Defaults.AllowedAreas
 {
+    [HarmonyPatchCategory("AllowedAreas")]
     [HarmonyPatch(typeof(MutantUtility))]
     [HarmonyPatch(nameof(MutantUtility.SetPawnAsMutantInstantly))]
     public static class Patch_MutantUtility

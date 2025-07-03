@@ -8,6 +8,7 @@ using Verse;
 
 namespace Defaults.AllowedAreas
 {
+    [HarmonyPatchCategory("AllowedAreas")]
     [HarmonyPatch(typeof(Hediff_Pregnant))]
     [HarmonyPatch(nameof(Hediff_Pregnant.DoBirthSpawn))]
     public static class Patch_Hediff_Pregnant

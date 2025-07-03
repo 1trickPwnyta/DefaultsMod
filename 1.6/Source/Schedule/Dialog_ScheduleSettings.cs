@@ -1,4 +1,5 @@
-﻿using Defaults.UI;
+﻿using Defaults.Defs;
+using Defaults.UI;
 using RimWorld;
 using System.Collections;
 using System.Collections.Generic;
@@ -52,7 +53,7 @@ namespace Defaults.Schedule
                 TooltipHandler.TipRegionByKey(useLabelRect, "Defaults_UseScheduleTip");
             }
 
-            Rect outRect = new Rect(rect.x, rect.y + rowHeight * 2, rect.width, rect.height - rowHeight * 2 - CloseButSize.y - 10f - ResetButtonSize.y - 10f);
+            Rect outRect = new Rect(rect.x, rect.y + rowHeight * 2, rect.width, rect.height - rowHeight * 2);
             reorderableRect = outRect;
 
             Widgets.BeginScrollView(outRect, ref scrollPos, new Rect(0f, 0f, rect.width - 16f, rowHeight * defaultSchedules.Count));

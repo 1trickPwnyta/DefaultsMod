@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-  <Defaults.DefaultSettingsCategoryDef>
+  <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>Storyteller</defName>
 	<label>default storyteller settings</label>
 	<description>Allows you to set the default storyteller/difficulty settings to use for a new colony, including custom difficulty settings.</description>
@@ -40,9 +40,9 @@
 	  <li>monolith</li>
 	  <li>ambient</li>
 	</keywords>
-  </Defaults.DefaultSettingsCategoryDef>
+  </Defaults.Defs.DefaultSettingsCategoryDef>
   
-  <Defaults.DefaultSettingsCategoryDef>
+  <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>World</defName>
 	<label>default world settings</label>
 	<description>Allows you to set the default world settings to use for a new colony.</description>
@@ -76,9 +76,9 @@
 	  <li>fall</li>
 	  <li>winter</li>
 	</keywords>
-  </Defaults.DefaultSettingsCategoryDef>
+  </Defaults.Defs.DefaultSettingsCategoryDef>
   
-  <Defaults.DefaultSettingsCategoryDef>
+  <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>Schedule</defName>
 	<label>default colonist schedules</label>
 	<description>Allows you to set custom default schedules for colonists. You can create alternating schedules and the mod will cycle between them when assigning them to new colonists.</description>
@@ -97,9 +97,9 @@
 	  <li>night</li>
 	  <li>owl</li>
 	</keywords>
-  </Defaults.DefaultSettingsCategoryDef>
+  </Defaults.Defs.DefaultSettingsCategoryDef>
   
-  <Defaults.DefaultSettingsCategoryDef>
+  <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>Policies</defName>
 	<label>default policies</label>
 	<description>Allows you to set custom default apparel, food, drug, and reading policies that will be copied to each new colony.</description>
@@ -174,9 +174,9 @@
 	  <li>skills</li>
 	  <li>research</li>
 	</keywords>
-  </Defaults.DefaultSettingsCategoryDef>
+  </Defaults.Defs.DefaultSettingsCategoryDef>
   
-  <Defaults.DefaultSettingsCategoryDef>
+  <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>BabyFeeding</defName>
 	<label>default baby feeding settings</label>
 	<description>Allows you to set the default autofeed setting for colonists based on relationship to baby and whether they are lactating. Also allows you to set which foods babies can be fed by default.</description>
@@ -195,9 +195,9 @@
 	  <li>jelly</li>
 	  <li>food</li>
 	</keywords>
-  </Defaults.DefaultSettingsCategoryDef>
+  </Defaults.Defs.DefaultSettingsCategoryDef>
   
-  <Defaults.DefaultSettingsCategoryDef>
+  <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>Medicine</defName>
 	<label>default medicine settings</label>
 	<description>Allows you to set the default medicine settings to use for a new colony.</description>
@@ -214,9 +214,9 @@
 	  <li>wildlife</li>
 	  <li>entities</li>
 	</keywords>
-  </Defaults.DefaultSettingsCategoryDef>
+  </Defaults.Defs.DefaultSettingsCategoryDef>
   
-  <Defaults.DefaultSettingsCategoryDef>
+  <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>Rewards</defName>
 	<label>default reward preferences</label>
 	<description>Allows you to set the default reward preferences to use for a new colony.</description>
@@ -230,9 +230,9 @@
 	  <li>goodwill</li>
 	  <li>honor</li>
 	</keywords>
-  </Defaults.DefaultSettingsCategoryDef>
+  </Defaults.Defs.DefaultSettingsCategoryDef>
   
-  <Defaults.DefaultSettingsCategoryDef>
+  <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>ResourceCategories</defName>
 	<label>default expanded resource categories</label>
 	<description>Allows you to set which resource tree categories are expanded by default in categorized mode.</description>
@@ -257,9 +257,9 @@
 	  <li>stone</li>
 	  <li>blocks</li>
 	</keywords>
-  </Defaults.DefaultSettingsCategoryDef>
+  </Defaults.Defs.DefaultSettingsCategoryDef>
   
-  <Defaults.DefaultSettingsCategoryDef>
+  <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>Storage</defName>
 	<label>default storage settings</label>
 	<description>Allows you to configure the default settings for stockpile zones, dumping stockpile zones, and shelves. You can also create your own custom stockpile zone types with their own settings.</description>
@@ -275,9 +275,9 @@
 	  <li>shelves</li>
 	  <li>priority</li>
 	</keywords>
-  </Defaults.DefaultSettingsCategoryDef>
+  </Defaults.Defs.DefaultSettingsCategoryDef>
   
-  <Defaults.DefaultSettingsCategoryDef>
+  <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>WorkbenchBills</defName>
 	<label>default workbench bills</label>
 	<description>Allows you to set default bills for workbenches that will populate automatically upon building a workbench.</description>
@@ -341,9 +341,9 @@
 	  <li>pause</li>
 	  <li>satisfied</li>
 	</keywords>
-  </Defaults.DefaultSettingsCategoryDef>
+  </Defaults.Defs.DefaultSettingsCategoryDef>
   
-  <Defaults.DefaultSettingsCategoryDef>
+  <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>AllowedAreas</defName>
 	<label>default allowed areas</label>
 	<description>Allows you to create default allowed areas for new colonies and control which types of pawns get automatically assigned to which areas.</description>
@@ -356,22 +356,23 @@
 	  <li>unrestricted</li>
 	  <li>home</li>
 	</keywords>
-  </Defaults.DefaultSettingsCategoryDef>
+  </Defaults.Defs.DefaultSettingsCategoryDef>
   
-  <Defaults.DefaultSettingsCategoryDef>
+  <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>Misc</defName>
 	<label>miscellaneous defaults</label>
 	<description>Other default settings that don't fit neatly into one of the other categories.</description>
 	<iconPath>DefaultSettingsCategoryIcons/Misc</iconPath>
     <workerClass>Defaults.Misc.DefaultSettingsCategoryWorker_Misc</workerClass>
-  </Defaults.DefaultSettingsCategoryDef>
+  </Defaults.Defs.DefaultSettingsCategoryDef>
   
-  <Defaults.DefaultSettingsCategoryDef>
+  <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>General</defName>
 	<label>general settings</label>
 	<description>General settings for this mod.</description>
+	<canDisable>false</canDisable>
 	<iconPath>DefaultSettingsCategoryIcons/General</iconPath>
     <workerClass>Defaults.General.DefaultSettingsCategoryWorker_General</workerClass>
-  </Defaults.DefaultSettingsCategoryDef>
+  </Defaults.Defs.DefaultSettingsCategoryDef>
 
 </Defs>

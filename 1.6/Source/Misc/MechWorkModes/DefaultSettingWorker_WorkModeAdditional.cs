@@ -1,4 +1,6 @@
-﻿namespace Defaults.Misc.MechWorkModes
+﻿using Defaults.Defs;
+
+namespace Defaults.Misc.MechWorkModes
 {
     public class DefaultSettingWorker_WorkModeAdditional : DefaultSettingWorker_MechWorkMode
     {

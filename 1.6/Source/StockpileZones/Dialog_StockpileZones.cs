@@ -1,4 +1,5 @@
-﻿using Defaults.StockpileZones.Buildings;
+﻿using Defaults.Defs;
+using Defaults.StockpileZones.Buildings;
 using Defaults.UI;
 using Defaults.Workers;
 using RimWorld;
@@ -39,11 +40,11 @@ namespace Defaults.StockpileZones
 
         public override Vector2 InitialSize => new Vector2(860f, 640f);
 
-        protected override TaggedString ResetButtonWarning => currentTab.ResetWarning;
+        protected override TaggedString ResetOptionWarning => currentTab.ResetWarning;
 
-        protected override void OnResetButtonClicked()
+        protected override void OnResetOptionClicked()
         {
-            Find.WindowStack.Add(new Dialog_MessageBox(ResetButtonWarning, "Confirm".Translate(), currentTab.ResetSettings, "GoBack".Translate(), null, null, true, currentTab.ResetSettings));
+            Find.WindowStack.Add(new Dialog_MessageBox(ResetOptionWarning, "Confirm".Translate(), currentTab.ResetSettings, "GoBack".Translate(), null, null, true, currentTab.ResetSettings));
         }
 
         protected override IList ReorderableItems => Settings.Get<List<ZoneType>>(Settings.STOCKPILE_ZONES);

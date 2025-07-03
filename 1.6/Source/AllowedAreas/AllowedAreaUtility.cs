@@ -21,12 +21,12 @@ namespace Defaults.AllowedAreas
                     {
                         if (previousAllowedPawn.HasValue)
                         {
-                            if (allowedAreas[map]?.Label != allowedPawnAreas[previousAllowedPawn.Value]?.name)
+                            if (allowedAreas.TryGetValue(map)?.Label != allowedPawnAreas.TryGetValue(previousAllowedPawn.Value)?.name)
                             {
                                 continue;
                             }
                         }
-                        allowedAreas[map] = map.areaManager.AllAreas.FirstOrDefault(a => a.Label == allowedPawnAreas[allowedPawn.Value]?.name);
+                        allowedAreas[map] = map.areaManager.AllAreas.FirstOrDefault(a => a.Label == allowedPawnAreas.TryGetValue(allowedPawn.Value)?.name);
                     }
                 }
             }

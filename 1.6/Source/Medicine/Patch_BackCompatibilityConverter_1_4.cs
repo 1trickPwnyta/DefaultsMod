@@ -3,7 +3,9 @@ using Verse;
 
 namespace Defaults.Medicine
 {
-    [HarmonyPatch(typeof(BackCompatibilityConverter_1_4), nameof(BackCompatibilityConverter_1_4.PostExposeData))]
+    [HarmonyPatchCategory("Medicine")]
+    [HarmonyPatch(typeof(BackCompatibilityConverter_1_4))]
+    [HarmonyPatch(nameof(BackCompatibilityConverter_1_4.PostExposeData))]
     public static class Patch_BackCompatibilityConverter_1_4_PostExposeData
     {
         public static void Postfix(object obj)

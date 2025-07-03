@@ -4,6 +4,7 @@ using Verse;
 
 namespace Defaults.BabyFeeding
 {
+    [HarmonyPatchCategory("BabyFeeding")]
     [HarmonyPatch(typeof(PregnancyUtility))]
     [HarmonyPatch(nameof(PregnancyUtility.ApplyBirthOutcome))]
     public static class Patch_PregnancyUtility

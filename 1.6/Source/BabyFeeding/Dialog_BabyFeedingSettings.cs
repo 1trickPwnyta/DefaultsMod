@@ -1,4 +1,5 @@
-﻿using Defaults.UI;
+﻿using Defaults.Defs;
+using Defaults.UI;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Defaults.BabyFeeding
         {
         }
 
-        public override Vector2 InitialSize => new Vector2(500f, 590f);
+        public override Vector2 InitialSize => new Vector2(500f, 638f);
 
         public override void DoSettings(Rect rect)
         {
@@ -39,7 +40,7 @@ namespace Defaults.BabyFeeding
             UIUtility.DrawCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref options.locked);
             listing.Label("BabyFoodConsumables".Translate().CapitalizeFirst());
             listing.GapLine();
-            Rect outRect = listing.GetRect(200f);
+            Rect outRect = listing.GetRect(150f);
             Rect viewRect = new Rect(0f, 0f, rect.width, y);
             y = 0f;
             Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);

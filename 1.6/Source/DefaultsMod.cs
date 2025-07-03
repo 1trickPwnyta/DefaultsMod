@@ -1,12 +1,10 @@
 ﻿using Verse;
 using HarmonyLib;
-using UnityEngine;
 using RimWorld;
 using System;
-using Defaults.WorkbenchBills;
 using System.Linq;
-using Defaults.StockpileZones.Buildings;
 using System.Collections.Generic;
+using Defaults.Defs;
 
 namespace Defaults
 {
@@ -15,15 +13,23 @@ namespace Defaults
     {
         static DefaultsModInitializer()
         {
+            DefaultsMod.Settings = DefaultsMod.Mod.GetSettings<DefaultsSettings>();
+            DefaultsSettings.CheckForNewContent();
+
             Harmony harmony = new Harmony(DefaultsMod.PACKAGE_ID);
-            harmony.PatchAll();
-            harmony.Patch(typeof(Pawn_TimetableTracker).GetConstructor(new[] { typeof(Pawn) }), null, typeof(Schedule.Patch_Pawn_TimetableTracker_ctor).GetMethod("Postfix"));
-            harmony.Patch(typeof(PlaySettings).GetConstructor(new Type[] { }), null, typeof(Medicine.Patch_PlaySettings_ctor).GetMethod("Postfix"));
-            harmony.Patch(typeof(PlaySettings).GetConstructor(new Type[] { }), null, typeof(Misc.PlaySettings.Patch_PlaySettings_ctor).GetMethod("Postfix"));
-            harmony.Patch(typeof(ResourceReadout).GetConstructor(new Type[] { }), null, typeof(ResourceCategories.Patch_ResourceReadout_ctor).GetMethod("Postfix"));
-            harmony.Patch(typeof(CompTempControl).Method("<CompGetGizmosExtra>b__14_2"), null, null, typeof(Misc.TargetTemperature.Patch_CompTempControl_CompGetGizmosExtra_b__14_2).GetMethod("Transpiler"));
-            harmony.Patch(typeof(Bill_Production).GetConstructor(new[] { typeof(RecipeDef), typeof(Precept_ThingStyle) }), null, typeof(Patch_Bill_Production_ctor).GetMethod("Postfix"));
-            harmony.Patch(typeof(MechanitorControlGroup).GetConstructor(new[] { typeof(Pawn_MechanitorTracker) }), null, typeof(Misc.MechWorkModes.Patch_MechanitorControlGroup).Method(nameof(Misc.MechWorkModes.Patch_MechanitorControlGroup.Postfix)));
+            harmony.PatchAllUncategorized();
+            foreach (DefaultSettingsCategoryDef def in DefDatabase<DefaultSettingsCategoryDef>.AllDefsListForReading.Where(d => d.Enabled && d.canDisable))
+            {
+                harmony.PatchCategory(def.defName);
+            }
+
+            harmony.Patch(typeof(Pawn_TimetableTracker).GetConstructor(new[] { typeof(Pawn) }), postfix: typeof(Schedule.Patch_Pawn_TimetableTracker_ctor).Method(nameof(Schedule.Patch_Pawn_TimetableTracker_ctor.Postfix)));
+            //harmony.Patch(typeof(PlaySettings).GetConstructor(new Type[] { }), postfix: typeof(Medicine.Patch_PlaySettings_ctor).Method(nameof(Medicine.Patch_PlaySettings_ctor.Postfix)));
+            harmony.Patch(typeof(PlaySettings).GetConstructor(new Type[] { }), postfix: typeof(Misc.PlaySettings.Patch_PlaySettings_ctor).Method(nameof(Misc.PlaySettings.Patch_PlaySettings_ctor.Postfix)));
+            harmony.Patch(typeof(ResourceReadout).GetConstructor(new Type[] { }), postfix: typeof(ResourceCategories.Patch_ResourceReadout_ctor).Method(nameof(ResourceCategories.Patch_ResourceReadout_ctor.Postfix)));
+            harmony.Patch(typeof(CompTempControl).Method("<CompGetGizmosExtra>b__14_2"), transpiler: typeof(Misc.TargetTemperature.Patch_CompTempControl_CompGetGizmosExtra_b__14_2).Method(nameof(Misc.TargetTemperature.Patch_CompTempControl_CompGetGizmosExtra_b__14_2.Transpiler)));
+            harmony.Patch(typeof(Bill_Production).GetConstructor(new[] { typeof(RecipeDef), typeof(Precept_ThingStyle) }), postfix: typeof(WorkbenchBills.Patch_Bill_Production_ctor).Method(nameof(WorkbenchBills.Patch_Bill_Production_ctor.Postfix)));
+            harmony.Patch(typeof(MechanitorControlGroup).GetConstructor(new[] { typeof(Pawn_MechanitorTracker) }), postfix: typeof(Misc.MechWorkModes.Patch_MechanitorControlGroup).Method(nameof(Misc.MechWorkModes.Patch_MechanitorControlGroup.Postfix)));
 
             HashSet<Type> patchedTypes = new HashSet<Type>();
             foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading.Where(d => d.building?.defaultStorageSettings != null))
@@ -35,13 +41,10 @@ namespace Defaults
                 }
                 if (!patchedTypes.Contains(postMakeType))
                 {
-                    harmony.Patch(postMakeType.Method(nameof(Building.PostMake)), postfix: typeof(Patch_Building_PostMake).Method(nameof(Patch_Building_PostMake.Postfix)));
+                    harmony.Patch(postMakeType.Method(nameof(Building.PostMake)), postfix: typeof(StockpileZones.Buildings.Patch_Building_PostMake).Method(nameof(StockpileZones.Buildings.Patch_Building_PostMake.Postfix)));
                     patchedTypes.Add(postMakeType);
                 }
             }
-
-            DefaultsMod.Settings = DefaultsMod.Mod.GetSettings<DefaultsSettings>();
-            DefaultsSettings.CheckForNewContent();
         }
     }
 
@@ -60,10 +63,5 @@ namespace Defaults
         }
 
         public override string SettingsCategory() => PACKAGE_NAME;
-
-        public override void DoSettingsWindowContents(Rect inRect)
-        {
-            DefaultsSettings.DoSettingsWindowContents(inRect);
-        }
     }
 }

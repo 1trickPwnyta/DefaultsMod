@@ -1,28 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-  <Defaults.DefaultSettingDef>
+  <Defaults.Defs.DefaultSettingDef>
     <defName>MedCarry</defName>
 	<label>default medicine to carry</label>
 	<category>Medicine</category>
 	<uiOrder>5</uiOrder>
     <workerClass>Defaults.Medicine.DefaultSettingWorker_MedCarry</workerClass>
-  </Defaults.DefaultSettingDef>
+  </Defaults.Defs.DefaultSettingDef>
   
-  <Defaults.DefaultSettingDef>
+  <Defaults.Defs.DefaultSettingDef>
     <defName>MedCarryAmount</defName>
 	<label>default medicine amount to carry</label>
 	<category>Medicine</category>
 	<uiOrder>15</uiOrder>
     <workerClass>Defaults.Medicine.DefaultSettingWorker_MedCarryAmount</workerClass>
-  </Defaults.DefaultSettingDef>
+  </Defaults.Defs.DefaultSettingDef>
   
-  <Defaults.DefaultSettingDef>
+  <Defaults.Defs.DefaultSettingDef>
     <defName>MedCarryGuest</defName>
 	<label>guests pick up medicine to carry, too</label>
 	<category>Medicine</category>
 	<uiOrder>25</uiOrder>
     <workerClass>Defaults.Medicine.DefaultSettingWorker_MedCarryGuest</workerClass>
-  </Defaults.DefaultSettingDef>
+  </Defaults.Defs.DefaultSettingDef>
 
 </Defs>

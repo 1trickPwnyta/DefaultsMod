@@ -75,7 +75,7 @@ namespace Defaults.Storyteller
         public static void DoPermadeathSelection(Listing_Standard infoListing)
         {
             bool settingsOpen = Find.WindowStack.IsOpen<Dialog_Storyteller>();
-            bool permadeath = Settings.Get<bool>(Settings.PERMADEATH);
+            bool permadeath = Settings.GetValue<bool>(Settings.PERMADEATH);
             bool active = settingsOpen ? permadeath : Find.GameInitData.permadeathChosen && Find.GameInitData.permadeath;
             bool active2 = settingsOpen ? !permadeath : Find.GameInitData.permadeathChosen && !Find.GameInitData.permadeath;
             if (infoListing.RadioButton("ReloadAnytimeMode".Translate(), active2, 0f, "ReloadAnytimeModeInfo".Translate(), null))

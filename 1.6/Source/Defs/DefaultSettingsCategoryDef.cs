@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 
-namespace Defaults
+namespace Defaults.Defs
 {
     public class DefaultSettingsCategoryDef : Def
     {
@@ -16,6 +16,7 @@ namespace Defaults
         public string iconPath;
         public Type workerClass;
         public List<string> keywords = new List<string>();
+        public bool canDisable = true;
 
         public Texture2D Icon
         {
@@ -46,9 +47,18 @@ namespace Defaults
 
         public IEnumerable<DefaultSettingDef> DefaultSettings => DefDatabase<DefaultSettingDef>.AllDefsListForReading.Where(d => d.category == this);
 
-        public bool Matches(QuickSearchFilter filter) => filter.Matches(label)
+        public bool Enabled
+        {
+            get => !Worker.disabled;
+            set => Worker.disabled = !value;
+        }
+
+        public bool ShowInSearch => Enabled || Settings.GetValue<bool>(Settings.SHOW_DISABLED_IN_SEARCH);
+
+        public bool Matches(QuickSearchFilter filter) => ShowInSearch && (
+            filter.Matches(label)
             || keywords.Any(k => filter.Matches(k))
             || DefaultSettings.Any(s => s.Matches(filter)
-        );
+        ));
     }
 }

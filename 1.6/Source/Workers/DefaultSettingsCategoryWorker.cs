@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Defaults.Defs;
+using RimWorld;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
+using Verse.Sound;
 
 namespace Defaults.Workers
 {
@@ -10,8 +13,10 @@ namespace Defaults.Workers
         private static readonly Color buttonColor = new Color(0.2f, 0.2f, 0.2f);
         private static readonly float buttonIconSize = 50f;
         private static readonly float buttonPadding = 10f;
+        private static readonly Color disabledColor = Color.black.WithAlpha(0.5f);
 
         public readonly DefaultSettingsCategoryDef def;
+        public bool disabled;
 
         public static T GetWorker<T>() where T : DefaultSettingsCategoryWorker => DefDatabase<DefaultSettingsCategoryDef>.AllDefsListForReading.First(d => d.Worker is T).Worker as T;
 
@@ -19,6 +24,22 @@ namespace Defaults.Workers
         {
             this.def = def;
             ResetCategorySettings(false);
+        }
+
+        protected virtual string DataPrefix => def.defName + ".";
+
+        public virtual IEnumerable<FloatMenuOption> FloatMenuOptions
+        {
+            get
+            {
+                if (def.canDisable)
+                {
+                    yield return new FloatMenuOption((disabled ? "Defaults_Enable" : "Defaults_Disable").Translate(), () =>
+                    {
+                        disabled = !disabled;
+                    });
+                }
+            }
         }
 
         public virtual bool GetSetting<T>(string key, out T value)
@@ -82,6 +103,7 @@ namespace Defaults.Workers
 
         public void ExposeData()
         {
+            Scribe_Values.Look(ref disabled, DataPrefix + "disabled");
             ExposeCategorySettings();
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
@@ -99,6 +121,7 @@ namespace Defaults.Workers
 
         public void ResetSettings()
         {
+            disabled = false;
             ResetCategorySettings(true);
             foreach (DefaultSettingDef def in def.DefaultSettings)
             {
@@ -118,10 +141,30 @@ namespace Defaults.Workers
             Text.Anchor = TextAnchor.LowerCenter;
             Widgets.Label(labelRect, def.LabelCap);
             Text.Anchor = default;
-            TooltipHandler.TipRegion(rect, def.description);
-            if (Widgets.ButtonInvisible(rect))
+            TaggedString tip = def.description + (disabled
+                ? "\n\n" + "Defaults_SettingsCategoryDisabled".Translate(def.LabelCap).Colorize(ColoredText.WarningColor)
+                : string.Empty
+            );
+            TooltipHandler.TipRegion(rect, tip);
+            MouseoverSounds.DoRegion(rect);
+            if (Mouse.IsOver(rect) && Event.current.type == EventType.MouseUp)
             {
-                OpenSettings();
+                if (Event.current.button == 0)
+                {
+                    OpenSettings();
+                }
+                else if (Event.current.button == 1)
+                {
+                    List<FloatMenuOption> options = FloatMenuOptions.ToList();
+                    if (options.Any())
+                    {
+                        Find.WindowStack.Add(new FloatMenu(options));
+                    }
+                }
+            }
+            if (disabled)
+            {
+                Widgets.DrawRectFast(rect, disabledColor);
             }
         }
     }

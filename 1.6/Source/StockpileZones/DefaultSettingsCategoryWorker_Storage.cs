@@ -1,4 +1,5 @@
-﻿using Defaults.StockpileZones.Buildings;
+﻿using Defaults.Defs;
+using Defaults.StockpileZones.Buildings;
 using Defaults.Workers;
 using RimWorld;
 using System.Collections.Generic;

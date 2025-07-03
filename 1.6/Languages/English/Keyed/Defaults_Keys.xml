@@ -36,7 +36,7 @@
 	<Defaults_WorkModeAdditional>Additional mech control groups work mode</Defaults_WorkModeAdditional>
 	<Defaults_ResetAllSettings>Reset all settings to vanilla</Defaults_ResetAllSettings>
 	<Defaults_ResetTheseSettings>Reset these settings to vanilla</Defaults_ResetTheseSettings>
-	<Defaults_ConfirmResetAllSettings>Do you want to reset all settings to their vanilla values? This action cannot be undone.</Defaults_ConfirmResetAllSettings>
+	<Defaults_ConfirmResetAllSettings>Do you want to reset all mod settings to their vanilla values? All settings categories will be enabled and all general settings will return to their default values. This action cannot be undone.</Defaults_ConfirmResetAllSettings>
 	<Defaults_ConfirmResetTheseSettings>Do you want to reset all {0} to their vanilla values? This action cannot be undone.</Defaults_ConfirmResetTheseSettings>
 	<Defaults_ConfirmResetWorkbenchBills>Do you want to reset all default workbench bill settings to their vanilla values? This action will delete all default workbench bills and cannot be undone.</Defaults_ConfirmResetWorkbenchBills>
 	<Defaults_ScheduleName>Schedule {0}</Defaults_ScheduleName>
@@ -99,6 +99,15 @@
 	<Defaults_Mechs>mechs</Defaults_Mechs>
 	<Defaults_Animals>animals</Defaults_Animals>
 	<Defaults_Ghouls>ghouls</Defaults_Ghouls>
+	<Defaults_Enable>Enable</Defaults_Enable>
+	<Defaults_EnableAll>Enable all settings categories</Defaults_EnableAll>
+	<Defaults_Disable>Disable</Defaults_Disable>
+	<Defaults_DisableAll>Disable all settings categories</Defaults_DisableAll>
+	<Defaults_SettingsCategoryDisabled>{0} are currently disabled and will not affect gameplay.</Defaults_SettingsCategoryDisabled>
+	<Defaults_RestartRequired>Restart required</Defaults_RestartRequired>
+	<Defaults_RestartRequiredDesc>Disabling or enabling entire settings categories will not take effect until the game is restarted. Do you want to restart now?</Defaults_RestartRequiredDesc>
+	<Defaults_Restart>Restart RimWorld</Defaults_Restart>
+	<Defaults_NotNow>Not now</Defaults_NotNow>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

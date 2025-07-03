@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using Verse;
 
-namespace Defaults
+namespace Defaults.Defs
 {
     public class DefaultSettingDef : Def
     {
@@ -13,6 +13,7 @@ namespace Defaults
         public DefaultSettingsCategoryDef category;
         public int uiOrder;
         public Type workerClass;
+        public bool showInQuickOptions;
         public List<string> keywords = new List<string>();
 
         public IDefaultSettingWorker Worker
@@ -27,6 +28,9 @@ namespace Defaults
             }
         }
 
-        public bool Matches(QuickSearchFilter filter) => filter.Matches(label) || keywords.Any(k => filter.Matches(k));
+        public bool Matches(QuickSearchFilter filter) => category.ShowInSearch && (
+            filter.Matches(label)
+            || keywords.Any(k => filter.Matches(k)
+        ));
     }
 }

@@ -1,4 +1,5 @@
-﻿using Defaults.Policies.ApparelPolicies;
+﻿using Defaults.Defs;
+using Defaults.Policies.ApparelPolicies;
 using Defaults.Policies.DrugPolicies;
 using Defaults.Policies.FoodPolicies;
 using Defaults.Policies.ReadingPolicies;
@@ -28,21 +29,21 @@ namespace Defaults.Policies
             currentWindow = tabs[0].window;
         }
 
-        public override Vector2 InitialSize => new Vector2(1320f, 847f);
+        public override Vector2 InitialSize => new Vector2(1320f, 700f);
 
         public override void DoSettings(Rect rect)
         {
             Rect tabsRect = new Rect(rect.x, rect.y + 32f, rect.width, 1f);
             TabDrawer.DrawTabs(tabsRect, tabs);
-            Rect contentRect = new Rect(rect.x, tabsRect.yMax, currentWindow.InitialSize.x - 36f, rect.height - CloseButSize.y - 10f - ResetButtonSize.y);
+            Rect contentRect = new Rect(rect.x, tabsRect.yMax, currentWindow.InitialSize.x - 36f, rect.height - 32f - tabsRect.height + CloseButSize.y + 10f);
             currentWindow.DoWindowContents(contentRect);
         }
 
-        protected override TaggedString ResetButtonWarning => "Defaults_ConfirmResetTheseSettings".Translate(currentWindow.Topic);
+        protected override TaggedString ResetOptionWarning => "Defaults_ConfirmResetTheseSettings".Translate(currentWindow.Topic);
 
-        protected override void OnResetButtonClicked()
+        protected override void OnResetOptionClicked()
         {
-            Find.WindowStack.Add(new Dialog_MessageBox(ResetButtonWarning, "Confirm".Translate(), currentWindow.ResetPolicies, "GoBack".Translate(), null, null, true, currentWindow.ResetPolicies));
+            Find.WindowStack.Add(new Dialog_MessageBox(ResetOptionWarning, "Confirm".Translate(), currentWindow.ResetPolicies, "GoBack".Translate(), null, null, true, currentWindow.ResetPolicies));
         }
 
         private class PolicyTab : TabRecord

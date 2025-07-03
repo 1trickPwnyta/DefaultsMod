@@ -87,11 +87,15 @@
     <Compile Include="BabyFeeding\Patch_Pawn_FoodRestrictionTracker.cs" />
     <Compile Include="BabyFeeding\Patch_PregnancyUtility.cs" />
     <Compile Include="BackwardCompatibilityUtility.cs" />
-    <Compile Include="DefaultSettingDef.cs" />
+    <Compile Include="Defs\DefaultSettingDef.cs" />
+    <Compile Include="Defs\DefaultSettingsCategoryDefOf.cs" />
+    <Compile Include="Dialog_MainSettings.cs" />
     <Compile Include="General\DefaultSettingWorker_HideLoadDefault.cs" />
+    <Compile Include="General\DefaultSettingWorker_ShowDisabledInSearch.cs" />
     <Compile Include="StockpileZones\Buildings\BuildingUtility.cs" />
     <Compile Include="StockpileZones\Buildings\ZoneType_Building.cs" />
-    <Compile Include="UI\Dialog_Reorderable.cs" />
+    <Compile Include="UI\Dialog_Common.cs" />
+    <Compile Include="UI\Patch_Dialog_Options.cs" />
     <Compile Include="Workers\DefaultSettingsCategoryWorker.cs" />
     <Compile Include="Misc\DefaultSettingsCategoryWorker_Misc.cs" />
     <Compile Include="Workers\DefaultSettingWorker.cs" />
@@ -117,7 +121,7 @@
     <Compile Include="Misc\MechWorkModes\DefaultSettingWorker_WorkModeFirst.cs" />
     <Compile Include="Misc\MechWorkModes\Patch_MechanitorControlGroup.cs" />
     <Compile Include="Misc\MechWorkModes\Patch_Pawn_MechanitorTracker.cs" />
-    <Compile Include="DefaultSettingsCategoryDef.cs" />
+    <Compile Include="Defs\DefaultSettingsCategoryDef.cs" />
     <Compile Include="Medicine\DefaultSettingsCategoryWorker_Medicine.cs" />
     <Compile Include="Medicine\DefaultSettingWorker_MedCarryGuest.cs" />
     <Compile Include="Medicine\DefaultSettingWorker_MedCarryAmount.cs" />

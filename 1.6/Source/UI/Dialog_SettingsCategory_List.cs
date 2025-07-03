@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Defaults.Defs;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -23,7 +24,7 @@ namespace Defaults.UI
         public override void DoSettings(Rect rect)
         {
             Rect viewRect = new Rect(0f, 0f, rect.width - 20f, totalHeight);
-            Widgets.BeginScrollView(new Rect(rect.x, rect.y, rect.width, rect.height - CloseButSize.y - 10f - (DoResetButton ? ResetButtonSize.y + 10f : 0f)), ref scrollPosition, viewRect);
+            Widgets.BeginScrollView(rect, ref scrollPosition, viewRect);
 
             Listing_Standard listing = new Listing_StandardHighlight() { maxOneColumn = true };
             listing.Begin(viewRect);

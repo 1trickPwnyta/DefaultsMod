@@ -5,6 +5,7 @@ using Verse;
 
 namespace Defaults.AllowedAreas
 {
+    [HarmonyPatchCategory("AllowedAreas")]
     [HarmonyPatch(typeof(AreaManager))]
     [HarmonyPatch(nameof(AreaManager.AddStartingAreas))]
     public static class Patch_AreaManager

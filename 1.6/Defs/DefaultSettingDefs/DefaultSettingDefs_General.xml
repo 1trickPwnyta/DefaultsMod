@@ -1,26 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-  <Defaults.DefaultSettingDef>
+  <Defaults.Defs.DefaultSettingDef>
+    <defName>ShowDisabledInSearch</defName>
+	<label>show disabled settings in searches</label>
+	<category>General</category>
+	<uiOrder>5</uiOrder>
+	<showInQuickOptions>true</showInQuickOptions>
+    <workerClass>Defaults.General.DefaultSettingWorker_ShowDisabledInSearch</workerClass>
+	<keywords>
+	  <li>hide</li>
+	  <li>enabled</li>
+	</keywords>
+  </Defaults.Defs.DefaultSettingDef>
+
+  <Defaults.Defs.DefaultSettingDef>
     <defName>HideSetAsDefault</defName>
 	<label>hide "save as default" buttons</label>
 	<category>General</category>
-	<uiOrder>5</uiOrder>
+	<uiOrder>15</uiOrder>
     <workerClass>Defaults.General.DefaultSettingWorker_HideSetAsDefault</workerClass>
 	<keywords>
 	  <li>show</li>
 	</keywords>
-  </Defaults.DefaultSettingDef>
+  </Defaults.Defs.DefaultSettingDef>
   
-  <Defaults.DefaultSettingDef>
+  <Defaults.Defs.DefaultSettingDef>
     <defName>HideLoadDefault</defName>
 	<label>hide "load default" buttons</label>
 	<category>General</category>
-	<uiOrder>15</uiOrder>
+	<uiOrder>25</uiOrder>
     <workerClass>Defaults.General.DefaultSettingWorker_HideLoadDefault</workerClass>
 	<keywords>
 	  <li>show</li>
 	</keywords>
-  </Defaults.DefaultSettingDef>
+  </Defaults.Defs.DefaultSettingDef>
 
 </Defs>

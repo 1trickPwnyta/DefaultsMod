@@ -3,6 +3,7 @@ using Verse;
 
 namespace Defaults.AllowedAreas
 {
+    [HarmonyPatchCategory("AllowedAreas")]
     [HarmonyPatch(typeof(Pawn_AgeTracker))]
     [HarmonyPatch("BirthdayBiological")]
     public static class Patch_Pawn_AgeTracker
