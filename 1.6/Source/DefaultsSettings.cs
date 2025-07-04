@@ -991,13 +991,16 @@ namespace Defaults
 
             listing.CheckboxLabeled("Defaults_GuestsCarryMedicine".Translate(), ref GuestsCarryMedicine);
 
-            Rect pregnancyApproachRect = listing.GetRect(30f);
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(pregnancyApproachRect, "Defaults_PregnancyApproach".Translate());
-            Text.Anchor = TextAnchor.UpperLeft;
-            pregnancyApproachRect.x += pregnancyApproachRect.width - 28;
-            pregnancyApproachRect.width = 32;
-            PregnancyApproach.PregnancyApproachUtility.DrawPregnancyApproachButton(pregnancyApproachRect.ContractedBy(4f));
+            if (ModsConfig.BiotechActive)
+            {
+                Rect pregnancyApproachRect = listing.GetRect(30f);
+                Text.Anchor = TextAnchor.MiddleLeft;
+                Widgets.Label(pregnancyApproachRect, "Defaults_PregnancyApproach".Translate());
+                Text.Anchor = TextAnchor.UpperLeft;
+                pregnancyApproachRect.x += pregnancyApproachRect.width - 28;
+                pregnancyApproachRect.width = 32;
+                PregnancyApproach.PregnancyApproachUtility.DrawPregnancyApproachButton(pregnancyApproachRect.ContractedBy(4f));
+            }
 
             Rect autoRebuildRect = listing.GetRect(30f);
             Text.Anchor = TextAnchor.MiddleLeft;
