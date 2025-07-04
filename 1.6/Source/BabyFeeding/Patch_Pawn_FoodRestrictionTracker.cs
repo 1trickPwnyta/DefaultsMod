@@ -8,6 +8,7 @@ namespace Defaults.BabyFeeding
     [HarmonyPatchCategory("BabyFeeding")]
     [HarmonyPatch(typeof(Pawn_FoodRestrictionTracker))]
     [HarmonyPatch("TrySetupAllowedBabyFoodTypes")]
+    [HarmonyPatchMod("Ludeon.RimWorld.Biotech")]
     public static class Patch_Pawn_FoodRestrictionTracker
     {
         public static void Prefix(ref Dictionary<ThingDef, bool> ___allowedBabyFoodTypes)

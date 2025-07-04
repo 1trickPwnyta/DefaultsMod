@@ -6,25 +6,38 @@ using Verse;
 
 namespace Defaults.Rewards
 {
-    public class Dialog_RewardsSettings : SettingsDialog
+    public class Dialog_RewardsSettings : Window
     {
         private Vector2 scrollPosition;
         private float viewRectHeight;
 
-        public override string Title => "Defaults_Rewards".Translate();
-
-        public override Vector2 InitialSize => new Vector2(700f, 440f);
-
-        public override void DoSettings(Rect rect)
+        public Dialog_RewardsSettings()
         {
+            this.doCloseX = true;
+            this.doCloseButton = true;
+        }
+
+        public override Vector2 InitialSize
+        {
+            get
+            {
+                return new Vector2(700f, 440f);
+            }
+        }
+
+        public override void DoWindowContents(Rect inRect)
+        {
+            Text.Font = GameFont.Medium;
+            Widgets.Label(new Rect(0f, 0f, InitialSize.x / 2f, 40f), "Defaults_Rewards".Translate());
+            Text.Font = GameFont.Small;
             string text = "ChooseRewardsDesc".Translate();
-            float num = Text.CalcHeight(text, rect.width);
-            Rect descRect = new Rect(rect.x, rect.y, rect.width, num);
-            Widgets.Label(descRect, text);
+            float num = Text.CalcHeight(text, inRect.width);
+            Rect rect = new Rect(0f, 40f, inRect.width, num);
+            Widgets.Label(rect, text);
             IEnumerable<FactionDef> allFactionDefs = DefDatabase<FactionDef>.AllDefs.OrderBy(def => def.configurationListOrderPriority);
-            Rect outRect = new Rect(rect);
-            outRect.yMax -= CloseButSize.y;
-            outRect.yMin += 44f + descRect.height + 4f;
+            Rect outRect = new Rect(inRect);
+            outRect.yMax -= Window.CloseButSize.y;
+            outRect.yMin += 44f + rect.height + 4f;
             float num2 = 0f;
             Rect rect2 = new Rect(0f, num2, outRect.width - 16f, viewRectHeight);
             Widgets.BeginScrollView(outRect, ref scrollPosition, rect2, true);

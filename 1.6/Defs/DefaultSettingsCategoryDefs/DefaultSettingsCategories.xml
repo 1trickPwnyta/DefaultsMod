@@ -176,7 +176,7 @@
 	</keywords>
   </Defaults.Defs.DefaultSettingsCategoryDef>
   
-  <Defaults.Defs.DefaultSettingsCategoryDef>
+  <Defaults.Defs.DefaultSettingsCategoryDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>BabyFeeding</defName>
 	<label>default baby feeding settings</label>
 	<description>Allows you to set the default autofeed setting for colonists based on relationship to baby and whether they are lactating. Also allows you to set which foods babies can be fed by default.</description>

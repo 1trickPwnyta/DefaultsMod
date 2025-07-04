@@ -17,7 +17,7 @@ namespace Defaults.Medicine
                 }
                 else
                 {
-                    ___plantDefToGrow = Settings.Get<ThingDef>(Settings.PLANT_TYPE);
+                    ___plantDefToGrow = DefDatabase<ThingDef>.GetNamed(DefaultsSettings.DefaultPlantType);
                 }
             }
         }

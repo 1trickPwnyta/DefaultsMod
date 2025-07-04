@@ -1,4 +1,10 @@
-﻿using Defaults.Rewards;
+﻿using Defaults.Policies.ApparelPolicies;
+using Defaults.Policies.DrugPolicies;
+using Defaults.MapSettings;
+using Defaults.Medicine;
+using Defaults.ResourceCategories;
+using Defaults.Rewards;
+using Defaults.Schedule;
 using Defaults.StockpileZones;
 using Defaults.Storyteller;
 using Defaults.WorldSettings;
@@ -10,10 +16,11 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 using Defaults.Policies;
+using Defaults.Policies.FoodPolicies;
 using System;
+using Defaults.Policies.ReadingPolicies;
 using Defaults.StockpileZones.Shelves;
 using Defaults.WorkbenchBills;
-using Defaults.BabyFeeding;
 
 namespace Defaults
 {
@@ -31,8 +38,14 @@ namespace Defaults
         public static MedicalCareCategory DefaultCareForNoFaction;
         public static MedicalCareCategory DefaultCareForWildlife;
         public static MedicalCareCategory DefaultCareForEntities;
+        public static string DefaultMedicineToCarry;
+        public static int DefaultMedicineAmountToCarry;
+        public static bool GuestsCarryMedicine;
         public static Dictionary<string, RewardPreference> DefaultRewardPreferences;
-        
+        public static HostilityResponseMode DefaultHostilityResponse;
+        public static string DefaultPlantType;
+        public static bool DefaultAutoRebuild;
+        public static bool DefaultAutoHomeArea;
         public static List<string> DefaultExpandedResourceCategories;
         public static string DefaultStoryteller;
         public static string DefaultDifficulty;
@@ -41,6 +54,7 @@ namespace Defaults
         public static bool DefaultPermadeath;
         public static List<ZoneType> DefaultStockpileZones;
         public static ZoneType DefaultShelfSettings;
+        public static bool DefaultManualPriorities;
         public static float DefaultPlanetCoverage;
         public static OverallRainfall DefaultOverallRainfall;
         public static OverallTemperature DefaultOverallTemperature;
@@ -54,24 +68,20 @@ namespace Defaults
         public static List<Policies.FoodPolicies.FoodPolicy> DefaultFoodPolicies;
         public static List<DrugPolicy> DefaultDrugPolicies;
         public static List<Policies.ReadingPolicies.ReadingPolicy> DefaultReadingPolicies;
+        public static RimWorld.PregnancyApproach DefaultPregnancyApproach;
+        public static float DefaultTargetTemperatureHeater;
+        public static float DefaultTargetTemperatureCooler;
         public static List<WorkbenchBillStore> DefaultWorkbenchBills;
         public static float DefaultBillIngredientSearchRadius;
         public static IntRange DefaultBillAllowedSkillRange;
         public static BillStoreModeDef DefaultBillStoreMode;
-        public static BabyFeedingOptions DefaultBabyFeedingOptions;
 
         private static int NextScheduleIndex = Mathf.Abs(Rand.Int);
         private static List<string> PreviousFactionDefs;
         private static List<string> PreviousThingDefs;
         private static List<string> PreviousSpecialThingFilterDefs;
 
-        private static readonly Vector2 settingsCategoryButtonSize = new Vector2(150f, 120f);
-        private static readonly float settingsCategoryButtonMargin = 30f;
-        private static readonly List<DefaultSettingsCategoryDef> categories = DefDatabase<DefaultSettingsCategoryDef>.AllDefsListForReading;
-
-        private static float y;
         private static Vector2 scrollPosition;
-        private static QuickSearchWidget search = new QuickSearchWidget();
 
         static DefaultsSettings()
         {
@@ -93,8 +103,14 @@ namespace Defaults
             DefaultCareForNoFaction = MedicalCareCategory.HerbalOrWorse;
             DefaultCareForWildlife = MedicalCareCategory.HerbalOrWorse;
             DefaultCareForEntities = MedicalCareCategory.NoMeds;
+            DefaultMedicineToCarry = null;
+            DefaultMedicineAmountToCarry = 0;
+            GuestsCarryMedicine = false;
             DefaultRewardPreferences = null;
-            
+            DefaultHostilityResponse = HostilityResponseMode.Flee;
+            DefaultPlantType = null;
+            DefaultAutoRebuild = false;
+            DefaultAutoHomeArea = true;
             DefaultExpandedResourceCategories = null;
             DefaultStoryteller = null;
             DefaultDifficulty = null;
@@ -103,6 +119,7 @@ namespace Defaults
             DefaultPermadeath = false;
             DefaultStockpileZones = null;
             DefaultShelfSettings = null;
+            DefaultManualPriorities = false;
             DefaultPlanetCoverage = 0.3f;
             DefaultOverallRainfall = OverallRainfall.Normal;
             DefaultOverallTemperature = OverallTemperature.Normal;
@@ -114,14 +131,18 @@ namespace Defaults
             DefaultStartingSeason = Season.Undefined;
             DefaultApparelPolicies = null;
             DefaultFoodPolicies = null;
+            DefaultPregnancyApproach = RimWorld.PregnancyApproach.Normal;
+            DefaultTargetTemperatureHeater = 21f;
+            DefaultTargetTemperatureCooler = 21f;
             DefaultWorkbenchBills = null;
             DefaultBillIngredientSearchRadius = 999f;
             DefaultBillAllowedSkillRange = new IntRange(0, 20);
             DefaultBillStoreMode = null;
-            DefaultBabyFeedingOptions = null;
 
             InitializeDefaultSchedules();
+            InitializeDefaultMedicineToCarry();
             InitializeDefaultRewardPreferences();
+            InitializeDefaultPlantType();
             InitializeDefaultExpandedResourceCategories();
             InitializeDefaultStorytellerSettings();
             InitializeDefaultStockpileZones();
@@ -131,12 +152,6 @@ namespace Defaults
             InitializeDefaultDrugPolicies();
             InitializeDefaultReadingPolicies();
             InitializeDefaultWorkbenchBills();
-            InitializeDefaultBabyFeedingOptions();
-
-            foreach (DefaultSettingsCategoryDef def in categories)
-            {
-                def.Worker.SetDefaults();
-            }
         }
 
         private static void CheckForNewContent()
@@ -254,18 +269,6 @@ namespace Defaults
                         {
                             ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
                             bill.ingredientFilter.SetAllow(def, true);
-                        }
-                    }
-                }
-
-                if (!DefaultBabyFeedingOptions.locked)
-                {
-                    foreach (string defName in newThingDefs)
-                    {
-                        ThingDef def = DefDatabase<ThingDef>.GetNamed(defName);
-                        if (ITab_Pawn_Feeding.BabyConsumableFoods.Contains(def))
-                        {
-                            DefaultBabyFeedingOptions.AllowedConsumables.Add(def);
                         }
                     }
                 }
@@ -431,6 +434,17 @@ namespace Defaults
             });
         }
 
+        private static void InitializeDefaultMedicineToCarry()
+        {
+            LongEventHandler.ExecuteWhenFinished(delegate
+            {
+                if (DefaultMedicineToCarry == null)
+                {
+                    DefaultMedicineToCarry = ThingDefOf.MedicineIndustrial.defName;
+                }
+            });
+        }
+
         private static void InitializeDefaultRewardPreferences()
         {
             LongEventHandler.ExecuteWhenFinished(delegate
@@ -443,6 +457,17 @@ namespace Defaults
                     {
                         DefaultRewardPreferences.Add(def.defName, new RewardPreference());
                     }
+                }
+            });
+        }
+
+        private static void InitializeDefaultPlantType()
+        {
+            LongEventHandler.ExecuteWhenFinished(delegate
+            {
+                if (DefaultPlantType == null)
+                {
+                    DefaultPlantType = ThingDefOf.Plant_Potato.defName;
                 }
             });
         }
@@ -832,105 +857,175 @@ namespace Defaults
             });
         }
 
-        private static void InitializeDefaultBabyFeedingOptions()
-        {
-            LongEventHandler.ExecuteWhenFinished(delegate
-            {
-                if (DefaultBabyFeedingOptions == null)
-                {
-                    DefaultBabyFeedingOptions = new BabyFeedingOptions();
-                }
-            });
-        }
-
         public static void DoSettingsWindowContents(Rect inRect)
         {
-            search.OnGUI(new Rect(inRect.xMax - 250f - 20f, inRect.y - 15f - QuickSearchWidget.WidgetHeight, 250f, QuickSearchWidget.WidgetHeight));
+            Rect viewRect = new Rect(inRect.x, inRect.y, inRect.width - 16f, 31f * 25);
+            Widgets.BeginScrollView(new Rect(inRect.x, inRect.y, inRect.width, inRect.height - 38f), ref scrollPosition, viewRect);
+            Listing_StandardHighlight listing = new Listing_StandardHighlight();
+            listing.Begin(viewRect);
 
-            float width = settingsCategoryButtonSize.x * 4 + settingsCategoryButtonMargin * 3;
-            Rect outRect = new Rect(inRect.x + (inRect.width - width) / 2, inRect.y, inRect.width - (inRect.width - width) / 2, inRect.height - 30f - 10f);
-            Rect viewRect = new Rect(0f, 0f, width, y);
-            y = 0f;
-            Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
-
-            IEnumerable<DefaultSettingsCategoryDef> categories = DefDatabase<DefaultSettingsCategoryDef>.AllDefsListForReading;
-            if (search.filter.Active)
+            if (listing.ButtonTextLabeledPct("Defaults_Storyteller".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
             {
-                categories = categories.Where(c => c.Matches(search.filter));
+                Find.WindowStack.Add(new Dialog_Storyteller());
             }
 
-            if (search.filter.Active)
+            if (listing.ButtonTextLabeledPct("Defaults_WorldSettings".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
             {
-                using (new TextBlock(GameFont.Medium))
+                Find.WindowStack.Add(new Dialog_WorldSettings());
+            }
+
+            if (listing.ButtonTextLabeledPct("Defaults_MapSettings".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_MapSettings());
+            }
+
+            if (listing.ButtonTextLabeledPct("Defaults_Schedules".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_ScheduleSettings());
+            }
+
+            if (listing.ButtonTextLabeledPct("Defaults_ApparelPolicies".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_ApparelPolicies(DefaultApparelPolicies.First()));
+            }
+
+            if (listing.ButtonTextLabeledPct("Defaults_FoodPolicies".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_FoodPolicies(DefaultFoodPolicies.First()));
+            }
+
+            if (listing.ButtonTextLabeledPct("Defaults_DrugPolicies".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_DrugPolicies(DefaultDrugPolicies.First()));
+            }
+
+            if (listing.ButtonTextLabeledPct("Defaults_ReadingPolicies".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_ReadingPolicies(DefaultReadingPolicies.First()));
+            }
+
+            if (listing.ButtonTextLabeledPct("Defaults_Medicine".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_MedicineSettings());
+            }
+
+            if (listing.ButtonTextLabeledPct("Defaults_Rewards".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_RewardsSettings());
+            }
+
+            if (listing.ButtonTextLabeledPct("Defaults_ResourceCategories".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_ResourceCategories());
+            }
+
+            if (listing.ButtonTextLabeledPct("Defaults_StockpileZones".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_StockpileZones());
+            }
+
+            if (listing.ButtonTextLabeledPct("Defaults_ShelfSettings".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_ShelfSettings());
+            }
+
+            if (listing.ButtonTextLabeledPct("Defaults_WorkbenchBills".Translate(), "Defaults_SetDefaults".Translate(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                Find.WindowStack.Add(new Dialog_WorkbenchBills());
+            }
+
+            Rect hostilityResponseRect = listing.GetRect(30f);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(hostilityResponseRect, "Defaults_HostilityResponse".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+            hostilityResponseRect.x += hostilityResponseRect.width - 24;
+            hostilityResponseRect.width = 24;
+            HostilityResponse.HostilityResponseModeUtility.DrawResponseButton(hostilityResponseRect);
+
+            Rect medCarryRect = listing.GetRect(30f);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(medCarryRect, "Defaults_MedicineToCarry".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+            medCarryRect.x += medCarryRect.width - 32;
+            medCarryRect.width = 32;
+            MedicineUtility.DrawMedicineButton(medCarryRect);
+
+            if (listing.ButtonTextLabeledPct("Defaults_MedicineAmountToCarry".Translate(), DefaultMedicineAmountToCarry.ToString(), 0.75f, TextAnchor.MiddleLeft))
+            {
+                List<FloatMenuOption> options = new List<FloatMenuOption>();
+                for (int i = InventoryStockGroupDefOf.Medicine.min; i <= InventoryStockGroupDefOf.Medicine.max; i++)
                 {
-                    Widgets.Label(new Rect(viewRect.x, y, viewRect.width, Text.LineHeight), ref y, "Defaults_SearchResults".Translate());
-                    y += 10f;
+                    int amount = i;
+                    options.Add(new FloatMenuOption(i.ToString(), delegate
+                    {
+                        DefaultMedicineAmountToCarry = amount;
+                    }));
                 }
-            }
-            DoCategories(viewRect, ref y, categories);
-            if (search.filter.Active)
-            {
-                IEnumerable<DefaultSettingDef> settings = DefDatabase<DefaultSettingDef>.AllDefsListForReading.Where(s =>
-                    s.Matches(search.filter)
-                );
-                if (settings.Any())
-                {
-                    DoSettings(viewRect, ref y, settings);
-                }
+                Find.WindowStack.Add(new FloatMenu(options));
             }
 
+            listing.CheckboxLabeled("Defaults_GuestsCarryMedicine".Translate(), ref GuestsCarryMedicine);
+
+            Rect pregnancyApproachRect = listing.GetRect(30f);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(pregnancyApproachRect, "Defaults_PregnancyApproach".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+            pregnancyApproachRect.x += pregnancyApproachRect.width - 28;
+            pregnancyApproachRect.width = 32;
+            PregnancyApproach.PregnancyApproachUtility.DrawPregnancyApproachButton(pregnancyApproachRect.ContractedBy(4f));
+
+            Rect autoRebuildRect = listing.GetRect(30f);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(autoRebuildRect, "Defaults_AutoRebuild".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+            autoRebuildRect.x += autoRebuildRect.width - 24;
+            autoRebuildRect.width = 24;
+            autoRebuildRect.y += 3;
+            autoRebuildRect.height = 24;
+            PlaySettings.PlaySettingsUtility.DrawAutoRebuildButton(autoRebuildRect);
+
+            Rect autoHomeAreaRect = listing.GetRect(30f);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(autoHomeAreaRect, "Defaults_AutoHomeArea".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+            autoHomeAreaRect.x += autoHomeAreaRect.width - 24;
+            autoHomeAreaRect.width = 24;
+            autoHomeAreaRect.y += 3;
+            autoHomeAreaRect.height = 24;
+            PlaySettings.PlaySettingsUtility.DrawAutoHomeAreaButton(autoHomeAreaRect);
+
+            listing.CheckboxLabeled("Defaults_ManualPriorities".Translate(), ref DefaultManualPriorities);
+
+            Rect plantTypeRect = listing.GetRect(30f);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(plantTypeRect, "Defaults_PlantType".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+            plantTypeRect.x += plantTypeRect.width - 24;
+            plantTypeRect.width = 24;
+            PlantType.PlantTypeUtility.DrawPlantButton(plantTypeRect);
+
+            Rect targetTemperatureHeaterRect = listing.GetRect(30f);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(targetTemperatureHeaterRect, "Defaults_TargetTemperatureHeater".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+            targetTemperatureHeaterRect.x += targetTemperatureHeaterRect.width / 2;
+            targetTemperatureHeaterRect.width /= 2;
+            UIUtility.TemperatureEntry(targetTemperatureHeaterRect, ref DefaultTargetTemperatureHeater, 1, -50f, 50f);
+            Rect targetTemperatureCoolerRect = listing.GetRect(30f);
+            Text.Anchor = TextAnchor.MiddleLeft;
+            Widgets.Label(targetTemperatureCoolerRect, "Defaults_TargetTemperatureCooler".Translate());
+            Text.Anchor = TextAnchor.UpperLeft;
+            targetTemperatureCoolerRect.x += targetTemperatureCoolerRect.width / 2;
+            targetTemperatureCoolerRect.width /= 2;
+            UIUtility.TemperatureEntry(targetTemperatureCoolerRect, ref DefaultTargetTemperatureCooler, 1, -50f, 50f);
+
+            listing.End();
             Widgets.EndScrollView();
 
-            if (Widgets.ButtonText(new Rect(inRect.x + inRect.width / 3, inRect.yMax - 30f, inRect.width / 3, 30f), "Defaults_ResetAllSettings".Translate()))
+            if (Widgets.ButtonText(new Rect(inRect.x + inRect.width / 4, inRect.yMax - 30f, inRect.width / 2, 30f), "Defaults_ResetAllSettings".Translate()))
             {
                 Find.WindowStack.Add(new Dialog_MessageBox("Defaults_ConfirmResetAllSettings".Translate(), "Confirm".Translate(), ResetAllSettings, "GoBack".Translate(), null, null, true, ResetAllSettings, null, WindowLayer.Dialog));
             }
-        }
-
-        private static void DoCategories(Rect rect, ref float y, IEnumerable<DefaultSettingsCategoryDef> categories)
-        {
-            if (search.filter.Active)
-            {
-                Widgets.Label(new Rect(rect.x, y, rect.width, Text.LineHeight), ref y, "Default_DefaultSettingsCategories".Translate());
-                Widgets.DrawLineHorizontal(rect.x, y, rect.width);
-                y += 10f;
-            }
-
-            float x = 0f;
-            foreach (DefaultSettingsCategoryDef def in categories)
-            {
-                Rect buttonRect = new Rect(x, y, settingsCategoryButtonSize.x, settingsCategoryButtonSize.y);
-                def.Worker.DoButton(buttonRect);
-                x += buttonRect.width + settingsCategoryButtonMargin;
-                if (x + settingsCategoryButtonSize.x > rect.xMax)
-                {
-                    x = 0f;
-                    y += settingsCategoryButtonSize.y + settingsCategoryButtonMargin;
-                }
-            }
-            if (x > 0)
-            {
-                y += settingsCategoryButtonSize.y + settingsCategoryButtonMargin;
-            }
-        }
-
-        private static void DoSettings(Rect rect, ref float y, IEnumerable<DefaultSettingDef> settings)
-        {
-            Widgets.Label(new Rect(rect.x, y, rect.width, Text.LineHeight), ref y, "Default_DefaultSettings".Translate());
-            Widgets.DrawLineHorizontal(rect.x, y, rect.width);
-            y += 10f;
-
-            Listing_Standard listing = new Listing_StandardHighlight() { maxOneColumn = true };
-            listing.Begin(new Rect(rect.x, y, rect.width, rect.height - y));
-
-            foreach (DefaultSettingDef def in settings)
-            {
-                Rect rowRect = listing.GetRect(30f);
-                def.Worker.DoSetting(rowRect);
-            }
-
-            y += listing.CurHeight;
-            listing.End();
         }
 
         public override void ExposeData()
@@ -948,7 +1043,14 @@ namespace Defaults
             Scribe_Values.Look(ref DefaultCareForNoFaction, "DefaultCareForNoFaction", MedicalCareCategory.HerbalOrWorse);
             Scribe_Values.Look(ref DefaultCareForWildlife, "DefaultCareForWildlife", MedicalCareCategory.HerbalOrWorse);
             Scribe_Values.Look(ref DefaultCareForEntities, "DefaultCareForEntities", MedicalCareCategory.NoMeds);
+            Scribe_Values.Look(ref DefaultMedicineToCarry, "DefaultMedicineToCarry");
+            Scribe_Values.Look(ref DefaultMedicineAmountToCarry, "DefaultMedicineAmountToCarry", 0);
+            Scribe_Values.Look(ref GuestsCarryMedicine, "GuestsCarryMedicine", false);
             Scribe_Collections.Look(ref DefaultRewardPreferences, "DefaultRewardPreferences");
+            Scribe_Values.Look(ref DefaultHostilityResponse, "DefaultHostilityResponse", HostilityResponseMode.Flee);
+            Scribe_Values.Look(ref DefaultPlantType, "DefaultPlantType");
+            Scribe_Values.Look(ref DefaultAutoRebuild, "DefaultAutoRebuild", false);
+            Scribe_Values.Look(ref DefaultAutoHomeArea, "DefaultAutoHomeArea", true);
             Scribe_Collections.Look(ref DefaultExpandedResourceCategories, "DefaultExpandedResourceCategories");
             Scribe_Values.Look(ref DefaultStoryteller, "DefaultStoryteller");
             Scribe_Values.Look(ref DefaultDifficulty, "DefaultDifficulty");
@@ -957,6 +1059,7 @@ namespace Defaults
             Scribe_Values.Look(ref DefaultPermadeath, "DefaultPermadeath", false);
             Scribe_Collections.Look(ref DefaultStockpileZones, "DefaultStockpileZones");
             Scribe_Deep.Look(ref DefaultShelfSettings, "DefaultShelfSettings");
+            Scribe_Values.Look(ref DefaultManualPriorities, "DefaultManualPriorities", false);
             Scribe_Values.Look(ref DefaultPlanetCoverage, "DefaultPlanetCoverage", 0.3f);
             Scribe_Values.Look(ref DefaultOverallRainfall, "DefaultOverallRainfall", OverallRainfall.Normal);
             Scribe_Values.Look(ref DefaultOverallTemperature, "DefaultOverallTemperature", OverallTemperature.Normal);
@@ -970,16 +1073,13 @@ namespace Defaults
             Scribe_Collections.Look(ref DefaultFoodPolicies, "DefaultFoodPolicies", LookMode.Deep);
             Scribe_Collections.Look(ref DefaultDrugPolicies, "DefaultDrugPolicies", LookMode.Deep);
             Scribe_Collections.Look(ref DefaultReadingPolicies, "DefaultReadingPolicies", LookMode.Deep);
+            Scribe_Values.Look(ref DefaultPregnancyApproach, "DefaultPregnancyApproach", RimWorld.PregnancyApproach.Normal);
+            Scribe_Values.Look(ref DefaultTargetTemperatureHeater, "DefaultTargetTemperatureHeater", 21f);
+            Scribe_Values.Look(ref DefaultTargetTemperatureCooler, "DefaultTargetTemperatureCooler", 21f);
             Scribe_Collections.Look(ref DefaultWorkbenchBills, "DefaultWorkbenchBills");
             Scribe_Values.Look(ref DefaultBillIngredientSearchRadius, "DefaultBillIngredientSearchRadius", 999f);
             Scribe_Values.Look(ref DefaultBillAllowedSkillRange, "DefaultBillAllowedSkillRange", new IntRange(0, 20));
             Scribe_Defs.Look(ref DefaultBillStoreMode, "DefaultBillStoreMode");
-            Scribe_Deep.Look(ref DefaultBabyFeedingOptions, "DefaultBabyFeedingOptions");
-
-            foreach (DefaultSettingsCategoryDef def in categories)
-            {
-                def.Worker.ExposeData();
-            }
 
             Scribe_Collections.Look(ref PreviousFactionDefs, "PreviousFactionDefs");
             Scribe_Collections.Look(ref PreviousThingDefs, "PreviousThingDefs");
@@ -1018,14 +1118,6 @@ namespace Defaults
                         if (def != null)
                         {
                             filter.SetAllow(def, false);
-                        }
-                    }
-
-                    if (filter == DefaultShelfSettings.filter)
-                    {
-                        if (DefaultShelfSettings != null && !(DefaultShelfSettings is ZoneType_Shelf))
-                        {
-                            DefaultShelfSettings = new ZoneType_Shelf(DefaultShelfSettings);
                         }
                     }
                 });

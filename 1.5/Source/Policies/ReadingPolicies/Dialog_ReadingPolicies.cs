@@ -9,7 +9,6 @@ namespace Defaults.Policies.ReadingPolicies
     {
         public Dialog_ReadingPolicies(ReadingPolicy policy) : base(policy)
         {
-            optionalTitle = TitleKey.Translate();
         }
 
         protected override RimWorld.ReadingPolicy CreateNewPolicy()

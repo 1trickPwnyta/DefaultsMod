@@ -8,6 +8,7 @@ namespace Defaults.Misc.MechWorkModes
     [HarmonyPatch(typeof(MechanitorControlGroup))]
     [HarmonyPatch(MethodType.Constructor)]
     [HarmonyPatch(new[] { typeof(Pawn_MechanitorTracker) })]
+    [HarmonyPatchMod("Ludeon.RimWorld.Biotech")]
     public static class Patch_MechanitorControlGroup
     {
         public static void Postfix(ref MechWorkModeDef ___workMode)

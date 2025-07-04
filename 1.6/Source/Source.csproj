@@ -92,6 +92,7 @@
     <Compile Include="Dialog_MainSettings.cs" />
     <Compile Include="General\DefaultSettingWorker_HideLoadDefault.cs" />
     <Compile Include="General\DefaultSettingWorker_ShowDisabledInSearch.cs" />
+    <Compile Include="HarmonyPatchMod.cs" />
     <Compile Include="StockpileZones\Buildings\BuildingUtility.cs" />
     <Compile Include="StockpileZones\Buildings\ZoneType_Building.cs" />
     <Compile Include="UI\Dialog_Common.cs" />

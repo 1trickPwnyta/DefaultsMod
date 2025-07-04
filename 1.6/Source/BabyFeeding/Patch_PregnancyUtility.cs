@@ -7,6 +7,7 @@ namespace Defaults.BabyFeeding
     [HarmonyPatchCategory("BabyFeeding")]
     [HarmonyPatch(typeof(PregnancyUtility))]
     [HarmonyPatch(nameof(PregnancyUtility.ApplyBirthOutcome))]
+    [HarmonyPatchMod("Ludeon.RimWorld.Biotech")]
     public static class Patch_PregnancyUtility
     {
         public static void Postfix(Thing birtherThing, Thing __result)

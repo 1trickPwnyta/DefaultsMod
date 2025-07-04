@@ -13,7 +13,7 @@ namespace Defaults.HostilityResponse
         {
             if (settings != null && pawn.Faction == Faction.OfPlayer && !pawn.IsGhoul)
             {
-                settings.hostilityResponse = Settings.GetValue<HostilityResponseMode>(Settings.HOSTILITY_RESPONSE);
+                settings.hostilityResponse = DefaultsSettings.DefaultHostilityResponse;
                 if (pawn.WorkTagIsDisabled(WorkTags.Violent) && settings.hostilityResponse == HostilityResponseMode.Attack)
                 {
                     settings.hostilityResponse = HostilityResponseMode.Flee;
@@ -23,17 +23,16 @@ namespace Defaults.HostilityResponse
 
         public static void DrawResponseButton(Rect rect)
         {
-            HostilityResponseMode mode = Settings.GetValue<HostilityResponseMode>(Settings.HOSTILITY_RESPONSE);
-            Widgets.Dropdown(rect, null, new Color(0.84f, 0.84f, 0.84f), new Func<object, HostilityResponseMode>(DrawResponseButton_GetResponse), new Func<object, IEnumerable<Widgets.DropdownMenuElement<HostilityResponseMode>>>(DrawResponseButton_GenerateMenu), null, mode.GetIcon(), null, null, null, true, new float?(4f));
+            Widgets.Dropdown(rect, null, new Color(0.84f, 0.84f, 0.84f), new Func<object, HostilityResponseMode>(DrawResponseButton_GetResponse), new Func<object, IEnumerable<Widgets.DropdownMenuElement<HostilityResponseMode>>>(DrawResponseButton_GenerateMenu), null, DefaultsSettings.DefaultHostilityResponse.GetIcon(), null, null, null, true, new float?(4f));
             if (Mouse.IsOver(rect))
             {
-                TooltipHandler.TipRegion(rect, "HostilityReponseTip".Translate() + "\n\n" + "HostilityResponseCurrentMode".Translate() + ": " + mode.GetLabel());
+                TooltipHandler.TipRegion(rect, "HostilityReponseTip".Translate() + "\n\n" + "HostilityResponseCurrentMode".Translate() + ": " + DefaultsSettings.DefaultHostilityResponse.GetLabel());
             }
         }
 
         private static HostilityResponseMode DrawResponseButton_GetResponse(object obj)
         {
-            return Settings.GetValue<HostilityResponseMode>(Settings.HOSTILITY_RESPONSE);
+            return DefaultsSettings.DefaultHostilityResponse;
         }
 
         private static IEnumerable<Widgets.DropdownMenuElement<HostilityResponseMode>> DrawResponseButton_GenerateMenu(object obj)
@@ -46,7 +45,7 @@ namespace Defaults.HostilityResponse
                 {
                     option = new FloatMenuOption(response.GetLabel(), delegate ()
                     {
-                        Settings.SetValue(Settings.HOSTILITY_RESPONSE, response);
+                        DefaultsSettings.DefaultHostilityResponse = response;
                     }, response.GetIcon(), Color.white, MenuOptionPriority.Default, null, null, 0f, null, null, true, 0, HorizontalJustification.Left, false),
                     payload = response
                 };

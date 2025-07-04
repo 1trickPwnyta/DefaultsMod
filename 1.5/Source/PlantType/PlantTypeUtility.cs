@@ -11,7 +11,7 @@ namespace Defaults.PlantType
     {
         public static void DrawPlantButton(Rect rect)
         {
-            ThingDef currentPlantTypeDef = Settings.Get<ThingDef>(Settings.PLANT_TYPE);
+            ThingDef currentPlantTypeDef = DefDatabase<ThingDef>.GetNamed(DefaultsSettings.DefaultPlantType);
             Widgets.Dropdown(rect, null, new Color(0.84f, 0.84f, 0.84f), new Func<object, ThingDef>(DrawResponseButton_GetResponse), new Func<object, IEnumerable<Widgets.DropdownMenuElement<ThingDef>>>(DrawResponseButton_GenerateMenu), null, currentPlantTypeDef.uiIcon, null, null, null, true, new float?(4f));
             if (Mouse.IsOver(rect))
             {
@@ -21,7 +21,7 @@ namespace Defaults.PlantType
 
         private static ThingDef DrawResponseButton_GetResponse(object obj)
         {
-            return Settings.Get<ThingDef>(Settings.PLANT_TYPE);
+            return DefDatabase<ThingDef>.GetNamed(DefaultsSettings.DefaultPlantType);
         }
 
         private static IEnumerable<Widgets.DropdownMenuElement<ThingDef>> DrawResponseButton_GenerateMenu(object obj)
@@ -44,7 +44,7 @@ namespace Defaults.PlantType
                 {
                     option = new FloatMenuOption(text, delegate ()
                     {
-                        Settings.Set(Settings.PLANT_TYPE, choice);
+                        DefaultsSettings.DefaultPlantType = choice.defName;
                     }, choice.uiIcon, Color.white),
                     payload = choice
                 };

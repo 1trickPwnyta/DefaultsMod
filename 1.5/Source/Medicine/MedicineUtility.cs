@@ -12,17 +12,17 @@ namespace Defaults.Medicine
         {
             if (inventoryStock != null && pawn.Faction == Faction.OfPlayer && !pawn.IsGhoul)
             {
-                inventoryStock.SetThingForGroup(InventoryStockGroupDefOf.Medicine, Settings.Get<ThingDef>(Settings.MEDICINE_TO_CARRY));
-                if (Settings.GetValue<bool>(Settings.GUESTS_CARRY_MEDICINE) || (!pawn.HasExtraMiniFaction() && !pawn.HasExtraHomeFaction()))
+                inventoryStock.SetThingForGroup(InventoryStockGroupDefOf.Medicine, DefDatabase<ThingDef>.GetNamed(DefaultsSettings.DefaultMedicineToCarry));
+                if (DefaultsSettings.GuestsCarryMedicine || (!pawn.HasExtraMiniFaction() && !pawn.HasExtraHomeFaction()))
                 {
-                    inventoryStock.SetCountForGroup(InventoryStockGroupDefOf.Medicine, Settings.GetValue<int>(Settings.MEDICINE_AMOUNT_TO_CARRY));
+                    inventoryStock.SetCountForGroup(InventoryStockGroupDefOf.Medicine, DefaultsSettings.DefaultMedicineAmountToCarry);
                 }
             }
         }
 
         public static void DrawMedicineButton(Rect rect)
         {
-            ThingDef currentMedicineDef = Settings.Get<ThingDef>(Settings.MEDICINE_TO_CARRY);
+            ThingDef currentMedicineDef = DefDatabase<ThingDef>.GetNamed(DefaultsSettings.DefaultMedicineToCarry);
             Widgets.Dropdown(rect, null, new Color(0.84f, 0.84f, 0.84f), new Func<object, ThingDef>(DrawResponseButton_GetResponse), new Func<object, IEnumerable<Widgets.DropdownMenuElement<ThingDef>>>(DrawResponseButton_GenerateMenu), null, currentMedicineDef.uiIcon, null, null, null, true, new float?(4f));
             if (Mouse.IsOver(rect))
             {
@@ -32,7 +32,7 @@ namespace Defaults.Medicine
 
         private static ThingDef DrawResponseButton_GetResponse(object obj)
         {
-            return Settings.Get<ThingDef>(Settings.MEDICINE_TO_CARRY);
+            return DefDatabase<ThingDef>.GetNamed(DefaultsSettings.DefaultMedicineToCarry);
         }
 
         private static IEnumerable<Widgets.DropdownMenuElement<ThingDef>> DrawResponseButton_GenerateMenu(object obj)
@@ -45,7 +45,7 @@ namespace Defaults.Medicine
                 {
                     option = new FloatMenuOption(text, delegate ()
                     {
-                        Settings.Set(Settings.MEDICINE_TO_CARRY, choice);
+                        DefaultsSettings.DefaultMedicineToCarry = choice.defName;
                     }, choice.uiIcon, Color.white),
                     payload = choice
                 };

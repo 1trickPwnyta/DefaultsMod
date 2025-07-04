@@ -76,6 +76,7 @@ namespace Defaults.Storyteller
             if (forced || defaultDifficultyValues == null)
             {
                 defaultDifficultyValues = new Difficulty();
+                defaultDifficultyValues.CopyFrom(defaultDifficulty);
             }
             if (forced || defaultPermadeath == null)
             {

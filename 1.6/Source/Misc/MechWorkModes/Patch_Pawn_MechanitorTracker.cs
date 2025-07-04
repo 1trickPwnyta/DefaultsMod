@@ -7,6 +7,7 @@ namespace Defaults.Misc.MechWorkModes
     [HarmonyPatchCategory("Misc")]
     [HarmonyPatch(typeof(Pawn_MechanitorTracker))]
     [HarmonyPatch("Notify_ControlGroupAmountMayChanged")]
+    [HarmonyPatchMod("Ludeon.RimWorld.Biotech")]
     public static class Patch_Pawn_MechanitorTracker
     {
         public static void Prefix(Pawn_MechanitorTracker __instance)

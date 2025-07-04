@@ -5,13 +5,15 @@ using Verse.Sound;
 
 namespace Defaults.Medicine
 {
-    public class Dialog_MedicineSettings : SettingsDialog_List
+    public class Dialog_MedicineSettings : Window
     {
         private static bool medicalCarePainting = false;
         private Texture2D[] careTextures;
 
-        public Dialog_MedicineSettings() : base(DefDatabase<DefaultSettingsCategoryDef>.GetNamed("Medicine"))
+        public Dialog_MedicineSettings()
         {
+            this.doCloseX = true;
+            this.doCloseButton = true;
             careTextures = new Texture2D[5];
             careTextures[0] = ContentFinder<Texture2D>.Get("UI/Icons/Medical/NoCare", true);
             careTextures[1] = ContentFinder<Texture2D>.Get("UI/Icons/Medical/NoMeds", true);
@@ -20,40 +22,48 @@ namespace Defaults.Medicine
             careTextures[4] = ThingDefOf.MedicineUltratech.uiIcon;
         }
 
-        public override string Title => "Defaults_Medicine".Translate();
-
-        public override Vector2 InitialSize => new Vector2(426f, 640f);
-
-        public override float DoPostSettings(Rect rect)
+        public override Vector2 InitialSize
         {
-            float y = rect.y;
-            Widgets.Label(rect, ref y, "DefaultMedicineSettingsDesc".Translate());
-            y += 10f;
+            get
+            {
+                return new Vector2(406f, 640f);
+            }
+        }
+
+        public override void DoWindowContents(Rect inRect)
+        {
+            float num = 0f;
+            using (new TextBlock(GameFont.Medium))
+            {
+                Widgets.Label(inRect, ref num, "Defaults_Medicine".Translate());
+            }
+            Text.Font = GameFont.Small;
+            Widgets.Label(inRect, ref num, "DefaultMedicineSettingsDesc".Translate());
+            num += 10f;
             Text.Anchor = TextAnchor.MiddleLeft;
-            DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForColonist, "MedGroupColonists", "MedGroupColonistsDesc");
-            DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForPrisoner, "MedGroupPrisoners", "MedGroupPrisonersDesc");
+            DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForColonist, "MedGroupColonists", "MedGroupColonistsDesc");
+            DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForPrisoner, "MedGroupPrisoners", "MedGroupPrisonersDesc");
             if (ModsConfig.IdeologyActive)
             {
-                DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForSlave, "MedGroupSlaves", "MedGroupSlavesDesc");
+                DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForSlave, "MedGroupSlaves", "MedGroupSlavesDesc");
             }
             if (ModsConfig.AnomalyActive)
             {
-                DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForGhouls, "MedGroupGhouls", "MedGroupGhoulsDesc");
+                DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForGhouls, "MedGroupGhouls", "MedGroupGhoulsDesc");
             }
-            DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForTamedAnimal, "MedGroupTamedAnimals", "MedGroupTamedAnimalsDesc");
-            y += 17f;
-            DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForFriendlyFaction, "MedGroupFriendlyFaction", "MedGroupFriendlyFactionDesc");
-            DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForNeutralFaction, "MedGroupNeutralFaction", "MedGroupNeutralFactionDesc");
-            DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForHostileFaction, "MedGroupHostileFaction", "MedGroupHostileFactionDesc");
-            y += 17f;
-            DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForNoFaction, "MedGroupNoFaction", "MedGroupNoFactionDesc");
-            DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForWildlife, "MedGroupWildlife", "MedGroupWildlifeDesc");
+            DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForTamedAnimal, "MedGroupTamedAnimals", "MedGroupTamedAnimalsDesc");
+            num += 17f;
+            DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForFriendlyFaction, "MedGroupFriendlyFaction", "MedGroupFriendlyFactionDesc");
+            DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForNeutralFaction, "MedGroupNeutralFaction", "MedGroupNeutralFactionDesc");
+            DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForHostileFaction, "MedGroupHostileFaction", "MedGroupHostileFactionDesc");
+            num += 17f;
+            DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForNoFaction, "MedGroupNoFaction", "MedGroupNoFactionDesc");
+            DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForWildlife, "MedGroupWildlife", "MedGroupWildlifeDesc");
             if (ModsConfig.AnomalyActive)
             {
-                DoRow(rect, ref y, ref DefaultsSettings.DefaultCareForEntities, "MedGroupEntities", "MedGroupEntitiesDesc");
+                DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForEntities, "MedGroupEntities", "MedGroupEntitiesDesc");
             }
             Text.Anchor = TextAnchor.UpperLeft;
-            return y - rect.y;
         }
 
         private void DoRow(Rect rect, ref float y, ref MedicalCareCategory category, string labelKey, string tipKey)

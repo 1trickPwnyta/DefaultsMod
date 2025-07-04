@@ -8,6 +8,7 @@ namespace Defaults.Misc.PregnancyApproach
     [HarmonyPatchCategory("Misc")]
     [HarmonyPatch(typeof(Pawn_RelationsTracker))]
     [HarmonyPatch(nameof(Pawn_RelationsTracker.GetPregnancyApproachForPartner))]
+    [HarmonyPatchMod("Ludeon.RimWorld.Biotech")]
     public static class Patch_Pawn_RelationsTracker
     {
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)

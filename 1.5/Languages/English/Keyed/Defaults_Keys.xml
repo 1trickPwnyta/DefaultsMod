@@ -15,14 +15,12 @@
 	<Defaults_AutoHomeArea>Default auto home area setting</Defaults_AutoHomeArea>
 	<Defaults_ResourceCategories>Expanded resource categories</Defaults_ResourceCategories>
 	<Defaults_Storyteller>Storyteller settings</Defaults_Storyteller>
-	<Defaults_StockpileZones>Storage settings</Defaults_StockpileZones>
+	<Defaults_StockpileZones>Stockpile zone types</Defaults_StockpileZones>
 	<Defaults_ShelfSettings>Shelf storage settings</Defaults_ShelfSettings>
 	<Defaults_WorkbenchBills>Workbench bills</Defaults_WorkbenchBills>
-	<Defaults_MiscSettings>Miscellaneous defaults</Defaults_MiscSettings>
 	<Defaults_ManualPriorities>Use manual work priorities by default</Defaults_ManualPriorities>
 	<Defaults_WorldSettings>World settings</Defaults_WorldSettings>
 	<Defaults_MapSettings>Map settings</Defaults_MapSettings>
-	<Defaults_Policies>Policies</Defaults_Policies>
 	<Defaults_ApparelPolicies>Apparel policies</Defaults_ApparelPolicies>
 	<Defaults_FoodPolicies>Food policies</Defaults_FoodPolicies>
 	<Defaults_DrugPolicies>Drug policies</Defaults_DrugPolicies>
@@ -30,10 +28,6 @@
 	<Defaults_PregnancyApproach>Default pregnancy approach</Defaults_PregnancyApproach>
 	<Defaults_TargetTemperatureHeater>Target temperature for heaters</Defaults_TargetTemperatureHeater>
 	<Defaults_TargetTemperatureCooler>Target temperature for coolers</Defaults_TargetTemperatureCooler>
-	<Defaults_BabyFeedingSettings>Baby feeding settings</Defaults_BabyFeedingSettings>
-	<Defaults_WorkModeFirst>First mech control group work mode</Defaults_WorkModeFirst>
-	<Defaults_WorkModeSecond>Second mech control group work mode</Defaults_WorkModeSecond>
-	<Defaults_WorkModeAdditional>Additional mech control groups work mode</Defaults_WorkModeAdditional>
 	<Defaults_ResetAllSettings>Reset all settings to vanilla</Defaults_ResetAllSettings>
 	<Defaults_ConfirmResetAllSettings>Do you want to reset all settings to their vanilla values? This action cannot be undone.</Defaults_ConfirmResetAllSettings>
 	<Defaults_ScheduleName>Schedule {0}</Defaults_ScheduleName>
@@ -64,14 +58,6 @@
 	<Defaults_UseBill>Use</Defaults_UseBill>
 	<Defaults_UseBillTip>Indicates whether this bill will automatically be added to new workbenches.</Defaults_UseBillTip>
 	<Defaults_GlobalBillSettings>Global bill settings</Defaults_GlobalBillSettings>
-	<Defaults_BirtherParent>Birthgiver</Defaults_BirtherParent>
-	<Defaults_ParentLactating>Non-birthgiver parent (lactating)</Defaults_ParentLactating>
-	<Defaults_ParentNonlactating>Non-birthgiver parent (not lactating)</Defaults_ParentNonlactating>
-	<Defaults_NonparentLactating>Non-parent (lactating)</Defaults_NonparentLactating>
-	<Defaults_NonparentNonlactating>Non-parent (not lactating)</Defaults_NonparentNonlactating>
-	<Defaults_SearchResults>Search results</Defaults_SearchResults>
-	<Default_DefaultSettingsCategories>Setting categories</Default_DefaultSettingsCategories>
-	<Default_DefaultSettings>Individual settings</Default_DefaultSettings>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

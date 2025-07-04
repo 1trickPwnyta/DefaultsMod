@@ -5,21 +5,32 @@ using Verse;
 
 namespace Defaults.Schedule
 {
-    public class Dialog_ScheduleSettings : SettingsDialog
+    public class Dialog_ScheduleSettings : Window
     {
         private static Vector2 scrollPos;
 
-        public override string Title => "Defaults_Schedules".Translate();
+        public Dialog_ScheduleSettings()
+        {
+            this.doCloseX = true;
+            this.doCloseButton = true;
+            this.optionalTitle = "Defaults_Schedules".Translate();
+        }
 
-        public override Vector2 InitialSize => new Vector2(860f, 600f);
+        public override Vector2 InitialSize
+        {
+            get
+            {
+                return new Vector2(860f, 600f);
+            }
+        }
 
-        public override void DoSettings(Rect rect)
+        public override void DoWindowContents(Rect inRect)
         {
             float selectorHeight = 65f;
-            TimeAssignmentSelector.DrawTimeAssignmentSelectorGrid(new Rect(rect.x, rect.y, 191f, selectorHeight));
+            TimeAssignmentSelector.DrawTimeAssignmentSelectorGrid(new Rect(0f, 0f, 191f, selectorHeight));
 
             float buttonWidth = 160f;
-            if (Widgets.ButtonText(new Rect(rect.x + rect.width - buttonWidth, rect.y, buttonWidth, 30f), "Defaults_AddAlternateSchedule".Translate()))
+            if (Widgets.ButtonText(new Rect(inRect.x + inRect.width - buttonWidth, 0f, buttonWidth, 30f), "Defaults_AddAlternateSchedule".Translate()))
             {
                 DefaultsSettings.DefaultSchedules.Add(new Schedule("Defaults_ScheduleName".Translate(DefaultsSettings.DefaultSchedules.Count + 1)));
                 SoundDefOf.Click.PlayOneShotOnCamera(null);
@@ -29,20 +40,20 @@ namespace Defaults.Schedule
             Text.Anchor = TextAnchor.LowerCenter;
             float labelWidth = 160f;
             float copyButtonWidth = 18f;
-            float x = rect.x + 24f + 24f + labelWidth + copyButtonWidth;
+            float x = inRect.x + 24f + 24f + labelWidth + copyButtonWidth;
             float cellWidth = 540 / 24f;
             float rowHeight = 30f;
             for (int i = 0; i < 24; i++)
             {
-                Widgets.Label(new Rect(x, rect.y + rowHeight, cellWidth, rowHeight), i.ToString());
+                Widgets.Label(new Rect(x, inRect.y + rowHeight, cellWidth, rowHeight), i.ToString());
                 x += cellWidth;
             }
             x += 8f;
-            Rect useLabelRect = new Rect(x, rect.y + rowHeight, 24f, rowHeight);
+            Rect useLabelRect = new Rect(x, inRect.y + rowHeight, 24f, rowHeight);
             Widgets.Label(useLabelRect, "Defaults_UseSchedule".Translate());
             TooltipHandler.TipRegionByKey(useLabelRect, "Defaults_UseScheduleTip");
 
-            Widgets.BeginScrollView(new Rect(rect.x, rect.y + rowHeight * 2, rect.width, rect.height - rowHeight * 4), ref scrollPos, new Rect(0f, 0f, rect.width - 16f, rowHeight * DefaultsSettings.DefaultSchedules.Count));
+            Widgets.BeginScrollView(new Rect(inRect.x, inRect.y + rowHeight * 2, inRect.width, inRect.height - rowHeight * 4), ref scrollPos, new Rect(0f, 0f, inRect.width - 16f, rowHeight * DefaultsSettings.DefaultSchedules.Count));
 
             Text.Font = GameFont.Small;
             Text.Anchor = TextAnchor.MiddleLeft;
@@ -50,7 +61,7 @@ namespace Defaults.Schedule
             for (int i = 0; i < DefaultsSettings.DefaultSchedules.Count; i++)
             {
                 Schedule schedule = DefaultsSettings.DefaultSchedules[i];
-                x = rect.x;
+                x = inRect.x;
 
                 if (i < DefaultsSettings.DefaultSchedules.Count - 1)
                 {

@@ -30,11 +30,11 @@ namespace Defaults.TargetTemperature
         {
             if (comp.parent is Building_Heater)
             {
-                return Settings.GetValue<float>(Settings.TARGET_TEMP_HEATER);
+                return DefaultsSettings.DefaultTargetTemperatureHeater;
             }
             if (comp.parent is Building_Cooler)
             {
-                return Settings.GetValue<float>(Settings.TARGET_TEMP_COOLER);
+                return DefaultsSettings.DefaultTargetTemperatureCooler;
             }
             return 21f;
         }

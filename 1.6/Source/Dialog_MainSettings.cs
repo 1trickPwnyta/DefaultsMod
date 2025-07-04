@@ -159,6 +159,10 @@ namespace Defaults
             {
                 y += settingsCategoryButtonSize.y;
             }
+            else
+            {
+                y -= settingsCategoryButtonMargin;
+            }
         }
 
         private void DoSettings(Rect rect, ref float y, IEnumerable<DefaultSettingDef> settings)

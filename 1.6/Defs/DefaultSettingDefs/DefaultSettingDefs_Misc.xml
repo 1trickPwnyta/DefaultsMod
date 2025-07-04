@@ -14,7 +14,7 @@
 	</keywords>
   </Defaults.Defs.DefaultSettingDef>
   
-  <Defaults.Defs.DefaultSettingDef>
+  <Defaults.Defs.DefaultSettingDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>PregnancyApproach</defName>
 	<label>default pregnancy approach</label>
 	<category>Misc</category>
@@ -108,7 +108,7 @@
 	</keywords>
   </Defaults.Defs.DefaultSettingDef>
   
-  <Defaults.Defs.DefaultSettingDef>
+  <Defaults.Defs.DefaultSettingDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>WorkModeFirst</defName>
 	<label>first mech control group work mode</label>
 	<category>Misc</category>
@@ -122,7 +122,7 @@
 	</keywords>
   </Defaults.Defs.DefaultSettingDef>
   
-  <Defaults.Defs.DefaultSettingDef>
+  <Defaults.Defs.DefaultSettingDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>WorkModeSecond</defName>
 	<label>second mech control group work mode</label>
 	<category>Misc</category>
@@ -136,7 +136,7 @@
 	</keywords>
   </Defaults.Defs.DefaultSettingDef>
   
-  <Defaults.Defs.DefaultSettingDef>
+  <Defaults.Defs.DefaultSettingDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>WorkModeAdditional</defName>
 	<label>additional mech control groups work mode</label>
 	<category>Misc</category>

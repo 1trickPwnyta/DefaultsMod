@@ -4,11 +4,22 @@ using Verse;
 
 namespace Defaults.Storyteller
 {
-    public class Dialog_Storyteller : SettingsDialog
+    public class Dialog_Storyteller : Window
     {
-        public override string Title => "Defaults_Storyteller".Translate();
+        public Dialog_Storyteller()
+        {
+            this.doCloseX = true;
+            this.doCloseButton = true;
+            this.optionalTitle = "Defaults_Storyteller".Translate();
+        }
 
-        public override Vector2 InitialSize => Page.StandardSize;
+        public override Vector2 InitialSize
+        {
+            get
+            {
+                return Page.StandardSize;
+            }
+        }
 
         public override void PreOpen()
         {
@@ -16,13 +27,13 @@ namespace Defaults.Storyteller
             StorytellerUI.ResetStorytellerSelectionInterface();
         }
 
-        public override void DoSettings(Rect rect)
+        public override void DoWindowContents(Rect inRect)
         {
-            Rect interfaceRect = new Rect(rect.x, rect.y, rect.width, rect.height - CloseButSize.y);
+            Rect rect = new Rect(inRect.x, inRect.y, inRect.width, inRect.height - CloseButSize.y);
             StorytellerDef storyteller = DefDatabase<StorytellerDef>.GetNamed(DefaultsSettings.DefaultStoryteller);
             DifficultyDef difficulty = DefDatabase<DifficultyDef>.GetNamed(DefaultsSettings.DefaultDifficulty);
             Difficulty difficultyValues = DefaultsSettings.DefaultDifficultyValues;
-            StorytellerUI.DrawStorytellerSelectionInterface(interfaceRect, ref storyteller, ref difficulty, ref difficultyValues, new Listing_Standard());
+            StorytellerUI.DrawStorytellerSelectionInterface(rect, ref storyteller, ref difficulty, ref difficultyValues, new Listing_Standard());
             DefaultsSettings.DefaultStoryteller = storyteller.defName;
             DefaultsSettings.DefaultDifficulty = difficulty.defName;
         }
