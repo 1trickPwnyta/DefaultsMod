@@ -5,7 +5,9 @@ using System.Collections.Generic;
 
 namespace Defaults.Rewards
 {
-    [HarmonyPatch(typeof(FactionGenerator), nameof(FactionGenerator.NewGeneratedFaction))]
+    [HarmonyPatchCategory("Rewards")]
+    [HarmonyPatch(typeof(FactionGenerator))]
+    [HarmonyPatch(nameof(FactionGenerator.NewGeneratedFaction))]
     [HarmonyPatch(new[] { typeof(PlanetLayer), typeof(FactionGeneratorParms) })]
     public static class Patch_FactionGenerator_NewGeneratedFaction
     {

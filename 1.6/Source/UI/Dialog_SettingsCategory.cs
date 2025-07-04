@@ -45,6 +45,8 @@ namespace Defaults.UI
             }
         }
 
+        protected virtual bool DoSettingsWhenDisabled => true;
+
         public abstract void DoSettings(Rect rect);
 
         public override void DoWindowContents(Rect inRect)
@@ -78,7 +80,15 @@ namespace Defaults.UI
                 y += disabledRect.height + Margin;
             }
 
-            DoSettings(new Rect(inRect.x, inRect.y + y, inRect.width, inRect.height - CloseButSize.y - 10f - y));
-        }
+            Rect settingsRect = new Rect(inRect.x, inRect.y + y, inRect.width, inRect.height - CloseButSize.y - 10f - y);
+            if (category.Worker.WasEnabledAtStartup || DoSettingsWhenDisabled)
+            {
+                DoSettings(settingsRect);
+            }
+            else
+            {
+                using (new TextBlock(TextAnchor.MiddleCenter)) Widgets.Label(settingsRect, "Defaults_EnableCategoryToViewSettings".Translate(category.label));
+            }
+}
     }
 }

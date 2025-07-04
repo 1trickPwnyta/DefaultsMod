@@ -5,6 +5,7 @@ using Verse;
 
 namespace Defaults.StockpileZones
 {
+    [HarmonyPatchCategory("Storage")]
     [HarmonyPatch(typeof(Designator_ZoneAddStockpile))]
     [HarmonyPatch("MakeNewZone")]
     public static class Patch_Designator_ZoneAddStockpile

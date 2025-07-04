@@ -7,6 +7,7 @@ using Verse;
 
 namespace Defaults.WorkbenchBills
 {
+    [HarmonyPatchCategory("WorkbenchBills")]
     [HarmonyPatch(typeof(BillStack))]
     [HarmonyPatch(nameof(BillStack.DoListing))]
     public static class Patch_BillStack

@@ -7,6 +7,7 @@ using Verse;
 
 namespace Defaults.WorkbenchBills
 {
+    [HarmonyPatchCategory("WorkbenchBills")]
     [HarmonyPatch(typeof(Dialog_BillConfig))]
     [HarmonyPatch(nameof(Dialog_BillConfig.DoWindowContents))]
     public static class Patch_Dialog_BillConfig

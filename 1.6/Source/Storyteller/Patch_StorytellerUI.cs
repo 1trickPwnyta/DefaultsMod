@@ -8,6 +8,7 @@ using Verse;
 
 namespace Defaults.Storyteller
 {
+    [HarmonyPatchCategory("Storyteller")]
     [HarmonyPatch(typeof(StorytellerUI))]
     [HarmonyPatch(nameof(StorytellerUI.DrawStorytellerSelectionInterface))]
     public static class Patch_StorytellerUI_DrawStorytellerSelectionInterface

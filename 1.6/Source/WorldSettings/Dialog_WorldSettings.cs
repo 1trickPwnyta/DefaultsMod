@@ -25,6 +25,8 @@ namespace Defaults.WorldSettings
 
         public override Vector2 InitialSize => Page.StandardSize;
 
+        protected override bool DoSettingsWhenDisabled => false;
+
         public override void DoSettings(Rect rect)
         {
             Rect mainRect = new Rect(rect.x, rect.y, rect.width, rect.height - CloseButSize.y);

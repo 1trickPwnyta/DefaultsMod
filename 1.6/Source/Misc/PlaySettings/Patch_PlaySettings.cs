@@ -1,6 +1,10 @@
-﻿namespace Defaults.Misc.PlaySettings
+﻿using HarmonyLib;
+
+namespace Defaults.Misc.PlaySettings
 {
-    // Patched manually in mod constructor
+    [HarmonyPatchCategory("Misc")]
+    [HarmonyPatch(typeof(RimWorld.PlaySettings))]
+    [HarmonyPatch(MethodType.Constructor)]
     public static class Patch_PlaySettings_ctor
     {
         public static void Postfix(RimWorld.PlaySettings __instance)

@@ -6,6 +6,7 @@ using Verse;
 
 namespace Defaults.StockpileZones
 {
+    [HarmonyPatchCategory("Storage")]
     [HarmonyPatch(typeof(Listing_TreeThingFilter))]
     [HarmonyPatch("DoCategoryChildren")]
     public static class Patch_Listing_TreeThingFilter_DoCategoryChildren

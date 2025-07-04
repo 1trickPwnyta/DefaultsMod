@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using Defaults.Defs;
+using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace Defaults.Schedule
     {
         public override void DoCell(Rect rect, Pawn pawn, PawnTable table)
         {
-            if (pawn.timetable != null && !pawn.IsMutant)
+            if (DefaultSettingsCategoryDefOf.Schedule.Enabled && pawn.timetable != null && !pawn.IsMutant)
             {
                 rect = new Rect(rect.x, rect.y, GetMinWidth(table), 30f);
                 MouseoverSounds.DoRegion(rect);
@@ -48,12 +49,14 @@ namespace Defaults.Schedule
 
         public override int GetMinWidth(PawnTable table)
         {
-            return Mathf.Max(base.GetMinWidth(table), (!Settings.GetValue<bool>(Settings.HIDE_SETASDEFAULT) ? 18 : 0) + (!Settings.GetValue<bool>(Settings.HIDE_LOADDEFAULT) ? 18 : 0));
+            return DefaultSettingsCategoryDefOf.Schedule.Enabled
+                ? Mathf.Max(base.GetMinWidth(table), (!Settings.GetValue<bool>(Settings.HIDE_SETASDEFAULT) ? 18 : 0) + (!Settings.GetValue<bool>(Settings.HIDE_LOADDEFAULT) ? 18 : 0))
+                : 0;
         }
 
         public override int GetMaxWidth(PawnTable table)
         {
-            return Mathf.Min(base.GetMaxWidth(table), GetMinWidth(table));
+            return DefaultSettingsCategoryDefOf.Schedule.Enabled ? Mathf.Min(base.GetMaxWidth(table), GetMinWidth(table)) : 0;
         }
     }
 }

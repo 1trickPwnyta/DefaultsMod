@@ -28,6 +28,8 @@ namespace Defaults.Workers
 
         protected virtual string DataPrefix => def.defName + ".";
 
+        public bool WasEnabledAtStartup { get; private set; }
+
         public virtual IEnumerable<FloatMenuOption> FloatMenuOptions
         {
             get
@@ -108,6 +110,7 @@ namespace Defaults.Workers
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 ResetCategorySettings(false);
+                WasEnabledAtStartup = !disabled;
             }
             foreach (DefaultSettingDef def in def.DefaultSettings)
             {

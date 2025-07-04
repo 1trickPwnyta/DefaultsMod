@@ -8,6 +8,7 @@ namespace Defaults.Defs
         public static DefaultSettingsCategoryDef
             AllowedAreas,
             Policies,
-            Schedule;
+            Schedule,
+            Storyteller;
     }
 }

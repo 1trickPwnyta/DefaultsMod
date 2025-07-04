@@ -108,6 +108,7 @@
 	<Defaults_RestartRequiredDesc>Disabling or enabling entire settings categories will not take effect until the game is restarted. Do you want to restart now?</Defaults_RestartRequiredDesc>
 	<Defaults_Restart>Restart RimWorld</Defaults_Restart>
 	<Defaults_NotNow>Not now</Defaults_NotNow>
+	<Defaults_EnableCategoryToViewSettings>You need to enable {0} and then restart the game in order to view these settings.</Defaults_EnableCategoryToViewSettings>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

@@ -4,7 +4,9 @@ using Verse;
 
 namespace Defaults.Misc.PlantType
 {
-    [HarmonyPatch(typeof(Zone_Growing), "get_PlantDefToGrow")]
+    [HarmonyPatchCategory("Misc")]
+    [HarmonyPatch(typeof(Zone_Growing))]
+    [HarmonyPatch(nameof(Zone_Growing.PlantDefToGrow), MethodType.Getter)]
     public static class Patch_Zone_Growing_get_PlantDefToGrow
     {
         public static void Prefix(Zone_Growing __instance, ref ThingDef ___plantDefToGrow)

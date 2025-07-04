@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Defaults.Policies.ApparelPolicies
 {
+    [HarmonyPatchCategory("Policies")]
     [HarmonyPatch(typeof(OutfitDatabase))]
     [HarmonyPatch("GenerateStartingOutfits")]
     public static class Patch_OutfitDatabase

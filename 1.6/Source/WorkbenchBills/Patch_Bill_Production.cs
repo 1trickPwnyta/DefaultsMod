@@ -1,16 +1,20 @@
 ﻿using HarmonyLib;
 using RimWorld;
+using Verse;
 
 namespace Defaults.WorkbenchBills
 {
-    // Patched manually in mod constructor
+    [HarmonyPatchCategory("WorkbenchBills")]
+    [HarmonyPatch(typeof(Bill_Production))]
+    [HarmonyPatch(MethodType.Constructor)]
+    [HarmonyPatch(new[] { typeof(RecipeDef), typeof(Precept_ThingStyle) })]
     public static class Patch_Bill_Production_ctor
     {
-        public static bool Enabled = true;
+        public static bool enabled = true;
 
         public static void Postfix(Bill_Production __instance)
         {
-            if (Enabled)
+            if (enabled)
             {
                 GlobalBillOptions options = Settings.Get<GlobalBillOptions>(Settings.GLOBAL_BILL_OPTIONS);
 
@@ -28,6 +32,7 @@ namespace Defaults.WorkbenchBills
         }
     }
 
+    [HarmonyPatchCategory("WorkbenchBills")]
     [HarmonyPatch(typeof(Bill_Production))]
     [HarmonyPatch(nameof(Bill_Production.ShouldDoNow))]
     public static class Patch_Bill_Production_ShouldDoNow

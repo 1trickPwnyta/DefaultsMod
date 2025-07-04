@@ -1,8 +1,13 @@
-﻿using Verse;
+﻿using HarmonyLib;
+using RimWorld;
+using Verse;
 
 namespace Defaults.Misc.MechWorkModes
 {
-    // Patched manually in mod constructor
+    [HarmonyPatchCategory("Misc")]
+    [HarmonyPatch(typeof(MechanitorControlGroup))]
+    [HarmonyPatch(MethodType.Constructor)]
+    [HarmonyPatch(new[] { typeof(Pawn_MechanitorTracker) })]
     public static class Patch_MechanitorControlGroup
     {
         public static void Postfix(ref MechWorkModeDef ___workMode)

@@ -3,7 +3,9 @@ using Verse;
 
 namespace Defaults.Misc.HostilityResponse
 {
-    [HarmonyPatch(typeof(PawnGenerator), "GenerateNewPawnInternal")]
+    [HarmonyPatchCategory("Misc")]
+    [HarmonyPatch(typeof(PawnGenerator))]
+    [HarmonyPatch("GenerateNewPawnInternal")]
     public static class Patch_PawnGenerator_GenerateNewPawnInternal
     {
         public static void Postfix(Pawn __result)

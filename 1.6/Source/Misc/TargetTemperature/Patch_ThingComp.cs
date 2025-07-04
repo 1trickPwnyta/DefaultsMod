@@ -4,6 +4,7 @@ using Verse;
 
 namespace Defaults.Misc.TargetTemperature
 {
+    [HarmonyPatchCategory("Misc")]
     [HarmonyPatch(typeof(ThingComp))]
     [HarmonyPatch(nameof(ThingComp.PostPostMake))]
     public static class Patch_ThingComp

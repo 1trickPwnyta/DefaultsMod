@@ -7,6 +7,7 @@ using System.Reflection.Emit;
 
 namespace Defaults.WorkbenchBills
 {
+    [HarmonyPatchCategory("WorkbenchBills")]
     [HarmonyPatch(typeof(Bill))]
     [HarmonyPatch(nameof(Bill.DoInterface))]
     public static class Patch_Bill

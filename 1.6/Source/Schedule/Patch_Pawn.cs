@@ -1,11 +1,11 @@
-﻿using Defaults.Defs;
-using Defaults.Workers;
+﻿using Defaults.Workers;
 using HarmonyLib;
 using RimWorld;
 using Verse;
 
 namespace Defaults.Schedule
 {
+    [HarmonyPatchCategory("Schedule")]
     [HarmonyPatch(typeof(Pawn))]
     [HarmonyPatch(nameof(Pawn.SetFaction))]
     public static class Patch_Pawn_SetFaction

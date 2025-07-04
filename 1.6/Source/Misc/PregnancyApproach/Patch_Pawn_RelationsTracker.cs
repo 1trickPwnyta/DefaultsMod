@@ -5,6 +5,7 @@ using System.Reflection.Emit;
 
 namespace Defaults.Misc.PregnancyApproach
 {
+    [HarmonyPatchCategory("Misc")]
     [HarmonyPatch(typeof(Pawn_RelationsTracker))]
     [HarmonyPatch(nameof(Pawn_RelationsTracker.GetPregnancyApproachForPartner))]
     public static class Patch_Pawn_RelationsTracker
@@ -26,6 +27,6 @@ namespace Defaults.Misc.PregnancyApproach
 
     public static class PatchUtility_Pawn_RelationsTracker
     {
-        public static RimWorld.PregnancyApproach GetDefaultPregnancyApproach() => Settings.Get<RimWorld.PregnancyApproach>(Settings.PREGNANCY_APPROACH);
+        public static RimWorld.PregnancyApproach GetDefaultPregnancyApproach() => Settings.GetValue<RimWorld.PregnancyApproach>(Settings.PREGNANCY_APPROACH);
     }
 }

@@ -5,7 +5,9 @@ using System.Reflection.Emit;
 
 namespace Defaults.Misc.TargetTemperature
 {
-    // Patched manually in mod constructor
+    [HarmonyPatchCategory("Misc")]
+    [HarmonyPatch(typeof(CompTempControl))]
+    [HarmonyPatch("<CompGetGizmosExtra>b__14_2")]
     public static class Patch_CompTempControl_CompGetGizmosExtra_b__14_2
     {
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)

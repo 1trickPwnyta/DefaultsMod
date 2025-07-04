@@ -6,6 +6,7 @@ using Verse;
 
 namespace Defaults.WorkbenchBills
 {
+    [HarmonyPatchCategory("WorkbenchBills")]
     [HarmonyPatch(typeof(ThingWithComps))]
     [HarmonyPatch(nameof(ThingWithComps.PostMake))]
     public static class Patch_ThingWithComps

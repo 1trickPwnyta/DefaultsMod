@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Defaults.Policies.DrugPolicies
 {
+    [HarmonyPatchCategory("Policies")]
     [HarmonyPatch(typeof(DrugPolicyDatabase))]
     [HarmonyPatch("GenerateStartingDrugPolicies")]
     public static class Patch_DrugPolicyDatabase

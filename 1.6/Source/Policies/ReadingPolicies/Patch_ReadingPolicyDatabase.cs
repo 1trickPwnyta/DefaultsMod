@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Defaults.Policies.ReadingPolicies
 {
+    [HarmonyPatchCategory("Policies")]
     [HarmonyPatch(typeof(ReadingPolicyDatabase))]
     [HarmonyPatch("GenerateStartingPolicies")]
     public static class Patch_ReadingPolicyDatabase

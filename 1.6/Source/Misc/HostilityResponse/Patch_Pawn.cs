@@ -3,6 +3,7 @@ using Verse;
 
 namespace Defaults.Misc.HostilityResponse
 {
+    [HarmonyPatchCategory("Misc")]
     [HarmonyPatch(typeof(Pawn))]
     [HarmonyPatch(nameof(Pawn.SetFaction))]
     public static class Patch_Pawn_SetFaction

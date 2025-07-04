@@ -14,6 +14,8 @@ namespace Defaults.Storyteller
 
         public override Vector2 InitialSize => new Vector2(Page.StandardSize.x, Page.StandardSize.y + 40f);
 
+        protected override bool DoSettingsWhenDisabled => false;
+
         public override void PreOpen()
         {
             base.PreOpen();

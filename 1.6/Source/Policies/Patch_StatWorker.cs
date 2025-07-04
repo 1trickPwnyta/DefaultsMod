@@ -8,6 +8,7 @@ using Verse;
 
 namespace Defaults.Policies
 {
+    [HarmonyPatchCategory("Policies")]
     [HarmonyPatch(typeof(StatWorker))]
     [HarmonyPatch(nameof(StatWorker.ShouldShowFor))]
     public static class Patch_StatWorker_ShouldShowFor
@@ -28,6 +29,7 @@ namespace Defaults.Policies
         }
     }
 
+    [HarmonyPatchCategory("Policies")]
     [HarmonyPatch(typeof(StatWorker))]
     [HarmonyPatch(nameof(StatWorker.GetExplanationFinalizePart))]
     public static class Patch_StatWorker_GetExplanationFinalizePart

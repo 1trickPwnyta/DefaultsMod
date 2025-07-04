@@ -4,6 +4,7 @@ using Verse;
 
 namespace Defaults.StockpileZones
 {
+    [HarmonyPatchCategory("Storage")]
     [HarmonyPatch(typeof(QuickSearchFilter))]
     [HarmonyPatch(nameof(QuickSearchFilter.Matches))]
     [HarmonyPatch(new[] { typeof(ThingDef) })]

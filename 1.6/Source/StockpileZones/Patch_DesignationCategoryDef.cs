@@ -6,6 +6,48 @@ using Verse;
 
 namespace Defaults.StockpileZones
 {
+    [HarmonyPatchCategory("Storage")]
+    [HarmonyPatch(typeof(DesignationCategoryDef))]
+    [HarmonyPatch(nameof(DesignationCategoryDef.AllResolvedDesignators), MethodType.Getter)]
+    public static class Patch_DesignationCategoryDef_get_AllResolvedDesignators
+    {
+        public static void Postfix(DesignationCategoryDef __instance, ref List<Designator> __result)
+        {
+            if (__instance == DesignationCategoryDefOf.Zone)
+            {
+                __result = PatchUtility_DesignationCategoryDef.AddDesignators(__result).ToList();
+            }
+        }
+    }
+
+    [HarmonyPatchCategory("Storage")]
+    [HarmonyPatch(typeof(DesignationCategoryDef))]
+    [HarmonyPatch(nameof(DesignationCategoryDef.ResolvedAllowedDesignators), MethodType.Getter)]
+    public static class Patch_DesignationCategoryDef_get_ResolvedAllowedDesignators
+    {
+        public static void Postfix(DesignationCategoryDef __instance, ref IEnumerable<Designator> __result)
+        {
+            if (__instance == DesignationCategoryDefOf.Zone)
+            {
+                __result = PatchUtility_DesignationCategoryDef.AddDesignators(__result);
+            }
+        }
+    }
+
+    [HarmonyPatchCategory("Storage")]
+    [HarmonyPatch(typeof(DesignationCategoryDef))]
+    [HarmonyPatch(nameof(DesignationCategoryDef.AllResolvedAndIdeoDesignators), MethodType.Getter)]
+    public static class Patch_DesignationCategoryDef_get_AllResolvedAndIdeoDesignators
+    {
+        public static void Postfix(DesignationCategoryDef __instance, ref IEnumerable<Designator> __result)
+        {
+            if (__instance == DesignationCategoryDefOf.Zone)
+            {
+                __result = PatchUtility_DesignationCategoryDef.AddDesignators(__result);
+            }
+        }
+    }
+
     public static class PatchUtility_DesignationCategoryDef
     {
         public static IEnumerable<Designator> AddDesignators(IEnumerable<Designator> __result)
@@ -42,45 +84,6 @@ namespace Defaults.StockpileZones
                         }
                     }
                 }
-            }
-        }
-    }
-
-    [HarmonyPatch(typeof(DesignationCategoryDef))]
-    [HarmonyPatch("get_AllResolvedDesignators")]
-    public static class Patch_DesignationCategoryDef_get_AllResolvedDesignators
-    {
-        public static void Postfix(DesignationCategoryDef __instance, ref List<Designator> __result)
-        {
-            if (__instance == DesignationCategoryDefOf.Zone)
-            {
-                __result = PatchUtility_DesignationCategoryDef.AddDesignators(__result).ToList();
-            }
-        }
-    }
-
-    [HarmonyPatch(typeof(DesignationCategoryDef))]
-    [HarmonyPatch("get_ResolvedAllowedDesignators")]
-    public static class Patch_DesignationCategoryDef_get_ResolvedAllowedDesignators
-    {
-        public static void Postfix(DesignationCategoryDef __instance, ref IEnumerable<Designator> __result)
-        {
-            if (__instance == DesignationCategoryDefOf.Zone)
-            {
-                __result = PatchUtility_DesignationCategoryDef.AddDesignators(__result);
-            }
-        }
-    }
-
-    [HarmonyPatch(typeof(DesignationCategoryDef))]
-    [HarmonyPatch("get_AllResolvedAndIdeoDesignators")]
-    public static class Patch_DesignationCategoryDef_get_AllResolvedAndIdeoDesignators
-    {
-        public static void Postfix(DesignationCategoryDef __instance, ref IEnumerable<Designator> __result)
-        {
-            if (__instance == DesignationCategoryDefOf.Zone)
-            {
-                __result = PatchUtility_DesignationCategoryDef.AddDesignators(__result);
             }
         }
     }

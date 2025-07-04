@@ -8,6 +8,7 @@ using Verse;
 
 namespace Defaults.WorldSettings
 {
+    [HarmonyPatchCategory("World")]
     [HarmonyPatch(typeof(Page_CreateWorldParams))]
     [HarmonyPatch(nameof(Page_CreateWorldParams.Reset))]
     public static class Patch_Page_CreateWorldParams_Reset
@@ -23,6 +24,7 @@ namespace Defaults.WorldSettings
         }
     }
 
+    [HarmonyPatchCategory("World")]
     [HarmonyPatch(typeof(Page_CreateWorldParams))]
     [HarmonyPatch("ResetFactionCounts")]
     public static class Patch_Page_CreateWorldParams_ResetFactionCounts
@@ -33,6 +35,7 @@ namespace Defaults.WorldSettings
         }
     }
 
+    [HarmonyPatchCategory("World")]
     [HarmonyPatch(typeof(Page_CreateWorldParams))]
     [HarmonyPatch(nameof(Page_CreateWorldParams.DoWindowContents))]
     public static class Patch_Page_CreateWorldParams_DoWindowContents
@@ -61,6 +64,7 @@ namespace Defaults.WorldSettings
         }
     }
 
+    [HarmonyPatchCategory("World")]
     [HarmonyPatch(typeof(Page_CreateWorldParams))]
     [HarmonyPatch(nameof(Page_CreateWorldParams.PostOpen))]
     public static class Patch_Page_CreateWorldParams_PostOpen

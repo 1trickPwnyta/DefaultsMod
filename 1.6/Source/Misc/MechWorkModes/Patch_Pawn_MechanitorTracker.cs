@@ -4,6 +4,7 @@ using Verse;
 
 namespace Defaults.Misc.MechWorkModes
 {
+    [HarmonyPatchCategory("Misc")]
     [HarmonyPatch(typeof(Pawn_MechanitorTracker))]
     [HarmonyPatch("Notify_ControlGroupAmountMayChanged")]
     public static class Patch_Pawn_MechanitorTracker

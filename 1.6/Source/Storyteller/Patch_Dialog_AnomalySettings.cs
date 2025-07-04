@@ -7,6 +7,7 @@ using Verse;
 
 namespace Defaults.Storyteller
 {
+    [HarmonyPatchCategory("Storyteller")]
     [HarmonyPatch(typeof(Dialog_AnomalySettings))]
     [HarmonyPatch("DrawPlaystyles")]
     public static class Patch_Dialog_AnomalySettings_DrawPlaystyles

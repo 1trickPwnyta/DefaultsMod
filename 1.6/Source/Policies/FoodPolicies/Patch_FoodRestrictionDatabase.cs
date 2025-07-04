@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Defaults.Policies.FoodPolicies
 {
+    [HarmonyPatchCategory("Policies")]
     [HarmonyPatch(typeof(FoodRestrictionDatabase))]
     [HarmonyPatch("GenerateStartingFoodRestrictions")]
     public static class Patch_FoodRestrictionDatabase

@@ -4,6 +4,7 @@ using Verse;
 
 namespace Defaults.Storyteller
 {
+    [HarmonyPatchCategory("Storyteller")]
     [HarmonyPatch(typeof(Page_SelectStoryteller))]
     [HarmonyPatch(nameof(Page_SelectStoryteller.PreOpen))]
     public static class Patch_Page_SelectStoryteller_PreOpen

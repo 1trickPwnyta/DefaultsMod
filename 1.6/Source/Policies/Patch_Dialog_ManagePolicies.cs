@@ -12,6 +12,7 @@ using Verse;
 
 namespace Defaults.Policies
 {
+    [HarmonyPatchCategory("Policies")]
     [HarmonyPatch(typeof(Dialog_ManagePolicies<Policy>))]
     [HarmonyPatch(nameof(Dialog_ManagePolicies<Policy>.DoWindowContents))]
     public static class Patch_Dialog_ManagePolicies_DoWindowContents
@@ -64,6 +65,7 @@ namespace Defaults.Policies
         }
     }
 
+    [HarmonyPatchCategory("Policies")]
     [HarmonyPatch(typeof(Dialog_ManagePolicies<Policy>))]
     [HarmonyPatch("DoPolicyListing")]
     public static class Patch_Dialog_ManagePolicies_DoPolicyListing
