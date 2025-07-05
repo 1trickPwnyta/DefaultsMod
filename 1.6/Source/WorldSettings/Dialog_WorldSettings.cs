@@ -58,18 +58,26 @@ namespace Defaults.WorldSettings
 
             Widgets.Label(new Rect(0f, y, 200f, 30f), "PlanetRainfall".Translate());
             Rect rect5 = new Rect(200f, y, widgetWidth, 30f);
-            options.DefaultOverallRainfall = (OverallRainfall)Mathf.RoundToInt(Widgets.HorizontalSlider(rect5, (float)options.DefaultOverallRainfall, 0f, (OverallRainfallUtility.EnumValuesCount - 1), true, "PlanetRainfall_Normal".Translate(), "PlanetRainfall_Low".Translate(), "PlanetRainfall_High".Translate(), 1f));
+            options.DefaultOverallRainfall = (OverallRainfall)Mathf.RoundToInt(Widgets.HorizontalSlider(rect5, (float)options.DefaultOverallRainfall, 0f, OverallRainfallUtility.EnumValuesCount - 1, true, "PlanetRainfall_Normal".Translate(), "PlanetRainfall_Low".Translate(), "PlanetRainfall_High".Translate(), 1f));
             y += 40f;
 
             Widgets.Label(new Rect(0f, y, 200f, 30f), "PlanetTemperature".Translate());
             Rect rect6 = new Rect(200f, y, widgetWidth, 30f);
-            options.DefaultOverallTemperature = (OverallTemperature)Mathf.RoundToInt(Widgets.HorizontalSlider(rect6, (float)options.DefaultOverallTemperature, 0f, (OverallTemperatureUtility.EnumValuesCount - 1), true, "PlanetTemperature_Normal".Translate(), "PlanetTemperature_Low".Translate(), "PlanetTemperature_High".Translate(), 1f));
+            options.DefaultOverallTemperature = (OverallTemperature)Mathf.RoundToInt(Widgets.HorizontalSlider(rect6, (float)options.DefaultOverallTemperature, 0f, OverallTemperatureUtility.EnumValuesCount - 1, true, "PlanetTemperature_Normal".Translate(), "PlanetTemperature_Low".Translate(), "PlanetTemperature_High".Translate(), 1f));
             y += 40f;
 
             Widgets.Label(new Rect(0f, y, 200f, 30f), "PlanetPopulation".Translate());
             Rect rect7 = new Rect(200f, y, widgetWidth, 30f);
-            options.DefaultOverallPopulation = (OverallPopulation)Mathf.RoundToInt(Widgets.HorizontalSlider(rect7, (float)options.DefaultOverallPopulation, 0f, (OverallPopulationUtility.EnumValuesCount - 1), true, "PlanetPopulation_Normal".Translate(), "PlanetPopulation_Low".Translate(), "PlanetPopulation_High".Translate(), 1f));
+            options.DefaultOverallPopulation = (OverallPopulation)Mathf.RoundToInt(Widgets.HorizontalSlider(rect7, (float)options.DefaultOverallPopulation, 0f, OverallPopulationUtility.EnumValuesCount - 1, true, "PlanetPopulation_Normal".Translate(), "PlanetPopulation_Low".Translate(), "PlanetPopulation_High".Translate(), 1f));
             y += 40f;
+
+            if (ModsConfig.OdysseyActive)
+            {
+                Widgets.Label(new Rect(0f, y, 200f, 30f), "PlanetLandmarkDensity".Translate());
+                Rect landmarkRect = new Rect(200f, y, widgetWidth, 30f);
+                options.DefaultLandmarkDensity = (LandmarkDensity)Mathf.RoundToInt(Widgets.HorizontalSlider(landmarkRect, (float)options.DefaultLandmarkDensity, 0f, LandmarkDensityUtility.EnumValuesCount - 1, true, "PlanetLandmarkDensity_Normal".Translate(), "PlanetLandmarkDensity_Low".Translate(), "PlanetLandmarkDensity_High".Translate(), 1f));
+                y += 40f;
+            }
 
             if (ModsConfig.BiotechActive)
             {
