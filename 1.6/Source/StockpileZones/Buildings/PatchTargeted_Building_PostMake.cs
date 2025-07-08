@@ -9,7 +9,7 @@ using Verse;
 namespace Defaults.StockpileZones.Buildings
 {
     [HarmonyPatchCategory("Storage")]
-    public static class Patch_Building_PostMake
+    public static class PatchTargeted_Building_PostMake
     {
         public static IEnumerable<MethodBase> TargetMethods()
         {

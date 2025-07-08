@@ -139,7 +139,7 @@
     <Compile Include="Schedule\DefaultSettingsCategoryWorker_Schedule.cs" />
     <Compile Include="StockpileZones\DefaultSettingsCategoryWorker_Storage.cs" />
     <Compile Include="StockpileZones\Buildings\Patch_Blueprint_Storage.cs" />
-    <Compile Include="StockpileZones\Buildings\Patch_Building.cs" />
+    <Compile Include="StockpileZones\Buildings\PatchTargeted_Building_PostMake.cs" />
     <Compile Include="Storyteller\DefaultSettingsCategoryWorker_Storyteller.cs" />
     <Compile Include="Misc\TargetTemperature\DefaultSettingWorker_TargetTemp.cs" />
     <Compile Include="Misc\TargetTemperature\DefaultSettingWorker_TargetTempCooler.cs" />
@@ -199,7 +199,7 @@
     <Compile Include="StockpileZones\Patch_DesignationCategoryDef.cs" />
     <Compile Include="StockpileZones\Patch_Designator_ZoneAddStockpile.cs" />
     <Compile Include="StockpileZones\Patch_Find.cs" />
-    <Compile Include="StockpileZones\Patch_Listing_TreeThingFilter.cs" />
+    <Compile Include="PatchTargeted_HiddenItemsManager.cs" />
     <Compile Include="StockpileZones\Patch_QuickSearchFilter.cs" />
     <Compile Include="StockpileZones\ZoneType.cs" />
     <Compile Include="Storyteller\Dialog_Storyteller.cs" />
