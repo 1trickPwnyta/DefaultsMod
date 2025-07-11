@@ -28,7 +28,7 @@ namespace Defaults.Workers
 
         protected virtual string DataPrefix => def.defName + ".";
 
-        public bool WasEnabledAtStartup { get; private set; }
+        public bool WasEnabledAtStartup { get; private set; } = true;
 
         public virtual IEnumerable<FloatMenuOption> FloatMenuOptions
         {

@@ -72,6 +72,9 @@ Mod icon: twitter.com/mouse_draws
 			<downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
 		</li>
 	</modDependencies>
+	<incompatibleWith>
+		<li>experimental.defaults.1trickPwnyta</li>
+	</incompatibleWith>
 	<loadAfter>
 		<li>cain.mineshaft</li>
 	</loadAfter>
