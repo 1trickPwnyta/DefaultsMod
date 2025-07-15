@@ -58,6 +58,7 @@ Full list of default settings:
 07/23/2024: Fixed bug that caused incompatibility with the Blueprints mod, added error handling for situations where previously installed mods or DLCs are removed.
 
 === Credits ===
+Settings category icons: Jerek Dain
 Mod icon: twitter.com/mouse_draws
 	</description>
 	<url>https://github.com/1trickPwnyta/DefaultsMod</url>
