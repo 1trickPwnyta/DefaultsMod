@@ -53,9 +53,13 @@ namespace Defaults.Schedule
             Scribe_Values.Look(ref name, "name");
             Scribe_Values.Look(ref use, "use");
             Scribe_Collections.Look(ref assignments, "Assignments");
-            if (Scribe.mode == LoadSaveMode.PostLoadInit && assignments == null)
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
-                SetToDefaultSchedule();
+                if (assignments == null)
+                {
+                    SetToDefaultSchedule();
+                }
+                assignments.Replace(null, TimeAssignmentDefOf.Anything);
             }
         }
 
