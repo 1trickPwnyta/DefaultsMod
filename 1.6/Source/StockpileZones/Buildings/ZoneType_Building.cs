@@ -1,6 +1,7 @@
 ﻿using RimWorld;
 using Verse;
 using UnityEngine;
+using Defaults.Defs;
 
 namespace Defaults.StockpileZones.Buildings
 {
@@ -49,7 +50,7 @@ namespace Defaults.StockpileZones.Buildings
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Defs.Look(ref buildingDef, "buildingDef");
+            Scribe_Defs_Silent.Look(ref buildingDef, "buildingDef");
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 FindIconDef();

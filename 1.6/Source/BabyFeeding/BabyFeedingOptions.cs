@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using Defaults.Defs;
+using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -22,7 +23,7 @@ namespace Defaults.BabyFeeding
             Scribe_Values.Look(ref ParentNonlactating, "ParentNonlactating", AutofeedMode.Childcare);
             Scribe_Values.Look(ref NonparentLactating, "NonparentLactating", AutofeedMode.Childcare);
             Scribe_Values.Look(ref NonparentNonlactating, "NonparentNonlactating", AutofeedMode.Childcare);
-            Scribe_Collections.Look(ref AllowedConsumables, "AllowedConsumables", LookMode.Def);
+            Scribe_Collections_Silent.Look(ref AllowedConsumables, "AllowedConsumables");
             if (Scribe.mode == LoadSaveMode.PostLoadInit && AllowedConsumables == null)
             {
                 AllowedConsumables = ITab_Pawn_Feeding.BabyConsumableFoods.ToHashSet();

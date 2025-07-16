@@ -27,7 +27,7 @@ namespace Defaults.Medicine
 
         protected override void ExposeSetting()
         {
-            Scribe_Defs.Look(ref setting, Key);
+            Scribe_Defs_Silent.Look(ref setting, Key);
         }
     }
 }

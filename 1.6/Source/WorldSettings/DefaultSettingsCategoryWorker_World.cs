@@ -100,7 +100,7 @@ namespace Defaults.WorldSettings
         {
             Scribe_Deep.Look(ref defaultPlanetOptions, Settings.PLANET);
             Scribe_Deep.Look(ref defaultMapOptions, Settings.MAP);
-            Scribe_Collections.Look(ref defaultFactions, Settings.FACTIONS);
+            Scribe_Collections_Silent.Look(ref defaultFactions, Settings.FACTIONS);
             Scribe_Values.Look(ref defaultFactionsLock, Settings.FACTIONS_LOCK);
             BackwardCompatibilityUtility.MigratePlanetOptions(ref defaultPlanetOptions);
             BackwardCompatibilityUtility.MigrateMapOptions(ref defaultMapOptions);

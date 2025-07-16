@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using Defaults.Defs;
+using RimWorld;
 using Verse;
 
 namespace Defaults.WorkbenchBills
@@ -187,16 +188,16 @@ namespace Defaults.WorkbenchBills
             Scribe_Values.Look(ref name, "name");
             Scribe_Values.Look(ref use, "use", true);
             Scribe_Values.Look(ref locked, "locked", false);
-            Scribe_Defs.Look(ref recipe, "recipe");
+            Scribe_Defs_Silent.Look(ref recipe, "recipe");
             Scribe_Deep.Look(ref ingredientFilter, "ingredientFilter");
             Scribe_Values.Look(ref ingredientSearchRadius, "ingredientSearchRadius");
             Scribe_Values.Look(ref allowedSkillRange, "allowedSkillRange");
             Scribe_Values.Look(ref slavesOnly, "slavesOnly");
             Scribe_Values.Look(ref mechsOnly, "mechsOnly");
             Scribe_Values.Look(ref nonMechsOnly, "nonMechsOnly");
-            Scribe_Defs.Look(ref repeatMode, "repeatMode");
+            Scribe_Defs_Silent.Look(ref repeatMode, "repeatMode");
             Scribe_Values.Look(ref repeatCount, "repeatCount");
-            Scribe_Defs.Look(ref storeMode, "storeMode");
+            Scribe_Defs_Silent.Look(ref storeMode, "storeMode");
             Scribe_Values.Look(ref targetCount, "targetCount");
             Scribe_Values.Look(ref pauseWhenSatisfied, "pauseWhenSatisfied");
             Scribe_Values.Look(ref unpauseWhenYouHave, "unpauseWhenYouHave");
@@ -205,6 +206,18 @@ namespace Defaults.WorkbenchBills
             Scribe_Values.Look(ref hpRange, "hpRange");
             Scribe_Values.Look(ref qualityRange, "qualityRange");
             Scribe_Values.Look(ref limitToAllowedStuff, "limitToAllowedStuff");
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                if (repeatMode == null)
+                {
+                    repeatMode = BillRepeatModeDefOf.RepeatCount;
+                }
+                if (storeMode == null)
+                {
+                    storeMode = BillStoreModeDefOf.BestStockpile;
+                }
+            }
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Defaults.Medicine
         public override float DoPostSettings(Rect rect)
         {
             float y = rect.y;
-            Widgets.Label(rect, ref y, "DefaultMedicineSettingsDesc".Translate());
+            Widgets.Label(rect, ref y, "Defaults_MedicineAssignments".Translate());
             y += 10f;
             using (new TextBlock(TextAnchor.MiddleLeft))
             {

@@ -30,7 +30,7 @@ namespace Defaults.Misc.MechWorkModes
 
         protected override void ExposeSetting()
         {
-            Scribe_Defs.Look(ref setting, Key);
+            Scribe_Defs_Silent.Look(ref setting, Key);
         }
 
         protected override MechWorkModeDef Default => MechWorkModeDefOf.Work;

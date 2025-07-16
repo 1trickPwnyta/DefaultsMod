@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using Defaults.Defs;
+using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -52,7 +53,7 @@ namespace Defaults.Schedule
         {
             Scribe_Values.Look(ref name, "name");
             Scribe_Values.Look(ref use, "use");
-            Scribe_Collections.Look(ref assignments, "Assignments");
+            Scribe_Collections_Silent.Look(ref assignments, "Assignments", false);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 if (assignments == null)

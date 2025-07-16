@@ -51,9 +51,9 @@ namespace Defaults
         public override void ExposeData()
         {
             Scribe_Collections.Look(ref KnownDLCs, "KnownDLCs");
-            Scribe_Collections.Look(ref PreviousFactionDefs, "PreviousFactionDefs");
-            Scribe_Collections.Look(ref PreviousThingDefs, "PreviousThingDefs");
-            Scribe_Collections.Look(ref PreviousSpecialThingFilterDefs, "PreviousSpecialThingFilterDefs");
+            Scribe_Collections_Silent.Look(ref PreviousFactionDefs, "PreviousFactionDefs");
+            Scribe_Collections_Silent.Look(ref PreviousThingDefs, "PreviousThingDefs");
+            Scribe_Collections_Silent.Look(ref PreviousSpecialThingFilterDefs, "PreviousSpecialThingFilterDefs");
 
             foreach (DefaultSettingsCategoryDef def in categories)
             {

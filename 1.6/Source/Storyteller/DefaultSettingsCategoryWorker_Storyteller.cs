@@ -86,8 +86,8 @@ namespace Defaults.Storyteller
 
         protected override void ExposeCategorySettings()
         {
-            Scribe_Defs.Look(ref defaultStoryteller, Settings.STORYTELLER);
-            Scribe_Defs.Look(ref defaultDifficulty, Settings.DIFFICULTY);
+            Scribe_Defs_Silent.Look(ref defaultStoryteller, Settings.STORYTELLER);
+            Scribe_Defs_Silent.Look(ref defaultDifficulty, Settings.DIFFICULTY);
             Scribe_Deep.Look(ref defaultDifficultyValues, Settings.DIFFICULTY_VALUES);
             Scribe_Values.Look(ref defaultPermadeath, Settings.PERMADEATH);
             BackwardCompatibilityUtility.MigrateAnomalyPlaystyleSettings(defaultDifficultyValues);

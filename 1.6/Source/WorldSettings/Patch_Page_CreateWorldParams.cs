@@ -32,6 +32,13 @@ namespace Defaults.WorldSettings
         public static void Postfix(ref List<FactionDef> ___factions)
         {
             ___factions = Settings.Get<List<FactionDef>>(Settings.FACTIONS).Where(f => f != null && f.displayInFactionSelection).Concat(FactionsUtility.GetDefaultNonselectableFactions()).ToList();
+            foreach (FactionDef faction in FactionsUtility.GetDefaultSelectableFactions())
+            {
+                if (!___factions.Contains(faction) && Current.Game.Scenario.AllParts.Any(p => p.def.preventRemovalOfFaction == faction))
+                {
+                    ___factions.Add(faction);
+                }
+            }
         }
     }
 

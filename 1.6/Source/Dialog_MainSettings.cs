@@ -18,7 +18,7 @@ namespace Defaults
         private Vector2 scrollPosition;
         private HashSet<DefaultSettingsCategoryDef> initiallyEnabledCategories;
 
-        public override Vector2 InitialSize => new Vector2(730f + StandardMargin * 2, 470f + CloseButSize.y + StandardMargin * 2);
+        public override Vector2 InitialSize => new Vector2(730f + StandardMargin * 2, 620f + CloseButSize.y + StandardMargin * 2);
 
         protected override bool DoSearchWidget => true;
 

@@ -109,6 +109,7 @@
 	<Defaults_Restart>Restart RimWorld</Defaults_Restart>
 	<Defaults_NotNow>Not now</Defaults_NotNow>
 	<Defaults_EnableCategoryToViewSettings>You need to enable {0} and then restart the game in order to view these settings.</Defaults_EnableCategoryToViewSettings>
+	<Defaults_MedicineAssignments>Medicine assignments</Defaults_MedicineAssignments>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

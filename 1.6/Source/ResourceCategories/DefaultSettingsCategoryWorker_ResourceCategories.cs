@@ -53,7 +53,7 @@ namespace Defaults.ResourceCategories
 
         protected override void ExposeCategorySettings()
         {
-            Scribe_Collections.Look(ref defaultExpandedResourceCategories, Settings.EXPANDED_RESOURCE_CATEGORIES);
+            Scribe_Collections_Silent.Look(ref defaultExpandedResourceCategories, Settings.EXPANDED_RESOURCE_CATEGORIES);
         }
     }
 }

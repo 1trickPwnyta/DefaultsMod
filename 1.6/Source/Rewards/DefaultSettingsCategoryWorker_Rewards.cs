@@ -57,7 +57,7 @@ namespace Defaults.Rewards
 
         protected override void ExposeCategorySettings()
         {
-            Scribe_Collections.Look(ref defaultRewardPreferences, Settings.REWARDS);
+            Scribe_Collections_Silent.LookKeysDef(ref defaultRewardPreferences, Settings.REWARDS);
         }
     }
 }

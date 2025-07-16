@@ -177,8 +177,12 @@ namespace Defaults.StockpileZones
         protected override void ExposeCategorySettings()
         {
             Scribe_Collections.Look(ref defaultStockpileZones, Settings.STOCKPILE_ZONES, LookMode.Deep);
-            Scribe_Collections.Look(ref defaultBuildingStorageSettings, Settings.BUILDING_STORAGE, LookMode.Def, LookMode.Deep);
+            Scribe_Collections_Silent.LookKeysDef(ref defaultBuildingStorageSettings, Settings.BUILDING_STORAGE, LookMode.Deep);
             BackwardCompatibilityUtility.MigrateDefaultShelfSettings(ref defaultBuildingStorageSettings);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && defaultBuildingStorageSettings != null)
+            {
+                defaultBuildingStorageSettings.RemoveAll(kv => kv.Value.buildingDef == null);
+            }
         }
     }
 }

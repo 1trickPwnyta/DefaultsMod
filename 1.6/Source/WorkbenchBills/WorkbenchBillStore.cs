@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Defaults.Defs;
+using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
@@ -31,7 +32,7 @@ namespace Defaults.WorkbenchBills
 
         public void ExposeData()
         {
-            Scribe_Collections.Look(ref workbenchGroup, "workbenchGroup");
+            Scribe_Collections_Silent.Look(ref workbenchGroup, "workbenchGroup");
             workbenchGroup.RemoveWhere(t => t == null);
             Scribe_Collections.Look(ref bills, "bills");
             bills.RemoveWhere(b => b.recipe == null);

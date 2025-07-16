@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using Defaults.Defs;
+using RimWorld;
 using Verse;
 
 namespace Defaults.WorkbenchBills
@@ -13,7 +14,7 @@ namespace Defaults.WorkbenchBills
         {
             Scribe_Values.Look(ref DefaultBillIngredientSearchRadius, "DefaultBillIngredientSearchRadius", 999f);
             Scribe_Values.Look(ref DefaultBillAllowedSkillRange, "DefaultBillAllowedSkillRange", new IntRange(0, 20));
-            Scribe_Defs.Look(ref DefaultBillStoreMode, "DefaultBillStoreMode");
+            Scribe_Defs_Silent.Look(ref DefaultBillStoreMode, "DefaultBillStoreMode");
             if (Scribe.mode == LoadSaveMode.PostLoadInit && DefaultBillStoreMode == null)
             {
                 DefaultBillStoreMode = BillStoreModeDefOf.BestStockpile;

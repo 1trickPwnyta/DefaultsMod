@@ -1,4 +1,5 @@
-﻿using Defaults.Medicine;
+﻿using Defaults.Defs;
+using Defaults.Medicine;
 using Defaults.Policies;
 using Defaults.StockpileZones.Buildings;
 using Defaults.WorkbenchBills;
@@ -84,10 +85,10 @@ namespace Defaults
         {
             if (Scribe.mode != LoadSaveMode.Saving)
             {
-                Scribe_Collections.Look(ref allowed, "Allowed", LookMode.Def);
+                Scribe_Collections_Silent.Look(ref allowed, "Allowed");
                 Scribe_Values.Look(ref allowedHitPointsPercents, "AllowedHitPointsPercents");
                 Scribe_Values.Look(ref allowedQualityLevels, "AllowedQualityLevels");
-                Scribe_Collections.Look(ref disallowedSpecialFilters, "DisallowedSpecialFilters", LookMode.Def);
+                Scribe_Collections_Silent.Look(ref disallowedSpecialFilters, "DisallowedSpecialFilters");
             }
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
@@ -123,7 +124,7 @@ namespace Defaults
             if (ModsConfig.AnomalyActive && Scribe.mode == LoadSaveMode.LoadingVars)
             {
                 AnomalyPlaystyleDef compatibility_anomalyPlaystyleDef = default;
-                Scribe_Defs.Look(ref compatibility_anomalyPlaystyleDef, "DefaultAnomalyPlaystyle");
+                Scribe_Defs_Silent.Look(ref compatibility_anomalyPlaystyleDef, "DefaultAnomalyPlaystyle");
                 if (compatibility_anomalyPlaystyleDef != null)
                 {
                     difficultyValues.AnomalyPlaystyleDef = compatibility_anomalyPlaystyleDef;
@@ -180,7 +181,7 @@ namespace Defaults
                 options = new GlobalBillOptions();
                 Scribe_Values.Look(ref options.DefaultBillIngredientSearchRadius, "DefaultBillIngredientSearchRadius", 999f);
                 Scribe_Values.Look(ref options.DefaultBillAllowedSkillRange, "DefaultBillAllowedSkillRange", new IntRange(0, 20));
-                Scribe_Defs.Look(ref options.DefaultBillStoreMode, "DefaultBillStoreMode");
+                Scribe_Defs_Silent.Look(ref options.DefaultBillStoreMode, "DefaultBillStoreMode");
             }
         }
 
