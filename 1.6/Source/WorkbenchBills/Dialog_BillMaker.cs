@@ -16,7 +16,7 @@ namespace Defaults.WorkbenchBills
 
         private readonly HashSet<ThingDef> workbenchGroup;
         private Vector2 scrollPosition;
-        private float y = 0f;
+        private float height = 0f;
 
         public Dialog_BillMaker(HashSet<ThingDef> workbenchGroup)
         {
@@ -35,15 +35,13 @@ namespace Defaults.WorkbenchBills
         {
             base.DoWindowContents(inRect);
 
-            Rect titleRect = new Rect(inRect.x, inRect.y, inRect.width - 75f - padding, 60f);
+            float y = inRect.y;
+            Rect titleRect = new Rect(inRect.x, y, inRect.width - 75f - padding, 60f);
             Rect titleIconRect = new Rect(titleRect.x, titleRect.y, titleRect.height, titleRect.height);
             Widgets.DefIcon(titleIconRect, workbenchGroup.First(), GenStuff.DefaultStuffFor(workbenchGroup.First()));
             Rect titleLabelRect = new Rect(titleIconRect.xMax + padding, titleRect.y, titleRect.width - titleIconRect.width - padding, titleRect.height);
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(titleLabelRect, string.Join("\n", workbenchGroup.Select(w => w.LabelCap)));
-            Text.Anchor = default;
-
-            Rect buttonRect = new Rect(titleRect.xMax + padding, inRect.y + 30f, 75f, 30f);
+            using (new TextBlock(TextAnchor.MiddleLeft)) Widgets.Label(titleLabelRect, string.Join("\n", workbenchGroup.Select(w => w.LabelCap)));
+            Rect buttonRect = new Rect(titleRect.xMax + padding, titleRect.y + 30f, 75f, 30f);
             if (Widgets.ButtonText(buttonRect, "AddBill".Translate()))
             {
                 Find.WindowStack.Add(new FloatMenu(workbenchGroup.First().AllRecipes.Select(r => new FloatMenuOption(r.LabelCap, () =>
@@ -51,18 +49,44 @@ namespace Defaults.WorkbenchBills
                     WorkbenchBillStore.Get(workbenchGroup).bills.Add(new BillTemplate(r));
                 }, r.UIIconThing, r.UIIcon, null, true, MenuOptionPriority.Default, null, null, 29f, rect => Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, r), null, true, -r.displayPriority)).ToList()));
             }
+            y += titleRect.height + padding;
 
-            Rect outRect = new Rect(inRect.x, titleRect.yMax + padding, inRect.width, inRect.height - titleRect.height - padding - CloseButSize.y - padding);
-            reorderableRect = outRect;
-            Rect viewRect = new Rect(0f, 0f, outRect.width - 20f, y);
-            Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
-            y = 0f;
             List<BillTemplate> bills = WorkbenchBillStore.Get(workbenchGroup).bills;
+            GlobalBillOptions options = Settings.Get<GlobalBillOptions>(Settings.GLOBAL_BILL_OPTIONS);
+
+            bool billsLimited = bills.Count(b => b.use) > 15 && options.LimitBillsTo15;
+            Rect warningRect = new Rect(inRect.x, y, inRect.width, 70f);
+            if (billsLimited)
+            {
+                Widgets.DrawRectFast(warningRect, Widgets.MenuSectionBGFillColor);
+                using (new TextBlock(GameFont.Tiny, TextAnchor.MiddleLeft)) Widgets.Label(warningRect.LeftPartPixels(inRect.width - 150f).ContractedBy(3f), "Defaults_BillsLimitedto15".Translate().Colorize(Color.yellow));
+                if (Widgets.ButtonText(warningRect.RightPartPixels(150f).MiddlePartPixels(150f, 30f).ContractedBy(3f), "Defaults_GlobalBillSettings".Translate()))
+                {
+                    Find.WindowStack.Add(new Dialog_GlobalBillSettings());
+                }
+                y += warningRect.height + padding;
+            }
+
+            Rect outRect = new Rect(inRect.x, y, inRect.width, inRect.height - y - CloseButSize.y - padding);
+            reorderableRect = outRect;
+            Rect viewRect = new Rect(0f, 0f, outRect.width - 20f, height);
+            Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
+            height = 0f;
+
+            int numBills = 0;
             foreach (BillTemplate bill in bills.ListFullCopy())
             {
-                Rect billRect = new Rect(viewRect.x, viewRect.y + y, viewRect.width, 68f);
+                Rect billRect = new Rect(viewRect.x, viewRect.y + height, viewRect.width, 68f);
                 DoBill(billRect, bill, bills);
-                y += billRect.height + padding;
+                if (!bill.use || (options.LimitBillsTo15 && numBills >= 15))
+                {
+                    Widgets.DrawRectFast(billRect, Color.black.WithAlpha(0.25f));
+                }
+                height += billRect.height + padding;
+                if (bill.use)
+                {
+                    numBills++;
+                }
             }
             Widgets.EndScrollView();
         }

@@ -110,6 +110,8 @@
 	<Defaults_NotNow>Not now</Defaults_NotNow>
 	<Defaults_EnableCategoryToViewSettings>You need to enable {0} and then restart the game in order to view these settings.</Defaults_EnableCategoryToViewSettings>
 	<Defaults_MedicineAssignments>Medicine assignments</Defaults_MedicineAssignments>
+	<Defaults_LimitBillsTo15>Limit workbench bills to 15 max</Defaults_LimitBillsTo15>
+	<Defaults_BillsLimitedto15>Only the first 15 bills will apply to workbenches built in the game. To remove this limit, change the global bill settings.</Defaults_BillsLimitedto15>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

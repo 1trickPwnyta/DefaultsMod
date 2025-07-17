@@ -15,7 +15,7 @@ namespace Defaults.WorkbenchBills
             closeOnClickedOutside = true;
         }
 
-        public override Vector2 InitialSize => new Vector2(250f, 450f);
+        public override Vector2 InitialSize => new Vector2(350f, 450f);
 
         public override void DoWindowContents(Rect inRect)
         {
@@ -34,7 +34,7 @@ namespace Defaults.WorkbenchBills
 
             listing.Label("AllowedSkillRange".Translate("") + ": " + (options.DefaultBillAllowedSkillRange.max == 20 ? "Unlimited".TranslateSimple() : ""));
             listing.IntRange(ref options.DefaultBillAllowedSkillRange, 0, 20);
-            listing.Gap(12f);
+            listing.Gap();
 
             if (listing.ButtonText(options.DefaultBillStoreMode.LabelCap))
             {
@@ -43,6 +43,9 @@ namespace Defaults.WorkbenchBills
                     options.DefaultBillStoreMode = d;
                 })).ToList()));
             }
+            listing.Gap();
+
+            listing.CheckboxLabeled("Defaults_LimitBillsTo15".Translate(), ref options.LimitBillsTo15);
 
             listing.End();
         }

@@ -340,6 +340,8 @@
 	  <li>hitpoints</li>
 	  <li>pause</li>
 	  <li>satisfied</li>
+	  <li>limited</li>
+	  <li>15</li>
 	</keywords>
   </Defaults.Defs.DefaultSettingsCategoryDef>
   

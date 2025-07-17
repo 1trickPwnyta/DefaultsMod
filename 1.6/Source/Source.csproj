@@ -99,6 +99,7 @@
     <Compile Include="StockpileZones\Buildings\ZoneType_Building.cs" />
     <Compile Include="UI\Dialog_Common.cs" />
     <Compile Include="UI\Patch_Dialog_Options.cs" />
+    <Compile Include="WorkbenchBills\PatchTargeted_BillStackLimit.cs" />
     <Compile Include="Workers\DefaultSettingsCategoryWorker.cs" />
     <Compile Include="Misc\DefaultSettingsCategoryWorker_Misc.cs" />
     <Compile Include="Workers\DefaultSettingWorker.cs" />
