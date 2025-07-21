@@ -75,5 +75,6 @@ Mod icon: twitter.com/mouse_draws
 	</incompatibleWith>
 	<loadAfter>
 		<li>cain.mineshaft</li>
+		<li>brrainz.nopausechallenge</li>
 	</loadAfter>
 </ModMetaData>

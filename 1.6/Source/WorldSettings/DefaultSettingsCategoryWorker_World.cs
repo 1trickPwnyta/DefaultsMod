@@ -1,4 +1,5 @@
-﻿using Defaults.Defs;
+﻿using Defaults.Compatibility;
+using Defaults.Defs;
 using Defaults.Workers;
 using RimWorld;
 using System.Collections.Generic;

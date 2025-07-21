@@ -89,6 +89,6 @@ namespace Defaults.UI
             {
                 using (new TextBlock(TextAnchor.MiddleCenter)) Widgets.Label(settingsRect, "Defaults_EnableCategoryToViewSettings".Translate(category.label));
             }
-}
+        }
     }
 }

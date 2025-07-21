@@ -48,6 +48,7 @@ namespace Defaults
         public const string MECH_WORK_MODE_FIRST = "DefaultWorkModeFirst";
         public const string MECH_WORK_MODE_SECOND = "DefaultWorkModeSecond";
         public const string SHOW_DISABLED_IN_SEARCH = "ShowDisabledInSearch";
+        public const string NO_PAUSE_OPTIONS = "NoPauseOptions";
 
         public static T Get<T>(string key)
         {

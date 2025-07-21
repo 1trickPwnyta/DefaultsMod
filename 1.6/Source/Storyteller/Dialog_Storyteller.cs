@@ -1,4 +1,5 @@
-﻿using Defaults.Defs;
+﻿using Defaults.Compatibility;
+using Defaults.Defs;
 using Defaults.UI;
 using RimWorld;
 using UnityEngine;
@@ -20,6 +21,7 @@ namespace Defaults.Storyteller
         {
             base.PreOpen();
             StorytellerUI.ResetStorytellerSelectionInterface();
+            ModCompatibilityUtility_NoPause.ApplyNoPauseOptions();
         }
 
         public override void DoSettings(Rect rect)
@@ -30,6 +32,7 @@ namespace Defaults.Storyteller
             StorytellerUI.DrawStorytellerSelectionInterface(rect, ref storyteller, ref difficulty, ref difficultyValues, new Listing_Standard());
             Settings.Set(Settings.STORYTELLER, storyteller);
             Settings.Set(Settings.DIFFICULTY, difficulty);
+            ModCompatibilityUtility_NoPause.SetNoPauseOptions();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Defaults.Defs;
+﻿using Defaults.Compatibility;
+using Defaults.Defs;
 using Defaults.Workers;
 using RimWorld;
 using Verse;
@@ -11,6 +12,7 @@ namespace Defaults.Storyteller
         private DifficultyDef defaultDifficulty;
         private Difficulty defaultDifficultyValues;
         private bool? defaultPermadeath;
+        private NoPauseOptions defaultNoPauseOptions;
 
         public DefaultSettingsCategoryWorker_Storyteller(DefaultSettingsCategoryDef def) : base(def)
         {
@@ -37,6 +39,9 @@ namespace Defaults.Storyteller
                 case Settings.PERMADEATH:
                     value = defaultPermadeath.Value;
                     return true;
+                case Settings.NO_PAUSE_OPTIONS:
+                    value = defaultNoPauseOptions;
+                    return true;
                 default:
                     return base.GetCategorySetting(key, out value);
             }
@@ -57,6 +62,9 @@ namespace Defaults.Storyteller
                     return true;
                 case Settings.PERMADEATH:
                     defaultPermadeath = (bool)value;
+                    return true;
+                case Settings.NO_PAUSE_OPTIONS:
+                    defaultNoPauseOptions = value as NoPauseOptions;
                     return true;
                 default:
                     return base.SetCategorySetting(key, value);
@@ -82,6 +90,7 @@ namespace Defaults.Storyteller
             {
                 defaultPermadeath = false;
             }
+            ModCompatibilityUtility_NoPause.ResetNoPauseOptions(ref defaultNoPauseOptions, forced);
         }
 
         protected override void ExposeCategorySettings()
@@ -90,6 +99,7 @@ namespace Defaults.Storyteller
             Scribe_Defs_Silent.Look(ref defaultDifficulty, Settings.DIFFICULTY);
             Scribe_Deep.Look(ref defaultDifficultyValues, Settings.DIFFICULTY_VALUES);
             Scribe_Values.Look(ref defaultPermadeath, Settings.PERMADEATH);
+            ModCompatibilityUtility_NoPause.WriteNoPauseOptions(ref defaultNoPauseOptions);
             BackwardCompatibilityUtility.MigrateAnomalyPlaystyleSettings(defaultDifficultyValues);
         }
     }

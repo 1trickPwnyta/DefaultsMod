@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using Defaults.Compatibility;
+using HarmonyLib;
 using RimWorld;
 using System.Collections.Generic;
 using System.Reflection;
@@ -59,6 +60,7 @@ namespace Defaults.Storyteller
                     Settings.Set(Settings.DIFFICULTY, difficulty);
                     Settings.Set(Settings.DIFFICULTY_VALUES, difficultyValues);
                     Settings.Set(Settings.PERMADEATH, Find.GameInitData != null ? Find.GameInitData.permadeath : Current.Game.Info.permadeathMode);
+                    ModCompatibilityUtility_NoPause.SetNoPauseOptions();
                     DefaultsMod.Settings.Write();
                     Messages.Message("Defaults_SetAsDefaultConfirmed".Translate(), MessageTypeDefOf.PositiveEvent, false);
                 }

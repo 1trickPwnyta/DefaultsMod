@@ -40,6 +40,14 @@ namespace Defaults.UI
 
         public override QuickSearchWidget CommonSearchWidget => DoSearchWidget ? searchWidget : null;
 
+        protected override void LateWindowOnGUI(Rect inRect)
+        {
+            if (UIUtility.TopWindow != this)
+            {
+                Widgets.DrawRectFast(inRect.ExpandedBy(Margin), Color.black.WithAlpha(0.5f));
+            }
+        }
+
         public override void DoWindowContents(Rect inRect)
         {
             IList reorderableItems = ReorderableItems;

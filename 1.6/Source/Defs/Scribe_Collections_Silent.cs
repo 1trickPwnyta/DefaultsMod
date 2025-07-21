@@ -9,7 +9,7 @@ namespace Defaults.Defs
 {
     public static class Scribe_Collections_Silent
     {
-        public static void Look<T>(ref HashSet<T> valueHashSet, string label) where T: Def, new()
+        public static void Look<T>(ref HashSet<T> valueHashSet, string label) where T : Def, new()
         {
             List<T> list = null;
             if (Scribe.mode == LoadSaveMode.Saving)

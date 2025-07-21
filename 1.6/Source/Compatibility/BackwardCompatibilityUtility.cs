@@ -1,4 +1,5 @@
-﻿using Defaults.Defs;
+﻿using Defaults.Compatibility;
+using Defaults.Defs;
 using Defaults.Medicine;
 using Defaults.Policies;
 using Defaults.StockpileZones.Buildings;
@@ -10,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
-namespace Defaults
+namespace Defaults.Compatibility
 {
     public static class BackwardCompatibilityUtility
     {

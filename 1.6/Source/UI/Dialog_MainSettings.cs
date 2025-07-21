@@ -1,5 +1,4 @@
 ﻿using Defaults.Defs;
-using Defaults.UI;
 using Defaults.Workers;
 using RimWorld;
 using System.Collections.Generic;
@@ -7,7 +6,7 @@ using System.Linq;
 using UnityEngine;
 using Verse;
 
-namespace Defaults
+namespace Defaults.UI
 {
     public class Dialog_MainSettings : Dialog_Common
     {

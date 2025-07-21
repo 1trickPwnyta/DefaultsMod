@@ -1,4 +1,5 @@
-﻿using Defaults.Defs;
+﻿using Defaults.Compatibility;
+using Defaults.Defs;
 using RimWorld;
 using Verse;
 
@@ -27,6 +28,7 @@ namespace Defaults.WorkbenchBills
         public FloatRange hpRange = FloatRange.ZeroToOne;
         public QualityRange qualityRange = QualityRange.All;
         public bool limitToAllowedStuff = false;
+        public BetterWorkbenchOptions betterWorkbenchOptions = new BetterWorkbenchOptions();
 
         public string RenamableLabel { get => name; set => name = value; }
 
@@ -90,6 +92,7 @@ namespace Defaults.WorkbenchBills
                 productionBill.hpRange = hpRange;
                 productionBill.qualityRange = qualityRange;
                 productionBill.limitToAllowedStuff = limitToAllowedStuff;
+                ModCompatibilityUtility_BetterWorkbench.ApplyBetterWorkbenchOptions(betterWorkbenchOptions, productionBill);
             }
 
             return bill;
@@ -122,6 +125,7 @@ namespace Defaults.WorkbenchBills
                 template.hpRange = productionBill.hpRange;
                 template.qualityRange = productionBill.qualityRange;
                 template.limitToAllowedStuff = productionBill.limitToAllowedStuff;
+                ModCompatibilityUtility_BetterWorkbench.SetBetterWorkbenchOptions(template.betterWorkbenchOptions, productionBill);
             }
 
             return template;
@@ -177,7 +181,8 @@ namespace Defaults.WorkbenchBills
                 includeTainted = includeTainted,
                 hpRange = hpRange,
                 qualityRange = qualityRange,
-                limitToAllowedStuff = limitToAllowedStuff
+                limitToAllowedStuff = limitToAllowedStuff,
+                betterWorkbenchOptions = betterWorkbenchOptions.Clone()
             };
             clone.ingredientFilter.CopyAllowancesFrom(ingredientFilter);
             return clone;
@@ -206,6 +211,7 @@ namespace Defaults.WorkbenchBills
             Scribe_Values.Look(ref hpRange, "hpRange");
             Scribe_Values.Look(ref qualityRange, "qualityRange");
             Scribe_Values.Look(ref limitToAllowedStuff, "limitToAllowedStuff");
+            ModCompatibilityUtility_BetterWorkbench.WriteBetterWorkbenchOptions(ref betterWorkbenchOptions);
 
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {

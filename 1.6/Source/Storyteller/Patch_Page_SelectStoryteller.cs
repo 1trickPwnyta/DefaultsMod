@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using Defaults.Compatibility;
+using HarmonyLib;
 using RimWorld;
 using Verse;
 
@@ -20,6 +21,7 @@ namespace Defaults.Storyteller
             }
             Find.GameInitData.permadeathChosen = true;
             Find.GameInitData.permadeath = Settings.Get<bool>(Settings.PERMADEATH);
+            ModCompatibilityUtility_NoPause.ApplyNoPauseOptions();
         }
     }
 }

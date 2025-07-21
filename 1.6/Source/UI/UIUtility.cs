@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using RimWorld;
+using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -11,6 +12,8 @@ namespace Defaults.UI
     {
         public static Texture2D LockIcon = ContentFinder<Texture2D>.Get("UI/Defaults_Lock");
         public static Texture2D StarIcon = ContentFinder<Texture2D>.Get("UI/Defaults_Star");
+
+        public static Window TopWindow => Find.WindowStack.Windows.Last(w => !(w is ImmediateWindow));
 
         public static void DrawCheckButton(Rect rect, Texture2D buttonTex, string tooltip, ref bool enabled)
         {

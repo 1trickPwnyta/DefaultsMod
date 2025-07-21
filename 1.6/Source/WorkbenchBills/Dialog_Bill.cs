@@ -1,4 +1,5 @@
-﻿using Defaults.UI;
+﻿using Defaults.Compatibility;
+using Defaults.UI;
 using HarmonyLib;
 using RimWorld;
 using System.Collections.Generic;
@@ -251,6 +252,8 @@ namespace Defaults.WorkbenchBills
             Rect useRect = new Rect(columnRect.xMax - 60f, ingredientConfigRect.y, 60f, 24f);
             Widgets.CheckboxLabeled(useRect, "Defaults_UseBill".Translate(), ref bill.use);
             TooltipHandler.TipRegionByKey(useRect, "Defaults_UseBillTip");
+
+            ModCompatibilityUtility_BetterWorkbench.DoBetterWorkbenchOptionsInterface(columnRect.BottomPartPixels(62f + CloseButSize.y).TopPartPixels(62f), bill);
         }
 
         protected virtual void DoIngredientConfigPane(float x, ref float y, float width, float height)

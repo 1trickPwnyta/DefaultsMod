@@ -1,4 +1,5 @@
-﻿using Defaults.StockpileZones.Shelves;
+﻿using Defaults.Compatibility;
+using Defaults.StockpileZones.Shelves;
 using RimWorld;
 using System;
 using System.Collections.Generic;

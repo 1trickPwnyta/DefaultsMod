@@ -1,4 +1,5 @@
-﻿using Defaults.Defs;
+﻿using Defaults.Compatibility;
+using Defaults.Defs;
 using Defaults.StockpileZones.Buildings;
 using Defaults.Workers;
 using RimWorld;
