@@ -30,6 +30,8 @@ namespace Defaults.Storyteller
             DifficultyDef difficulty = Settings.Get<DifficultyDef>(Settings.DIFFICULTY);
             Difficulty difficultyValues = Settings.Get<Difficulty>(Settings.DIFFICULTY_VALUES);
             StorytellerUI.DrawStorytellerSelectionInterface(rect, ref storyteller, ref difficulty, ref difficultyValues, new Listing_Standard());
+            Rect noPauseOptionsTitleRect = rect.RightPart(0.5f).BottomPartPixels(30f);
+            ModCompatibilityUtility_NoPause.DoNoPauseOptionsTitle(noPauseOptionsTitleRect);
             Settings.Set(Settings.STORYTELLER, storyteller);
             Settings.Set(Settings.DIFFICULTY, difficulty);
             ModCompatibilityUtility_NoPause.SetNoPauseOptions();
