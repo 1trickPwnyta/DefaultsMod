@@ -51,13 +51,5 @@ namespace Defaults.Compatibility
                 }
             }
         }
-
-        public static void DoNoPauseOptionsTitle(Rect rect)
-        {
-            if (noPauseActive)
-            {
-                using (new TextBlock(TextAnchor.MiddleRight)) Widgets.Label(rect, "Defaults_NoPauseOptionsTitle".Translate());
-            }
-        }
     }
 }

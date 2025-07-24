@@ -72,8 +72,6 @@ namespace Defaults.Compatibility
                 {
                     Listing_Standard listing = new Listing_Standard();
                     listing.Begin(rect);
-                    Rect titleRect = listing.GetRect(40f);
-                    using (new TextBlock(TextAnchor.MiddleLeft)) Widgets.Label(titleRect, "Defaults_BetterWorkbenchOptionsTitle".Translate());
                     if (listing.ButtonText("IW.OutputFilterLabel".Translate()))
                     {
                         Find.WindowStack.Add(new Dialog_BetterWorkbenchAdditionalItems(bill.betterWorkbenchOptions));
