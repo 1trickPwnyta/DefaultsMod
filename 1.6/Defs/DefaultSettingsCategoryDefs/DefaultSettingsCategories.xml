@@ -4,7 +4,7 @@
   <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>Storyteller</defName>
 	<label>default storyteller settings</label>
-	<description>Allows you to set the default storyteller/difficulty settings to use for a new colony, including custom difficulty settings.</description>
+	<description>Set the default storyteller/difficulty settings to use for a new colony, including custom difficulty settings.</description>
 	<iconPath>DefaultSettingsCategoryIcons/Storyteller</iconPath>
     <workerClass>Defaults.Storyteller.DefaultSettingsCategoryWorker_Storyteller</workerClass>
 	<keywords>
@@ -45,7 +45,7 @@
   <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>World</defName>
 	<label>default world settings</label>
-	<description>Allows you to set the default world and map settings to use for a new colony.</description>
+	<description>Set the default world and map settings to use for a new colony.</description>
 	<iconPath>DefaultSettingsCategoryIcons/World</iconPath>
     <workerClass>Defaults.WorldSettings.DefaultSettingsCategoryWorker_World</workerClass>
 	<keywords>
@@ -81,7 +81,7 @@
   <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>Schedule</defName>
 	<label>default colonist schedules</label>
-	<description>Allows you to set custom default schedules for colonists. You can create alternating schedules and the mod will cycle between them when assigning them to new colonists.</description>
+	<description>Set custom default schedules for colonists. You can create alternating schedules and the mod will cycle between them when assigning them to new colonists.</description>
 	<iconPath>DefaultSettingsCategoryIcons/Schedule</iconPath>
     <workerClass>Defaults.Schedule.DefaultSettingsCategoryWorker_Schedule</workerClass>
 	<keywords>
@@ -102,7 +102,7 @@
   <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>Policies</defName>
 	<label>default policies</label>
-	<description>Allows you to set custom default apparel, food, drug, and reading policies that will be copied to each new colony.</description>
+	<description>Set custom default apparel, food, drug, and reading policies that will be copied to each new colony.</description>
 	<iconPath>DefaultSettingsCategoryIcons/Policies</iconPath>
     <workerClass>Defaults.Policies.DefaultSettingsCategoryWorker_Policies</workerClass>
 	<keywords>
@@ -179,7 +179,7 @@
   <Defaults.Defs.DefaultSettingsCategoryDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>BabyFeeding</defName>
 	<label>default baby feeding settings</label>
-	<description>Allows you to set the default autofeed setting for colonists based on relationship to baby and whether they are lactating. Also allows you to set which foods babies can be fed by default.</description>
+	<description>Set the default autofeed setting for colonists based on relationship to baby and whether they are lactating. Also allows you to set which foods babies can be fed by default.</description>
 	<iconPath>DefaultSettingsCategoryIcons/BabyFeeding</iconPath>
     <workerClass>Defaults.BabyFeeding.DefaultSettingsCategoryWorker_BabyFeeding</workerClass>
 	<keywords>
@@ -200,7 +200,7 @@
   <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>Medicine</defName>
 	<label>default medicine settings</label>
-	<description>Allows you to set the default medicine settings to use for a new colony as well as the type and amount of medicine that new colonists will carry.</description>
+	<description>Set the default medicine settings to use for a new colony as well as the type and amount of medicine that new colonists will carry.</description>
 	<iconPath>DefaultSettingsCategoryIcons/Medicine</iconPath>
     <workerClass>Defaults.Medicine.DefaultSettingsCategoryWorker_Medicine</workerClass>
 	<keywords>
@@ -219,7 +219,7 @@
   <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>Rewards</defName>
 	<label>default reward preferences</label>
-	<description>Allows you to set the default reward preferences to use for a new colony.</description>
+	<description>Set the default reward preferences to use for a new colony.</description>
 	<iconPath>DefaultSettingsCategoryIcons/Rewards</iconPath>
     <workerClass>Defaults.Rewards.DefaultSettingsCategoryWorker_Rewards</workerClass>
 	<keywords>
@@ -235,7 +235,7 @@
   <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>ResourceCategories</defName>
 	<label>default expanded resource categories</label>
-	<description>Allows you to set which resource tree categories are expanded by default in categorized mode.</description>
+	<description>Set which resource tree categories are expanded by default in categorized mode.</description>
 	<iconPath>DefaultSettingsCategoryIcons/ResourceCategories</iconPath>
     <workerClass>Defaults.ResourceCategories.DefaultSettingsCategoryWorker_ResourceCategories</workerClass>
 	<keywords>
@@ -262,7 +262,7 @@
   <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>Storage</defName>
 	<label>default storage settings</label>
-	<description>Allows you to configure the default settings for stockpile zones, dumping stockpile zones, and storage buildings such as shelves. You can also create your own custom stockpile zone types with their own settings.</description>
+	<description>Configure the default settings for stockpile zones, dumping stockpile zones, and storage buildings such as shelves. You can also create your own custom stockpile zone types with their own settings.</description>
 	<iconPath>DefaultSettingsCategoryIcons/Storage</iconPath>
     <workerClass>Defaults.StockpileZones.DefaultSettingsCategoryWorker_Storage</workerClass>
 	<keywords>
@@ -280,7 +280,7 @@
   <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>WorkbenchBills</defName>
 	<label>default workbench bills</label>
-	<description>Allows you to set default bills for workbenches that will populate automatically upon building a workbench.</description>
+	<description>Set default bills for workbenches that will populate automatically upon building a workbench.</description>
 	<iconPath>DefaultSettingsCategoryIcons/WorkbenchBills</iconPath>
     <workerClass>Defaults.WorkbenchBills.DefaultSettingsCategoryWorker_WorkbenchBills</workerClass>
 	<keywords>
@@ -348,7 +348,7 @@
   <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>AllowedAreas</defName>
 	<label>default allowed areas</label>
-	<description>Allows you to create default allowed areas for new colonies and control which types of pawns get automatically assigned to which areas.</description>
+	<description>Create default allowed areas for new colonies and control which types of pawns get automatically assigned to which areas.</description>
 	<iconPath>DefaultSettingsCategoryIcons/AllowedAreas</iconPath>
     <workerClass>Defaults.AllowedAreas.DefaultSettingsCategoryWorker_AllowedAreas</workerClass>
 	<keywords>
