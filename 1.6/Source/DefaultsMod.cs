@@ -2,6 +2,9 @@
 using HarmonyLib;
 using System.Linq;
 using Defaults.Defs;
+using UnityEngine;
+using RimWorld;
+using Defaults.UI;
 
 namespace Defaults
 {
@@ -37,5 +40,17 @@ namespace Defaults
         }
 
         public override string SettingsCategory() => PACKAGE_NAME;
+
+        /* 
+         * Not typically called at all because we patch it out, but this adds compatibility with mods 
+         * that change the Mod Options UI such as Mod Options Sort
+         */
+        public override void DoSettingsWindowContents(Rect inRect)
+        {
+            if (Find.WindowStack.TryRemove(typeof(Dialog_ModSettings)))
+            {
+                Find.WindowStack.Add(new Dialog_MainSettings());
+            }
+        }
     }
 }
