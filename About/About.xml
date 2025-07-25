@@ -76,5 +76,6 @@ Mod icon: twitter.com/mouse_draws
 	<loadAfter>
 		<li>cain.mineshaft</li>
 		<li>brrainz.nopausechallenge</li>
+		<li>co.uk.epicguru.rimforge</li>
 	</loadAfter>
 </ModMetaData>
