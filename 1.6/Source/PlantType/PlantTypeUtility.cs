@@ -26,7 +26,8 @@ namespace Defaults.PlantType
 
         private static IEnumerable<Widgets.DropdownMenuElement<ThingDef>> DrawResponseButton_GenerateMenu(object obj)
         {
-            IEnumerable<ThingDef> choices = DefDatabase<ThingDef>.AllDefs.Where(def => def.category == ThingCategory.Plant && def.plant.sowTags.Contains("Ground") && def.plant.sowResearchPrerequisites == null && !def.plant.RequiresPollution).OrderBy(def => -GetPlantListPriority(def));
+            // RR_Agriculture included to support Research Reinvented: Stepping Stones
+            IEnumerable<ThingDef> choices = DefDatabase<ThingDef>.AllDefs.Where(def => def.category == ThingCategory.Plant && def.plant.sowTags.Contains("Ground") && (def.plant.sowResearchPrerequisites == null || def.plant.sowResearchPrerequisites.Any(p => p.defName == "RR_Agriculture")) && !def.plant.RequiresPollution).OrderBy(def => -GetPlantListPriority(def));
             foreach (ThingDef choice in choices)
             {
                 string text = choice.LabelCap;
