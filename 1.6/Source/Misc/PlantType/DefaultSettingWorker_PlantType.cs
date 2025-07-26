@@ -21,7 +21,8 @@ namespace Defaults.Misc.PlantType
         protected override IEnumerable<ThingDef> Options => DefDatabase<ThingDef>.AllDefs.Where(d =>
             d.category == ThingCategory.Plant
             && d.plant.sowTags.Contains("Ground")
-            && d.plant.sowResearchPrerequisites == null
+            // RR_Agriculture included to support Research Reinvented: Stepping Stones
+            && (d.plant.sowResearchPrerequisites == null || d.plant.sowResearchPrerequisites.Any(p => p.defName == "RR_Agriculture"))
             && !d.plant.RequiresPollution).OrderBy(d => -d.GetPlantListPriority());
 
         protected override Texture2D GetIcon(ThingDef option) => option.uiIcon;

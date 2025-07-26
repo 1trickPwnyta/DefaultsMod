@@ -264,7 +264,7 @@ namespace Defaults.WorkbenchBills
                 UIUtility.DrawCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref bill.locked);
 
                 Rect thingFilterRect = new Rect(x, y, width, height - IngredientRadiusSubdialogHeight);
-                ThingFilterUI.DoThingFilterConfigWindow(thingFilterRect, thingFilterState, bill.ingredientFilter, bill.recipe.fixedIngredientFilter, 4, null, ((IEnumerable<SpecialThingFilterDef>)typeof(Dialog_BillConfig).Method("get_HiddenSpecialThingFilters").Invoke(null, new object[] { })).ConcatIfNotNull(bill.recipe.forceHiddenSpecialFilters), false, false, false, bill.recipe.GetPremultipliedSmallIngredients());
+                ThingFilterUI.DoThingFilterConfigWindow(thingFilterRect, thingFilterState, bill.ingredientFilter, bill.recipe.fixedIngredientFilter, TreeOpenMasks.BillConfig, null, ((IEnumerable<SpecialThingFilterDef>)typeof(Dialog_BillConfig).Method("get_HiddenSpecialThingFilters").Invoke(null, new object[] { })).ConcatIfNotNull(bill.recipe.forceHiddenSpecialFilters), false, false, false, bill.recipe.GetPremultipliedSmallIngredients());
                 y += thingFilterRect.height;
             }
             Rect ingredientRadiusRect = new Rect(x, y, width, IngredientRadiusSubdialogHeight);

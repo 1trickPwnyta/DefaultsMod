@@ -46,7 +46,7 @@ namespace Defaults.Compatibility
             if (betterWorkbenchActive)
             {
                 object extendedBillData = GetBetterWorkbenchExtendedBillData(bill);
-                ThingFilter filter = extendedBillData.GetType().Field("ProductAdditionalFilter").GetValue(extendedBillData) as ThingFilter;
+                ThingFilter filter = extendedBillData.GetType().Field("ProductAdditionalFilter").GetValue(extendedBillData) as ThingFilter ?? new ThingFilter();
                 options.CountAdditionalItems = filter.AllowedThingDefs.ToHashSet();
                 options.CountWhenAway = (bool)extendedBillData.GetType().Field("CountAway").GetValue(extendedBillData);
             }

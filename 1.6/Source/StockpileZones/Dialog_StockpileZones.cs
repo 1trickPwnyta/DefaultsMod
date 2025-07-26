@@ -101,7 +101,7 @@ namespace Defaults.StockpileZones
                 {
                     parentStorageSettings = zoneTypeBuilding.buildingDef.building.fixedStorageSettings;
                 }
-                ThingFilterUI.DoThingFilterConfigWindow(filterRect, state, selectedZoneType.filter, parentStorageSettings.filter, 8);
+                ThingFilterUI.DoThingFilterConfigWindow(filterRect, state, selectedZoneType.filter, parentStorageSettings.filter, TreeOpenMasks.Storage);
             }
         }
 
