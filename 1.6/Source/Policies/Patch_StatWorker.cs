@@ -28,7 +28,7 @@ namespace Defaults.Policies
     }
 
     [HarmonyPatch(typeof(StatWorker))]
-    [HarmonyPatch(nameof(StatWorker.GetExplanationFinalizePart))]
+    [HarmonyPatch(nameof(StatWorker.GetAdditionalOffsetsAndFactorsExplanation))]
     public static class Patch_StatWorker_GetExplanationFinalizePart
     {
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
