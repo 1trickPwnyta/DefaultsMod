@@ -3,7 +3,7 @@
 	<name>1trickPwnyta's Defaults</name>
 	<author>1trickPwnyta</author>
 	<packageId>defaults.1trickPwnyta</packageId>
-	<modVersion>1.6.6</modVersion>
+	<modVersion>1.6.7</modVersion>
 	<supportedVersions>
 		<li>1.5</li>
 		<li>1.6</li>
@@ -37,6 +37,7 @@ Full list of settings:
   - Default workbench bills: Allows you to set default bills for workbenches that will populate automatically upon building a workbench.
 
 === Updates ===
+07/26/2025: Add compatibility with Research Reinvented: Stepping Stones, fix drug info card bug
 07/03/2025: Remove pregnancy approach option if Biotech not enabled
 06/12/2025: Fixed position of policy lock icon, updated OOTB default policies to match the new vanilla ones.
 06/12/2025: Updated to 1.6, fixed some minor bugs
