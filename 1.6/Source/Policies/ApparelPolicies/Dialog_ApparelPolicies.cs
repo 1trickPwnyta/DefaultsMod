@@ -1,4 +1,6 @@
-﻿using Defaults.Workers;
+﻿using Defaults.UI;
+using Defaults.Workers;
+using HarmonyLib;
 using RimWorld;
 using System.Collections.Generic;
 using Verse;
@@ -11,6 +13,7 @@ namespace Defaults.Policies.ApparelPolicies
 
         public Dialog_ApparelPolicies() : base(Policies[0])
         {
+            typeof(Dialog_ManageApparelPolicies).Field("thingFilterState").SetValue(this, new UIState_Ext());
             optionalTitle = TitleKey.Translate();
         }
 

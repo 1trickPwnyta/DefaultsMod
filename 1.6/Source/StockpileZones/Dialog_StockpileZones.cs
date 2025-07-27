@@ -23,7 +23,7 @@ namespace Defaults.StockpileZones
         private static float y;
         private static Vector2 scrollPos;
         private static ZoneType selectedZoneType;
-        private readonly ThingFilterUI.UIState state = new ThingFilterUI.UIState();
+        private readonly ThingFilterUI.UIState state = new UIState_Ext();
         private static ZoneType clipboard;
         private static readonly List<StorageTab> tabs = new List<StorageTab>()
         {

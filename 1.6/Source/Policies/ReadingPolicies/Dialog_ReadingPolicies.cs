@@ -1,4 +1,6 @@
-﻿using Defaults.Workers;
+﻿using Defaults.UI;
+using Defaults.Workers;
+using HarmonyLib;
 using RimWorld;
 using System.Collections.Generic;
 using Verse;
@@ -11,6 +13,8 @@ namespace Defaults.Policies.ReadingPolicies
 
         public Dialog_ReadingPolicies() : base(Policies[0])
         {
+            typeof(Dialog_ManageReadingPolicies).Field("thingFilterState").SetValue(this, new UIState_Ext());
+            typeof(Dialog_ManageReadingPolicies).Field("effectFilterState").SetValue(this, new UIState_Ext());
             optionalTitle = TitleKey.Translate();
         }
 

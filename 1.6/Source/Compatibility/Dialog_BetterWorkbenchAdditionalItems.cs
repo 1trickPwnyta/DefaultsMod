@@ -12,7 +12,7 @@ namespace Defaults.Compatibility
     {
         private readonly ThingFilter baseFilter = AccessTools.TypeByName("ImprovedWorkbenches.Dialog_ThingFilter").Field("baseFilter").GetValue(null) as ThingFilter;
         private readonly List<SpecialThingFilterDef> specialThingDefs = AccessTools.TypeByName("ImprovedWorkbenches.Dialog_ThingFilter").Field("specialThingDefs").GetValue(null) as List<SpecialThingFilterDef>;
-        private readonly ThingFilterUI.UIState state = new ThingFilterUI.UIState();
+        private readonly ThingFilterUI.UIState state = new UIState_Ext();
         private readonly ThingFilter filter = new ThingFilter();
         private readonly BetterWorkbenchOptions options;
 
