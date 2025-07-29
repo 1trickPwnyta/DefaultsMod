@@ -1,7 +1,7 @@
 ﻿using Defaults.Defs;
 using Defaults.Workers;
 
-namespace Defaults.Misc.PlaySettings
+namespace Defaults.WorkPriorities
 {
     public class DefaultSettingWorker_ManualPriorities : DefaultSettingWorker_Checkbox
     {

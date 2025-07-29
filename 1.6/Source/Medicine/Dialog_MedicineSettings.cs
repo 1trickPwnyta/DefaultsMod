@@ -84,7 +84,7 @@ namespace Defaults.Medicine
                 Widgets.DrawHighlightIfMouseover(rect2);
                 MouseoverSounds.DoRegion(rect2);
                 GUI.DrawTexture(rect2, careTextures[i]);
-                Widgets.DraggableResult draggableResult = Widgets.ButtonInvisibleDraggable(rect2, false);
+                Widgets.DraggableResult draggableResult = Widgets.ButtonInvisibleDraggable(rect2);
                 if (draggableResult == Widgets.DraggableResult.Dragged)
                 {
                     medicalCarePainting = true;

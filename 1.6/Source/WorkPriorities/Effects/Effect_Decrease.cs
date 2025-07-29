@@ -1,0 +1,38 @@
+﻿using Defaults.Defs;
+using Verse;
+
+namespace Defaults.WorkPriorities.Effects
+{
+    public class Effect_Decrease : Effect
+    {
+        public int amount = 1;
+        public bool allowZero = false;
+
+        public Effect_Decrease()
+        {
+        }
+
+        public Effect_Decrease(WorkPriorityEffectDef def) : base(def)
+        {
+        }
+
+        public override bool? Apply(WorkTypeDef def, Pawn pawn)
+        {
+            int value = pawn.workSettings.GetPriority(def);
+            value += amount;
+            if (value > WorkPriorityValue.Max)
+            {
+                value = allowZero ? WorkPriorityValue.DoNotDo : WorkPriorityValue.Max;
+            }
+            pawn.workSettings.SetPriority(def, value);
+            return true;
+        }
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+            Scribe_Values.Look(ref amount, "amount", 1);
+            Scribe_Values.Look(ref allowZero, "allowZero", false);
+        }
+    }
+}

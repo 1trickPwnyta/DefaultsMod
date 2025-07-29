@@ -99,7 +99,7 @@ namespace Defaults.WorldSettings
             WorldFactionsUIUtility.DoWindowContents(rect9, Settings.Get<List<FactionDef>>(Settings.FACTIONS), true);
             Rect rect10 = new Rect(rect9.xMax - 24f, rect9.y, 24f, 24f);
             bool factionsLock = Settings.Get<bool>(Settings.FACTIONS_LOCK);
-            UIUtility.DrawCheckButton(rect10, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref factionsLock);
+            UIUtility.DoCheckButton(rect10, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref factionsLock);
             Settings.Set(Settings.FACTIONS_LOCK, factionsLock);
         }
     }

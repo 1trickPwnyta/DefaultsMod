@@ -58,7 +58,8 @@ namespace Defaults.UI
             {
                 using (new TextBlock(GameFont.Medium))
                 {
-                    Widgets.Label(inRect, Title);
+                    GUI.DrawTexture(inRect.TopPartPixels(Text.LineHeight).LeftPartPixels(Text.LineHeight), category.Worker.Icon);
+                    Widgets.Label(inRect.RightPartPixels(inRect.width - Text.LineHeight - Margin), Title);
                     y += Text.LineHeight + Margin - 4f;
                 }
             }

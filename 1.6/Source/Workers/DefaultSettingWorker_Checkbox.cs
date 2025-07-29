@@ -23,7 +23,7 @@ namespace Defaults.Workers
             bool enabled = setting.Value;
             if (Icon != null)
             {
-                UIUtility.DrawCheckButton(checkRect.ContractedBy(3f), Icon, Tip, ref enabled);
+                UIUtility.DoCheckButton(checkRect.ContractedBy(3f), Icon, Tip, ref enabled);
             }
             else
             {

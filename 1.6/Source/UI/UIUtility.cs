@@ -1,5 +1,4 @@
-﻿using HarmonyLib;
-using RimWorld;
+﻿using RimWorld;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -15,7 +14,7 @@ namespace Defaults.UI
 
         public static Window TopWindow => Find.WindowStack.Windows.Last(w => !(w is ImmediateWindow) && !(w is FloatMenu));
 
-        public static void DrawCheckButton(Rect rect, Texture2D buttonTex, string tooltip, ref bool enabled)
+        public static void DoCheckButton(Rect rect, Texture2D buttonTex, string tooltip, ref bool enabled)
         {
             if (Widgets.ButtonImage(rect, buttonTex))
             {
@@ -34,7 +33,29 @@ namespace Defaults.UI
             GUI.DrawTexture(checkRect, enabled ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex);
         }
 
-        public static void TemperatureEntry(Rect rect, ref float value, int multiplier = 1, float min = 0f, float max = 1E+09f)
+        private static void DrawImageTextButton(Rect rect, Texture2D image, string text)
+        {
+            Widgets.DrawButtonGraphic(rect);
+            if (image != null)
+            {
+                GUI.DrawTexture(rect.LeftPartPixels(rect.height).ContractedBy(6f), image);
+            }
+            using (new TextBlock(TextAnchor.MiddleLeft)) Widgets.Label(rect.RightPartPixels(rect.width - rect.height).ContractedBy(3f), text);
+        }
+
+        public static bool DoImageTextButton(Rect rect, Texture2D image, string text)
+        {
+            DrawImageTextButton(rect, image, text);
+            return Widgets.ButtonInvisible(rect);
+        }
+
+        public static Widgets.DraggableResult DoImageTextButtonDraggable(Rect rect, Texture2D image, string text)
+        {
+            DrawImageTextButton(rect, image, text);
+            return Widgets.ButtonInvisibleDraggable(rect, true);
+        }
+
+        public static void DoTemperatureEntry(Rect rect, ref float value, int multiplier = 1, float min = 0f, float max = 1E+09f)
         {
             int num = Mathf.Min(40, (int)rect.width / 5);
             if (Widgets.ButtonText(new Rect(rect.xMin, rect.yMin, num, rect.height), "--"))
@@ -84,22 +105,10 @@ namespace Defaults.UI
             }
         }
 
-        public static void ResizeWindow<T>(Vector2 size) where T : Window
+        public static void IntEntry(Rect rect, ref int value, ref string editBuffer, int multiplier = 1, int minimum = 0, int maximum = int.MaxValue)
         {
-            Find.WindowStack.TryGetWindow(out T window);
-            if (window != null)
-            {
-                if (window.windowRect.size != size)
-                {
-                    window.resizeable = true;
-                    typeof(Window).Field("resizeLater").SetValue(window, true);
-                    typeof(Window).Field("resizeLaterRect").SetValue(window, new Rect((Verse.UI.screenWidth - size.x) / 2f, (Verse.UI.screenHeight - size.y) / 2f, size.x, size.y).Rounded());
-                }
-                else
-                {
-                    window.resizeable = false;
-                }
-            }
+            Widgets.IntEntry(rect, ref value, ref editBuffer, multiplier);
+            value = Mathf.Clamp(value, minimum, maximum);
         }
     }
 }

@@ -114,6 +114,20 @@
 	<Defaults_BillsLimitedto15>Only the first 15 bills will apply to workbenches built in the game. To remove this limit, change the global bill settings.</Defaults_BillsLimitedto15>
 	<Defaults_NoPauseOptionsTitle>No Pause Challenge settings enabled.</Defaults_NoPauseOptionsTitle>
 	<Defaults_BetterWorkbenchOptionsTitle>Better Workbench Management settings</Defaults_BetterWorkbenchOptionsTitle>
+	<Defaults_WorkPrioritiesAdvancedMode>Advanced work priorities mode</Defaults_WorkPrioritiesAdvancedMode>
+	<Defaults_BasicWorkPrioritiesDesc>Select a work priority for each work type. New colonists will automatically be assigned those priorities when they join your colony.</Defaults_BasicWorkPrioritiesDesc>
+	<Defaults_AdvancedWorkPrioritiesDesc>Customize the logic for determining the work priority for each work type. New colonists will automatically be assigned priorities based on your custom logic when they join your colony.</Defaults_AdvancedWorkPrioritiesDesc>
+	<Defaults_WorkPriorityTynansChoice>game decides</Defaults_WorkPriorityTynansChoice>
+	<Defaults_WorkPriorityDoNotDo>off</Defaults_WorkPriorityDoNotDo>
+	<Defaults_WorkPriorityDo>on</Defaults_WorkPriorityDo>
+	<Defaults_WorkPriorityRulesGlobal>Global rules</Defaults_WorkPriorityRulesGlobal>
+	<Defaults_WorkPriorityRulesGlobalDesc>Global rules apply to all work types.</Defaults_WorkPriorityRulesGlobalDesc>
+	<Defaults_WorkPriorityRulesDesc>Rules apply in order from top to bottom</Defaults_WorkPriorityRulesDesc>
+	<Defaults_WorkPriorityAddRule>Add rule</Defaults_WorkPriorityAddRule>
+	<Defaults_WorkPriorityCondition>Condition</Defaults_WorkPriorityCondition>
+	<Defaults_WorkPriorityEffect>Effect</Defaults_WorkPriorityEffect>
+	<Defaults_Years>years</Defaults_Years>
+	<Defaults_WorkPriorityAllowZero>Allow disabling this work type if the priority is decreased beyond {0}</Defaults_WorkPriorityAllowZero>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

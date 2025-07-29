@@ -117,7 +117,7 @@ namespace Defaults.AllowedAreas
             }
             x -= rect.height;
 
-            UIUtility.DrawCheckButton(new Rect(x - rect.height, rect.y, rect.height, rect.height).ContractedBy(3f), fullAreaTex, area.full ? "Defaults_FullAreaTip".Translate() : "Defaults_EmptyAreaTip".Translate(), ref area.full);
+            UIUtility.DoCheckButton(new Rect(x - rect.height, rect.y, rect.height, rect.height).ContractedBy(3f), fullAreaTex, area.full ? "Defaults_FullAreaTip".Translate() : "Defaults_EmptyAreaTip".Translate(), ref area.full);
             x -= rect.height;
 
             UIUtility.DoDraggable(ReorderableGroup, rect, tipRect: labelRect);
