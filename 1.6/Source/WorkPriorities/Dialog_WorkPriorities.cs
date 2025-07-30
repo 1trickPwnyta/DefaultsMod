@@ -1,6 +1,7 @@
 ﻿using Defaults.Defs;
 using Defaults.UI;
 using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace Defaults.WorkPriorities
         {
         }
 
-        public override Vector2 InitialSize => new Vector2(500f, 700f);
+        public override Vector2 InitialSize => new Vector2(500f, 750f);
 
         public override float DoPostSettings(Rect rect)
         {
@@ -88,22 +89,47 @@ namespace Defaults.WorkPriorities
             listing.Label("Defaults_AdvancedWorkPrioritiesDesc".Translate());
             listing.GapLine();
 
+            List<Rule> advancedGlobalWorkPriorityLogic = Settings.Get<List<Rule>>(Settings.WORK_PRIORITIES_GLOBAL_LOGIC);
             listing.Label("Defaults_WorkPriorityRulesGlobalDesc".Translate());
             Rect globalButtonRect = listing.GetRect(30f).LeftPart(0.3f);
-            if (DoRuleButton(globalButtonRect, "Defaults_WorkPriorityRulesGlobal".Translate()))
+            if (DoRuleButton(globalButtonRect, "Defaults_WorkPriorityRulesGlobal".Translate(), advancedGlobalWorkPriorityLogic.Count))
             {
-                Find.WindowStack.Add(new Dialog_Rules("Defaults_WorkPriorityRulesGlobal".Translate(), Settings.Get<List<Rule>>(Settings.WORK_PRIORITIES_GLOBAL_LOGIC)));
+                Find.WindowStack.Add(new Dialog_Rules("Defaults_WorkPriorityRulesGlobal".Translate(), advancedGlobalWorkPriorityLogic));
+            }
+            listing.Gap();
+
+            Dictionary<WorkTypeDef, List<Rule>> advancedWorkPriorityLogic = Settings.Get<Dictionary<WorkTypeDef, List<Rule>>>(Settings.WORK_PRIORITIES_LOGIC);
+            listing.Label("Defaults_WorkPriorityRulesSpecificDesc".Translate());
+            Rect rowRect = listing.GetRect(30f);
+            foreach (WorkTypeDef def in DefDatabase<WorkTypeDef>.AllDefsListForReading.OrderByDescending(d => d.naturalPriority))
+            {
+                if (rowRect.width < 100f)
+                {
+                    listing.Gap(rect.width * 0.03f);
+                    rowRect = listing.GetRect(30f);
+                    if (rowRect.width < 100f)
+                    {
+                        throw new Exception("Need at least 100f width to do rule button.");
+                    }
+                }
+                Rect buttonRect = rowRect;
+                buttonRect.width = rect.width * 0.3f;
+                if (DoRuleButton(buttonRect, def.labelShort.CapitalizeFirst(), advancedWorkPriorityLogic[def].Count))
+                {
+                    Find.WindowStack.Add(new Dialog_Rules("Defaults_WorkPriorityRulesSpecific".Translate(def.labelShort.CapitalizeFirst()), advancedWorkPriorityLogic[def]));
+                }
+                rowRect.xMin = buttonRect.xMax + rect.width * 0.03f;
             }
 
             listing.End();
             y += listing.CurHeight;
         }
 
-        private bool DoRuleButton(Rect rect, string text)
+        private bool DoRuleButton(Rect rect, string text, int count)
         {
             Widgets.DrawRectFast(rect, Widgets.MenuSectionBGFillColor);
             Widgets.DrawHighlightIfMouseover(rect);
-            return Widgets.ButtonText(rect, text, false, overrideTextAnchor: TextAnchor.MiddleCenter);
+            return Widgets.ButtonText(rect, count > 0 ? $"{text} ({count})" : text, false, overrideTextAnchor: TextAnchor.MiddleCenter);
         }
     }
 }

@@ -28,6 +28,12 @@ namespace Defaults.WorkPriorities.Effects
             return true;
         }
 
+        public override Effect MakeCopy() => new Effect_Decrease(def)
+        {
+            amount = amount,
+            allowZero = allowZero
+        };
+
         public override void ExposeData()
         {
             base.ExposeData();

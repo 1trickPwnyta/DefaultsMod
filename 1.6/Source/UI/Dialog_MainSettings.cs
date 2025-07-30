@@ -17,6 +17,11 @@ namespace Defaults.UI
         private Vector2 scrollPosition;
         private HashSet<DefaultSettingsCategoryDef> initiallyEnabledCategories;
 
+        public Dialog_MainSettings()
+        {
+            closeOnClickedOutside = false;
+        }
+
         public override Vector2 InitialSize => new Vector2(730f + StandardMargin * 2, 620f + CloseButSize.y + StandardMargin * 2);
 
         protected override bool DoSearchWidget => true;

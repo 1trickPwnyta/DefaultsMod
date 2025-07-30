@@ -17,5 +17,7 @@ namespace Defaults.WorkPriorities.Conditions
         {
             return pawn.IsSlave;
         }
+
+        public override Condition MakeCopy() => new Condition_Slave(def);
     }
 }

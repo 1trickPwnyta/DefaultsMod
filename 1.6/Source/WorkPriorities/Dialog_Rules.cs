@@ -1,6 +1,7 @@
 ﻿using Defaults.Defs;
 using Defaults.UI;
 using RimWorld;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,14 +18,30 @@ namespace Defaults.WorkPriorities
         private readonly List<Rule> rules;
         private Vector2 scrollPosition;
         private float height;
+        private bool highlightInvalid = false;
 
         public Dialog_Rules(string title, List<Rule> rules)
         {
             this.title = title;
             this.rules = rules;
+            onlyOneOfTypeAllowed = false;
         }
 
-        public override Vector2 InitialSize => new Vector2(900f, 500f);
+        public override Vector2 InitialSize => new Vector2(1000f, 500f);
+
+        protected override IList ReorderableItems => rules;
+
+        public override bool OnCloseRequest()
+        {
+            if (rules.Any(r => !r.IsValid))
+            {
+                Messages.Message("Defaults_WorkPriorityRulesInvalid".Translate(), MessageTypeDefOf.RejectInput, false);
+                highlightInvalid = true;
+                return false;
+            }
+
+            return true;
+        }
 
         public override void DoWindowContents(Rect inRect)
         {
@@ -45,8 +62,20 @@ namespace Defaults.WorkPriorities
                 rules.Add(new Rule());
                 SoundDefOf.Click.PlayOneShot(null);
             }
-            // TODO paste button?
+            if (WorkPriorityUtility.ruleClipboard != null)
+            {
+                Rect pasteRect = headerRect.RightPartPixels(headerRect.height);
+                pasteRect.x -= 100f;
+                pasteRect = pasteRect.ContractedBy(3f);
+                if (Widgets.ButtonImage(pasteRect, TexButton.Paste, tooltip: "Paste".Translate()))
+                {
+                    rules.Add(WorkPriorityUtility.ruleClipboard.MakeCopy());
+                    SoundDefOf.Tick_Low.PlayOneShot(null);
+                }
+            }
             headerRect.width -= 20f;
+            headerRect.xMin += 45f;
+            headerRect.xMax -= 90f;
             using (new TextBlock(TextAnchor.MiddleLeft))
             {
                 Widgets.Label(headerRect.LeftHalf().ContractedBy(uiPadding), "Defaults_WorkPriorityCondition".Translate());
@@ -54,14 +83,20 @@ namespace Defaults.WorkPriorities
             }
             y += 30f;
 
+            Rect outRect = new Rect(inRect.x, y, inRect.width, inRect.height - y);
+            reorderableRect = outRect;
             Rect viewRect = new Rect(0f, 0f, inRect.width - 20f, height);
-            Widgets.BeginScrollView(new Rect(inRect.x, y, inRect.width, inRect.height - y), ref scrollPosition, viewRect);
+            Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
             height = 0f;
+            Rule toDelete = null;
             foreach (Rule rule in rules)
             {
-                Rect ruleRect = new Rect(viewRect.x, height, viewRect.width, 45f);
+                Rect controlRect = new Rect(viewRect.x, height, viewRect.width, 45f);
 
-                // TODO Drag icon
+                Rect dragRect = controlRect.LeftPartPixels(controlRect.height).ContractedBy(uiPadding);
+
+                Rect ruleRect = controlRect.MiddlePartPixels(controlRect.width - controlRect.height * 2, controlRect.height);
+                ruleRect.width -= controlRect.height;
 
                 Rect conditionRect = ruleRect.LeftHalf();
                 if (UIUtility.DoImageTextButton(conditionRect.LeftHalf().ContractedBy(uiPadding), rule.condition?.def.Icon, rule.condition?.def.LabelCap ?? "None".Translate()))
@@ -83,10 +118,34 @@ namespace Defaults.WorkPriorities
                 }
                 rule.effect?.def.Worker.DoUI(effectRect.RightHalf().ContractedBy(uiPadding), rule.effect);
 
-                // TODO copy icon?
-                // TODO delete icon
+                Rect copyRect = controlRect.RightPartPixels(controlRect.height);
+                copyRect.x -= controlRect.height;
+                copyRect = copyRect.ContractedBy(uiPadding);
+                if (Widgets.ButtonImage(copyRect, TexButton.Copy, tooltip: "Copy".Translate()))
+                {
+                    WorkPriorityUtility.ruleClipboard = rule;
+                    SoundDefOf.Tick_High.PlayOneShot(null);
+                }
+
+                Rect deleteRect = controlRect.RightPartPixels(controlRect.height).ContractedBy(uiPadding);
+                if (Widgets.ButtonImage(deleteRect, TexButton.Delete, tooltip: "Delete".Translate()))
+                {
+                    toDelete = rule;
+                    SoundDefOf.Click.PlayOneShot(null);
+                }
+
+                if (highlightInvalid && !rule.IsValid)
+                {
+                    using (new TextBlock(Color.yellow)) Widgets.DrawBox(controlRect.ContractedBy(2f), 2);
+                }
+
+                UIUtility.DoDraggable(ReorderableGroup, controlRect, dragRect, dragRect);
 
                 height += 45f;
+            }
+            if (toDelete != null)
+            {
+                rules.Remove(toDelete);
             }
             Widgets.EndScrollView();
         }

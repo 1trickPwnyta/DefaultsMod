@@ -22,6 +22,12 @@ namespace Defaults.WorkPriorities.Conditions
             return above ? skill > level : skill < level;
         }
 
+        public override Condition MakeCopy() => new Condition_Skill(def)
+        {
+            level = level,
+            above = above
+        };
+
         public override void ExposeData()
         {
             base.ExposeData();

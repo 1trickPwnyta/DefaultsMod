@@ -22,6 +22,12 @@ namespace Defaults.WorkPriorities.Conditions
             return above ? age > years : age < years;
         }
 
+        public override Condition MakeCopy() => new Condition_Age(def)
+        {
+            years = years,
+            above = above
+        };
+
         public override void ExposeData()
         {
             base.ExposeData();

@@ -9,6 +9,7 @@ namespace Defaults.Defs
             AllowedAreas,
             Policies,
             Schedule,
-            Storyteller;
+            Storyteller,
+            WorkPriorities;
     }
 }

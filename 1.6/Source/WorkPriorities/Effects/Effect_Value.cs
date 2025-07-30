@@ -30,6 +30,11 @@ namespace Defaults.WorkPriorities.Effects
             }
         }
 
+        public override Effect MakeCopy() => new Effect_Value(def)
+        {
+            value = value
+        };
+
         public override void ExposeData()
         {
             base.ExposeData();

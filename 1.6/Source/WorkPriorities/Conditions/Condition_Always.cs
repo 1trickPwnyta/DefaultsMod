@@ -18,5 +18,7 @@ namespace Defaults.WorkPriorities.Conditions
         {
             return true;
         }
+
+        public override Condition MakeCopy() => new Condition_Always(def);
     }
 }

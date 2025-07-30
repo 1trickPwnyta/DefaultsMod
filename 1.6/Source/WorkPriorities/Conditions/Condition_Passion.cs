@@ -21,6 +21,11 @@ namespace Defaults.WorkPriorities.Conditions
             return pawn.skills.MaxPassionOfRelevantSkillsFor(def) >= passion;
         }
 
+        public override Condition MakeCopy() => new Condition_Passion(def)
+        {
+            passion = passion
+        };
+
         public override void ExposeData()
         {
             base.ExposeData();

@@ -200,7 +200,9 @@
     <Compile Include="WorkPriorities\Effects\WorkPriorityEffectWorker_Logic.cs" />
     <Compile Include="WorkPriorities\Effects\WorkPriorityEffectWorker_Value.cs" />
     <Compile Include="WorkPriorities\Patch_GameInitData.cs" />
+    <Compile Include="WorkPriorities\Patch_Pawn.cs" />
     <Compile Include="WorkPriorities\Patch_Pawn_WorkSettings.cs" />
+    <Compile Include="WorkPriorities\PawnColumnWorker_RecalculateWorkPriorities.cs" />
     <Compile Include="WorkPriorities\Rule.cs" />
     <Compile Include="WorkPriorities\WorkPriorityUtility.cs" />
     <Compile Include="WorkPriorities\WorkPriorityValue.cs" />

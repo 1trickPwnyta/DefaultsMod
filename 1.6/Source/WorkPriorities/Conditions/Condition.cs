@@ -19,6 +19,8 @@ namespace Defaults.WorkPriorities.Conditions
 
         public abstract bool Applies(WorkTypeDef def, Pawn pawn);
 
+        public abstract Condition MakeCopy();
+
         public virtual void ExposeData()
         {
             Scribe_Defs_Silent.Look(ref def, "def");

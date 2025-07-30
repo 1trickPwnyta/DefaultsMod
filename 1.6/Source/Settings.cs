@@ -52,6 +52,7 @@ namespace Defaults
         public const string WORK_PRIORITIES_ADVANCED_MODE = "WorkPrioritiesAdvancedMode";
         public const string WORK_PRIORITIES_BASIC = "WorkPrioritiesBasic";
         public const string WORK_PRIORITIES_GLOBAL_LOGIC = "WorkPrioritiesGlobalLogic";
+        public const string WORK_PRIORITIES_LOGIC = "WorkPrioritiesLogic";
 
         public static T Get<T>(string key)
         {

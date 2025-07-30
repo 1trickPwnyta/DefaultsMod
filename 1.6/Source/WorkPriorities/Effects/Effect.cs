@@ -19,6 +19,8 @@ namespace Defaults.WorkPriorities.Effects
 
         public abstract bool? Apply(WorkTypeDef def, Pawn pawn);
 
+        public abstract Effect MakeCopy();
+
         public virtual void ExposeData()
         {
             Scribe_Defs_Silent.Look(ref def, "def");

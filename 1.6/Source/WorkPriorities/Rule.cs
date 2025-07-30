@@ -9,10 +9,18 @@ namespace Defaults.WorkPriorities
         public Condition condition;
         public Effect effect;
 
+        public bool IsValid => condition?.def != null && effect?.def != null;
+
         public bool? Apply(WorkTypeDef def, Pawn pawn)
         {
             return condition.Applies(def, pawn) ? effect.Apply(def, pawn) : null;
         }
+
+        public Rule MakeCopy() => new Rule
+        {
+            condition = condition.MakeCopy(),
+            effect = effect.MakeCopy()
+        };
 
         public void ExposeData()
         {

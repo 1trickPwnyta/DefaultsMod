@@ -1,5 +1,6 @@
 ﻿using Defaults.Defs;
 using System.Collections.Generic;
+using System.Linq;
 using Verse;
 
 namespace Defaults.WorkPriorities.Effects
@@ -20,6 +21,11 @@ namespace Defaults.WorkPriorities.Effects
         {
             return WorkPriorityUtility.ApplyRules(rules, def, pawn);
         }
+
+        public override Effect MakeCopy() => new Effect_Logic(def)
+        {
+            rules = rules.Select(r => r.MakeCopy()).ToList()
+        };
 
         public override void ExposeData()
         {
