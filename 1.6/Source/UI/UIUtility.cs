@@ -109,6 +109,7 @@ namespace Defaults.UI
         {
             Widgets.IntEntry(rect, ref value, ref editBuffer, multiplier);
             value = Mathf.Clamp(value, minimum, maximum);
+            editBuffer = value.ToString();
         }
     }
 }

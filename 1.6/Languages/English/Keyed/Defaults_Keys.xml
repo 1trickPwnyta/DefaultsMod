@@ -123,12 +123,13 @@
 	<Defaults_WorkPriorityRulesGlobal>Global rules</Defaults_WorkPriorityRulesGlobal>
 	<Defaults_WorkPriorityRulesGlobalDesc>Global rules apply to all work types.</Defaults_WorkPriorityRulesGlobalDesc>
 	<Defaults_WorkPriorityRulesSpecificDesc>Each work type can have its own specific rules. These rules are applied after the global rules are applied.</Defaults_WorkPriorityRulesSpecificDesc>
-	<Defaults_WorkPriorityRulesDesc>Rules apply in order from top to bottom</Defaults_WorkPriorityRulesDesc>
+	<Defaults_WorkPriorityRulesDesc>Rules apply in order from top to bottom.</Defaults_WorkPriorityRulesDesc>
 	<Defaults_WorkPriorityAddRule>Add rule</Defaults_WorkPriorityAddRule>
 	<Defaults_WorkPriorityCondition>Condition</Defaults_WorkPriorityCondition>
 	<Defaults_WorkPriorityEffect>Effect</Defaults_WorkPriorityEffect>
 	<Defaults_Years>years</Defaults_Years>
-	<Defaults_WorkPriorityAllowZero>Allow disabling this work type if the priority is decreased beyond {0}</Defaults_WorkPriorityAllowZero>
+	<Defaults_WorkPriorityAllowDecreaseToZero>Allow disabling this work type if the priority is decreased beyond {0}</Defaults_WorkPriorityAllowDecreaseToZero>
+	<Defaults_WorkPriorityAllowIncreaseFromZero>Allow enabling this work type if it is not already</Defaults_WorkPriorityAllowIncreaseFromZero>
 	<Defaults_RecalculateWorkPriorities>Reset to default work priorities</Defaults_RecalculateWorkPriorities>
 	<Defaults_WorkPriorityRulesInvalid>Missing condition and/or effect. Define them or delete this rule.</Defaults_WorkPriorityRulesInvalid>
 	<Defaults_EditSubrules>Edit subrules</Defaults_EditSubrules>

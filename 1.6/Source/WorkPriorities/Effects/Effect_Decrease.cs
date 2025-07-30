@@ -7,6 +7,7 @@ namespace Defaults.WorkPriorities.Effects
     {
         public int amount = 1;
         public bool allowZero = false;
+        public string editBuffer;
 
         public Effect_Decrease()
         {

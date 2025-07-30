@@ -62,14 +62,25 @@ namespace Defaults.WorkPriorities
                 rules.Add(new Rule());
                 SoundDefOf.Click.PlayOneShot(null);
             }
-            if (WorkPriorityUtility.ruleClipboard != null)
+            if (rules.Any())
+            {
+                Rect copyRect = headerRect.RightPartPixels(headerRect.height);
+                copyRect.x -= 100f + headerRect.height;
+                copyRect = copyRect.ContractedBy(3f);
+                if (Widgets.ButtonImage(copyRect, TexButton.Copy, tooltip: "CopyAll".Translate()))
+                {
+                    WorkPriorityUtility.ruleClipboard = rules.ListFullCopy();
+                    SoundDefOf.Tick_High.PlayOneShot(null);
+                }
+            }
+            if (!WorkPriorityUtility.ruleClipboard.NullOrEmpty())
             {
                 Rect pasteRect = headerRect.RightPartPixels(headerRect.height);
                 pasteRect.x -= 100f;
                 pasteRect = pasteRect.ContractedBy(3f);
                 if (Widgets.ButtonImage(pasteRect, TexButton.Paste, tooltip: "Paste".Translate()))
                 {
-                    rules.Add(WorkPriorityUtility.ruleClipboard.MakeCopy());
+                    rules.AddRange(WorkPriorityUtility.ruleClipboard.Select(r => r.MakeCopy()));
                     SoundDefOf.Tick_Low.PlayOneShot(null);
                 }
             }
@@ -123,7 +134,7 @@ namespace Defaults.WorkPriorities
                 copyRect = copyRect.ContractedBy(uiPadding);
                 if (Widgets.ButtonImage(copyRect, TexButton.Copy, tooltip: "Copy".Translate()))
                 {
-                    WorkPriorityUtility.ruleClipboard = rule;
+                    WorkPriorityUtility.ruleClipboard = new List<Rule>() { rule };
                     SoundDefOf.Tick_High.PlayOneShot(null);
                 }
 

@@ -7,6 +7,7 @@ namespace Defaults.WorkPriorities.Conditions
     {
         public int level = 5;
         public bool above = true;
+        public string editBuffer;
 
         public Condition_Skill()
         {

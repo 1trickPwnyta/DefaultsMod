@@ -7,6 +7,7 @@ namespace Defaults.WorkPriorities.Conditions
     {
         public int years = 12;
         public bool above = true;
+        public string editBuffer;
 
         public Condition_Age()
         {

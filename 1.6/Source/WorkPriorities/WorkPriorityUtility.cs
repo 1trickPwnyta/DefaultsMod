@@ -6,7 +6,7 @@ namespace Defaults.WorkPriorities
 {
     public static class WorkPriorityUtility
     {
-        public static Rule ruleClipboard;
+        public static List<Rule> ruleClipboard = new List<Rule>();
 
         public static void SetWorkPrioritiesToDefault(Pawn pawn)
         {

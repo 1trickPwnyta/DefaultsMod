@@ -6,6 +6,8 @@ namespace Defaults.WorkPriorities.Effects
     public class Effect_Increase : Effect
     {
         public int amount = 1;
+        public bool allowZero = false;
+        public string editBuffer;
 
         public Effect_Increase()
         {
@@ -18,7 +20,18 @@ namespace Defaults.WorkPriorities.Effects
         public override bool? Apply(WorkTypeDef def, Pawn pawn)
         {
             int value = pawn.workSettings.GetPriority(def);
-            value -= amount;
+            if (value > WorkPriorityValue.DoNotDo)
+            {
+                value -= amount;
+            }
+            else if (allowZero && value == WorkPriorityValue.DoNotDo)
+            {
+                value = WorkPriorityValue.Max + 1 - amount;
+            }
+            else
+            {
+                return true;
+            }
             if (value < 1)
             {
                 value = 1;
@@ -29,13 +42,15 @@ namespace Defaults.WorkPriorities.Effects
 
         public override Effect MakeCopy() => new Effect_Increase(def)
         {
-            amount = amount
+            amount = amount,
+            allowZero = allowZero
         };
 
         public override void ExposeData()
         {
             base.ExposeData();
             Scribe_Values.Look(ref amount, "amount", 1);
+            Scribe_Values.Look(ref allowZero, "allowZero", false);
         }
     }
 }
