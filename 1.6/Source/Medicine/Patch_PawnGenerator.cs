@@ -3,7 +3,9 @@ using Verse;
 
 namespace Defaults.Medicine
 {
-    [HarmonyPatch(typeof(PawnGenerator), "GenerateNewPawnInternal")]
+    [HarmonyPatchCategory("Medicine")]
+    [HarmonyPatch(typeof(PawnGenerator))]
+    [HarmonyPatch("GenerateNewPawnInternal")]
     public static class Patch_PawnGenerator_GenerateNewPawnInternal
     {
         public static void Postfix(Pawn __result)

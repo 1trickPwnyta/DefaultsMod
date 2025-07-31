@@ -1,80 +1,130 @@
-﻿using RimWorld;
+﻿using HarmonyLib;
+using RimWorld;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
 namespace Defaults.Policies
 {
+    public struct PolicyParms
+    {
+        public string NameKey;
+        public IList VanillaPolicies;
+        public IList DefaultPolicies;
+    }
+
     public static class PolicyUtility
     {
-        public static DrugPolicy NewDrugPolicy()
+        private static readonly Dictionary<Type, PolicyParms> policyParms = new Dictionary<Type, PolicyParms>()
         {
-            string name;
-            int i = DefaultsSettings.DefaultDrugPolicies.Count + 1;
-            do
             {
-                name = "DrugPolicy".Translate() + " " + i++;
-            } while (DefaultsSettings.DefaultDrugPolicies.Any(p => p.label == name));
-            DrugPolicy policy = new DrugPolicy(0, name);
-            DefaultsSettings.DefaultDrugPolicies.Add(policy);
+                typeof(ApparelPolicy), new PolicyParms()
+                {
+                    NameKey = "ApparelPolicy",
+                    VanillaPolicies = VanillaPolicyStore.VanillaApparelPolicies,
+                    DefaultPolicies = Settings.Get<List<ApparelPolicy>>(Settings.POLICIES_APPAREL)
+                }
+            },
+            {
+                typeof(FoodPolicy), new PolicyParms()
+                {
+                    NameKey = "FoodPolicy",
+                    VanillaPolicies = VanillaPolicyStore.VanillaFoodPolicies,
+                    DefaultPolicies = Settings.Get<List<FoodPolicy>>(Settings.POLICIES_FOOD)
+                }
+            },
+            {
+                typeof(DrugPolicy), new PolicyParms()
+                {
+                    NameKey = "DrugPolicy",
+                    VanillaPolicies = VanillaPolicyStore.VanillaDrugPolicies,
+                    DefaultPolicies = Settings.Get<List<DrugPolicy>>(Settings.POLICIES_DRUG)
+                }
+            },
+            {
+                typeof(ReadingPolicy), new PolicyParms()
+                {
+                    NameKey = "ReadingPolicy",
+                    VanillaPolicies = VanillaPolicyStore.VanillaReadingPolicies,
+                    DefaultPolicies = Settings.Get<List<ReadingPolicy>>(Settings.POLICIES_READING)
+                }
+            }
+        };
+
+        public static bool IsLocked(this Policy policy) => !Settings.Get<HashSet<Policy>>(Settings.UNLOCKED_POLICIES).Contains(policy);
+
+        public static void SetLocked(this Policy policy, bool value)
+        {
+            if (policy.IsLockable())
+            {
+                HashSet<Policy> unlockedPolicies = Settings.Get<HashSet<Policy>>(Settings.UNLOCKED_POLICIES);
+                if (value)
+                {
+                    unlockedPolicies.Remove(policy);
+                }
+                else
+                {
+                    unlockedPolicies.Add(policy);
+                }
+            }
+        }
+
+        public static bool IsLockable(this Policy policy) => policy is ApparelPolicy || policy is FoodPolicy || policy is ReadingPolicy;
+
+        public static T NewPolicy<T>(Dialog_ManagePolicies<T> dialog, string name = null) where T : Policy => (T)NewPolicy(typeof(T), dialog, name);
+
+        public static Policy NewPolicy(Type type, Window dialog, string name = null)
+        {
+            IList defaultPolicies = (IList)dialog.GetType().Method("GetPolicies").Invoke(dialog, new object[] { });
+            name = GetAvailableNameForPolicy(name, policyParms[type].NameKey, defaultPolicies);
+            Policy policy = (Policy)dialog.GetType().Method("CreateNewPolicy").Invoke(dialog, new object[] { });
+            policy.label = name;
             return policy;
         }
 
-        public static DrugPolicy NewDrugPolicyFromDef(DrugPolicyDef def)
+        public static T NewDefaultPolicy<T>(string name = null) where T : Policy
         {
-            DrugPolicy drugPolicy = NewDrugPolicy();
-            drugPolicy.label = def.LabelCap;
-            drugPolicy.sourceDef = def;
-            if (def.allowPleasureDrugs)
-            {
-                for (int i = 0; i < drugPolicy.Count; i++)
-                {
-                    if (drugPolicy[i].drug.IsPleasureDrug)
-                    {
-                        drugPolicy[i].allowedForJoy = true;
-                    }
-                }
-            }
-            if (def.entries != null)
-            {
-                for (int j = 0; j < def.entries.Count; j++)
-                {
-                    drugPolicy[def.entries[j].drug].CopyFrom(def.entries[j]);
-                }
-            }
-            return drugPolicy;
-        }
-
-        public static ReadingPolicies.ReadingPolicy NewReadingPolicy()
-        {
-            string name;
-            int i = DefaultsSettings.DefaultReadingPolicies.Count + 1;
-            do
-            {
-                name = "ReadingPolicy".Translate() + " " + i++;
-            } while (DefaultsSettings.DefaultReadingPolicies.Any(p => p.label == name));
-            ReadingPolicies.ReadingPolicy policy = new ReadingPolicies.ReadingPolicy(0, name);
-            DefaultsSettings.DefaultReadingPolicies.Add(policy);
+            List<T> defaultPolicies = GetDefaultPolicies<T>();
+            name = GetAvailableNameForPolicy(name, policyParms[typeof(T)].NameKey, defaultPolicies);
+            T policy = (T)Activator.CreateInstance(typeof(T), new object[] { 0, name });
+            defaultPolicies.Add(policy);
             return policy;
         }
 
-        public static float GetNewPolicyButtonPaddingTop(Window window)
+        public static Policy NewDefaultPolicy(Type type, string name = null)
         {
-            Type type = window.GetType();
-            if (new[]
-            {
-                typeof(Dialog_ManageApparelPolicies),
-                typeof(Dialog_ManageFoodPolicies),
-                typeof(Dialog_ManageDrugPolicies),
-                typeof(Dialog_ManageReadingPolicies)
-            }.Contains(type))
-            {
-                return 10f + Window.CloseButSize.y;
-            }
-            else
-            {
-                return 10f;
-            }
+            IList defaultPolicies = policyParms[type].DefaultPolicies;
+            name = GetAvailableNameForPolicy(name, policyParms[type].NameKey, defaultPolicies);
+            Policy policy = (Policy)Activator.CreateInstance(type, new object[] { 0, name });
+            defaultPolicies.Add(policy);
+            return policy;
         }
+
+        public static List<T> GetVanillaPolicies<T>() => GetVanillaPolicies(typeof(T)) as List<T>;
+
+        public static IList GetVanillaPolicies(Type type) => policyParms[type].VanillaPolicies;
+
+        public static List<T> GetDefaultPolicies<T>() => GetDefaultPolicies(typeof(T)) as List<T>;
+
+        public static IList GetDefaultPolicies(Type type) => policyParms[type].DefaultPolicies;
+
+        private static string GetAvailableNameForPolicy(string preferredName, string nameKey, IList existingPolicies)
+        {
+            string name = preferredName;
+            int i = existingPolicies.Count + 1;
+            while (name == null || existingPolicies.Cast<Policy>().Any(p => p.label == name))
+            {
+                name = nameKey.Translate() + " " + i++;
+            }
+            return name;
+        }
+
+        public static bool IsGamePolicyDialog(this Window window) =>
+            window.GetType() == typeof(Dialog_ManageApparelPolicies)
+            || window.GetType() == typeof(Dialog_ManageFoodPolicies)
+            || window.GetType() == typeof(Dialog_ManageDrugPolicies)
+            || window.GetType() == typeof(Dialog_ManageReadingPolicies);
     }
 }

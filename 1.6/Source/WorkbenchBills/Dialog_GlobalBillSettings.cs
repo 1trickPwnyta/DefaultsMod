@@ -15,33 +15,37 @@ namespace Defaults.WorkbenchBills
             closeOnClickedOutside = true;
         }
 
-        public override Vector2 InitialSize => new Vector2(250f, 450f);
+        public override Vector2 InitialSize => new Vector2(350f, 450f);
 
         public override void DoWindowContents(Rect inRect)
         {
+            GlobalBillOptions options = Settings.Get<GlobalBillOptions>(Settings.GLOBAL_BILL_OPTIONS);
             Listing_Standard listing = new Listing_Standard();
             listing.Begin(inRect);
 
             string ingredientRadiusLabel = "IngredientSearchRadius".Translate().Truncate(inRect.width * 0.6f);
-            string ingredientRadiusValue = DefaultsSettings.DefaultBillIngredientSearchRadius == 999f ? "Unlimited".TranslateSimple().Truncate(inRect.width * 0.3f) : DefaultsSettings.DefaultBillIngredientSearchRadius.ToString("F0");
+            string ingredientRadiusValue = options.DefaultBillIngredientSearchRadius == 999f ? "Unlimited".TranslateSimple().Truncate(inRect.width * 0.3f) : options.DefaultBillIngredientSearchRadius.ToString("F0");
             listing.Label(ingredientRadiusLabel + ": " + ingredientRadiusValue);
-            DefaultsSettings.DefaultBillIngredientSearchRadius = listing.Slider((DefaultsSettings.DefaultBillIngredientSearchRadius > 100f) ? 100f : DefaultsSettings.DefaultBillIngredientSearchRadius, 3f, 100f);
-            if (DefaultsSettings.DefaultBillIngredientSearchRadius >= 100f)
+            options.DefaultBillIngredientSearchRadius = listing.Slider((options.DefaultBillIngredientSearchRadius > 100f) ? 100f : options.DefaultBillIngredientSearchRadius, 3f, 100f);
+            if (options.DefaultBillIngredientSearchRadius >= 100f)
             {
-                DefaultsSettings.DefaultBillIngredientSearchRadius = 999f;
+                options.DefaultBillIngredientSearchRadius = 999f;
             }
 
-            listing.Label("AllowedSkillRange".Translate("") + ": " + (DefaultsSettings.DefaultBillAllowedSkillRange.max == 20 ? "Unlimited".TranslateSimple() : ""));
-            listing.IntRange(ref DefaultsSettings.DefaultBillAllowedSkillRange, 0, 20);
-            listing.Gap(12f);
+            listing.Label("AllowedSkillRange".Translate("") + ": " + (options.DefaultBillAllowedSkillRange.max == 20 ? "Unlimited".TranslateSimple() : ""));
+            listing.IntRange(ref options.DefaultBillAllowedSkillRange, 0, 20);
+            listing.Gap();
 
-            if (listing.ButtonText(DefaultsSettings.DefaultBillStoreMode.LabelCap))
+            if (listing.ButtonText(options.DefaultBillStoreMode.LabelCap))
             {
                 Find.WindowStack.Add(new FloatMenu(DefDatabase<BillStoreModeDef>.AllDefsListForReading.Where(d => d != BillStoreModeDefOf.SpecificStockpile).Select(d => new FloatMenuOption(d.LabelCap, () =>
                 {
-                    DefaultsSettings.DefaultBillStoreMode = d;
+                    options.DefaultBillStoreMode = d;
                 })).ToList()));
             }
+            listing.Gap();
+
+            listing.CheckboxLabeled("Defaults_LimitBillsTo15".Translate(), ref options.LimitBillsTo15);
 
             listing.End();
         }

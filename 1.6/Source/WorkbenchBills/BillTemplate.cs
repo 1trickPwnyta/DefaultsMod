@@ -1,4 +1,6 @@
-﻿using RimWorld;
+﻿using Defaults.Compatibility;
+using Defaults.Defs;
+using RimWorld;
 using Verse;
 
 namespace Defaults.WorkbenchBills
@@ -10,14 +12,14 @@ namespace Defaults.WorkbenchBills
         public bool locked = false;
         public RecipeDef recipe;
         public ThingFilter ingredientFilter;
-        public float ingredientSearchRadius = DefaultsSettings.DefaultBillIngredientSearchRadius;
-        public IntRange allowedSkillRange = DefaultsSettings.DefaultBillAllowedSkillRange;
+        public float ingredientSearchRadius = Settings.Get<GlobalBillOptions>(Settings.GLOBAL_BILL_OPTIONS).DefaultBillIngredientSearchRadius;
+        public IntRange allowedSkillRange = Settings.Get<GlobalBillOptions>(Settings.GLOBAL_BILL_OPTIONS).DefaultBillAllowedSkillRange;
         public bool slavesOnly = false;
         public bool mechsOnly = false;
         public bool nonMechsOnly = false;
         public BillRepeatModeDef repeatMode = BillRepeatModeDefOf.RepeatCount;
         public int repeatCount = 1;
-        public BillStoreModeDef storeMode = DefaultsSettings.DefaultBillStoreMode;
+        public BillStoreModeDef storeMode = Settings.Get<GlobalBillOptions>(Settings.GLOBAL_BILL_OPTIONS).DefaultBillStoreMode;
         public int targetCount = 10;
         public bool pauseWhenSatisfied = false;
         public int unpauseWhenYouHave = 5;
@@ -26,6 +28,7 @@ namespace Defaults.WorkbenchBills
         public FloatRange hpRange = FloatRange.ZeroToOne;
         public QualityRange qualityRange = QualityRange.All;
         public bool limitToAllowedStuff = false;
+        public BetterWorkbenchOptions betterWorkbenchOptions = new BetterWorkbenchOptions();
 
         public string RenamableLabel { get => name; set => name = value; }
 
@@ -49,9 +52,9 @@ namespace Defaults.WorkbenchBills
         public Bill ToBill()
         {
             // Disable bill constructor patch since we will be setting those parameters here and don't want to patch over any values set by another mod (such as EndlessGrowth)
-            Patch_Bill_Production_ctor.Enabled = false;
+            Patch_Bill_Production_ctor.enabled = false;
             Bill bill = recipe.MakeNewBill();
-            Patch_Bill_Production_ctor.Enabled = true;
+            Patch_Bill_Production_ctor.enabled = true;
 
             bill.ingredientFilter.CopyAllowancesFrom(ingredientFilter);
             bill.ingredientSearchRadius = ingredientSearchRadius;
@@ -75,9 +78,9 @@ namespace Defaults.WorkbenchBills
             {
                 bill.SetAnyNonMechRestriction();
             }
-            Bill_Production productionBill = bill as Bill_Production;
-            if (productionBill != null)
+            if (bill is Bill_Production productionBill)
             {
+                productionBill.RenamableLabel = name;
                 productionBill.repeatMode = repeatMode;
                 productionBill.repeatCount = repeatCount;
                 productionBill.SetStoreMode(storeMode);
@@ -89,24 +92,24 @@ namespace Defaults.WorkbenchBills
                 productionBill.hpRange = hpRange;
                 productionBill.qualityRange = qualityRange;
                 productionBill.limitToAllowedStuff = limitToAllowedStuff;
+                ModCompatibilityUtility_BetterWorkbench.ApplyBetterWorkbenchOptions(betterWorkbenchOptions, productionBill);
             }
-            
+
             return bill;
         }
 
         public static BillTemplate FromBill(Bill bill)
         {
-            BillTemplate template = new BillTemplate(bill.recipe);
-            template.ingredientFilter = new ThingFilter();
+            BillTemplate template = new BillTemplate(bill.recipe) { ingredientFilter = new ThingFilter() };
             template.ingredientFilter.CopyAllowancesFrom(bill.ingredientFilter);
             template.ingredientSearchRadius = bill.ingredientSearchRadius;
             template.allowedSkillRange = bill.allowedSkillRange;
             template.slavesOnly = bill.SlavesOnly;
             template.mechsOnly = bill.MechsOnly;
             template.nonMechsOnly = bill.NonMechsOnly;
-            Bill_Production productionBill = bill as Bill_Production;
-            if (productionBill != null)
+            if (bill is Bill_Production productionBill)
             {
+                template.name = productionBill.RenamableLabel;
                 template.repeatMode = productionBill.repeatMode;
                 template.repeatCount = productionBill.repeatCount;
                 template.storeMode = productionBill.GetStoreMode();
@@ -122,6 +125,7 @@ namespace Defaults.WorkbenchBills
                 template.hpRange = productionBill.hpRange;
                 template.qualityRange = productionBill.qualityRange;
                 template.limitToAllowedStuff = productionBill.limitToAllowedStuff;
+                ModCompatibilityUtility_BetterWorkbench.SetBetterWorkbenchOptions(template.betterWorkbenchOptions, productionBill);
             }
 
             return template;
@@ -157,27 +161,30 @@ namespace Defaults.WorkbenchBills
 
         public BillTemplate Clone()
         {
-            BillTemplate clone = new BillTemplate(recipe);
-            clone.use = use;
-            clone.locked = locked;
-            clone.ingredientFilter = new ThingFilter();
+            BillTemplate clone = new BillTemplate(recipe)
+            {
+                use = use,
+                locked = locked,
+                ingredientFilter = new ThingFilter(),
+                ingredientSearchRadius = ingredientSearchRadius,
+                allowedSkillRange = allowedSkillRange,
+                slavesOnly = slavesOnly,
+                mechsOnly = mechsOnly,
+                nonMechsOnly = nonMechsOnly,
+                repeatMode = repeatMode,
+                repeatCount = repeatCount,
+                storeMode = storeMode,
+                targetCount = targetCount,
+                pauseWhenSatisfied = pauseWhenSatisfied,
+                unpauseWhenYouHave = unpauseWhenYouHave,
+                includeEquipped = includeEquipped,
+                includeTainted = includeTainted,
+                hpRange = hpRange,
+                qualityRange = qualityRange,
+                limitToAllowedStuff = limitToAllowedStuff,
+                betterWorkbenchOptions = betterWorkbenchOptions.Clone()
+            };
             clone.ingredientFilter.CopyAllowancesFrom(ingredientFilter);
-            clone.ingredientSearchRadius = ingredientSearchRadius;
-            clone.allowedSkillRange = allowedSkillRange;
-            clone.slavesOnly = slavesOnly;
-            clone.mechsOnly = mechsOnly;
-            clone.nonMechsOnly = nonMechsOnly;
-            clone.repeatMode = repeatMode;
-            clone.repeatCount = repeatCount;
-            clone.storeMode = storeMode;
-            clone.targetCount = targetCount;
-            clone.pauseWhenSatisfied = pauseWhenSatisfied;
-            clone.unpauseWhenYouHave = unpauseWhenYouHave;
-            clone.includeEquipped = includeEquipped;
-            clone.includeTainted = includeTainted;
-            clone.hpRange = hpRange;
-            clone.qualityRange = qualityRange;
-            clone.limitToAllowedStuff = limitToAllowedStuff;
             return clone;
         }
 
@@ -186,16 +193,16 @@ namespace Defaults.WorkbenchBills
             Scribe_Values.Look(ref name, "name");
             Scribe_Values.Look(ref use, "use", true);
             Scribe_Values.Look(ref locked, "locked", false);
-            Scribe_Defs.Look(ref recipe, "recipe");
+            Scribe_Defs_Silent.Look(ref recipe, "recipe");
             Scribe_Deep.Look(ref ingredientFilter, "ingredientFilter");
             Scribe_Values.Look(ref ingredientSearchRadius, "ingredientSearchRadius");
             Scribe_Values.Look(ref allowedSkillRange, "allowedSkillRange");
             Scribe_Values.Look(ref slavesOnly, "slavesOnly");
             Scribe_Values.Look(ref mechsOnly, "mechsOnly");
             Scribe_Values.Look(ref nonMechsOnly, "nonMechsOnly");
-            Scribe_Defs.Look(ref repeatMode, "repeatMode");
+            Scribe_Defs_Silent.Look(ref repeatMode, "repeatMode");
             Scribe_Values.Look(ref repeatCount, "repeatCount");
-            Scribe_Defs.Look(ref storeMode, "storeMode");
+            Scribe_Defs_Silent.Look(ref storeMode, "storeMode");
             Scribe_Values.Look(ref targetCount, "targetCount");
             Scribe_Values.Look(ref pauseWhenSatisfied, "pauseWhenSatisfied");
             Scribe_Values.Look(ref unpauseWhenYouHave, "unpauseWhenYouHave");
@@ -204,6 +211,19 @@ namespace Defaults.WorkbenchBills
             Scribe_Values.Look(ref hpRange, "hpRange");
             Scribe_Values.Look(ref qualityRange, "qualityRange");
             Scribe_Values.Look(ref limitToAllowedStuff, "limitToAllowedStuff");
+            ModCompatibilityUtility_BetterWorkbench.WriteBetterWorkbenchOptions(ref betterWorkbenchOptions);
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                if (repeatMode == null)
+                {
+                    repeatMode = BillRepeatModeDefOf.RepeatCount;
+                }
+                if (storeMode == null)
+                {
+                    storeMode = BillStoreModeDefOf.BestStockpile;
+                }
+            }
         }
     }
 }

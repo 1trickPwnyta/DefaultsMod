@@ -1,4 +1,6 @@
-﻿using RimWorld;
+﻿using Defaults.Defs;
+using Defaults.UI;
+using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,47 +8,36 @@ using Verse;
 
 namespace Defaults.Rewards
 {
-    public class Dialog_RewardsSettings : Window
+    public class Dialog_RewardsSettings : Dialog_SettingsCategory
     {
         private Vector2 scrollPosition;
         private float viewRectHeight;
 
-        public Dialog_RewardsSettings()
+        public Dialog_RewardsSettings(DefaultSettingsCategoryDef category) : base(category)
         {
-            this.doCloseX = true;
-            this.doCloseButton = true;
         }
 
-        public override Vector2 InitialSize
-        {
-            get
-            {
-                return new Vector2(700f, 440f);
-            }
-        }
+        public override Vector2 InitialSize => new Vector2(700f, 780f);
 
-        public override void DoWindowContents(Rect inRect)
+        public override void DoSettings(Rect rect)
         {
-            Text.Font = GameFont.Medium;
-            Widgets.Label(new Rect(0f, 0f, InitialSize.x / 2f, 40f), "Defaults_Rewards".Translate());
-            Text.Font = GameFont.Small;
-            string text = "ChooseRewardsDesc".Translate();
-            float num = Text.CalcHeight(text, inRect.width);
-            Rect rect = new Rect(0f, 40f, inRect.width, num);
-            Widgets.Label(rect, text);
+            string text = "Defaults_ChooseRewardsDesc".Translate();
+            float num = Text.CalcHeight(text, rect.width);
+            Rect descRect = new Rect(rect.x, rect.y, rect.width, num);
+            Widgets.Label(descRect, text);
             IEnumerable<FactionDef> allFactionDefs = DefDatabase<FactionDef>.AllDefs.OrderBy(def => def.configurationListOrderPriority);
-            Rect outRect = new Rect(inRect);
-            outRect.yMax -= Window.CloseButSize.y;
-            outRect.yMin += 44f + rect.height + 4f;
+            Rect outRect = new Rect(rect);
+            outRect.yMin += 10f + descRect.height + 4f;
             float num2 = 0f;
             Rect rect2 = new Rect(0f, num2, outRect.width - 16f, viewRectHeight);
             Widgets.BeginScrollView(outRect, ref scrollPosition, rect2, true);
             int num3 = 0;
+            Dictionary<FactionDef, RewardPreference> rewards = Settings.Get<Dictionary<FactionDef, RewardPreference>>(Settings.REWARDS);
             foreach (FactionDef def in allFactionDefs)
             {
-                if (!DefaultsSettings.DefaultRewardPreferences.ContainsKey(def.defName) || DefaultsSettings.DefaultRewardPreferences[def.defName] == null)
+                if (!rewards.ContainsKey(def) || rewards[def] == null)
                 {
-                    DefaultsSettings.DefaultRewardPreferences[def.defName] = new RewardPreference();
+                    rewards[def] = new RewardPreference();
                 }
                 if (!def.isPlayer)
                 {
@@ -64,7 +55,7 @@ namespace Defaults.Rewards
                             TooltipHandler.TipRegion(rect3, "Defaults_AcceptRoyalFavorDesc".Translate(def.royalFavorLabel, def.LabelCap));
                             Widgets.DrawHighlight(rect3);
                         }
-                        Widgets.Checkbox(rect2.width - 150f, num2 + 12f, ref DefaultsSettings.DefaultRewardPreferences[def.defName].allowRoyalFavorRewards, 24f, false, false, null, null);
+                        Widgets.Checkbox(rect2.width - 150f, num2 + 12f, ref rewards[def].allowRoyalFavorRewards, paintable: true);
                         num2 += 45f;
                     }
                     if (!def.permanentEnemy && !def.hidden)
@@ -81,7 +72,7 @@ namespace Defaults.Rewards
                             TooltipHandler.TipRegion(rect4, "Defaults_AcceptGoodwillDesc".Translate(def.LabelCap));
                             Widgets.DrawHighlight(rect4);
                         }
-                        Widgets.Checkbox(rect2.width - 150f, num2 + 12f, ref DefaultsSettings.DefaultRewardPreferences[def.defName].allowGoodwillRewards, 24f, false, false, null, null);
+                        Widgets.Checkbox(rect2.width - 150f, num2 + 12f, ref rewards[def].allowGoodwillRewards, paintable: true);
                         FactionRelationKind relationKind = def.naturalEnemy ? FactionRelationKind.Hostile : FactionRelationKind.Neutral;
                         Widgets.Label(new Rect(rect2.width - 100f, num2 + 12f, 100f, 35f), relationKind.GetLabelCap().Colorize(relationKind.GetColor()));
                         num2 += 45f;

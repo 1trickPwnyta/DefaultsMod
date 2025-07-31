@@ -7,13 +7,14 @@ using System.Reflection.Emit;
 
 namespace Defaults.WorkbenchBills
 {
+    [HarmonyPatchCategory("WorkbenchBills")]
     [HarmonyPatch(typeof(Bill))]
     [HarmonyPatch(nameof(Bill.DoInterface))]
     public static class Patch_Bill
     {
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            CodeInstruction lastSuspendedInstruction = instructions.Where(i => i.opcode == OpCodes.Ldfld && (FieldInfo)i.operand == typeof(Bill).Field(nameof(Bill.suspended))).Last();
+            CodeInstruction lastSuspendedInstruction = instructions.Last(i => i.opcode == OpCodes.Ldfld && (FieldInfo)i.operand == typeof(Bill).Field(nameof(Bill.suspended)));
             lastSuspendedInstruction.opcode = OpCodes.Call;
             lastSuspendedInstruction.operand = typeof(BillUtility).Method(nameof(BillUtility.IsSuspendedOrUnavailable));
 
@@ -33,7 +34,7 @@ namespace Defaults.WorkbenchBills
                 {
                     instruction.operand = 160f;
                 }
-                
+
                 yield return instruction;
             }
         }

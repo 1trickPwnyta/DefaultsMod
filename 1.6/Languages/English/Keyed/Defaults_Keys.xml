@@ -15,21 +15,30 @@
 	<Defaults_AutoHomeArea>Default auto home area setting</Defaults_AutoHomeArea>
 	<Defaults_ResourceCategories>Expanded resource categories</Defaults_ResourceCategories>
 	<Defaults_Storyteller>Storyteller settings</Defaults_Storyteller>
-	<Defaults_StockpileZones>Stockpile zone types</Defaults_StockpileZones>
+	<Defaults_StockpileZones>Storage settings</Defaults_StockpileZones>
 	<Defaults_ShelfSettings>Shelf storage settings</Defaults_ShelfSettings>
 	<Defaults_WorkbenchBills>Workbench bills</Defaults_WorkbenchBills>
+	<Defaults_MiscSettings>Miscellaneous defaults</Defaults_MiscSettings>
 	<Defaults_ManualPriorities>Use manual work priorities by default</Defaults_ManualPriorities>
 	<Defaults_WorldSettings>World settings</Defaults_WorldSettings>
 	<Defaults_MapSettings>Advanced world settings</Defaults_MapSettings>
-	<Defaults_ApparelPolicies>Apparel policies</Defaults_ApparelPolicies>
-	<Defaults_FoodPolicies>Food policies</Defaults_FoodPolicies>
-	<Defaults_DrugPolicies>Drug policies</Defaults_DrugPolicies>
-	<Defaults_ReadingPolicies>Reading policies</Defaults_ReadingPolicies>
+	<Defaults_Policies>Policies</Defaults_Policies>
+	<Defaults_ApparelPolicies>apparel policies</Defaults_ApparelPolicies>
+	<Defaults_FoodPolicies>food policies</Defaults_FoodPolicies>
+	<Defaults_DrugPolicies>drug policies</Defaults_DrugPolicies>
+	<Defaults_ReadingPolicies>reading policies</Defaults_ReadingPolicies>
 	<Defaults_PregnancyApproach>Default pregnancy approach</Defaults_PregnancyApproach>
 	<Defaults_TargetTemperatureHeater>Target temperature for heaters</Defaults_TargetTemperatureHeater>
 	<Defaults_TargetTemperatureCooler>Target temperature for coolers</Defaults_TargetTemperatureCooler>
+	<Defaults_BabyFeedingSettings>Baby feeding settings</Defaults_BabyFeedingSettings>
+	<Defaults_WorkModeFirst>First mech control group work mode</Defaults_WorkModeFirst>
+	<Defaults_WorkModeSecond>Second mech control group work mode</Defaults_WorkModeSecond>
+	<Defaults_WorkModeAdditional>Additional mech control groups work mode</Defaults_WorkModeAdditional>
 	<Defaults_ResetAllSettings>Reset all settings to vanilla</Defaults_ResetAllSettings>
-	<Defaults_ConfirmResetAllSettings>Do you want to reset all settings to their vanilla values? This action cannot be undone.</Defaults_ConfirmResetAllSettings>
+	<Defaults_ResetTheseSettings>Reset these settings to vanilla</Defaults_ResetTheseSettings>
+	<Defaults_ConfirmResetAllSettings>Do you want to reset all mod settings to their vanilla values? All settings categories will be enabled and all general settings will return to their default values. This action cannot be undone.</Defaults_ConfirmResetAllSettings>
+	<Defaults_ConfirmResetTheseSettings>Do you want to reset all {0} to their vanilla values? This action cannot be undone.</Defaults_ConfirmResetTheseSettings>
+	<Defaults_ConfirmResetWorkbenchBills>Do you want to reset all default workbench bill settings to their vanilla values? This action will delete all default workbench bills and cannot be undone.</Defaults_ConfirmResetWorkbenchBills>
 	<Defaults_ScheduleName>Schedule {0}</Defaults_ScheduleName>
 	<Defaults_UseSchedule>Use</Defaults_UseSchedule>
 	<Defaults_UseScheduleTip>Indicates whether the schedule will automatically be assigned to colonists.</Defaults_UseScheduleTip>
@@ -49,7 +58,7 @@
 	<Defaults_CantDeleteDefaultPolicy>You cannot delete the default policy.</Defaults_CantDeleteDefaultPolicy>
 	<Defaults_SaveNewDefaultPolicy>Save as new default policy</Defaults_SaveNewDefaultPolicy>
 	<Defaults_PolicySavedAs>Policy saved as {0}.</Defaults_PolicySavedAs>
-	<Defaults_LoadDefaultPolicy>Load from defaults</Defaults_LoadDefaultPolicy>
+	<Defaults_LoadDefaultPolicy>Add from...</Defaults_LoadDefaultPolicy>
 	<Defaults_LockSetting>Lock this setting to prevent automatic changes when new mods or DLC are added</Defaults_LockSetting>
 	<Defaults_UnavailableCaps>UNAVAILABLE</Defaults_UnavailableCaps>
 	<Defaults_SaveNewDefaultBill>Save as new default bill</Defaults_SaveNewDefaultBill>
@@ -58,6 +67,53 @@
 	<Defaults_UseBill>Use</Defaults_UseBill>
 	<Defaults_UseBillTip>Indicates whether this bill will automatically be added to new workbenches.</Defaults_UseBillTip>
 	<Defaults_GlobalBillSettings>Global bill settings</Defaults_GlobalBillSettings>
+	<Defaults_BirtherParent>Birthgiver</Defaults_BirtherParent>
+	<Defaults_ParentLactating>Non-birthgiver parent (lactating)</Defaults_ParentLactating>
+	<Defaults_ParentNonlactating>Non-birthgiver parent (not lactating)</Defaults_ParentNonlactating>
+	<Defaults_NonparentLactating>Non-parent (lactating)</Defaults_NonparentLactating>
+	<Defaults_NonparentNonlactating>Non-parent (not lactating)</Defaults_NonparentNonlactating>
+	<Defaults_SearchResults>Search results</Defaults_SearchResults>
+	<Defaults_DefaultSettingsCategories>Setting categories</Defaults_DefaultSettingsCategories>
+	<Defaults_DefaultSettings>Individual settings</Defaults_DefaultSettings>
+	<Defaults_NewDLC>New DLC added: {0}</Defaults_NewDLC>
+	<Defaults_NewPoliciesDLC>1trickPwnyta's Defaults can incorporate policies available in newly installed DLC if you'd like. {0} adds the following default policies to the game. Select the ones you want to enable.</Defaults_NewPoliciesDLC>
+	<Defaults_Vanilla>Vanilla</Defaults_Vanilla>
+	<Defaults_Defaults>Defaults</Defaults_Defaults>
+	<Defaults_HostilityReponseTip>Change how colonists will react to nearby enemies when not drafted.</Defaults_HostilityReponseTip>
+	<Defaults_NoSearchResults>Your search "{0}" did not match any settings.</Defaults_NoSearchResults>
+	<Defaults_ChooseRewardsDesc>Tell other factions what kinds of rewards you want in quests.</Defaults_ChooseRewardsDesc>
+	<Defaults_StorageBuildingSettings>{0} storage settings</Defaults_StorageBuildingSettings>
+	<Defaults_StockpileStorageSettings>stockpile zones</Defaults_StockpileStorageSettings>
+	<Defaults_BuildingStorageSettings>storage buildings</Defaults_BuildingStorageSettings>
+	<Defaults_ConfirmResetStockpileZoneSettings>Do you want to reset all default stockpile zone settings to their vanilla values? This action will delete all custom stockpile zones as well and cannot be undone.</Defaults_ConfirmResetStockpileZoneSettings>
+	<Defaults_ConfirmResetAllowedAreaSettings>Do you want to reset all default allowed area settings to their vanilla values? This action will delete all allowed areas and cannot be undone.</Defaults_ConfirmResetAllowedAreaSettings>
+	<Defaults_FullAreaTip>This allowed area will include the full map by default.</Defaults_FullAreaTip>
+	<Defaults_EmptyAreaTip>This allowed area will be empty by default.</Defaults_EmptyAreaTip>
+	<Defaults_ClickToChangeAllowedAreaColor>Click to change allowed area color.</Defaults_ClickToChangeAllowedAreaColor>
+	<Defaults_DragToReorder>Drag to reorder.</Defaults_DragToReorder>
+	<Defaults_DefaultPawnAllowedAreas>Default area restrictions for pawns</Defaults_DefaultPawnAllowedAreas>
+	<Defaults_AdultColonists>adult colonists</Defaults_AdultColonists>
+	<Defaults_ChildColonists>child colonists</Defaults_ChildColonists>
+	<Defaults_Slaves>slaves</Defaults_Slaves>
+	<Defaults_Guests>guests</Defaults_Guests>
+	<Defaults_Mechs>mechs</Defaults_Mechs>
+	<Defaults_Animals>animals</Defaults_Animals>
+	<Defaults_Ghouls>ghouls</Defaults_Ghouls>
+	<Defaults_Enable>Enable</Defaults_Enable>
+	<Defaults_EnableAll>Enable all settings categories</Defaults_EnableAll>
+	<Defaults_Disable>Disable</Defaults_Disable>
+	<Defaults_DisableAll>Disable all settings categories</Defaults_DisableAll>
+	<Defaults_SettingsCategoryDisabled>{0} are currently disabled and will not affect gameplay.</Defaults_SettingsCategoryDisabled>
+	<Defaults_RestartRequired>Restart required</Defaults_RestartRequired>
+	<Defaults_RestartRequiredDesc>Disabling or enabling entire settings categories will not take effect until the game is restarted. Do you want to restart now?</Defaults_RestartRequiredDesc>
+	<Defaults_Restart>Restart RimWorld</Defaults_Restart>
+	<Defaults_NotNow>Not now</Defaults_NotNow>
+	<Defaults_EnableCategoryToViewSettings>You need to enable {0} and then restart the game in order to view these settings.</Defaults_EnableCategoryToViewSettings>
+	<Defaults_MedicineAssignments>Medicine assignments</Defaults_MedicineAssignments>
+	<Defaults_LimitBillsTo15>Limit workbench bills to 15 max</Defaults_LimitBillsTo15>
+	<Defaults_BillsLimitedto15>Only the first 15 bills will apply to workbenches built in the game. To remove this limit, change the global bill settings.</Defaults_BillsLimitedto15>
+	<Defaults_NoPauseOptionsTitle>No Pause Challenge settings enabled.</Defaults_NoPauseOptionsTitle>
+	<Defaults_BetterWorkbenchOptionsTitle>Better Workbench Management settings</Defaults_BetterWorkbenchOptionsTitle>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

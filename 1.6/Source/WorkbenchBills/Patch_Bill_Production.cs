@@ -1,31 +1,38 @@
 ﻿using HarmonyLib;
 using RimWorld;
+using Verse;
 
 namespace Defaults.WorkbenchBills
 {
-    // Patched manually in mod constructor
+    [HarmonyPatchCategory("WorkbenchBills")]
+    [HarmonyPatch(typeof(Bill_Production))]
+    [HarmonyPatch(MethodType.Constructor)]
+    [HarmonyPatch(new[] { typeof(RecipeDef), typeof(Precept_ThingStyle) })]
     public static class Patch_Bill_Production_ctor
     {
-        public static bool Enabled = true;
+        public static bool enabled = true;
 
         public static void Postfix(Bill_Production __instance)
         {
-            if (Enabled)
+            if (enabled)
             {
-                __instance.ingredientSearchRadius = DefaultsSettings.DefaultBillIngredientSearchRadius;
+                GlobalBillOptions options = Settings.Get<GlobalBillOptions>(Settings.GLOBAL_BILL_OPTIONS);
 
-                __instance.allowedSkillRange.min = DefaultsSettings.DefaultBillAllowedSkillRange.min;
+                __instance.ingredientSearchRadius = options.DefaultBillIngredientSearchRadius;
+
+                __instance.allowedSkillRange.min = options.DefaultBillAllowedSkillRange.min;
                 // To support mods that increase max skill level, count 20 as unlimited and therefore do not change the max
-                if (DefaultsSettings.DefaultBillAllowedSkillRange.max < 20)
+                if (options.DefaultBillAllowedSkillRange.max < 20)
                 {
-                    __instance.allowedSkillRange.max = DefaultsSettings.DefaultBillAllowedSkillRange.max;
+                    __instance.allowedSkillRange.max = options.DefaultBillAllowedSkillRange.max;
                 }
 
-                __instance.SetStoreMode(DefaultsSettings.DefaultBillStoreMode);
+                __instance.SetStoreMode(options.DefaultBillStoreMode);
             }
         }
     }
 
+    [HarmonyPatchCategory("WorkbenchBills")]
     [HarmonyPatch(typeof(Bill_Production))]
     [HarmonyPatch(nameof(Bill_Production.ShouldDoNow))]
     public static class Patch_Bill_Production_ShouldDoNow

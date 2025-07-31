@@ -1,22 +1,31 @@
 ﻿using HarmonyLib;
 using RimWorld;
+using System.Collections.Generic;
 
 namespace Defaults.Policies.ReadingPolicies
 {
+    [HarmonyPatchCategory("Policies")]
     [HarmonyPatch(typeof(ReadingPolicyDatabase))]
     [HarmonyPatch("GenerateStartingPolicies")]
     public static class Patch_ReadingPolicyDatabase
     {
         public static bool Prefix(ReadingPolicyDatabase __instance)
         {
-            foreach (ReadingPolicy policy in DefaultsSettings.DefaultReadingPolicies)
+            if (VanillaPolicyStore.loaded)
             {
-                RimWorld.ReadingPolicy readingPolicy = __instance.MakeNewReadingPolicy();
-                readingPolicy.label = policy.label;
-                readingPolicy.CopyFrom(policy);
-            }
+                foreach (ReadingPolicy policy in Settings.Get<List<ReadingPolicy>>(Settings.POLICIES_READING))
+                {
+                    ReadingPolicy readingPolicy = __instance.MakeNewReadingPolicy();
+                    readingPolicy.label = policy.label;
+                    readingPolicy.CopyFrom(policy);
+                }
 
-            return false;
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

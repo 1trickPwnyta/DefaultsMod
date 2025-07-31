@@ -1,22 +1,31 @@
 ﻿using HarmonyLib;
 using RimWorld;
+using System.Collections.Generic;
 
 namespace Defaults.Policies.ApparelPolicies
 {
+    [HarmonyPatchCategory("Policies")]
     [HarmonyPatch(typeof(OutfitDatabase))]
     [HarmonyPatch("GenerateStartingOutfits")]
     public static class Patch_OutfitDatabase
     {
         public static bool Prefix(OutfitDatabase __instance)
         {
-            foreach (ApparelPolicy policy in DefaultsSettings.DefaultApparelPolicies)
+            if (VanillaPolicyStore.loaded)
             {
-                RimWorld.ApparelPolicy apparelPolicy = __instance.MakeNewOutfit();
-                apparelPolicy.label = policy.label;
-                apparelPolicy.filter.CopyAllowancesFrom(policy.filter);
-            }
+                foreach (ApparelPolicy policy in Settings.Get<List<ApparelPolicy>>(Settings.POLICIES_APPAREL))
+                {
+                    ApparelPolicy apparelPolicy = __instance.MakeNewOutfit();
+                    apparelPolicy.label = policy.label;
+                    apparelPolicy.CopyFrom(policy);
+                }
 
-            return false;
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

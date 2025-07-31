@@ -8,6 +8,7 @@ using Verse;
 
 namespace Defaults.WorldSettings
 {
+    [HarmonyPatchCategory("World")]
     [HarmonyPatch(typeof(WorldFactionsUIUtility))]
     [HarmonyPatch(nameof(WorldFactionsUIUtility.DoRow))]
     public static class Patch_WorldFactionsUIUtility

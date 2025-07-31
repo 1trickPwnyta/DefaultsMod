@@ -1,69 +1,63 @@
-﻿using RimWorld;
+﻿using Defaults.Defs;
+using Defaults.UI;
+using RimWorld;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
 
 namespace Defaults.Medicine
 {
-    public class Dialog_MedicineSettings : Window
+    [StaticConstructorOnStartup]
+    public class Dialog_MedicineSettings : Dialog_SettingsCategory_List
     {
         private static bool medicalCarePainting = false;
-        private Texture2D[] careTextures;
-
-        public Dialog_MedicineSettings()
+        private static readonly Texture2D[] careTextures = new[]
         {
-            this.doCloseX = true;
-            this.doCloseButton = true;
-            careTextures = new Texture2D[5];
-            careTextures[0] = ContentFinder<Texture2D>.Get("UI/Icons/Medical/NoCare", true);
-            careTextures[1] = ContentFinder<Texture2D>.Get("UI/Icons/Medical/NoMeds", true);
-            careTextures[2] = ThingDefOf.MedicineHerbal.uiIcon;
-            careTextures[3] = ThingDefOf.MedicineIndustrial.uiIcon;
-            careTextures[4] = ThingDefOf.MedicineUltratech.uiIcon;
+            ContentFinder<Texture2D>.Get("UI/Icons/Medical/NoCare"),
+            ContentFinder<Texture2D>.Get("UI/Icons/Medical/NoMeds"),
+            ThingDefOf.MedicineHerbal.uiIcon,
+            ThingDefOf.MedicineIndustrial.uiIcon,
+            ThingDefOf.MedicineUltratech.uiIcon,
+        };
+
+        public Dialog_MedicineSettings() : base(DefDatabase<DefaultSettingsCategoryDef>.GetNamed("Medicine"))
+        {
         }
 
-        public override Vector2 InitialSize
-        {
-            get
-            {
-                return new Vector2(406f, 640f);
-            }
-        }
+        public override Vector2 InitialSize => new Vector2(426f, 680f);
 
-        public override void DoWindowContents(Rect inRect)
+        public override float DoPostSettings(Rect rect)
         {
-            float num = 0f;
-            using (new TextBlock(GameFont.Medium))
+            float y = rect.y;
+            Widgets.Label(rect, ref y, "Defaults_MedicineAssignments".Translate());
+            y += 10f;
+            using (new TextBlock(TextAnchor.MiddleLeft))
             {
-                Widgets.Label(inRect, ref num, "Defaults_Medicine".Translate());
+                MedicineOptions options = Settings.Get<MedicineOptions>(Settings.MEDICINE);
+                DoRow(rect, ref y, ref options.DefaultCareForColonist, "MedGroupColonists", "MedGroupColonistsDesc");
+                DoRow(rect, ref y, ref options.DefaultCareForPrisoner, "MedGroupPrisoners", "MedGroupPrisonersDesc");
+                if (ModsConfig.IdeologyActive)
+                {
+                    DoRow(rect, ref y, ref options.DefaultCareForSlave, "MedGroupSlaves", "MedGroupSlavesDesc");
+                }
+                if (ModsConfig.AnomalyActive)
+                {
+                    DoRow(rect, ref y, ref options.DefaultCareForGhouls, "MedGroupGhouls", "MedGroupGhoulsDesc");
+                }
+                DoRow(rect, ref y, ref options.DefaultCareForTamedAnimal, "MedGroupTamedAnimals", "MedGroupTamedAnimalsDesc");
+                y += 17f;
+                DoRow(rect, ref y, ref options.DefaultCareForFriendlyFaction, "MedGroupFriendlyFaction", "MedGroupFriendlyFactionDesc");
+                DoRow(rect, ref y, ref options.DefaultCareForNeutralFaction, "MedGroupNeutralFaction", "MedGroupNeutralFactionDesc");
+                DoRow(rect, ref y, ref options.DefaultCareForHostileFaction, "MedGroupHostileFaction", "MedGroupHostileFactionDesc");
+                y += 17f;
+                DoRow(rect, ref y, ref options.DefaultCareForNoFaction, "MedGroupNoFaction", "MedGroupNoFactionDesc");
+                DoRow(rect, ref y, ref options.DefaultCareForWildlife, "MedGroupWildlife", "MedGroupWildlifeDesc");
+                if (ModsConfig.AnomalyActive)
+                {
+                    DoRow(rect, ref y, ref options.DefaultCareForEntities, "MedGroupEntities", "MedGroupEntitiesDesc");
+                }
             }
-            Text.Font = GameFont.Small;
-            Widgets.Label(inRect, ref num, "DefaultMedicineSettingsDesc".Translate());
-            num += 10f;
-            Text.Anchor = TextAnchor.MiddleLeft;
-            DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForColonist, "MedGroupColonists", "MedGroupColonistsDesc");
-            DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForPrisoner, "MedGroupPrisoners", "MedGroupPrisonersDesc");
-            if (ModsConfig.IdeologyActive)
-            {
-                DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForSlave, "MedGroupSlaves", "MedGroupSlavesDesc");
-            }
-            if (ModsConfig.AnomalyActive)
-            {
-                DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForGhouls, "MedGroupGhouls", "MedGroupGhoulsDesc");
-            }
-            DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForTamedAnimal, "MedGroupTamedAnimals", "MedGroupTamedAnimalsDesc");
-            num += 17f;
-            DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForFriendlyFaction, "MedGroupFriendlyFaction", "MedGroupFriendlyFactionDesc");
-            DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForNeutralFaction, "MedGroupNeutralFaction", "MedGroupNeutralFactionDesc");
-            DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForHostileFaction, "MedGroupHostileFaction", "MedGroupHostileFactionDesc");
-            num += 17f;
-            DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForNoFaction, "MedGroupNoFaction", "MedGroupNoFactionDesc");
-            DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForWildlife, "MedGroupWildlife", "MedGroupWildlifeDesc");
-            if (ModsConfig.AnomalyActive)
-            {
-                DoRow(inRect, ref num, ref DefaultsSettings.DefaultCareForEntities, "MedGroupEntities", "MedGroupEntitiesDesc");
-            }
-            Text.Anchor = TextAnchor.UpperLeft;
+            return y - rect.y;
         }
 
         private void DoRow(Rect rect, ref float y, ref MedicalCareCategory category, string labelKey, string tipKey)

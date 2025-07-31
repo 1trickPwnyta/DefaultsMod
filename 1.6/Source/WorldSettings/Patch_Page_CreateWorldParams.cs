@@ -8,48 +8,79 @@ using Verse;
 
 namespace Defaults.WorldSettings
 {
+    [HarmonyPatchCategory("World")]
     [HarmonyPatch(typeof(Page_CreateWorldParams))]
     [HarmonyPatch(nameof(Page_CreateWorldParams.Reset))]
     public static class Patch_Page_CreateWorldParams_Reset
     {
         public static void Postfix(ref float ___planetCoverage, ref OverallRainfall ___rainfall, ref OverallTemperature ___temperature, ref OverallPopulation ___population, ref float ___pollution)
         {
-            ___planetCoverage = DefaultsSettings.DefaultPlanetCoverage;
-            ___rainfall = DefaultsSettings.DefaultOverallRainfall;
-            ___temperature = DefaultsSettings.DefaultOverallTemperature;
-            ___population = DefaultsSettings.DefaultOverallPopulation;
-            ___pollution = DefaultsSettings.DefaultPollution;
+            PlanetOptions options = Settings.Get<PlanetOptions>(Settings.PLANET);
+            ___planetCoverage = options.DefaultPlanetCoverage;
+            ___rainfall = options.DefaultOverallRainfall;
+            ___temperature = options.DefaultOverallTemperature;
+            ___population = options.DefaultOverallPopulation;
+            ___pollution = options.DefaultPollution;
         }
     }
 
+    [HarmonyPatchCategory("World")]
     [HarmonyPatch(typeof(Page_CreateWorldParams))]
     [HarmonyPatch("ResetFactionCounts")]
     public static class Patch_Page_CreateWorldParams_ResetFactionCounts
     {
         public static void Postfix(ref List<FactionDef> ___factions)
         {
-            ___factions = DefaultsSettings.DefaultFactions.Select(f => DefDatabase<FactionDef>.GetNamedSilentFail(f)).Where(f => f != null && f.displayInFactionSelection).Concat(FactionsUtility.GetDefaultNonselectableFactions()).ToList();
+            ___factions = Settings.Get<List<FactionDef>>(Settings.FACTIONS).Where(f => f != null && f.displayInFactionSelection).Concat(FactionsUtility.GetDefaultNonselectableFactions()).ToList();
+            foreach (FactionDef faction in FactionsUtility.GetDefaultSelectableFactions())
+            {
+                if (!___factions.Contains(faction) && Current.Game.Scenario.AllParts.Any(p => p.def.preventRemovalOfFaction == faction))
+                {
+                    ___factions.Add(faction);
+                }
+            }
         }
     }
 
+    [HarmonyPatchCategory("World")]
     [HarmonyPatch(typeof(Page_CreateWorldParams))]
     [HarmonyPatch(nameof(Page_CreateWorldParams.DoWindowContents))]
     public static class Patch_Page_CreateWorldParams_DoWindowContents
     {
         public static void Postfix(Rect rect, float ___planetCoverage, OverallRainfall ___rainfall, OverallTemperature ___temperature, OverallPopulation ___population, float ___pollution, List<FactionDef> ___factions)
         {
-            Rect buttonRect = new Rect(rect.x + rect.width - 150f - 16f, rect.y + 4f, 150f, 40f);
-            if (Widgets.ButtonText(buttonRect, "Defaults_SetAsDefault".Translate()))
+            if (!Settings.GetValue<bool>(Settings.HIDE_SETASDEFAULT))
             {
-                DefaultsSettings.DefaultPlanetCoverage = ___planetCoverage;
-                DefaultsSettings.DefaultOverallRainfall = ___rainfall;
-                DefaultsSettings.DefaultOverallTemperature = ___temperature;
-                DefaultsSettings.DefaultOverallPopulation = ___population;
-                DefaultsSettings.DefaultPollution = ___pollution;
-                DefaultsSettings.DefaultFactions = ___factions.Where(f => f.displayInFactionSelection).Select(f => f.defName).ToList();
-                LongEventHandler.ExecuteWhenFinished(DefaultsMod.Settings.Write);
-                Messages.Message("Defaults_SetAsDefaultConfirmed".Translate(), MessageTypeDefOf.PositiveEvent, false);
+                Rect buttonRect = new Rect(rect.x + rect.width - 150f - 16f, rect.y + 4f, 150f, 40f);
+                if (Widgets.ButtonText(buttonRect, "Defaults_SetAsDefault".Translate()))
+                {
+                    PlanetOptions planetOptions = Settings.Get<PlanetOptions>(Settings.PLANET);
+                    planetOptions.DefaultPlanetCoverage = ___planetCoverage;
+                    planetOptions.DefaultOverallRainfall = ___rainfall;
+                    planetOptions.DefaultOverallTemperature = ___temperature;
+                    planetOptions.DefaultOverallPopulation = ___population;
+                    planetOptions.DefaultPollution = ___pollution;
+                    MapOptions mapOptions = Settings.Get<MapOptions>(Settings.MAP);
+                    mapOptions.DefaultMapSize = Find.GameInitData.mapSize;
+                    mapOptions.DefaultStartingSeason = Find.GameInitData.startingSeason;
+                    Settings.Set(Settings.FACTIONS, ___factions.Where(f => f.displayInFactionSelection).ToList());
+                    DefaultsMod.Settings.Write();
+                    Messages.Message("Defaults_SetAsDefaultConfirmed".Translate(), MessageTypeDefOf.PositiveEvent, false);
+                }
             }
+        }
+    }
+
+    [HarmonyPatchCategory("World")]
+    [HarmonyPatch(typeof(Page_CreateWorldParams))]
+    [HarmonyPatch(nameof(Page_CreateWorldParams.PostOpen))]
+    public static class Patch_Page_CreateWorldParams_PostOpen
+    {
+        public static void Postfix()
+        {
+            MapOptions options = Settings.Get<MapOptions>(Settings.MAP);
+            Find.GameInitData.mapSize = options.DefaultMapSize;
+            Find.GameInitData.startingSeason = options.DefaultStartingSeason;
         }
     }
 }

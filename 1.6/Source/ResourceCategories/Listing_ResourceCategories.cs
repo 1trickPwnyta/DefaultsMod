@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 
 namespace Defaults.ResourceCategories
@@ -7,8 +8,7 @@ namespace Defaults.ResourceCategories
     {
         public void DoCategory(TreeNode_ThingCategory node, int nestLevel)
         {
-            Rect rect = new Rect(0f, curY, LabelWidth, lineHeight);
-            rect.xMin = XAtIndentLevel(nestLevel) + 18f;
+            Rect rect = new Rect(0f, curY, LabelWidth, lineHeight) { xMin = XAtIndentLevel(nestLevel) + 18f };
             Rect rect2 = rect;
             rect2.width = 80f;
             rect2.yMax -= 3f;
@@ -22,8 +22,7 @@ namespace Defaults.ResourceCategories
             rect3.width = (rect3.height = 28f);
             rect3.y = rect.y + rect.height / 2f - rect3.height / 2f;
             GUI.DrawTexture(rect3, node.catDef.icon);
-            Rect rect4 = new Rect(rect);
-            rect4.xMin = rect3.xMax + 6f;
+            Rect rect4 = new Rect(rect) { xMin = rect3.xMax + 6f };
             Widgets.Label(rect4, node.catDef.LabelCap);
             bool isEnabled = IsEnabled(node);
             Widgets.Checkbox(new Vector2(rect.width - 24f, curY + 2f), ref isEnabled);
@@ -48,23 +47,24 @@ namespace Defaults.ResourceCategories
 
         private bool IsEnabled(TreeNode_ThingCategory node)
         {
-            return DefaultsSettings.DefaultExpandedResourceCategories.Contains(node.catDef.defName);
+            return Settings.Get<List<ThingCategoryDef>>(Settings.EXPANDED_RESOURCE_CATEGORIES).Contains(node.catDef);
         }
 
         private void SetEnabled(TreeNode_ThingCategory node, bool enabled)
         {
+            List<ThingCategoryDef> expandedCategories = Settings.Get<List<ThingCategoryDef>>(Settings.EXPANDED_RESOURCE_CATEGORIES);
             if (enabled)
             {
-                if (!DefaultsSettings.DefaultExpandedResourceCategories.Contains(node.catDef.defName))
+                if (!expandedCategories.Contains(node.catDef))
                 {
-                    DefaultsSettings.DefaultExpandedResourceCategories.Add(node.catDef.defName);
+                    expandedCategories.Add(node.catDef);
                 }
             }
             else
             {
-                if (DefaultsSettings.DefaultExpandedResourceCategories.Contains(node.catDef.defName))
+                if (expandedCategories.Contains(node.catDef))
                 {
-                    DefaultsSettings.DefaultExpandedResourceCategories.Remove(node.catDef.defName);
+                    expandedCategories.Remove(node.catDef);
                     foreach (TreeNode_ThingCategory childNode in node.ChildCategoryNodes)
                     {
                         if (!childNode.catDef.resourceReadoutRoot)

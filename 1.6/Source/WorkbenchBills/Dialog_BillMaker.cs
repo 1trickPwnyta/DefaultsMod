@@ -1,5 +1,6 @@
-﻿using RimWorld;
-using System;
+﻿using Defaults.UI;
+using RimWorld;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,14 +9,14 @@ using Verse.Sound;
 
 namespace Defaults.WorkbenchBills
 {
-    public class Dialog_BillMaker : Window
+    public class Dialog_BillMaker : Dialog_Common
     {
         private const float padding = 4f;
         private static readonly Color billColor = new Color(0.15f, 0.15f, 0.15f);
 
         private readonly HashSet<ThingDef> workbenchGroup;
         private Vector2 scrollPosition;
-        private float y = 0f;
+        private float height = 0f;
 
         public Dialog_BillMaker(HashSet<ThingDef> workbenchGroup)
         {
@@ -23,45 +24,69 @@ namespace Defaults.WorkbenchBills
             doCloseX = true;
             doCloseButton = true;
             closeOnClickedOutside = true;
+            absorbInputAroundWindow = true;
         }
 
-        public override Vector2 InitialSize
-        {
-            get
-            {
-                return new Vector2(400f, 500f);
-            }
-        }
+        public override Vector2 InitialSize => new Vector2(400f, 500f);
+
+        protected override IList ReorderableItems => WorkbenchBillStore.Get(workbenchGroup).bills;
 
         public override void DoWindowContents(Rect inRect)
         {
-            Rect titleRect = new Rect(inRect.x, inRect.y, inRect.width - 75f - padding, 60f);
+            base.DoWindowContents(inRect);
+
+            float y = inRect.y;
+            Rect titleRect = new Rect(inRect.x, y, inRect.width - 75f - padding, 60f);
             Rect titleIconRect = new Rect(titleRect.x, titleRect.y, titleRect.height, titleRect.height);
             Widgets.DefIcon(titleIconRect, workbenchGroup.First(), GenStuff.DefaultStuffFor(workbenchGroup.First()));
             Rect titleLabelRect = new Rect(titleIconRect.xMax + padding, titleRect.y, titleRect.width - titleIconRect.width - padding, titleRect.height);
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(titleLabelRect, string.Join("\n", workbenchGroup.Select(w => w.LabelCap)));
-            Text.Anchor = default;
-
-            Rect buttonRect = new Rect(titleRect.xMax + padding, inRect.y + 30f, 75f, 30f);
+            using (new TextBlock(TextAnchor.MiddleLeft)) Widgets.Label(titleLabelRect, string.Join("\n", workbenchGroup.Select(w => w.LabelCap)));
+            Rect buttonRect = new Rect(titleRect.xMax + padding, titleRect.y + 30f, 75f, 30f);
             if (Widgets.ButtonText(buttonRect, "AddBill".Translate()))
             {
                 Find.WindowStack.Add(new FloatMenu(workbenchGroup.First().AllRecipes.Select(r => new FloatMenuOption(r.LabelCap, () =>
                 {
                     WorkbenchBillStore.Get(workbenchGroup).bills.Add(new BillTemplate(r));
-                }, r.UIIconThing, r.UIIcon, null, true, MenuOptionPriority.Default, null, null, 29f, (Rect rect) => Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, r), null, true, -r.displayPriority)).ToList()));
+                }, r.UIIconThing, r.UIIcon, null, true, MenuOptionPriority.Default, null, null, 29f, rect => Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, r), null, true, -r.displayPriority)).ToList()));
+            }
+            y += titleRect.height + padding;
+
+            List<BillTemplate> bills = WorkbenchBillStore.Get(workbenchGroup).bills;
+            GlobalBillOptions options = Settings.Get<GlobalBillOptions>(Settings.GLOBAL_BILL_OPTIONS);
+
+            bool billsLimited = bills.Count(b => b.use) > 15 && options.LimitBillsTo15;
+            Rect warningRect = new Rect(inRect.x, y, inRect.width, 70f);
+            if (billsLimited)
+            {
+                Widgets.DrawRectFast(warningRect, Widgets.MenuSectionBGFillColor);
+                using (new TextBlock(GameFont.Tiny, TextAnchor.MiddleLeft)) Widgets.Label(warningRect.LeftPartPixels(inRect.width - 150f).ContractedBy(3f), "Defaults_BillsLimitedto15".Translate().Colorize(Color.yellow));
+                if (Widgets.ButtonText(warningRect.RightPartPixels(150f).MiddlePartPixels(150f, 30f).ContractedBy(3f), "Defaults_GlobalBillSettings".Translate()))
+                {
+                    Find.WindowStack.Add(new Dialog_GlobalBillSettings());
+                }
+                y += warningRect.height + padding;
             }
 
-            Rect outRect = new Rect(inRect.x, titleRect.yMax + padding, inRect.width, inRect.height - titleRect.height - padding - Window.CloseButSize.y - padding);
-            Rect viewRect = new Rect(0f, 0f, outRect.width - 20f, y);
+            Rect outRect = new Rect(inRect.x, y, inRect.width, inRect.height - y - CloseButSize.y - padding);
+            reorderableRect = outRect;
+            Rect viewRect = new Rect(0f, 0f, outRect.width - 20f, height);
             Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
-            y = 0f;
-            List<BillTemplate> bills = WorkbenchBillStore.Get(workbenchGroup).bills;
+            height = 0f;
+
+            int numBills = 0;
             foreach (BillTemplate bill in bills.ListFullCopy())
             {
-                Rect billRect = new Rect(viewRect.x, viewRect.y + y, viewRect.width, 68f);
+                Rect billRect = new Rect(viewRect.x, viewRect.y + height, viewRect.width, 68f);
                 DoBill(billRect, bill, bills);
-                y += billRect.height + padding;
+                if (!bill.use || (options.LimitBillsTo15 && numBills >= 15))
+                {
+                    Widgets.DrawRectFast(billRect, Color.black.WithAlpha(0.25f));
+                }
+                height += billRect.height + padding;
+                if (bill.use)
+                {
+                    numBills++;
+                }
             }
             Widgets.EndScrollView();
         }
@@ -70,39 +95,13 @@ namespace Defaults.WorkbenchBills
         {
             Widgets.DrawRectFast(rect, billColor);
 
-            int index = allBills.IndexOf(bill);
-            if (index > 0)
-            {
-                Rect upRect = new Rect(rect.x, rect.y, 24f, 24f);
-                if (Widgets.ButtonImage(upRect, TexButton.ReorderUp))
-                {
-                    allBills.Remove(bill);
-                    allBills.Insert(index - 1, bill);
-                    SoundDefOf.Tick_High.PlayOneShot(null);
-                }
-                TooltipHandler.TipRegionByKey(upRect, "ReorderBillUpTip");
-            }
-            if (index < allBills.Count - 1)
-            {
-                Rect downRect = new Rect(rect.x, rect.y + 24f, 24f, 24f);
-                if (Widgets.ButtonImage(downRect, TexButton.ReorderDown))
-                {
-                    allBills.Remove(bill);
-                    allBills.Insert(index + 1, bill);
-                    SoundDefOf.Tick_Low.PlayOneShot(null);
-                }
-                TooltipHandler.TipRegionByKey(downRect, "ReorderBillDownTip");
-            }
-
-            Rect labelRect = new Rect(rect.x + 28f, rect.y, rect.width - 48f - 20f, 25f);
+            Rect labelRect = new Rect(rect.x + 8f, rect.y, rect.width - 8f - 24f - 4f - 24f - 8f, 25f);
             Widgets.Label(labelRect, bill.recipe.LabelCap);
 
+            Rect nameRect = new Rect(labelRect.x, labelRect.yMax - 4f, labelRect.width, 18f);
             if (!bill.name.EqualsIgnoreCase(bill.recipe.LabelCap))
             {
-                Rect nameRect = new Rect(labelRect.x, labelRect.yMax - 4f, labelRect.width, 18f);
-                Text.Font = GameFont.Tiny;
-                Widgets.Label(nameRect, bill.name);
-                Text.Font = GameFont.Small;
+                using (new TextBlock(GameFont.Tiny)) Widgets.Label(nameRect, bill.name);
             }
 
             Rect deleteRect = new Rect(rect.xMax - 24f, rect.y, 24f, 24f);
@@ -123,7 +122,7 @@ namespace Defaults.WorkbenchBills
 
             Rect repeatInfoRect = new Rect(rect.x + 28f, rect.y + 47f, 100f, 30f);
             string repeatInfo = "";
-            if (bill.repeatMode == BillRepeatModeDefOf.Forever) 
+            if (bill.repeatMode == BillRepeatModeDefOf.Forever)
             {
                 repeatInfo = "Forever".Translate();
             }
@@ -148,7 +147,8 @@ namespace Defaults.WorkbenchBills
             {
                 bill.DoBillRepeatModeMenu();
             }
-            Action<int> countAction = (multiplier) =>
+
+            void countAction(int multiplier)
             {
                 if (bill.repeatMode == BillRepeatModeDefOf.Forever)
                 {
@@ -166,7 +166,7 @@ namespace Defaults.WorkbenchBills
                     bill.repeatCount = Mathf.Max(0, bill.repeatCount + GenUI.CurrentAdjustmentMultiplier() * multiplier);
                 }
                 SoundDefOf.DragSlider.PlayOneShot(null);
-            };
+            }
             if (row.ButtonIcon(TexButton.Plus))
             {
                 countAction(1);
@@ -175,6 +175,8 @@ namespace Defaults.WorkbenchBills
             {
                 countAction(-1);
             }
+
+            UIUtility.DoDraggable(ReorderableGroup, rect, tipRect: labelRect.Union(nameRect));
         }
     }
 }

@@ -1,40 +1,51 @@
-﻿using RimWorld;
+﻿using Defaults.UI;
+using Defaults.Workers;
+using HarmonyLib;
+using RimWorld;
 using System.Collections.Generic;
-using System.Linq;
 using Verse;
 
 namespace Defaults.Policies.ReadingPolicies
 {
-    public class Dialog_ReadingPolicies : Dialog_ManageReadingPolicies
+    public class Dialog_ReadingPolicies : Dialog_ManageReadingPolicies, IPolicyDialog
     {
-        public Dialog_ReadingPolicies(ReadingPolicy policy) : base(policy)
+        private static List<ReadingPolicy> Policies => Settings.Get<List<ReadingPolicy>>(Settings.POLICIES_READING);
+
+        public Dialog_ReadingPolicies() : base(Policies[0])
         {
+            typeof(Dialog_ManageReadingPolicies).Field("thingFilterState").SetValue(this, new UIState_Ext());
+            typeof(Dialog_ManageReadingPolicies).Field("effectFilterState").SetValue(this, new UIState_Ext());
+            optionalTitle = TitleKey.Translate();
         }
 
-        protected override RimWorld.ReadingPolicy CreateNewPolicy()
+        public string Topic => "Defaults_ReadingPolicies".Translate();
+
+        public string Title => TitleKey.Translate();
+
+        public void ResetPolicies()
         {
-            return PolicyUtility.NewReadingPolicy();
+            DefaultSettingsCategoryWorker.GetWorker<DefaultSettingsCategoryWorker_Policies>().ResetReadingPolicies();
+            SelectedPolicy = GetDefaultPolicy();
         }
 
-        protected override RimWorld.ReadingPolicy GetDefaultPolicy() => DefaultsSettings.DefaultReadingPolicies.First();
+        protected override ReadingPolicy CreateNewPolicy() => PolicyUtility.NewDefaultPolicy<ReadingPolicy>();
 
-        protected override List<RimWorld.ReadingPolicy> GetPolicies() => DefaultsSettings.DefaultReadingPolicies.Select(p => (RimWorld.ReadingPolicy)p).ToList();
+        protected override ReadingPolicy GetDefaultPolicy() => Policies[0];
 
-        protected override void SetDefaultPolicy(RimWorld.ReadingPolicy policy)
+        protected override List<ReadingPolicy> GetPolicies() => Policies;
+
+        protected override void SetDefaultPolicy(ReadingPolicy policy)
         {
-            List<ReadingPolicy> policies = DefaultsSettings.DefaultReadingPolicies;
-            int currentIndex = policies.IndexOf((ReadingPolicy)policy);
-            policies[currentIndex] = policies[0];
-            policies[0] = (ReadingPolicy)policy;
+            int currentIndex = Policies.IndexOf(policy);
+            Policies[currentIndex] = Policies[0];
+            Policies[0] = policy;
         }
 
-        protected override AcceptanceReport TryDeletePolicy(RimWorld.ReadingPolicy policy)
+        protected override AcceptanceReport TryDeletePolicy(ReadingPolicy policy)
         {
-            if (policy == GetDefaultPolicy())
-            {
-                return "Defaults_CantDeleteDefaultPolicy".Translate();
-            }
-            return DefaultsSettings.DefaultReadingPolicies.Remove((ReadingPolicy)policy);
+            return policy == GetDefaultPolicy()
+                ? (AcceptanceReport)"Defaults_CantDeleteDefaultPolicy".Translate()
+                : (AcceptanceReport)Policies.Remove(policy);
         }
     }
 }

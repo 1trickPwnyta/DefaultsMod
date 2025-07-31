@@ -1,14 +1,16 @@
-﻿using RimWorld;
+﻿using Defaults.Defs;
+using Defaults.MapSettings;
+using Defaults.UI;
+using RimWorld;
 using RimWorld.Planet;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
-using Verse.Sound;
 
 namespace Defaults.WorldSettings
 {
-    public class Dialog_WorldSettings : Window
+    public class Dialog_WorldSettings : Dialog_SettingsCategory
     {
         private static readonly List<float> PlanetCoverages = new List<float>
         {
@@ -17,49 +19,34 @@ namespace Defaults.WorldSettings
             1f
         };
 
-        private List<FactionDef> factions;
-
-        public Dialog_WorldSettings()
+        public Dialog_WorldSettings(DefaultSettingsCategoryDef category) : base(category)
         {
-            this.doCloseX = true;
-            this.doCloseButton = true;
-            this.optionalTitle = "Defaults_WorldSettings".Translate();
-            factions = DefaultsSettings.DefaultFactions.Select(f => DefDatabase<FactionDef>.GetNamedSilentFail(f)).Where(f => f != null).ToList();
         }
 
-        public override Vector2 InitialSize
-        {
-            get
-            {
-                return Page.StandardSize;
-            }
-        }
+        public override Vector2 InitialSize => Page.StandardSize;
 
-        public override void PostClose()
-        {
-            base.PostClose();
-            DefaultsSettings.DefaultFactions = factions.Select(f => f.defName).ToList();
-        }
+        protected override bool DoSettingsWhenDisabled => false;
 
-        public override void DoWindowContents(Rect inRect)
+        public override void DoSettings(Rect rect)
         {
-            Rect mainRect = new Rect(inRect.x, inRect.y, inRect.width, inRect.height - Window.CloseButSize.y);
+            Rect mainRect = new Rect(rect.x, rect.y, rect.width, rect.height - CloseButSize.y);
             Rect rect2 = new Rect(mainRect.x, mainRect.y, mainRect.width / 2, mainRect.height);
             Widgets.BeginGroup(rect2);
             Text.Font = GameFont.Small;
             float y = 0f;
             float widgetWidth = rect2.width - 200f;
+            PlanetOptions options = Settings.Get<PlanetOptions>(Settings.PLANET);
 
             Widgets.Label(new Rect(0f, y, 200f, 30f), "PlanetCoverage".Translate());
             Rect rect4 = new Rect(200f, y, widgetWidth, 30f);
-            if (Widgets.ButtonText(rect4, DefaultsSettings.DefaultPlanetCoverage.ToStringPercent()))
+            if (Widgets.ButtonText(rect4, options.DefaultPlanetCoverage.ToStringPercent()))
             {
-                Find.WindowStack.Add(new FloatMenu(PlanetCoverages.Select(c => new FloatMenuOption(c.ToStringPercent(), delegate()
+                Find.WindowStack.Add(new FloatMenu(PlanetCoverages.Select(c => new FloatMenuOption(c.ToStringPercent(), () =>
                 {
-                    if (DefaultsSettings.DefaultPlanetCoverage != c)
+                    if (options.DefaultPlanetCoverage != c)
                     {
-                        DefaultsSettings.DefaultPlanetCoverage = c;
-                        if (DefaultsSettings.DefaultPlanetCoverage == 1f)
+                        options.DefaultPlanetCoverage = c;
+                        if (options.DefaultPlanetCoverage == 1f)
                         {
                             Messages.Message("MessageMaxPlanetCoveragePerformanceWarning".Translate(), MessageTypeDefOf.CautionInput, false);
                         }
@@ -71,38 +58,49 @@ namespace Defaults.WorldSettings
 
             Widgets.Label(new Rect(0f, y, 200f, 30f), "PlanetRainfall".Translate());
             Rect rect5 = new Rect(200f, y, widgetWidth, 30f);
-            DefaultsSettings.DefaultOverallRainfall = (OverallRainfall)Mathf.RoundToInt(Widgets.HorizontalSlider(rect5, (float)DefaultsSettings.DefaultOverallRainfall, 0f, (float)(OverallRainfallUtility.EnumValuesCount - 1), true, "PlanetRainfall_Normal".Translate(), "PlanetRainfall_Low".Translate(), "PlanetRainfall_High".Translate(), 1f));
+            options.DefaultOverallRainfall = (OverallRainfall)Mathf.RoundToInt(Widgets.HorizontalSlider(rect5, (float)options.DefaultOverallRainfall, 0f, OverallRainfallUtility.EnumValuesCount - 1, true, "PlanetRainfall_Normal".Translate(), "PlanetRainfall_Low".Translate(), "PlanetRainfall_High".Translate(), 1f));
             y += 40f;
 
             Widgets.Label(new Rect(0f, y, 200f, 30f), "PlanetTemperature".Translate());
             Rect rect6 = new Rect(200f, y, widgetWidth, 30f);
-            DefaultsSettings.DefaultOverallTemperature = (OverallTemperature)Mathf.RoundToInt(Widgets.HorizontalSlider(rect6, (float)DefaultsSettings.DefaultOverallTemperature, 0f, (float)(OverallTemperatureUtility.EnumValuesCount - 1), true, "PlanetTemperature_Normal".Translate(), "PlanetTemperature_Low".Translate(), "PlanetTemperature_High".Translate(), 1f));
+            options.DefaultOverallTemperature = (OverallTemperature)Mathf.RoundToInt(Widgets.HorizontalSlider(rect6, (float)options.DefaultOverallTemperature, 0f, OverallTemperatureUtility.EnumValuesCount - 1, true, "PlanetTemperature_Normal".Translate(), "PlanetTemperature_Low".Translate(), "PlanetTemperature_High".Translate(), 1f));
             y += 40f;
 
             Widgets.Label(new Rect(0f, y, 200f, 30f), "PlanetPopulation".Translate());
             Rect rect7 = new Rect(200f, y, widgetWidth, 30f);
-            DefaultsSettings.DefaultOverallPopulation = (OverallPopulation)Mathf.RoundToInt(Widgets.HorizontalSlider(rect7, (float)DefaultsSettings.DefaultOverallPopulation, 0f, (float)(OverallPopulationUtility.EnumValuesCount - 1), true, "PlanetPopulation_Normal".Translate(), "PlanetPopulation_Low".Translate(), "PlanetPopulation_High".Translate(), 1f));
+            options.DefaultOverallPopulation = (OverallPopulation)Mathf.RoundToInt(Widgets.HorizontalSlider(rect7, (float)options.DefaultOverallPopulation, 0f, OverallPopulationUtility.EnumValuesCount - 1, true, "PlanetPopulation_Normal".Translate(), "PlanetPopulation_Low".Translate(), "PlanetPopulation_High".Translate(), 1f));
             y += 40f;
+
+            if (ModsConfig.OdysseyActive)
+            {
+                Widgets.Label(new Rect(0f, y, 200f, 30f), "PlanetLandmarkDensity".Translate());
+                Rect landmarkRect = new Rect(200f, y, widgetWidth, 30f);
+                options.DefaultLandmarkDensity = (LandmarkDensity)Mathf.RoundToInt(Widgets.HorizontalSlider(landmarkRect, (float)options.DefaultLandmarkDensity, 0f, LandmarkDensityUtility.EnumValuesCount - 1, true, "PlanetLandmarkDensity_Normal".Translate(), "PlanetLandmarkDensity_Low".Translate(), "PlanetLandmarkDensity_High".Translate(), 1f));
+                y += 40f;
+            }
 
             if (ModsConfig.BiotechActive)
             {
                 Widgets.Label(new Rect(0f, y, 200f, 30f), "PlanetPollution".Translate());
                 Rect rect8 = new Rect(200f, y, widgetWidth, 30f);
-                DefaultsSettings.DefaultPollution = Widgets.HorizontalSlider(rect8, DefaultsSettings.DefaultPollution, 0f, 1f, true, DefaultsSettings.DefaultPollution.ToStringPercent(), null, null, 0.05f);
+                options.DefaultPollution = Widgets.HorizontalSlider(rect8, options.DefaultPollution, 0f, 1f, true, options.DefaultPollution.ToStringPercent(), null, null, 0.05f);
+                y += 40f;
             }
-            
+
+            Widgets.Label(new Rect(0f, y, 200f, 30f), "AdvancedSettings".Translate());
+            if (Widgets.ButtonText(new Rect(200f, y, widgetWidth, 30f), "Edit".Translate() + "..."))
+            {
+                Find.WindowStack.Add(new Dialog_MapSettings());
+            }
+
             Widgets.EndGroup();
 
-            Rect rect9 = new Rect(mainRect.x + mainRect.xMax - mainRect.width / 2 + 24f, mainRect.y, mainRect.width / 2 - 24f, mainRect.height - 30f);
-            WorldFactionsUIUtility.DoWindowContents(rect9, factions, true);
+            Rect rect9 = mainRect.RightPartPixels(mainRect.width / 2 - 24f);
+            WorldFactionsUIUtility.DoWindowContents(rect9, Settings.Get<List<FactionDef>>(Settings.FACTIONS), true);
             Rect rect10 = new Rect(rect9.xMax - 24f, rect9.y, 24f, 24f);
-            UIUtility.DrawCheckButton(rect10, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref DefaultsSettings.DefaultFactionsLock);
-
-            if (Widgets.ButtonText(new Rect(mainRect.x + mainRect.width - 150f, mainRect.y + mainRect.height - 30f, 150f, 30f), "ResetFactions".Translate()))
-            {
-                factions = FactionsUtility.GetDefaultSelectableFactions();
-                SoundDefOf.Tick_Tiny.PlayOneShotOnCamera(null);
-            }
+            bool factionsLock = Settings.Get<bool>(Settings.FACTIONS_LOCK);
+            UIUtility.DrawCheckButton(rect10, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref factionsLock);
+            Settings.Set(Settings.FACTIONS_LOCK, factionsLock);
         }
     }
 }
