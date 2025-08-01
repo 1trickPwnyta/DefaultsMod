@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using HarmonyLib;
+using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,11 @@ namespace Defaults.WorkPriorities
         private static readonly Texture2D iconOn = Widgets.CheckboxOnTex;
         private static readonly Texture2D iconOff = Widgets.CheckboxOffTex;
         private static readonly Texture2D iconNumber = WidgetsWork.WorkBoxBGTex_Mid;
+        private static readonly Type workTabSettings = AccessTools.TypeByName("WorkTab.Settings");
 
-        public static int Max => 4; // TODO
+        public static int Max =>
+                // Support for Work Tab mod
+                workTabSettings != null ? (int)workTabSettings.Field("maxPriority").GetValue(null) : 4;
 
         private static bool ManualPriorities => Settings.GetValue<bool>(Settings.MANUAL_PRIORITIES);
 

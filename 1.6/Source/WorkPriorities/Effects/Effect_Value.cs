@@ -38,6 +38,10 @@ namespace Defaults.WorkPriorities.Effects
         public override void ExposeData()
         {
             base.ExposeData();
+            if (Scribe.mode == LoadSaveMode.Saving && value > WorkPriorityValue.Max)
+            {
+                value = WorkPriorityValue.Max;
+            }
             Scribe_Values.Look(ref value, "value", 3);
         }
     }

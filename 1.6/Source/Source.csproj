@@ -199,6 +199,7 @@
     <Compile Include="WorkPriorities\Effects\WorkPriorityEffectWorker_Increase.cs" />
     <Compile Include="WorkPriorities\Effects\WorkPriorityEffectWorker_Logic.cs" />
     <Compile Include="WorkPriorities\Effects\WorkPriorityEffectWorker_Value.cs" />
+    <Compile Include="WorkPriorities\Patch_ChoiceLetter_GrowthMoment.cs" />
     <Compile Include="WorkPriorities\Patch_GameInitData.cs" />
     <Compile Include="WorkPriorities\Patch_Pawn.cs" />
     <Compile Include="WorkPriorities\Patch_Pawn_WorkSettings.cs" />
