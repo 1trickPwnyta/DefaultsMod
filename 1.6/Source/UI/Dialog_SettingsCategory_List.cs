@@ -19,6 +19,8 @@ namespace Defaults.UI
             settings = category.DefaultSettings.OrderBy(d => d.uiOrder).ToList();
         }
 
+        protected override bool ShowAdditionalSettingsOption => false;
+
         public virtual float DoPostSettings(Rect rect) => 0f;
 
         public override void DoSettings(Rect rect)
@@ -26,16 +28,7 @@ namespace Defaults.UI
             Rect viewRect = new Rect(0f, 0f, rect.width - 20f, totalHeight);
             Widgets.BeginScrollView(rect, ref scrollPosition, viewRect);
 
-            Listing_Standard listing = new Listing_StandardHighlight() { maxOneColumn = true };
-            listing.Begin(viewRect);
-
-            foreach (DefaultSettingDef def in settings)
-            {
-                Rect rowRect = listing.GetRect(30f);
-                def.Worker.DoSetting(rowRect);
-            }
-
-            settingsHeight = listing.CurHeight + Margin;
+            settingsHeight = UIUtility.DoSettingsList(viewRect, ShowQuickOptionSettingsInWindow ? settings : settings.Where(s => !s.showInQuickOptions)) + Margin;
             float postSettingsHeight = DoPostSettings(new Rect(viewRect.x, settingsHeight, viewRect.width, totalHeight));
             if (postSettingsHeight > 0f)
             {
@@ -43,7 +36,6 @@ namespace Defaults.UI
             }
 
             totalHeight = settingsHeight + postSettingsHeight;
-            listing.End();
             Widgets.EndScrollView();
         }
     }

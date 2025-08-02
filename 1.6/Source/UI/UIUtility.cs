@@ -1,4 +1,6 @@
-﻿using RimWorld;
+﻿using Defaults.Defs;
+using RimWorld;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -110,6 +112,21 @@ namespace Defaults.UI
             Widgets.IntEntry(rect, ref value, ref editBuffer, multiplier);
             value = Mathf.Clamp(value, minimum, maximum);
             editBuffer = value.ToString();
+        }
+
+        public static float DoSettingsList(Rect rect, IEnumerable<DefaultSettingDef> settings)
+        {
+            Listing_Standard listing = new Listing_StandardHighlight() { maxOneColumn = true };
+            listing.Begin(rect);
+
+            foreach (DefaultSettingDef def in settings)
+            {
+                Rect rowRect = listing.GetRect(30f);
+                def.Worker.DoSetting(rowRect);
+            }
+
+            listing.End();
+            return listing.CurHeight;
         }
     }
 }

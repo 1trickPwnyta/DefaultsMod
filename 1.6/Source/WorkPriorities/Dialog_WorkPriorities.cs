@@ -10,8 +10,10 @@ using Verse.Sound;
 
 namespace Defaults.WorkPriorities
 {
-    public class Dialog_WorkPriorities : Dialog_SettingsCategory_List
+    public class Dialog_WorkPriorities : Dialog_SettingsCategory
     {
+        private float y;
+        private Vector2 scrollPosition;
         private int? dragValue;
 
         public Dialog_WorkPriorities(DefaultSettingsCategoryDef category) : base(category)
@@ -20,25 +22,27 @@ namespace Defaults.WorkPriorities
 
         public override Vector2 InitialSize => new Vector2(500f, 750f);
 
-        public override float DoPostSettings(Rect rect)
+        public override void DoSettings(Rect rect)
         {
-            float y = rect.y;
+            Rect viewRect = new Rect(0f, 0f, rect.width - 20f, y);
+            Widgets.BeginScrollView(rect, ref scrollPosition, viewRect);
+            y = 0f;
 
             bool advancedMode = Settings.Get<bool>(Settings.WORK_PRIORITIES_ADVANCED_MODE);
-            Widgets.CheckboxLabeled(new Rect(rect.x, y, rect.width, 30f), "Defaults_WorkPrioritiesAdvancedMode".Translate(), ref advancedMode, placeCheckboxNearText: true);
+            Widgets.CheckboxLabeled(new Rect(viewRect.x, y, viewRect.width, 30f), "Defaults_WorkPrioritiesAdvancedMode".Translate(), ref advancedMode, placeCheckboxNearText: true);
             Settings.Set(Settings.WORK_PRIORITIES_ADVANCED_MODE, advancedMode);
             y += 30f;
 
             if (advancedMode)
             {
-                DoAdvancedMode(rect, ref y);
+                DoAdvancedMode(viewRect, ref y);
             }
             else
             {
-                DoBasicMode(rect, ref y);
+                DoBasicMode(viewRect, ref y);
             }
 
-            return y - rect.y;
+            Widgets.EndScrollView();
         }
 
         private void DoBasicMode(Rect rect, ref float y)

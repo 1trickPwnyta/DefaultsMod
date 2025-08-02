@@ -35,7 +35,7 @@
 	<Defaults_WorkModeSecond>Second mech control group work mode</Defaults_WorkModeSecond>
 	<Defaults_WorkModeAdditional>Additional mech control groups work mode</Defaults_WorkModeAdditional>
 	<Defaults_ResetAllSettings>Reset all settings to vanilla</Defaults_ResetAllSettings>
-	<Defaults_ResetTheseSettings>Reset these settings to vanilla</Defaults_ResetTheseSettings>
+	<Defaults_ResetTheseSettings>Reset to vanilla</Defaults_ResetTheseSettings>
 	<Defaults_ConfirmResetAllSettings>Do you want to reset all mod settings to their vanilla values? All settings categories will be enabled and all general settings will return to their default values. This action cannot be undone.</Defaults_ConfirmResetAllSettings>
 	<Defaults_ConfirmResetTheseSettings>Do you want to reset all {0} to their vanilla values? This action cannot be undone.</Defaults_ConfirmResetTheseSettings>
 	<Defaults_ConfirmResetWorkbenchBills>Do you want to reset all default workbench bill settings to their vanilla values? This action will delete all default workbench bills and cannot be undone.</Defaults_ConfirmResetWorkbenchBills>
@@ -109,7 +109,6 @@
 	<Defaults_Restart>Restart RimWorld</Defaults_Restart>
 	<Defaults_NotNow>Not now</Defaults_NotNow>
 	<Defaults_EnableCategoryToViewSettings>You need to enable {0} and then restart the game in order to view these settings.</Defaults_EnableCategoryToViewSettings>
-	<Defaults_MedicineAssignments>Medicine assignments</Defaults_MedicineAssignments>
 	<Defaults_LimitBillsTo15>Limit workbench bills to 15 max</Defaults_LimitBillsTo15>
 	<Defaults_BillsLimitedto15>Only the first 15 bills will apply to workbenches built in the game. To remove this limit, change the global bill settings.</Defaults_BillsLimitedto15>
 	<Defaults_NoPauseOptionsTitle>No Pause Challenge settings enabled.</Defaults_NoPauseOptionsTitle>
@@ -134,6 +133,7 @@
 	<Defaults_WorkPriorityRulesInvalid>Missing condition and/or effect. Define them or delete this rule.</Defaults_WorkPriorityRulesInvalid>
 	<Defaults_EditSubrules>Edit subrules</Defaults_EditSubrules>
 	<Defaults_WorkPriorityRulesSpecific>{0} rules</Defaults_WorkPriorityRulesSpecific>
+	<Defaults_AdditionalSettings>Additional settings...</Defaults_AdditionalSettings>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

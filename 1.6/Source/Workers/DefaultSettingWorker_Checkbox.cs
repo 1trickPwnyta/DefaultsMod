@@ -15,6 +15,11 @@ namespace Defaults.Workers
 
         protected virtual TaggedString Tip => null;
 
+        public FloatMenuOption QuickOption => new FloatMenuOption(def.LabelCap, () =>
+        {
+            setting = !setting;
+        }, setting.Value ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex, Color.white, iconJustification: HorizontalJustification.Right);
+
         protected override void DoWidget(Rect rect)
         {
             Rect checkRect = rect;

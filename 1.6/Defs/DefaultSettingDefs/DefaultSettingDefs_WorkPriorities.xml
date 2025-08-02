@@ -6,6 +6,7 @@
 	<label>use manual work priorities by default</label>
 	<category>WorkPriorities</category>
 	<uiOrder>5</uiOrder>
+	<showInQuickOptions>true</showInQuickOptions>
     <workerClass>Defaults.WorkPriorities.DefaultSettingWorker_ManualPriorities</workerClass>
   </Defaults.Defs.DefaultSettingDef>
 

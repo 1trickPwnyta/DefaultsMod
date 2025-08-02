@@ -1,5 +1,4 @@
 ﻿using Defaults.Defs;
-using Defaults.Workers;
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,14 +29,15 @@ namespace Defaults.UI
         {
             get
             {
-                foreach (DefaultSettingDef setting in DefDatabase<DefaultSettingsCategoryDef>.GetNamed("General").DefaultSettings.Where(s => s.showInQuickOptions && s.Worker is DefaultSettingWorker_Checkbox))
+                foreach (FloatMenuOption option in DefaultSettingsCategoryDefOf.General.QuickOptions)
                 {
-                    DefaultSettingWorker_Checkbox worker = setting.Worker as DefaultSettingWorker_Checkbox;
-                    yield return new FloatMenuOption(setting.LabelCap, () =>
-                    {
-                        worker.setting = !worker.setting;
-                    }, worker.setting.Value ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex, Color.white, iconJustification: HorizontalJustification.Right);
+                    yield return option;
                 }
+
+                yield return new FloatMenuOption("Defaults_ResetAllSettings".Translate(), () =>
+                {
+                    Find.WindowStack.Add(new Dialog_MessageBox("Defaults_ConfirmResetAllSettings".Translate(), "Confirm".Translate(), DefaultsSettings.ResetAllSettings, "GoBack".Translate(), null, null, true, DefaultsSettings.ResetAllSettings));
+                });
 
                 if (DefDatabase<DefaultSettingsCategoryDef>.AllDefsListForReading.Any(c => !c.Enabled))
                 {
@@ -60,11 +60,6 @@ namespace Defaults.UI
                         }
                     });
                 }
-
-                yield return new FloatMenuOption("Defaults_ResetAllSettings".Translate(), () =>
-                {
-                    Find.WindowStack.Add(new Dialog_MessageBox("Defaults_ConfirmResetAllSettings".Translate(), "Confirm".Translate(), DefaultsSettings.ResetAllSettings, "GoBack".Translate(), null, null, true, DefaultsSettings.ResetAllSettings));
-                });
             }
         }
 

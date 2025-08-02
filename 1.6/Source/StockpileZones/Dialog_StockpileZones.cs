@@ -265,7 +265,7 @@ namespace Defaults.StockpileZones
             public override bool DoTab(float rowWidth, float rowHeight, int reorderableGroup)
             {
                 List<ZoneType_Building> buildingStorageSettings = Settings.Get<Dictionary<ThingDef, ZoneType_Building>>(Settings.BUILDING_STORAGE).Values.ToList();
-                foreach (ZoneType zone in buildingStorageSettings.OrderBy(s => s.buildingDef.uiOrder))
+                foreach (ZoneType_Building zone in buildingStorageSettings.OrderBy(s => s.buildingDef.uiOrder))
                 {
                     DoZoneTypeButton(zone, 0f, rowWidth, rowHeight);
                     y += rowHeight;
