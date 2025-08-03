@@ -2,6 +2,7 @@
 using RimWorld;
 using System;
 using System.Linq;
+using System.Security.Cryptography;
 using Verse;
 
 namespace Defaults.WorkbenchBills

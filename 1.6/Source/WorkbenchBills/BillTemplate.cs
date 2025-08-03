@@ -1,6 +1,9 @@
 ﻿using Defaults.Compatibility;
 using Defaults.Defs;
+using HarmonyLib;
 using RimWorld;
+using System.Collections.Generic;
+using System.Linq;
 using Verse;
 
 namespace Defaults.WorkbenchBills
@@ -222,6 +225,19 @@ namespace Defaults.WorkbenchBills
                 if (storeMode == null)
                 {
                     storeMode = BillStoreModeDefOf.BestStockpile;
+                }
+
+                // Clean up ThingDefs and SpecialThingFilterDefs that were added when they shouldn't have been
+                List<SpecialThingFilterDef> disallowedSpecialFilters = typeof(ThingFilter).Field("disallowedSpecialFilters").GetValue(ingredientFilter) as List<SpecialThingFilterDef>;
+                ThingCategoryDef rootCat = recipe.fixedIngredientFilter.DisplayRootCategory.catDef;
+                HashSet<SpecialThingFilterDef> availableSpecialThingFilterDefs = rootCat.ParentsSpecialThingFilterDefs.Union(rootCat.DescendantSpecialThingFilterDefs).ToHashSet();
+                disallowedSpecialFilters.RemoveWhere(f => (!f.configurable && f.allowedByDefault) || !availableSpecialThingFilterDefs.Contains(f));
+                foreach (ThingDef def in ingredientFilter.AllowedThingDefs.ToList())
+                {
+                    if (!recipe.fixedIngredientFilter.Allows(def))
+                    {
+                        ingredientFilter.SetAllow(def, false);
+                    }
                 }
             }
         }
