@@ -65,9 +65,10 @@ namespace Defaults.WorkbenchBills
                             bill.ingredientFilter.SetAllow(def, true);
                         }
                     }
+                    HashSet<SpecialThingFilterDef> allSpecialThingFilters = bill.recipe.GetAllSpecialThingFilterDefs().ToHashSet();
                     foreach (SpecialThingFilterDef def in defs.OfType<SpecialThingFilterDef>())
                     {
-                        if (!def.allowedByDefault)
+                        if (!def.allowedByDefault && allSpecialThingFilters.Contains(def))
                         {
                             bill.ingredientFilter.SetAllow(def, false);
                         }

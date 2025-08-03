@@ -229,9 +229,8 @@ namespace Defaults.WorkbenchBills
 
                 // Clean up ThingDefs and SpecialThingFilterDefs that were added when they shouldn't have been
                 List<SpecialThingFilterDef> disallowedSpecialFilters = typeof(ThingFilter).Field("disallowedSpecialFilters").GetValue(ingredientFilter) as List<SpecialThingFilterDef>;
-                ThingCategoryDef rootCat = recipe.fixedIngredientFilter.DisplayRootCategory.catDef;
-                HashSet<SpecialThingFilterDef> availableSpecialThingFilterDefs = rootCat.ParentsSpecialThingFilterDefs.Union(rootCat.DescendantSpecialThingFilterDefs).ToHashSet();
-                disallowedSpecialFilters.RemoveWhere(f => (!f.configurable && f.allowedByDefault) || !availableSpecialThingFilterDefs.Contains(f));
+                HashSet<SpecialThingFilterDef> allSpecialThingFilters = recipe.GetAllSpecialThingFilterDefs().ToHashSet();
+                disallowedSpecialFilters.RemoveWhere(f => (!f.configurable && f.allowedByDefault) || !allSpecialThingFilters.Contains(f));
                 foreach (ThingDef def in ingredientFilter.AllowedThingDefs.ToList())
                 {
                     if (!recipe.fixedIngredientFilter.Allows(def))
