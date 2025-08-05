@@ -35,7 +35,7 @@ Full list of default settings:
   - Mech work modes: Set the default work modes for the initial two mechanitor control groups as well as a mode for all additional control groups granted by control sublinks.
 
 === Updates ===
-08/02/2025: Add compatibility with Quick Stockpile Creation
+08/05/2025: Add compatibility with Quick Stockpile Creation
 07/26/2025: Add compatibility with Research Reinvented: Stepping Stones, bug fixes
 07/24/2025: Allow uncapping workbench bills in global bill settings (vanilla caps at 15), UI changes, bug fixes, added compatibility with Better Workbench Management, No Pause Challenge, Mod Options Sort, and RimForge.
 07/10/2025: Massive overhaul! Brand new searchable and categorized settings UI with additional features, various bug fixes, and new settings for default allowed areas, baby feeding, and mech work modes.
