@@ -133,7 +133,7 @@
 	<Defaults_WorkPriorityRulesInvalid>Missing condition and/or effect. Define them or delete this rule.</Defaults_WorkPriorityRulesInvalid>
 	<Defaults_EditSubrules>Edit subrules</Defaults_EditSubrules>
 	<Defaults_WorkPriorityRulesSpecific>{0} rules</Defaults_WorkPriorityRulesSpecific>
-	<Defaults_AdditionalSettings>Additional settings...</Defaults_AdditionalSettings>
+	<Defaults_AdditionalSettings>Additional settings</Defaults_AdditionalSettings>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

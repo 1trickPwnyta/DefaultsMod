@@ -51,7 +51,7 @@ namespace Defaults.UI
                     List<DefaultSettingDef> additionalSettings = category.DefaultSettings.Where(s => !s.showInQuickOptions).OrderBy(s => s.uiOrder).ToList();
                     if (additionalSettings.Any())
                     {
-                        yield return new FloatMenuOption("Defaults_AdditionalSettings".Translate(), () =>
+                        yield return new FloatMenuOption("Defaults_AdditionalSettings".Translate() + "...", () =>
                         {
                             Find.WindowStack.Add(new Dialog_AdditionalSettings(additionalSettings));
                         });

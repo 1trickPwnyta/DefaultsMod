@@ -96,6 +96,8 @@
     <Compile Include="Defs\Scribe_Defs_Silent.cs" />
     <Compile Include="Defs\WorkPriorityConditionDef.cs" />
     <Compile Include="Defs\WorkPriorityEffectDef.cs" />
+    <Compile Include="StockpileZones\Buildings\DefaultSettingWorker_AllowRemovingFromOutfitStand.cs" />
+    <Compile Include="StockpileZones\Buildings\Patch_Building_OutfitStand.cs" />
     <Compile Include="UI\Dialog_MainSettings.cs" />
     <Compile Include="General\DefaultSettingWorker_HideLoadDefault.cs" />
     <Compile Include="General\DefaultSettingWorker_ShowDisabledInSearch.cs" />

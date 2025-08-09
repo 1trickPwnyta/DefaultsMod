@@ -171,7 +171,7 @@ namespace Defaults.UI
             y += 10f;
 
             Listing_Standard listing = new Listing_StandardHighlight() { maxOneColumn = true };
-            listing.Begin(new Rect(rect.x, y, rect.width, rect.height - y));
+            listing.Begin(new Rect(rect.x, y, rect.width, rect.height));
 
             foreach (DefaultSettingDef def in settings)
             {
