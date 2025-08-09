@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-  <Defaults.Defs.DefaultSettingDef>
+  <Defaults.Defs.DefaultSettingDef MayRequire="Ludeon.RimWorld.Odyssey">
     <defName>AllowRemovingFromOutfitStand</defName>
 	<label>allow removing items from outfit stands by default</label>
 	<category>Storage</category>
