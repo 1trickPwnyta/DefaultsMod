@@ -23,7 +23,7 @@ namespace Defaults.ResourceCategories
             return def.childThingDefs.Any(d => d.CountAsResource) || def.childCategories.Any(c => CountAsResource(c));
         }
 
-        public override Vector2 InitialSize => new Vector2(406f, 640f);
+        public override Vector2 InitialSize => new Vector2(475f, 640f);
 
         public override void DoSettings(Rect rect)
         {

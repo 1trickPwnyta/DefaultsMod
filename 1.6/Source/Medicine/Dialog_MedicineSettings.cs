@@ -8,7 +8,7 @@ using Verse.Sound;
 namespace Defaults.Medicine
 {
     [StaticConstructorOnStartup]
-    public class Dialog_MedicineSettings : Dialog_SettingsCategory_List
+    public class Dialog_MedicineSettings : Dialog_SettingsCategory
     {
         private static bool medicalCarePainting = false;
         private static readonly Texture2D[] careTextures = new[]
@@ -24,13 +24,11 @@ namespace Defaults.Medicine
         {
         }
 
-        public override Vector2 InitialSize => new Vector2(426f, 680f);
+        public override Vector2 InitialSize => new Vector2(426f, 580f);
 
-        public override float DoPostSettings(Rect rect)
+        public override void DoSettings(Rect rect)
         {
             float y = rect.y;
-            Widgets.Label(rect, ref y, "Defaults_MedicineAssignments".Translate());
-            y += 10f;
             using (new TextBlock(TextAnchor.MiddleLeft))
             {
                 MedicineOptions options = Settings.Get<MedicineOptions>(Settings.MEDICINE);
@@ -57,7 +55,6 @@ namespace Defaults.Medicine
                     DoRow(rect, ref y, ref options.DefaultCareForEntities, "MedGroupEntities", "MedGroupEntitiesDesc");
                 }
             }
-            return y - rect.y;
         }
 
         private void DoRow(Rect rect, ref float y, ref MedicalCareCategory category, string labelKey, string tipKey)
@@ -84,7 +81,7 @@ namespace Defaults.Medicine
                 Widgets.DrawHighlightIfMouseover(rect2);
                 MouseoverSounds.DoRegion(rect2);
                 GUI.DrawTexture(rect2, careTextures[i]);
-                Widgets.DraggableResult draggableResult = Widgets.ButtonInvisibleDraggable(rect2, false);
+                Widgets.DraggableResult draggableResult = Widgets.ButtonInvisibleDraggable(rect2);
                 if (draggableResult == Widgets.DraggableResult.Dragged)
                 {
                     medicalCarePainting = true;

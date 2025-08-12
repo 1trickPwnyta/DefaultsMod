@@ -261,7 +261,7 @@ namespace Defaults.WorkbenchBills
             if (bill.recipe.ingredients.Any(i => !i.IsFixedIngredient))
             {
                 Rect lockRect = new Rect(x + width - 32f, y - 32f, 32f, 32f);
-                UIUtility.DrawCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref bill.locked);
+                UIUtility.DoCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref bill.locked);
 
                 Rect thingFilterRect = new Rect(x, y, width, height - IngredientRadiusSubdialogHeight);
                 ThingFilterUI.DoThingFilterConfigWindow(thingFilterRect, thingFilterState, bill.ingredientFilter, bill.recipe.fixedIngredientFilter, TreeOpenMasks.BillConfig, null, ((IEnumerable<SpecialThingFilterDef>)typeof(Dialog_BillConfig).Method("get_HiddenSpecialThingFilters").Invoke(null, new object[] { })).ConcatIfNotNull(bill.recipe.forceHiddenSpecialFilters), false, false, false, bill.recipe.GetPremultipliedSmallIngredients());

@@ -3,7 +3,7 @@
 	<name>1trickPwnyta's Defaults</name>
 	<author>1trickPwnyta</author>
 	<packageId>defaults.1trickPwnyta</packageId>
-	<modVersion>1.7.3</modVersion>
+	<modVersion>1.8.0</modVersion>
 	<supportedVersions>
 		<li>1.5</li>
 		<li>1.6</li>
@@ -25,17 +25,18 @@ Full list of default settings:
   - Storage settings: Configure the default settings for stockpile zones, dumping stockpile zones, and storage buildings such as shelves. You can also create your own custom stockpile zone types with their own settings.
   - Workbench bills: Set default bills for workbenches that will populate automatically upon building a workbench.
   - Allowed areas: Create default allowed areas for new colonies and control which types of pawns get automatically assigned to which areas.
+  - Work priorities: Create default work priorities for new colonists based on their passions and skills.
   - Hostility response: Set the default hostility response to use for new colonists.
   - Pregnancy approach: Set the default pregnancy approach that new romantic colonist relationships will take.
   - Auto rebuild setting: Set the default auto-rebuild setting to use for a new colony.
   - Auto home area setting: Set the default auto-home area setting to use for a new colony.
-  - Use manual work priorities by default: You can do this.
   - Plant type: Set the default plant type for new growing zones.
   - Temperature targets: Set the default temperature targets for heaters and coolers.
   - Mech work modes: Set the default work modes for the initial two mechanitor control groups as well as a mode for all additional control groups granted by control sublinks.
 
 === Updates ===
-08/05/2025: Add compatibility with Quick Stockpile Creation
+08/11/2025: Add default work priorities, allow removing items from outfit stands by default, fix bugs with default workbench bills and allowed areas
+08/02/2025: Add compatibility with Quick Stockpile Creation
 07/26/2025: Add compatibility with Research Reinvented: Stepping Stones, bug fixes
 07/24/2025: Allow uncapping workbench bills in global bill settings (vanilla caps at 15), UI changes, bug fixes, added compatibility with Better Workbench Management, No Pause Challenge, Mod Options Sort, and RimForge.
 07/10/2025: Massive overhaul! Brand new searchable and categorized settings UI with additional features, various bug fixes, and new settings for default allowed areas, baby feeding, and mech work modes.

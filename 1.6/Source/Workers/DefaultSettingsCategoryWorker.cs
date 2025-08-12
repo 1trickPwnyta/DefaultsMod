@@ -30,6 +30,8 @@ namespace Defaults.Workers
 
         public bool WasEnabledAtStartup { get; private set; } = true;
 
+        public virtual Texture2D Icon => def.Icon;
+
         public virtual IEnumerable<FloatMenuOption> FloatMenuOptions
         {
             get
@@ -139,7 +141,7 @@ namespace Defaults.Workers
             Widgets.DrawRectFast(rect, buttonColor);
             Widgets.DrawHighlightIfMouseover(rect);
             Rect iconRect = new Rect(rect.x + (rect.width - buttonIconSize) / 2, rect.y + buttonPadding, buttonIconSize, buttonIconSize);
-            Widgets.DrawTextureFitted(iconRect, def.Icon, 1f);
+            Widgets.DrawTextureFitted(iconRect, Icon, 1f);
             Rect labelRect = new Rect(rect.x + buttonPadding, rect.y + buttonPadding + buttonIconSize + buttonPadding, rect.width - buttonPadding * 2, rect.height - buttonPadding - buttonIconSize - buttonPadding - buttonPadding);
             Text.Anchor = TextAnchor.LowerCenter;
             Widgets.Label(labelRect, def.LabelCap);

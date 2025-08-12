@@ -1,5 +1,4 @@
 ﻿using Defaults.Defs;
-using Defaults.Workers;
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +16,11 @@ namespace Defaults.UI
         private Vector2 scrollPosition;
         private HashSet<DefaultSettingsCategoryDef> initiallyEnabledCategories;
 
+        public Dialog_MainSettings()
+        {
+            closeOnClickedOutside = false;
+        }
+
         public override Vector2 InitialSize => new Vector2(730f + StandardMargin * 2, 620f + CloseButSize.y + StandardMargin * 2);
 
         protected override bool DoSearchWidget => true;
@@ -25,14 +29,15 @@ namespace Defaults.UI
         {
             get
             {
-                foreach (DefaultSettingDef setting in DefDatabase<DefaultSettingsCategoryDef>.GetNamed("General").DefaultSettings.Where(s => s.showInQuickOptions && s.Worker is DefaultSettingWorker_Checkbox))
+                foreach (FloatMenuOption option in DefaultSettingsCategoryDefOf.General.QuickOptions)
                 {
-                    DefaultSettingWorker_Checkbox worker = setting.Worker as DefaultSettingWorker_Checkbox;
-                    yield return new FloatMenuOption(setting.LabelCap, () =>
-                    {
-                        worker.setting = !worker.setting;
-                    }, worker.setting.Value ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex, Color.white, iconJustification: HorizontalJustification.Right);
+                    yield return option;
                 }
+
+                yield return new FloatMenuOption("Defaults_ResetAllSettings".Translate(), () =>
+                {
+                    Find.WindowStack.Add(new Dialog_MessageBox("Defaults_ConfirmResetAllSettings".Translate(), "Confirm".Translate(), DefaultsSettings.ResetAllSettings, "GoBack".Translate(), null, null, true, DefaultsSettings.ResetAllSettings));
+                });
 
                 if (DefDatabase<DefaultSettingsCategoryDef>.AllDefsListForReading.Any(c => !c.Enabled))
                 {
@@ -55,11 +60,6 @@ namespace Defaults.UI
                         }
                     });
                 }
-
-                yield return new FloatMenuOption("Defaults_ResetAllSettings".Translate(), () =>
-                {
-                    Find.WindowStack.Add(new Dialog_MessageBox("Defaults_ConfirmResetAllSettings".Translate(), "Confirm".Translate(), DefaultsSettings.ResetAllSettings, "GoBack".Translate(), null, null, true, DefaultsSettings.ResetAllSettings));
-                });
             }
         }
 
@@ -171,7 +171,7 @@ namespace Defaults.UI
             y += 10f;
 
             Listing_Standard listing = new Listing_StandardHighlight() { maxOneColumn = true };
-            listing.Begin(new Rect(rect.x, y, rect.width, rect.height - y));
+            listing.Begin(new Rect(rect.x, y, rect.width, rect.height));
 
             foreach (DefaultSettingDef def in settings)
             {

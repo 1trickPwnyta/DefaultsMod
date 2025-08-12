@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using RimWorld;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
@@ -35,6 +36,12 @@ namespace Defaults.WorkbenchBills
                     Messages.Message("RecipeCannotHaveTargetCount".Translate(), MessageTypeDefOf.RejectInput, false);
                 }
             })).ToList()));
+        }
+
+        public static IEnumerable<SpecialThingFilterDef> GetAllSpecialThingFilterDefs(this RecipeDef recipe)
+        {
+            ThingCategoryDef rootCat = recipe.fixedIngredientFilter.DisplayRootCategory.catDef;
+            return rootCat.ParentsSpecialThingFilterDefs.Union(rootCat.DescendantSpecialThingFilterDefs);
         }
     }
 }

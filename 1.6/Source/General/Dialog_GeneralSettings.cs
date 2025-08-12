@@ -12,6 +12,8 @@ namespace Defaults.General
 
         public override Vector2 InitialSize => new Vector2(600f, 350f);
 
-        protected override bool DoResetOption => false;
+        protected override bool ShowResetOption => false;
+
+        protected override bool ShowQuickOptionSettingsInWindow => true;
     }
 }

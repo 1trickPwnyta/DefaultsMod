@@ -57,14 +57,6 @@
   </Defaults.Defs.DefaultSettingDef>
   
   <Defaults.Defs.DefaultSettingDef>
-    <defName>ManualPriorities</defName>
-	<label>use manual work priorities by default</label>
-	<category>Misc</category>
-	<uiOrder>45</uiOrder>
-    <workerClass>Defaults.Misc.PlaySettings.DefaultSettingWorker_ManualPriorities</workerClass>
-  </Defaults.Defs.DefaultSettingDef>
-  
-  <Defaults.Defs.DefaultSettingDef>
     <defName>PlantType</defName>
 	<label>default plant type</label>
 	<category>Misc</category>

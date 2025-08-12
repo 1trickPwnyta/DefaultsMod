@@ -35,7 +35,7 @@
 	<Defaults_WorkModeSecond>Second mech control group work mode</Defaults_WorkModeSecond>
 	<Defaults_WorkModeAdditional>Additional mech control groups work mode</Defaults_WorkModeAdditional>
 	<Defaults_ResetAllSettings>Reset all settings to vanilla</Defaults_ResetAllSettings>
-	<Defaults_ResetTheseSettings>Reset these settings to vanilla</Defaults_ResetTheseSettings>
+	<Defaults_ResetTheseSettings>Reset to vanilla</Defaults_ResetTheseSettings>
 	<Defaults_ConfirmResetAllSettings>Do you want to reset all mod settings to their vanilla values? All settings categories will be enabled and all general settings will return to their default values. This action cannot be undone.</Defaults_ConfirmResetAllSettings>
 	<Defaults_ConfirmResetTheseSettings>Do you want to reset all {0} to their vanilla values? This action cannot be undone.</Defaults_ConfirmResetTheseSettings>
 	<Defaults_ConfirmResetWorkbenchBills>Do you want to reset all default workbench bill settings to their vanilla values? This action will delete all default workbench bills and cannot be undone.</Defaults_ConfirmResetWorkbenchBills>
@@ -109,11 +109,31 @@
 	<Defaults_Restart>Restart RimWorld</Defaults_Restart>
 	<Defaults_NotNow>Not now</Defaults_NotNow>
 	<Defaults_EnableCategoryToViewSettings>You need to enable {0} and then restart the game in order to view these settings.</Defaults_EnableCategoryToViewSettings>
-	<Defaults_MedicineAssignments>Medicine assignments</Defaults_MedicineAssignments>
 	<Defaults_LimitBillsTo15>Limit workbench bills to 15 max</Defaults_LimitBillsTo15>
 	<Defaults_BillsLimitedto15>Only the first 15 bills will apply to workbenches built in the game. To remove this limit, change the global bill settings.</Defaults_BillsLimitedto15>
 	<Defaults_NoPauseOptionsTitle>No Pause Challenge settings enabled.</Defaults_NoPauseOptionsTitle>
 	<Defaults_BetterWorkbenchOptionsTitle>Better Workbench Management settings</Defaults_BetterWorkbenchOptionsTitle>
+	<Defaults_WorkPrioritiesAdvancedMode>Advanced work priorities mode</Defaults_WorkPrioritiesAdvancedMode>
+	<Defaults_BasicWorkPrioritiesDesc>Select a work priority for each work type. New colonists will automatically be assigned those priorities when they join your colony.</Defaults_BasicWorkPrioritiesDesc>
+	<Defaults_AdvancedWorkPrioritiesDesc>Customize the logic for determining the work priority for each work type. New colonists will automatically be assigned priorities based on your custom logic when they join your colony.</Defaults_AdvancedWorkPrioritiesDesc>
+	<Defaults_WorkPriorityTynansChoice>game decides</Defaults_WorkPriorityTynansChoice>
+	<Defaults_WorkPriorityDoNotDo>off</Defaults_WorkPriorityDoNotDo>
+	<Defaults_WorkPriorityDo>on</Defaults_WorkPriorityDo>
+	<Defaults_WorkPriorityRulesGlobal>Global rules</Defaults_WorkPriorityRulesGlobal>
+	<Defaults_WorkPriorityRulesGlobalDesc>Global rules apply to all work types.</Defaults_WorkPriorityRulesGlobalDesc>
+	<Defaults_WorkPriorityRulesSpecificDesc>Each work type can have its own specific rules. These rules are applied after the global rules are applied.</Defaults_WorkPriorityRulesSpecificDesc>
+	<Defaults_WorkPriorityRulesDesc>Rules apply in order from top to bottom.</Defaults_WorkPriorityRulesDesc>
+	<Defaults_WorkPriorityAddRule>Add rule</Defaults_WorkPriorityAddRule>
+	<Defaults_WorkPriorityCondition>Condition</Defaults_WorkPriorityCondition>
+	<Defaults_WorkPriorityEffect>Effect</Defaults_WorkPriorityEffect>
+	<Defaults_Years>years</Defaults_Years>
+	<Defaults_WorkPriorityAllowDecreaseToZero>Allow disabling this work type if the priority is decreased beyond {0}</Defaults_WorkPriorityAllowDecreaseToZero>
+	<Defaults_WorkPriorityAllowIncreaseFromZero>Allow enabling this work type if it is not already</Defaults_WorkPriorityAllowIncreaseFromZero>
+	<Defaults_RecalculateWorkPriorities>Reset to default work priorities</Defaults_RecalculateWorkPriorities>
+	<Defaults_WorkPriorityRulesInvalid>Missing condition and/or effect. Define them or delete this rule.</Defaults_WorkPriorityRulesInvalid>
+	<Defaults_EditSubrules>Edit subrules</Defaults_EditSubrules>
+	<Defaults_WorkPriorityRulesSpecific>{0} rules</Defaults_WorkPriorityRulesSpecific>
+	<Defaults_AdditionalSettings>Additional settings</Defaults_AdditionalSettings>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

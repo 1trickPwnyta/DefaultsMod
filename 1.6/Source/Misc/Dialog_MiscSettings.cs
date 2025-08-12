@@ -12,6 +12,6 @@ namespace Defaults.Misc
 
         public override Vector2 InitialSize => new Vector2(600f, 550f);
 
-        protected override bool DoResetOption => false;
+        protected override bool ShowResetOption => false;
     }
 }

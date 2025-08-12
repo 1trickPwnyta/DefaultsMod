@@ -93,7 +93,7 @@ namespace Defaults.StockpileZones
                 }
 
                 Rect lockRect = new Rect(rect.width - 24f, rect.y + controlHeight + 10f, 24f, 24f);
-                UIUtility.DrawCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref selectedZoneType.locked);
+                UIUtility.DoCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref selectedZoneType.locked);
 
                 Rect filterRect = new Rect(rect.width - 300f, rect.y + controlHeight * 2 + 10f, 300f, rect.height - controlHeight * 2 - 10f);
                 StorageSettings parentStorageSettings = StorageSettings.EverStorableFixedSettings();
@@ -265,7 +265,7 @@ namespace Defaults.StockpileZones
             public override bool DoTab(float rowWidth, float rowHeight, int reorderableGroup)
             {
                 List<ZoneType_Building> buildingStorageSettings = Settings.Get<Dictionary<ThingDef, ZoneType_Building>>(Settings.BUILDING_STORAGE).Values.ToList();
-                foreach (ZoneType zone in buildingStorageSettings.OrderBy(s => s.buildingDef.uiOrder))
+                foreach (ZoneType_Building zone in buildingStorageSettings.OrderBy(s => s.buildingDef.uiOrder))
                 {
                     DoZoneTypeButton(zone, 0f, rowWidth, rowHeight);
                     y += rowHeight;
