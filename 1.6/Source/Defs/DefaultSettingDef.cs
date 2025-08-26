@@ -22,7 +22,7 @@ namespace Defaults.Defs
             {
                 if (worker == null)
                 {
-                    worker = (IDefaultSettingWorker)Activator.CreateInstance(workerClass, new[] { this });
+                    worker = WorkerFactory.GetWorker(this);
                 }
                 return worker;
             }

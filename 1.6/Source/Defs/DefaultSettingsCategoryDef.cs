@@ -21,7 +21,7 @@ namespace Defaults.Defs
             {
                 if (worker == null)
                 {
-                    worker = (DefaultSettingsCategoryWorker)Activator.CreateInstance(workerClass, new[] { this });
+                    worker = WorkerFactory.GetWorker(this);
                 }
                 return worker;
             }

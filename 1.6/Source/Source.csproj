@@ -147,6 +147,7 @@
     <Compile Include="Misc\PlantType\DefaultSettingWorker_PlantType.cs" />
     <Compile Include="Misc\PlaySettings\DefaultSettingWorker_AutoHomeArea.cs" />
     <Compile Include="Misc\PlaySettings\DefaultSettingWorker_AutoRebuild.cs" />
+    <Compile Include="Workers\WorkerFactory.cs" />
     <Compile Include="Workers\WorkPriorityConditionWorker.cs" />
     <Compile Include="Workers\WorkPriorityEffectWorker.cs" />
     <Compile Include="WorkPriorities\Conditions\Condition.cs" />

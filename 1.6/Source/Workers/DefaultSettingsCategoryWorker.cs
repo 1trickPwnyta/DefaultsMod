@@ -15,7 +15,7 @@ namespace Defaults.Workers
         private static readonly float buttonPadding = 10f;
         private static readonly Color disabledColor = Color.black.WithAlpha(0.5f);
 
-        public readonly DefaultSettingsCategoryDef def;
+        public DefaultSettingsCategoryDef def;
         public bool disabled;
 
         public static T GetWorker<T>() where T : DefaultSettingsCategoryWorker => DefDatabase<DefaultSettingsCategoryDef>.AllDefsListForReading.First(d => d.Worker is T).Worker as T;
