@@ -112,13 +112,13 @@ namespace Defaults.StockpileZones
             using (new TextBlock(zone.IconColor)) Widgets.DrawTextureFitted(iconRect, zone.Icon, 1f);
             Widgets.Label(new Rect(x + rowHeight + 8f, y, rowWidth - rowHeight - 8f - 24f - 24f - 24f - 8f, rowHeight), zone.Name);
 
-            if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 24f - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Copy, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+            if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 24f - 24f - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Copy, Color.white, Color.white * GenUI.SubtleMouseoverColor))
             {
                 clipboard = zone;
                 SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
             }
 
-            if (clipboard != null && Widgets.ButtonImage(new Rect(rowWidth - 24f - 24f - 24f - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Paste, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+            if (clipboard != null && Widgets.ButtonImage(new Rect(rowWidth - 24f - 24f - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Paste, Color.white, Color.white * GenUI.SubtleMouseoverColor))
             {
                 zone.priority = clipboard.priority;
                 ThingFilter filter = new ThingFilter();
