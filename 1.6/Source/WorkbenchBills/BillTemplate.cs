@@ -46,7 +46,11 @@ namespace Defaults.WorkbenchBills
             name = recipe.LabelCap;
             this.recipe = recipe;
             ingredientFilter = new ThingFilter();
-            if (recipe.fixedIngredientFilter != null)
+            if (recipe.defaultIngredientFilter != null)
+            {
+                ingredientFilter.CopyAllowancesFrom(recipe.defaultIngredientFilter);
+            }
+            else
             {
                 ingredientFilter.CopyAllowancesFrom(recipe.fixedIngredientFilter);
             }
