@@ -43,5 +43,7 @@ namespace Defaults.WorkbenchBills
             ThingCategoryDef rootCat = recipe.fixedIngredientFilter.DisplayRootCategory.catDef;
             return rootCat.ParentsSpecialThingFilterDefs.Union(rootCat.DescendantSpecialThingFilterDefs);
         }
+
+        public static ThingDef GetWorkbenchGroupIconDef(HashSet<ThingDef> workbenchGroup) => workbenchGroup.FirstOrFallback(d => !d.CostList.NullOrEmpty(), workbenchGroup.First());
     }
 }

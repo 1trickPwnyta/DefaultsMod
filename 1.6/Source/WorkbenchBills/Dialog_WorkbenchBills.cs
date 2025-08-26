@@ -82,7 +82,7 @@ namespace Defaults.WorkbenchBills
 
             float iconSize = rect.height - padding * 2;
             Rect iconRect = new Rect(rect.x + padding, rect.y + padding, iconSize, iconSize);
-            ThingDef iconDef = workbenchGroup.FirstOrFallback(d => !d.CostList.NullOrEmpty(), workbenchGroup.First());
+            ThingDef iconDef = BillUtility.GetWorkbenchGroupIconDef(workbenchGroup);
             Widgets.DefIcon(iconRect, iconDef, GenStuff.DefaultStuffFor(iconDef));
 
             Rect labelRect = new Rect(rect.x + padding + iconSize + padding, rect.y + padding, rect.width - padding - iconSize - padding - padding - 50f - padding, rect.height - padding * 2);
