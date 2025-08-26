@@ -2,6 +2,7 @@
 using Defaults.StockpileZones.Buildings;
 using Defaults.UI;
 using Defaults.Workers;
+using HarmonyLib;
 using RimWorld;
 using System;
 using System.Collections;
@@ -120,10 +121,20 @@ namespace Defaults.StockpileZones
             if (clipboard != null && Widgets.ButtonImage(new Rect(rowWidth - 24f - 24f - 24f - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Paste, Color.white, Color.white * GenUI.SubtleMouseoverColor))
             {
                 zone.priority = clipboard.priority;
-                zone.filter.CopyAllowancesFrom(clipboard.filter);
+                ThingFilter filter = new ThingFilter();
+                filter.CopyAllowancesFrom(clipboard.filter);
+                zone.filter.CopyAllowancesFrom(filter);
                 if (zone is ZoneType_Building zoneTypeBuilding)
                 {
                     zoneTypeBuilding.filter.SetDisallowAll(zoneTypeBuilding.buildingDef.building.fixedStorageSettings.filter.AllowedThingDefs);
+                    foreach (SpecialThingFilterDef def in (typeof(ThingFilter).Field("disallowedSpecialFilters").GetValue(zoneTypeBuilding.buildingDef.building.fixedStorageSettings.filter) as List<SpecialThingFilterDef>))
+                    {
+                        zoneTypeBuilding.filter.SetAllow(def, false);
+                    }
+                    foreach (SpecialThingFilterDef def in (typeof(ThingFilter).Field("disallowedSpecialFilters").GetValue(filter) as List<SpecialThingFilterDef>).Where(s => zoneTypeBuilding.buildingDef.building.fixedStorageSettings.filter.IsValidSpecialThingFilter(s)))
+                    {
+                        zoneTypeBuilding.filter.SetAllow(def, false);
+                    }
                 }
                 SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
             }

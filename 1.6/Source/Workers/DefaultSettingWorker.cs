@@ -61,11 +61,8 @@ namespace Defaults.Workers
 
         public void ResetSetting(bool forced)
         {
-            Debug.Log(Scribe.mode);
-            Debug.Log("Reset for " + def + " forced: " + forced);
             if (forced || setting == null)
             {
-                Debug.Log("confirmed reset for " + def);
                 setting = Default;
             }
         }

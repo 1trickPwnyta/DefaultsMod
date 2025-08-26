@@ -1,5 +1,7 @@
-﻿using RimWorld;
+﻿using HarmonyLib;
+using RimWorld;
 using System.Collections.Generic;
+using System.Linq;
 using Verse;
 
 namespace Defaults.StockpileZones.Buildings
@@ -18,6 +20,22 @@ namespace Defaults.StockpileZones.Buildings
                     settings.filter.CopyAllowancesFrom(zone.filter);
                 }
             }
+        }
+
+        public static bool IsValidSpecialThingFilter(this ThingFilter filter, SpecialThingFilterDef def)
+        {
+            foreach (ThingCategoryDef category in filter.DisplayRootCategory.catDef.ThisAndChildCategoryDefs.Where(c => c.DescendantThingDefs.Any(t => filter.Allows(t))))
+            {
+                if (category.DescendantSpecialThingFilterDefs.Contains(def))
+                {
+                    return true;
+                }
+                if (category.ParentsSpecialThingFilterDefs.Contains(def))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
