@@ -19,13 +19,16 @@ namespace Defaults.WorkPriorities.Effects
 
         public override bool? Apply(WorkTypeDef def, Pawn pawn)
         {
-            int value = pawn.workSettings.GetPriority(def);
-            value += amount;
-            if (value > WorkPriorityValue.Max)
+            if (pawn.workSettings.WorkIsActive(def))
             {
-                value = allowZero ? WorkPriorityValue.DoNotDo : WorkPriorityValue.Max;
+                int value = pawn.workSettings.GetPriority(def);
+                value += amount;
+                if (value > WorkPriorityValue.Max)
+                {
+                    value = allowZero ? WorkPriorityValue.DoNotDo : WorkPriorityValue.Max;
+                }
+                pawn.workSettings.SetPriority(def, value);
             }
-            pawn.workSettings.SetPriority(def, value);
             return true;
         }
 
