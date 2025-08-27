@@ -1,6 +1,9 @@
 ﻿using Defaults.Compatibility;
 using Defaults.Defs;
+using HarmonyLib;
 using RimWorld;
+using System.Collections.Generic;
+using System.Linq;
 using Verse;
 
 namespace Defaults.WorkbenchBills
@@ -43,7 +46,11 @@ namespace Defaults.WorkbenchBills
             name = recipe.LabelCap;
             this.recipe = recipe;
             ingredientFilter = new ThingFilter();
-            if (recipe.fixedIngredientFilter != null)
+            if (recipe.defaultIngredientFilter != null)
+            {
+                ingredientFilter.CopyAllowancesFrom(recipe.defaultIngredientFilter);
+            }
+            else
             {
                 ingredientFilter.CopyAllowancesFrom(recipe.fixedIngredientFilter);
             }
@@ -222,6 +229,18 @@ namespace Defaults.WorkbenchBills
                 if (storeMode == null)
                 {
                     storeMode = BillStoreModeDefOf.BestStockpile;
+                }
+
+                // Clean up ThingDefs and SpecialThingFilterDefs that were added when they shouldn't have been
+                List<SpecialThingFilterDef> disallowedSpecialFilters = typeof(ThingFilter).Field("disallowedSpecialFilters").GetValue(ingredientFilter) as List<SpecialThingFilterDef>;
+                HashSet<SpecialThingFilterDef> allSpecialThingFilters = recipe.GetAllSpecialThingFilterDefs().ToHashSet();
+                disallowedSpecialFilters.RemoveWhere(f => (!f.configurable && f.allowedByDefault) || !allSpecialThingFilters.Contains(f));
+                foreach (ThingDef def in ingredientFilter.AllowedThingDefs.ToList())
+                {
+                    if (!recipe.fixedIngredientFilter.Allows(def))
+                    {
+                        ingredientFilter.SetAllow(def, false);
+                    }
                 }
             }
         }

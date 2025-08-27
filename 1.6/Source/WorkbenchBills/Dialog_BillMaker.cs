@@ -38,7 +38,8 @@ namespace Defaults.WorkbenchBills
             float y = inRect.y;
             Rect titleRect = new Rect(inRect.x, y, inRect.width - 75f - padding, 60f);
             Rect titleIconRect = new Rect(titleRect.x, titleRect.y, titleRect.height, titleRect.height);
-            Widgets.DefIcon(titleIconRect, workbenchGroup.First(), GenStuff.DefaultStuffFor(workbenchGroup.First()));
+            ThingDef iconDef = BillUtility.GetWorkbenchGroupIconDef(workbenchGroup);
+            Widgets.DefIcon(titleIconRect, iconDef, GenStuff.DefaultStuffFor(iconDef));
             Rect titleLabelRect = new Rect(titleIconRect.xMax + padding, titleRect.y, titleRect.width - titleIconRect.width - padding, titleRect.height);
             using (new TextBlock(TextAnchor.MiddleLeft)) Widgets.Label(titleLabelRect, string.Join("\n", workbenchGroup.Select(w => w.LabelCap)));
             Rect buttonRect = new Rect(titleRect.xMax + padding, titleRect.y + 30f, 75f, 30f);

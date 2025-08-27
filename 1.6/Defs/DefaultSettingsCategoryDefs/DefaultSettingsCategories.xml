@@ -361,6 +361,46 @@
   </Defaults.Defs.DefaultSettingsCategoryDef>
   
   <Defaults.Defs.DefaultSettingsCategoryDef>
+    <defName>WorkPriorities</defName>
+	<label>default work priorities</label>
+	<description>Create default work priorities for new colonists based on their passions and skills.</description>
+	<iconPath>DefaultSettingsCategoryIcons/WorkPriorities</iconPath>
+    <workerClass>Defaults.WorkPriorities.DefaultSettingsCategoryWorker_WorkPriorities</workerClass>
+	<keywords>
+	  <li>priority</li>
+	  <li>manual</li>
+	  <li>skills</li>
+	  <li>passions</li>
+	  <li>rules</li>
+	  <li>conditions</li>
+	  <li>effects</li>
+	  <li>logic</li>
+	  <li>firefight</li>
+	  <li>patient</li>
+	  <li>doctor</li>
+	  <li>bed rest</li>
+	  <li>childcare</li>
+	  <li>basic</li>
+	  <li>warden</li>
+	  <li>handle</li>
+	  <li>cook</li>
+	  <li>hunt</li>
+	  <li>construct</li>
+	  <li>grow</li>
+	  <li>mine</li>
+	  <li>plant cut</li>
+	  <li>smith</li>
+	  <li>tailor</li>
+	  <li>art</li>
+	  <li>craft</li>
+	  <li>haul</li>
+	  <li>clean</li>
+	  <li>dark study</li>
+	  <li>research</li>
+	</keywords>
+  </Defaults.Defs.DefaultSettingsCategoryDef>
+  
+  <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>Misc</defName>
 	<label>miscellaneous defaults</label>
 	<description>Other default settings that don't fit neatly into one of the other categories.</description>

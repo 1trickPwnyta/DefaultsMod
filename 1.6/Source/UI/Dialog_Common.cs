@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Verse;
+using Verse.Steam;
 
 namespace Defaults.UI
 {
@@ -61,7 +62,7 @@ namespace Defaults.UI
                 }, ReorderableDirection.Vertical, reorderableRect);
             }
 
-            if (DoSearchWidget && !alreadyOpen)
+            if (DoSearchWidget && !alreadyOpen && !SteamDeck.IsSteamDeck)
             {
                 searchWidget.Focus();
                 alreadyOpen = true;

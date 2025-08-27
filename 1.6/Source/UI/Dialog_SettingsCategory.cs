@@ -1,6 +1,7 @@
 ﻿using Defaults.Defs;
 using RimWorld;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -18,7 +19,9 @@ namespace Defaults.UI
 
         public virtual string Title => category.LabelCap;
 
-        protected virtual bool DoResetOption => true;
+        protected virtual bool ShowQuickOptionSettingsInWindow => false;
+
+        protected virtual bool ShowResetOption => true;
 
         protected virtual string ResetOptionText => "Defaults_ResetTheseSettings".Translate();
 
@@ -29,18 +32,40 @@ namespace Defaults.UI
 
         protected virtual TaggedString ResetOptionWarning => "Defaults_ConfirmResetTheseSettings".Translate(category.label);
 
+        protected virtual bool ShowAdditionalSettingsOption => true;
+
         protected override IEnumerable<FloatMenuOption> QuickOptions
         {
             get
             {
+                if (!ShowQuickOptionSettingsInWindow)
+                {
+                    foreach (FloatMenuOption option in category.QuickOptions)
+                    {
+                        yield return option;
+                    }
+                }
+
+                if (ShowAdditionalSettingsOption)
+                {
+                    List<DefaultSettingDef> additionalSettings = category.DefaultSettings.Where(s => !s.showInQuickOptions).OrderBy(s => s.uiOrder).ToList();
+                    if (additionalSettings.Any())
+                    {
+                        yield return new FloatMenuOption("Defaults_AdditionalSettings".Translate() + "...", () =>
+                        {
+                            Find.WindowStack.Add(new Dialog_AdditionalSettings(additionalSettings));
+                        });
+                    }
+                }
+
+                if (ShowResetOption)
+                {
+                    yield return new FloatMenuOption(ResetOptionText, OnResetOptionClicked);
+                }
+
                 foreach (FloatMenuOption option in category.Worker.FloatMenuOptions)
                 {
                     yield return option;
-                }
-
-                if (DoResetOption)
-                {
-                    yield return new FloatMenuOption(ResetOptionText, OnResetOptionClicked);
                 }
             }
         }
@@ -58,7 +83,8 @@ namespace Defaults.UI
             {
                 using (new TextBlock(GameFont.Medium))
                 {
-                    Widgets.Label(inRect, Title);
+                    GUI.DrawTexture(inRect.TopPartPixels(Text.LineHeight).LeftPartPixels(Text.LineHeight), category.Worker.Icon);
+                    Widgets.Label(inRect.RightPartPixels(inRect.width - Text.LineHeight - Margin), Title);
                     y += Text.LineHeight + Margin - 4f;
                 }
             }

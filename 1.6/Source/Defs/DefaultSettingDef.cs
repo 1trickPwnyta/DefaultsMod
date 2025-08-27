@@ -22,7 +22,7 @@ namespace Defaults.Defs
             {
                 if (worker == null)
                 {
-                    worker = (IDefaultSettingWorker)Activator.CreateInstance(workerClass, new[] { this });
+                    worker = WorkerFactory.GetWorker(this);
                 }
                 return worker;
             }
@@ -32,5 +32,17 @@ namespace Defaults.Defs
             filter.Matches(label)
             || keywords.Any(k => filter.Matches(k)
         ));
+
+        public override IEnumerable<string> ConfigErrors()
+        {
+            foreach (string error in base.ConfigErrors())
+            {
+                yield return error;
+            }
+            if (showInQuickOptions && !typeof(DefaultSettingWorker_Checkbox).IsAssignableFrom(workerClass))
+            {
+                yield return "If showInQuickOptions is true, workerClass must be a subclass of DefaultSettingWorker_Checkbox.";
+            }
+        }
     }
 }

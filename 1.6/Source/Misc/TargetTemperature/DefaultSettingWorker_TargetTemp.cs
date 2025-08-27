@@ -19,7 +19,7 @@ namespace Defaults.Misc.TargetTemperature
             rect.x += rect.width / 2;
             rect.width /= 2;
             float target = setting.Value;
-            UIUtility.TemperatureEntry(rect, ref target, 1, -50f, 50f);
+            UIUtility.DoTemperatureEntry(rect, ref target, 1, -50f, 50f);
             setting = target;
         }
 

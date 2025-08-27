@@ -7,8 +7,10 @@ namespace Defaults.Defs
     {
         public static DefaultSettingsCategoryDef
             AllowedAreas,
+            General,
             Policies,
             Schedule,
-            Storyteller;
+            Storyteller,
+            WorkPriorities;
     }
 }

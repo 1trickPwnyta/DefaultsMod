@@ -3,35 +3,17 @@ using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using Verse;
 
 namespace Defaults.Defs
 {
-    public class DefaultSettingsCategoryDef : Def
+    public class DefaultSettingsCategoryDef : DefWithIcon
     {
-        private Texture2D icon;
         private DefaultSettingsCategoryWorker worker;
 
-        public string iconPath;
         public Type workerClass;
         public List<string> keywords = new List<string>();
         public bool canDisable = true;
-
-        public Texture2D Icon
-        {
-            get
-            {
-                if (icon == null)
-                {
-                    if (iconPath != null)
-                    {
-                        icon = ContentFinder<Texture2D>.Get(iconPath);
-                    }
-                }
-                return icon;
-            }
-        }
 
         public DefaultSettingsCategoryWorker Worker
         {
@@ -39,13 +21,15 @@ namespace Defaults.Defs
             {
                 if (worker == null)
                 {
-                    worker = (DefaultSettingsCategoryWorker)Activator.CreateInstance(workerClass, new[] { this });
+                    worker = WorkerFactory.GetWorker(this);
                 }
                 return worker;
             }
         }
 
         public IEnumerable<DefaultSettingDef> DefaultSettings => DefDatabase<DefaultSettingDef>.AllDefsListForReading.Where(d => d.category == this);
+
+        public IEnumerable<FloatMenuOption> QuickOptions => DefaultSettings.Where(s => s.showInQuickOptions).OrderBy(s => s.uiOrder).Select(s => s.Worker).OfType<DefaultSettingWorker_Checkbox>().Select(w => w.QuickOption);
 
         public bool Enabled
         {

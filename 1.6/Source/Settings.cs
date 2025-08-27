@@ -49,6 +49,11 @@ namespace Defaults
         public const string MECH_WORK_MODE_SECOND = "DefaultWorkModeSecond";
         public const string SHOW_DISABLED_IN_SEARCH = "ShowDisabledInSearch";
         public const string NO_PAUSE_OPTIONS = "NoPauseOptions";
+        public const string WORK_PRIORITIES_ADVANCED_MODE = "WorkPrioritiesAdvancedMode";
+        public const string WORK_PRIORITIES_BASIC = "WorkPrioritiesBasic";
+        public const string WORK_PRIORITIES_GLOBAL_LOGIC = "WorkPrioritiesGlobalLogic";
+        public const string WORK_PRIORITIES_LOGIC = "WorkPrioritiesLogic";
+        public const string ALLOW_REMOVE_OUTFIT = "AllowRemovingFromOutfitStand";
 
         public static T Get<T>(string key)
         {

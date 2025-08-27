@@ -1,6 +1,7 @@
 ﻿using Defaults.Compatibility;
 using Defaults.Defs;
 using Defaults.Workers;
+using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -59,11 +60,18 @@ namespace Defaults.WorkbenchBills
                 {
                     foreach (ThingDef def in defs.OfType<ThingDef>())
                     {
-                        bill.ingredientFilter.SetAllow(def, true);
+                        if (bill.recipe.fixedIngredientFilter.Allows(def))
+                        {
+                            bill.ingredientFilter.SetAllow(def, true);
+                        }
                     }
+                    HashSet<SpecialThingFilterDef> allSpecialThingFilters = bill.recipe.GetAllSpecialThingFilterDefs().ToHashSet();
                     foreach (SpecialThingFilterDef def in defs.OfType<SpecialThingFilterDef>())
                     {
-                        bill.ingredientFilter.SetAllow(def, false);
+                        if (!def.allowedByDefault && allSpecialThingFilters.Contains(def))
+                        {
+                            bill.ingredientFilter.SetAllow(def, false);
+                        }
                     }
                 }
             }

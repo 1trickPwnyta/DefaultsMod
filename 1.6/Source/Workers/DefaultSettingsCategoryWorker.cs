@@ -15,7 +15,7 @@ namespace Defaults.Workers
         private static readonly float buttonPadding = 10f;
         private static readonly Color disabledColor = Color.black.WithAlpha(0.5f);
 
-        public readonly DefaultSettingsCategoryDef def;
+        public DefaultSettingsCategoryDef def;
         public bool disabled;
 
         public static T GetWorker<T>() where T : DefaultSettingsCategoryWorker => DefDatabase<DefaultSettingsCategoryDef>.AllDefsListForReading.First(d => d.Worker is T).Worker as T;
@@ -29,6 +29,8 @@ namespace Defaults.Workers
         protected virtual string DataPrefix => def.defName + ".";
 
         public bool WasEnabledAtStartup { get; private set; } = true;
+
+        public virtual Texture2D Icon => def.Icon;
 
         public virtual IEnumerable<FloatMenuOption> FloatMenuOptions
         {
@@ -139,7 +141,7 @@ namespace Defaults.Workers
             Widgets.DrawRectFast(rect, buttonColor);
             Widgets.DrawHighlightIfMouseover(rect);
             Rect iconRect = new Rect(rect.x + (rect.width - buttonIconSize) / 2, rect.y + buttonPadding, buttonIconSize, buttonIconSize);
-            Widgets.DrawTextureFitted(iconRect, def.Icon, 1f);
+            Widgets.DrawTextureFitted(iconRect, Icon, 1f);
             Rect labelRect = new Rect(rect.x + buttonPadding, rect.y + buttonPadding + buttonIconSize + buttonPadding, rect.width - buttonPadding * 2, rect.height - buttonPadding - buttonIconSize - buttonPadding - buttonPadding);
             Text.Anchor = TextAnchor.LowerCenter;
             Widgets.Label(labelRect, def.LabelCap);

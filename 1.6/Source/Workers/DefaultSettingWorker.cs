@@ -8,6 +8,8 @@ namespace Defaults.Workers
     {
         string Key { get; }
 
+        DefaultSettingDef Def { set; }
+
         void ExposeData();
 
         void ResetSetting(bool forced);
@@ -17,7 +19,7 @@ namespace Defaults.Workers
 
     public abstract class DefaultSettingWorker<T> : IDefaultSettingWorker
     {
-        public readonly DefaultSettingDef def;
+        public DefaultSettingDef def;
         public T setting;
 
         public DefaultSettingWorker(DefaultSettingDef def)
@@ -27,6 +29,11 @@ namespace Defaults.Workers
         }
 
         public abstract string Key { get; }
+
+        public DefaultSettingDef Def
+        {
+            set => def = value;
+        }
 
         protected abstract void DoWidget(Rect rect);
 

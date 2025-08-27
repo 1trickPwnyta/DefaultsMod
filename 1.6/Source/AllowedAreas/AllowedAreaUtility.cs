@@ -9,7 +9,7 @@ namespace Defaults.AllowedAreas
     {
         public static void SetDefaultAllowedArea(this Pawn pawn, AllowedPawn? previousAllowedPawn = null)
         {
-            if (pawn.Spawned && pawn.playerSettings != null && pawn.playerSettings.SupportsAllowedAreas)
+            if (pawn.playerSettings != null && pawn.playerSettings.SupportsAllowedAreas)
             {
                 Dictionary<AllowedPawn, AllowedArea> allowedPawnAreas = Settings.Get<Dictionary<AllowedPawn, AllowedArea>>(Settings.ALLOWED_AREAS_PAWN);
                 Dictionary<Map, Area> allowedAreas = pawn.playerSettings.GetType().Field("allowedAreas").GetValue(pawn.playerSettings) as Dictionary<Map, Area>;
