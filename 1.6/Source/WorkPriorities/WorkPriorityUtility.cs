@@ -10,9 +10,12 @@ namespace Defaults.WorkPriorities
 
         public static void SetWorkPrioritiesToDefault(Pawn pawn)
         {
-            foreach (WorkTypeDef def in DefDatabase<WorkTypeDef>.AllDefsListForReading.Where(d => !pawn.WorkTypeIsDisabled(d)))
+            if (pawn.IsFreeColonist)
             {
-                SetWorkPrioritiesToDefault(pawn, def);
+                foreach (WorkTypeDef def in DefDatabase<WorkTypeDef>.AllDefsListForReading.Where(d => !pawn.WorkTypeIsDisabled(d)))
+                {
+                    SetWorkPrioritiesToDefault(pawn, def);
+                }
             }
         }
 
