@@ -5,7 +5,7 @@ namespace Defaults.WorkPriorities.Effects
 {
     public class Effect_Value : Effect
     {
-        public int value = 3;
+        public int value = WorkPriorityValue.Default;
 
         public Effect_Value()
         {
