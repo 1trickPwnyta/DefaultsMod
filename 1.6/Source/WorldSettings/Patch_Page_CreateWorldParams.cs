@@ -13,7 +13,7 @@ namespace Defaults.WorldSettings
     [HarmonyPatch(nameof(Page_CreateWorldParams.Reset))]
     public static class Patch_Page_CreateWorldParams_Reset
     {
-        public static void Postfix(ref float ___planetCoverage, ref OverallRainfall ___rainfall, ref OverallTemperature ___temperature, ref OverallPopulation ___population, ref float ___pollution)
+        public static void Postfix(ref float ___planetCoverage, ref OverallRainfall ___rainfall, ref OverallTemperature ___temperature, ref OverallPopulation ___population, ref float ___pollution, ref LandmarkDensity ___landmarkDensity)
         {
             PlanetOptions options = Settings.Get<PlanetOptions>(Settings.PLANET);
             ___planetCoverage = options.DefaultPlanetCoverage;
@@ -21,6 +21,7 @@ namespace Defaults.WorldSettings
             ___temperature = options.DefaultOverallTemperature;
             ___population = options.DefaultOverallPopulation;
             ___pollution = options.DefaultPollution;
+            ___landmarkDensity = options.DefaultLandmarkDensity;
         }
     }
 
@@ -47,7 +48,7 @@ namespace Defaults.WorldSettings
     [HarmonyPatch(nameof(Page_CreateWorldParams.DoWindowContents))]
     public static class Patch_Page_CreateWorldParams_DoWindowContents
     {
-        public static void Postfix(Rect rect, float ___planetCoverage, OverallRainfall ___rainfall, OverallTemperature ___temperature, OverallPopulation ___population, float ___pollution, List<FactionDef> ___factions)
+        public static void Postfix(Rect rect, float ___planetCoverage, OverallRainfall ___rainfall, OverallTemperature ___temperature, OverallPopulation ___population, float ___pollution, LandmarkDensity ___landmarkDensity, List<FactionDef> ___factions)
         {
             if (!Settings.GetValue<bool>(Settings.HIDE_SETASDEFAULT))
             {
@@ -60,6 +61,7 @@ namespace Defaults.WorldSettings
                     planetOptions.DefaultOverallTemperature = ___temperature;
                     planetOptions.DefaultOverallPopulation = ___population;
                     planetOptions.DefaultPollution = ___pollution;
+                    planetOptions.DefaultLandmarkDensity = ___landmarkDensity;
                     MapOptions mapOptions = Settings.Get<MapOptions>(Settings.MAP);
                     mapOptions.DefaultMapSize = Find.GameInitData.mapSize;
                     mapOptions.DefaultStartingSeason = Find.GameInitData.startingSeason;
