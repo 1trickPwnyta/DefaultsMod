@@ -19,10 +19,37 @@ namespace Defaults.WorkPriorities
         private static readonly Texture2D iconOff = Widgets.CheckboxOffTex;
         private static readonly Texture2D iconNumber = WidgetsWork.WorkBoxBGTex_Mid;
         private static readonly Type workTabSettings = AccessTools.TypeByName("WorkTab.Settings");
+        private static readonly Type priorityMasterMod = AccessTools.TypeByName("PriorityMod.Core.PriorityMaster");
 
-        public static int Max =>
+        public static int Max
+        {
+            get
+            {
                 // Support for Work Tab mod
-                workTabSettings != null ? (int)workTabSettings.Field("maxPriority").GetValue(null) : 4;
+                if (workTabSettings != null) return (int)workTabSettings.Field("maxPriority").GetValue(null);
+                // Support for Priority Master mod
+                else if (priorityMasterMod != null)
+                {
+                    object settings = priorityMasterMod.Field("settings").GetValue(null);
+                    return (int)settings.GetType().Field("maxPriority").GetValue(settings);
+                }
+                else return 4;
+            }
+        }
+
+        public static int Default
+        {
+            get
+            {
+                // Support for Priority Master mod
+                if (priorityMasterMod != null)
+                {
+                    object settings = priorityMasterMod.Field("settings").GetValue(null);
+                    return (int)settings.GetType().Field("defPriority").GetValue(settings);
+                }
+                else return 3;
+            }
+        }
 
         private static bool ManualPriorities => Settings.GetValue<bool>(Settings.MANUAL_PRIORITIES);
 
@@ -46,6 +73,6 @@ namespace Defaults.WorkPriorities
             }
         }
 
-        public static List<FloatMenuOption> GetOptions(Action<int> optionSelected) => Enumerable.Range(TynansChoice, Max + 2).Where(i => ManualPriorities || i == 3 || i < 1).Select(i => new FloatMenuOption(GetLabel(i).CapitalizeFirst(), () => optionSelected(i), GetIcon(i), Color.white)).ToList();
+        public static List<FloatMenuOption> GetOptions(Action<int> optionSelected) => Enumerable.Range(TynansChoice, Max + 2).Where(i => ManualPriorities || i == Default || i < 1).Select(i => new FloatMenuOption(GetLabel(i).CapitalizeFirst(), () => optionSelected(i), GetIcon(i), Color.white)).ToList();
     }
 }
