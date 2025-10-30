@@ -19,9 +19,12 @@ namespace Defaults.WorkbenchBills
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             List<CodeInstruction> instructionsList = instructions.ToList();
-            CodeInstruction billLimitInstruction = instructionsList.First(i => i.opcode == OpCodes.Ldc_I4_S && (sbyte)i.operand == 15);
-            billLimitInstruction.opcode = OpCodes.Call;
-            billLimitInstruction.operand = typeof(PatchUtility_BillStackLimit).Method(nameof(PatchUtility_BillStackLimit.GetBillLimit));
+            CodeInstruction billLimitInstruction = instructionsList.FirstOrDefault(i => i.opcode == OpCodes.Ldc_I4_S && i.operand is sbyte b && b == 15);
+            if (billLimitInstruction != null)
+            {
+                billLimitInstruction.opcode = OpCodes.Call;
+                billLimitInstruction.operand = typeof(PatchUtility_BillStackLimit).Method(nameof(PatchUtility_BillStackLimit.GetBillLimit));
+            }
             return instructionsList;
         }
     }

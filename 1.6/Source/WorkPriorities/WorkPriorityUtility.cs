@@ -21,30 +21,33 @@ namespace Defaults.WorkPriorities
 
         public static void SetWorkPrioritiesToDefault(Pawn pawn, WorkTypeDef def)
         {
-            if (Settings.Get<bool>(Settings.WORK_PRIORITIES_ADVANCED_MODE))
+            if (pawn.IsFreeColonist)
             {
-                List<Rule> advancedGlobalWorkPriorityLogic = Settings.Get<List<Rule>>(Settings.WORK_PRIORITIES_GLOBAL_LOGIC);
-                List<Rule> advancedSpecificWorkPriorityLogic = Settings.Get<Dictionary<WorkTypeDef, List<Rule>>>(Settings.WORK_PRIORITIES_LOGIC).TryGetValue(def);
-                int original = pawn.workSettings.GetPriority(def);
-                bool? applied = ApplyRules(advancedGlobalWorkPriorityLogic.ConcatIfNotNull(advancedSpecificWorkPriorityLogic), def, pawn);
-                if (applied.HasValue && !applied.Value)
+                if (Settings.Get<bool>(Settings.WORK_PRIORITIES_ADVANCED_MODE))
                 {
-                    pawn.workSettings.SetPriority(def, original);
-                }
-            }
-            else
-            {
-                Dictionary<WorkTypeDef, int> basicDefaultWorkPriorities = Settings.Get<Dictionary<WorkTypeDef, int>>(Settings.WORK_PRIORITIES_BASIC);
-                if (basicDefaultWorkPriorities.ContainsKey(def))
-                {
-                    int priority = basicDefaultWorkPriorities[def];
-                    if (priority == WorkPriorityValue.DoNotDo)
+                    List<Rule> advancedGlobalWorkPriorityLogic = Settings.Get<List<Rule>>(Settings.WORK_PRIORITIES_GLOBAL_LOGIC);
+                    List<Rule> advancedSpecificWorkPriorityLogic = Settings.Get<Dictionary<WorkTypeDef, List<Rule>>>(Settings.WORK_PRIORITIES_LOGIC).TryGetValue(def);
+                    int original = pawn.workSettings.GetPriority(def);
+                    bool? applied = ApplyRules(advancedGlobalWorkPriorityLogic.ConcatIfNotNull(advancedSpecificWorkPriorityLogic), def, pawn);
+                    if (applied.HasValue && !applied.Value)
                     {
-                        pawn.workSettings.Disable(def);
+                        pawn.workSettings.SetPriority(def, original);
                     }
-                    else if (priority > 0)
+                }
+                else
+                {
+                    Dictionary<WorkTypeDef, int> basicDefaultWorkPriorities = Settings.Get<Dictionary<WorkTypeDef, int>>(Settings.WORK_PRIORITIES_BASIC);
+                    if (basicDefaultWorkPriorities.ContainsKey(def))
                     {
-                        pawn.workSettings.SetPriority(def, priority);
+                        int priority = basicDefaultWorkPriorities[def];
+                        if (priority == WorkPriorityValue.DoNotDo)
+                        {
+                            pawn.workSettings.Disable(def);
+                        }
+                        else if (priority > 0)
+                        {
+                            pawn.workSettings.SetPriority(def, priority);
+                        }
                     }
                 }
             }

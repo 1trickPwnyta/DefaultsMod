@@ -3,7 +3,7 @@
 	<name>1trickPwnyta's Defaults</name>
 	<author>1trickPwnyta</author>
 	<packageId>defaults.1trickPwnyta</packageId>
-	<modVersion>1.8.5</modVersion>
+	<modVersion>1.8.7</modVersion>
 	<supportedVersions>
 		<li>1.5</li>
 		<li>1.6</li>
@@ -35,6 +35,8 @@ Full list of default settings:
   - Mech work modes: Set the default work modes for the initial two mechanitor control groups as well as a mode for all additional control groups granted by control sublinks.
 
 === Updates ===
+10/29/2025: Add compatibility with Best Mix mod
+10/04/2025: Prevent non-colonists/slaves from getting default work priorities assigned as it can cause log spam
 10/03/2025: Fix bug where default landmark density does nothing
 09/16/2025: Add support for Priority Master mod
 08/27/2025: Fix bug that breaks player mechs when default work priorities are enabled
@@ -86,5 +88,6 @@ Mod icon: twitter.com/mouse_draws
 		<li>cain.mineshaft</li>
 		<li>brrainz.nopausechallenge</li>
 		<li>co.uk.epicguru.rimforge</li>
+		<li>mlie.bestmix</li>
 	</loadAfter>
 </ModMetaData>
