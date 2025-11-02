@@ -7,7 +7,7 @@ namespace Defaults.AllowedAreas
 {
     public static class AllowedAreaUtility
     {
-        public static void SetDefaultAllowedArea(this Pawn pawn, AllowedPawn? previousAllowedPawn = null)
+        public static void SetDefaultAllowedArea(this Pawn pawn, AllowedPawn? previousAllowedPawn = null, Pawn mother = null)
         {
             if (pawn.playerSettings != null && pawn.playerSettings.SupportsAllowedAreas)
             {
@@ -17,6 +17,11 @@ namespace Defaults.AllowedAreas
                 AllowedPawn? allowedPawn = AllowedPawnUtility.GetAllowedPawnType(pawn);
                 if (allowedPawn.HasValue)
                 {
+                    Dictionary<Map, Area> inheritedAreas = null;
+                    if (mother?.playerSettings != null && mother.playerSettings.SupportsAllowedAreas && (allowedPawn == AllowedPawn.ChildColonist || allowedPawn == AllowedPawn.Animal) && (allowedPawn == AllowedPawn.ChildColonist ? Settings.GetValue<bool>(Settings.CHILDREN_INHERIT_AREA_FROM_PARENT) : Settings.GetValue<bool>(Settings.ANIMALS_INHERIT_AREA_FROM_PARENT)))
+                    {
+                        inheritedAreas = mother.playerSettings.GetType().Field("allowedAreas").GetValue(mother.playerSettings) as Dictionary<Map, Area>;
+                    }
                     foreach (Map map in Find.Maps)
                     {
                         if (previousAllowedPawn.HasValue)
@@ -26,7 +31,9 @@ namespace Defaults.AllowedAreas
                                 continue;
                             }
                         }
-                        allowedAreas[map] = map.areaManager.AllAreas.FirstOrDefault(a => a.Label == allowedPawnAreas.TryGetValue(allowedPawn.Value)?.name);
+                        allowedAreas[map] = inheritedAreas == null || !inheritedAreas.ContainsKey(map) || !map.areaManager.AllAreas.Contains(inheritedAreas[map])
+                            ? map.areaManager.AllAreas.FirstOrDefault(a => a.Label == allowedPawnAreas.TryGetValue(allowedPawn.Value)?.name)
+                            : inheritedAreas[map];
                     }
                 }
             }

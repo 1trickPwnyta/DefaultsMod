@@ -54,6 +54,8 @@ namespace Defaults
         public const string WORK_PRIORITIES_GLOBAL_LOGIC = "WorkPrioritiesGlobalLogic";
         public const string WORK_PRIORITIES_LOGIC = "WorkPrioritiesLogic";
         public const string ALLOW_REMOVE_OUTFIT = "AllowRemovingFromOutfitStand";
+        public const string CHILDREN_INHERIT_AREA_FROM_PARENT = "ChildrenInheritAreaFromParent";
+        public const string ANIMALS_INHERIT_AREA_FROM_PARENT = "AnimalsInheritAreaFromParent";
 
         public static T Get<T>(string key)
         {
