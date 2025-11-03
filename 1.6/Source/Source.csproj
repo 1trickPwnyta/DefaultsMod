@@ -91,6 +91,7 @@
     <Compile Include="BabyFeeding\Patch_PregnancyUtility.cs" />
     <Compile Include="Compatibility\BackwardCompatibilityUtility.cs" />
     <Compile Include="Compatibility\Dialog_BetterWorkbenchAdditionalItems.cs" />
+    <Compile Include="Compatibility\ModCompatibilityUtility_AnimalControls.cs" />
     <Compile Include="Compatibility\ModCompatibilityUtility_BetterWorkbench.cs" />
     <Compile Include="Defs\DefaultSettingDef.cs" />
     <Compile Include="Defs\DefaultSettingsCategoryDefOf.cs" />

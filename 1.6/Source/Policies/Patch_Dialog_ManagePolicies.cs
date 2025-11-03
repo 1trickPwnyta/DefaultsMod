@@ -1,4 +1,5 @@
-﻿using Defaults.UI;
+﻿using Defaults.Compatibility;
+using Defaults.UI;
 using HarmonyLib;
 using RimWorld;
 using System;
@@ -17,6 +18,11 @@ namespace Defaults.Policies
     [HarmonyPatch(nameof(Dialog_ManagePolicies<Policy>.DoWindowContents))]
     public static class Patch_Dialog_ManagePolicies_DoWindowContents
     {
+        public static bool Prefix(Dialog_ManagePolicies<Policy> __instance, Rect inRect)
+        {
+            return ModCompatibilityUtility_AnimalControls.DoAnimalControlsDefaults(inRect, __instance);
+        }
+
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             List<CodeInstruction> instructionsList = instructions.ToList();
@@ -62,6 +68,8 @@ namespace Defaults.Policies
                 ___policyInt.SetLocked(locked);
                 buttonOffset += 42f;
             }
+
+            ModCompatibilityUtility_AnimalControls.DoAnimalControlsDefaultsButton(inRect, __instance);
         }
     }
 
