@@ -1,4 +1,5 @@
-﻿using Defaults.Defs;
+﻿using Defaults.Compatibility;
+using Defaults.Defs;
 using Defaults.MapSettings;
 using Defaults.UI;
 using RimWorld;
@@ -26,6 +27,18 @@ namespace Defaults.WorldSettings
         public override Vector2 InitialSize => Page.StandardSize;
 
         protected override bool DoSettingsWhenDisabled => false;
+
+        public override void PreOpen()
+        {
+            base.PreOpen();
+            ModCompatibilityUtility_FactionXenotypeRandomizer.InitializeCustomFactions();
+        }
+
+        public override void PostClose()
+        {
+            base.PostClose();
+            ModCompatibilityUtility_FactionXenotypeRandomizer.UninitializeCustomFactions();
+        }
 
         public override void DoSettings(Rect rect)
         {

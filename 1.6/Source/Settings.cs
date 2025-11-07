@@ -56,6 +56,7 @@ namespace Defaults
         public const string ALLOW_REMOVE_OUTFIT = "AllowRemovingFromOutfitStand";
         public const string CHILDREN_INHERIT_AREA_FROM_PARENT = "ChildrenInheritAreaFromParent";
         public const string ANIMALS_INHERIT_AREA_FROM_PARENT = "AnimalsInheritAreaFromParent";
+        public const string FACTION_XENOTYPE_RANDOMIZER_MUTANT_FACTIONS = "FactionXenotypeRandomizerMutantFactions";
 
         public static T Get<T>(string key)
         {
