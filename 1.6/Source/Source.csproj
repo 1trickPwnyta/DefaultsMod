@@ -215,6 +215,7 @@
     <Compile Include="WorkPriorities\Rule.cs" />
     <Compile Include="WorkPriorities\WorkPriorityUtility.cs" />
     <Compile Include="WorkPriorities\WorkPriorityValue.cs" />
+    <Compile Include="WorldSettings\CompatibilityPatch_Planets_CreateWorldParams.cs" />
     <Compile Include="WorldSettings\Dialog_MapSettings.cs" />
     <Compile Include="Medicine\MedicineUtility.cs" />
     <Compile Include="Medicine\Patch_Pawn.cs" />

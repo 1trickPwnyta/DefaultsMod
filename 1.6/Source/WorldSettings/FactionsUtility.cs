@@ -1,5 +1,7 @@
 ﻿using RimWorld;
 using System.Collections.Generic;
+using System.Linq;
+using Verse;
 
 namespace Defaults.WorldSettings
 {
@@ -30,6 +32,19 @@ namespace Defaults.WorldSettings
                 }
             }
             return factions;
+        }
+
+        public static void SetDefaultFactions(List<FactionDef> factions)
+        {
+            factions.Clear();
+            factions.AddRange(Settings.Get<List<FactionDef>>(Settings.FACTIONS).Where(f => f != null && f.displayInFactionSelection).Concat(GetDefaultNonselectableFactions()));
+            foreach (FactionDef faction in GetDefaultSelectableFactions())
+            {
+                if (!factions.Contains(faction) && Current.Game.Scenario.AllParts.Any(p => p.def.preventRemovalOfFaction == faction))
+                {
+                    factions.Add(faction);
+                }
+            }
         }
 
         public static List<FactionDef> GetDefaultSelectableFactions()

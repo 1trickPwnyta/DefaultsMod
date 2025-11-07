@@ -30,16 +30,9 @@ namespace Defaults.WorldSettings
     [HarmonyPatch("ResetFactionCounts")]
     public static class Patch_Page_CreateWorldParams_ResetFactionCounts
     {
-        public static void Postfix(ref List<FactionDef> ___factions)
+        public static void Postfix(List<FactionDef> ___factions)
         {
-            ___factions = Settings.Get<List<FactionDef>>(Settings.FACTIONS).Where(f => f != null && f.displayInFactionSelection).Concat(FactionsUtility.GetDefaultNonselectableFactions()).ToList();
-            foreach (FactionDef faction in FactionsUtility.GetDefaultSelectableFactions())
-            {
-                if (!___factions.Contains(faction) && Current.Game.Scenario.AllParts.Any(p => p.def.preventRemovalOfFaction == faction))
-                {
-                    ___factions.Add(faction);
-                }
-            }
+            FactionsUtility.SetDefaultFactions(___factions);
         }
     }
 
