@@ -14,9 +14,9 @@ namespace Defaults.Compatibility
         private static readonly Type customFactionXenotypesType = AccessTools.TypeByName("FactionXenotypeRandomizer.CustomFactionXenotypes");
         private static readonly bool factionXenotypeRandomizerActive = customFactionDefType != null;
 
-        public static void InitializeCustomFactions() => customFactionXenotypesType.Method("Initialize").Invoke(null, new object[] { });
+        public static void InitializeCustomFactions() => customFactionXenotypesType?.Method("Initialize").Invoke(null, new object[] { });
 
-        public static void UninitializeCustomFactions() => customFactionXenotypesType.Method("Uninitialize").Invoke(null, new object[] { });
+        public static void UninitializeCustomFactions() => customFactionXenotypesType?.Method("Uninitialize").Invoke(null, new object[] { });
 
         public static bool ScribeDefaultFactions(ref List<FactionDef> factions)
         {

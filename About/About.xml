@@ -3,7 +3,7 @@
 	<name>1trickPwnyta's Defaults</name>
 	<author>1trickPwnyta</author>
 	<packageId>defaults.1trickPwnyta</packageId>
-	<modVersion>1.8.8</modVersion>
+	<modVersion>1.8.9</modVersion>
 	<supportedVersions>
 		<li>1.5</li>
 		<li>1.6</li>
@@ -35,6 +35,7 @@ Full list of default settings:
   - Mech work modes: Set the default work modes for the initial two mechanitor control groups as well as a mode for all additional control groups granted by control sublinks.
 
 === Updates ===
+11/08/2025: Fix default world settings dialog
 11/07/2025: Add option to preserve allowed area inheritance from parent, fix various mod incompatibilities and bugs including Animal Controls, Realistic Planets, and Faction Xenotype Randomizer
 10/29/2025: Add compatibility with Best Mix mod
 10/04/2025: Prevent non-colonists/slaves from getting default work priorities assigned as it can cause log spam
