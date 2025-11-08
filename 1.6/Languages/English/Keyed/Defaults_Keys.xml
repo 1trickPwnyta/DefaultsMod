@@ -134,6 +134,10 @@
 	<Defaults_EditSubrules>Edit subrules</Defaults_EditSubrules>
 	<Defaults_WorkPriorityRulesSpecific>{0} rules</Defaults_WorkPriorityRulesSpecific>
 	<Defaults_AdditionalSettings>Additional settings</Defaults_AdditionalSettings>
+	<Defaults_Configure>Configure...</Defaults_Configure>
+	<Defaults_SettingsBackupOptionsTitle>Settings backup</Defaults_SettingsBackupOptionsTitle>
+	<Defaults_SettingsBackupPath>Backup path</Defaults_SettingsBackupPath>
+	<Defaults_InvalidFolder>The path {0} does not exist and couldn't be created.</Defaults_InvalidFolder>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

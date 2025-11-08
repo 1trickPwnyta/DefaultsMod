@@ -35,5 +35,19 @@
 	  <li>show</li>
 	</keywords>
   </Defaults.Defs.DefaultSettingDef>
+  
+  <Defaults.Defs.DefaultSettingDef>
+    <defName>SettingsBackupOptions</defName>
+	<label>settings backups</label>
+	<category>General</category>
+	<uiOrder>35</uiOrder>
+    <workerClass>Defaults.General.DefaultSettingWorker_SettingsBackupOptions</workerClass>
+	<keywords>
+	  <li>backup</li>
+	  <li>back-up</li>
+	  <li>schedule</li>
+	  <li>config</li>
+	</keywords>
+  </Defaults.Defs.DefaultSettingDef>
 
 </Defs>

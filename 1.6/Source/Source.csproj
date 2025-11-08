@@ -101,6 +101,9 @@
     <Compile Include="Defs\Scribe_Defs_Silent.cs" />
     <Compile Include="Defs\WorkPriorityConditionDef.cs" />
     <Compile Include="Defs\WorkPriorityEffectDef.cs" />
+    <Compile Include="General\DefaultSettingWorker_SettingsBackupOptions.cs" />
+    <Compile Include="General\Dialog_SettingsBackupOptions.cs" />
+    <Compile Include="General\SettingsBackupOptions.cs" />
     <Compile Include="StockpileZones\Buildings\DefaultSettingWorker_AllowRemovingFromOutfitStand.cs" />
     <Compile Include="StockpileZones\Buildings\Patch_Building_OutfitStand.cs" />
     <Compile Include="UI\Dialog_MainSettings.cs" />
@@ -152,6 +155,7 @@
     <Compile Include="Misc\PlantType\DefaultSettingWorker_PlantType.cs" />
     <Compile Include="Misc\PlaySettings\DefaultSettingWorker_AutoHomeArea.cs" />
     <Compile Include="Misc\PlaySettings\DefaultSettingWorker_AutoRebuild.cs" />
+    <Compile Include="Workers\DefaultSettingWorker_Options.cs" />
     <Compile Include="Workers\WorkerFactory.cs" />
     <Compile Include="Workers\WorkPriorityConditionWorker.cs" />
     <Compile Include="Workers\WorkPriorityEffectWorker.cs" />
