@@ -94,6 +94,7 @@
     <Compile Include="Compatibility\ModCompatibilityUtility_AnimalControls.cs" />
     <Compile Include="Compatibility\ModCompatibilityUtility_BetterWorkbench.cs" />
     <Compile Include="Compatibility\ModCompatibilityUtility_FactionXenotypeRandomizer.cs" />
+    <Compile Include="Compatibility\ModCompatibilityUtility_Toddlers.cs" />
     <Compile Include="Defs\DefaultSettingDef.cs" />
     <Compile Include="Defs\DefaultSettingsCategoryDefOf.cs" />
     <Compile Include="Defs\DefWithIcon.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="Workers\WorkerFactory.cs" />
     <Compile Include="Workers\WorkPriorityConditionWorker.cs" />
     <Compile Include="Workers\WorkPriorityEffectWorker.cs" />
+    <Compile Include="WorkPriorities\CompatibilityPatch_Pawn.cs" />
     <Compile Include="WorkPriorities\Conditions\Condition.cs" />
     <Compile Include="WorkPriorities\Conditions\Condition_Age.cs" />
     <Compile Include="WorkPriorities\Conditions\Condition_Always.cs" />

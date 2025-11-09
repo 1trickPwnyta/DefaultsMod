@@ -1,4 +1,6 @@
-﻿using HarmonyLib;
+﻿using Defaults.Compatibility;
+using HarmonyLib;
+using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -31,9 +33,19 @@ namespace Defaults.WorkPriorities
 
         public static void Postfix(Pawn __instance)
         {
+            List<WorkTypeDef> disabledWorkTypes = __instance.GetDisabledWorkTypes();
+            ModCompatibilityUtility_Toddlers.FixDisabledWorkTypes(__instance, ref disabledWorkTypes);
+
+            // tmpEnabledWorkTypes includes all newly enabled work types for a new life stage
             if (typeof(Pawn_AgeTracker).Field("tmpEnabledWorkTypes").GetValue(null) is List<WorkTypeDef> ageWorkTypes)
             {
-                foreach (WorkTypeDef def in ageWorkTypes)
+                // When first becoming a child, assume all work types are newly enabled
+                if (ageWorkTypes.Any() && __instance.ageTracker.AgeBiologicalYears == (int)__instance.RaceProps.lifeStageAges.First(l => l.def == LifeStageDefOf.HumanlikeChild).minAge)
+                {
+                    ageWorkTypes = DefDatabase<WorkTypeDef>.AllDefsListForReading;
+                }
+
+                foreach (WorkTypeDef def in ageWorkTypes.Where(w => !disabledWorkTypes.Contains(w)))
                 {
                     WorkPriorityUtility.SetWorkPrioritiesToDefault(__instance, def);
                 }
