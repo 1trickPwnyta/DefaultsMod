@@ -138,6 +138,21 @@
 	<Defaults_SettingsBackupOptionsTitle>Settings backup</Defaults_SettingsBackupOptionsTitle>
 	<Defaults_SettingsBackupPath>Backup path</Defaults_SettingsBackupPath>
 	<Defaults_InvalidFolder>The path {0} does not exist and couldn't be created.</Defaults_InvalidFolder>
+	<Defaults_BackupNow>Back up default settings now</Defaults_BackupNow>
+	<Defaults_InputIsInvalid>Invalid input.</Defaults_InputIsInvalid>
+	<Defaults_BackupName>default_settings_backup_{0}</Defaults_BackupName>
+	<Defaults_InvalidFilename>The file name is invalid.</Defaults_InvalidFilename>
+	<Defaults_FileExists>The file already exists.</Defaults_FileExists>
+	<Default_PathTooLong>The file name is too long.</Default_PathTooLong>
+	<Defaults_SettingsBackupFailed>Failed to back up default settings: {0}</Defaults_SettingsBackupFailed>
+	<Defaults_CantOpenFolder>Couldn't open the folder.</Defaults_CantOpenFolder>
+	<Defaults_SettingsBackupComplete>Defaults settings backup successfully created as {0}.</Defaults_SettingsBackupComplete>
+	<Defaults_EnterBackupName>Enter a file name for the backup.</Defaults_EnterBackupName>
+	<Defaults_RestoreFromBackup>Restore default settings from backup</Defaults_RestoreFromBackup>
+	<Defaults_SelectBackupFile>Select a backup file to restore from. This action cannot be undone.</Defaults_SelectBackupFile>
+	<Defaults_SettingsRestoreFailed>Failed to restore default settings from backup: {0}</Defaults_SettingsRestoreFailed>
+	<Defaults_SettingsRestoreComplete>Default settings successfully restored from {0}. Some settings may not take effect until the game is restarted. Do you want to restart now?</Defaults_SettingsRestoreComplete>
+	<Defaults_ResetAllSettingsComplete>All settings have been successfully reset to their vanilla values.</Defaults_ResetAllSettingsComplete>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

@@ -3,6 +3,7 @@ using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
+using Verse.Sound;
 
 namespace Defaults
 {
@@ -21,6 +22,8 @@ namespace Defaults
             {
                 def.Worker.ResetSettings();
             }
+            SoundDefOf.GameStartSting.PlayOneShot(null);
+            Messages.Message("Defaults_ResetAllSettingsComplete".Translate(), MessageTypeDefOf.SilentInput, false);
         }
 
         public static void CheckForNewContent()

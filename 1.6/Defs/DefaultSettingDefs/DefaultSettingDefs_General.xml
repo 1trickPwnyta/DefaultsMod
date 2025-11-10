@@ -38,7 +38,7 @@
   
   <Defaults.Defs.DefaultSettingDef>
     <defName>SettingsBackupOptions</defName>
-	<label>settings backups</label>
+	<label>default settings backup</label>
 	<category>General</category>
 	<uiOrder>35</uiOrder>
     <workerClass>Defaults.General.DefaultSettingWorker_SettingsBackupOptions</workerClass>

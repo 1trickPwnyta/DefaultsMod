@@ -105,8 +105,10 @@
     <Compile Include="General\DefaultSettingWorker_SettingsBackupOptions.cs" />
     <Compile Include="General\Dialog_SettingsBackupOptions.cs" />
     <Compile Include="General\SettingsBackupOptions.cs" />
+    <Compile Include="General\SettingsBackupUtility.cs" />
     <Compile Include="StockpileZones\Buildings\DefaultSettingWorker_AllowRemovingFromOutfitStand.cs" />
     <Compile Include="StockpileZones\Buildings\Patch_Building_OutfitStand.cs" />
+    <Compile Include="UI\Dialog_Input.cs" />
     <Compile Include="UI\Dialog_MainSettings.cs" />
     <Compile Include="General\DefaultSettingWorker_HideLoadDefault.cs" />
     <Compile Include="General\DefaultSettingWorker_ShowDisabledInSearch.cs" />
@@ -117,6 +119,7 @@
     <Compile Include="Storyteller\NoPauseOptions.cs" />
     <Compile Include="UI\Dialog_Common.cs" />
     <Compile Include="UI\Dialog_AdditionalSettings.cs" />
+    <Compile Include="UI\Dialog_PickOne.cs" />
     <Compile Include="UI\Patch_Dialog_Options.cs" />
     <Compile Include="UI\Patch_ThingFilterUI.cs" />
     <Compile Include="UI\UIState_Ext.cs" />
