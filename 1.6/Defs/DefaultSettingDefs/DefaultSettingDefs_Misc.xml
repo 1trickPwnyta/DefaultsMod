@@ -73,6 +73,17 @@
   </Defaults.Defs.DefaultSettingDef>
   
   <Defaults.Defs.DefaultSettingDef>
+    <defName>CaravanAutoSelect</defName>
+	<label>auto-select caravan supplies by default</label>
+	<category>Misc</category>
+	<uiOrder>60</uiOrder>
+    <workerClass>Defaults.Misc.CaravanAutoSelect.DefaultSettingWorker_CaravanAutoSelect</workerClass>
+	<keywords>
+	  <li>supply</li>
+	</keywords>
+  </Defaults.Defs.DefaultSettingDef>
+  
+  <Defaults.Defs.DefaultSettingDef>
     <defName>TargetTempHeater</defName>
 	<label>target temperature for heaters</label>
 	<category>Misc</category>
