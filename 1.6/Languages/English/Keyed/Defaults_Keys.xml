@@ -140,7 +140,7 @@
 	<Defaults_InvalidFolder>The path {0} does not exist and couldn't be created.</Defaults_InvalidFolder>
 	<Defaults_BackupNow>Back up default settings now</Defaults_BackupNow>
 	<Defaults_InputIsInvalid>Invalid input.</Defaults_InputIsInvalid>
-	<Defaults_BackupName>default_settings_backup_{0}</Defaults_BackupName>
+	<Defaults_BackupName>settings_{0}</Defaults_BackupName>
 	<Defaults_InvalidFilename>The file name is invalid.</Defaults_InvalidFilename>
 	<Defaults_FileExists>The file already exists.</Defaults_FileExists>
 	<Defaults_PathTooLong>The file name is too long.</Defaults_PathTooLong>
@@ -169,6 +169,8 @@
 	<Defaults_DeleteBackup>Permanently delete this backup file.</Defaults_DeleteBackup>
 	<Defaults_DeleteBackupFailed>Failed to delete backup file {0}.</Defaults_DeleteBackupFailed>
 	<Defaults_ConfirmOverwriteBackup>{0} already exists and will be overwritten.</Defaults_ConfirmOverwriteBackup>
+	<Defaults_GetBackupFilesFailed>Failed to get settings backup files from {0}: {1}</Defaults_GetBackupFilesFailed>
+	<Defaults_NoBackupsToRestore>No default settings backup files found in {0}.</Defaults_NoBackupsToRestore>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

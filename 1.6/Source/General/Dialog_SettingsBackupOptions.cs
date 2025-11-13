@@ -40,7 +40,7 @@ namespace Defaults.General
             options.BackupPath = Widgets.TextField(new Rect(inRect.x + 150f, inRect.y + y, inRect.width - 260f, 30f), options.BackupPath);
             try
             {
-                Path.GetFullPath(Path.Combine(options.BackupPath, SettingsBackupUtility.BackupName));
+                Path.GetFullPath(Path.Combine(options.BackupPath, SettingsBackupUtility.BackupName + SettingsBackupUtility.settingsExt));
             }
             catch
             {
@@ -109,9 +109,10 @@ namespace Defaults.General
             {
                 Find.WindowStack.Add(new Dialog_TextField_String(filename =>
                 {
-                    if (File.Exists(Path.GetFullPath(Path.Combine(options.BackupPath, filename))))
+                    string fullFilename = filename + SettingsBackupUtility.settingsExt;
+                    if (File.Exists(Path.GetFullPath(Path.Combine(options.BackupPath, fullFilename))))
                     {
-                        Find.WindowStack.Add(new Dialog_Confirm("Defaults_ConfirmOverwriteBackup".Translate(filename), confirmBackup));
+                        Find.WindowStack.Add(new Dialog_Confirm("Defaults_ConfirmOverwriteBackup".Translate(fullFilename), confirmBackup));
                     }
                     else
                     {
@@ -123,17 +124,18 @@ namespace Defaults.General
                         DefaultsMod.SaveSettings(false);
                         if (SettingsBackupUtility.BackUpNow(filename))
                         {
-                            Messages.Message("Defaults_SettingsBackupComplete".Translate(filename), MessageTypeDefOf.PositiveEvent, false);
+                            Messages.Message("Defaults_SettingsBackupComplete".Translate(fullFilename), MessageTypeDefOf.PositiveEvent, false);
                         }
                     }
                 }, title: "Defaults_BackupNow".Translate(), prompt: "Defaults_EnterBackupName".Translate(), defaultValue: SettingsBackupUtility.BackupName, validator: filename =>
                 {
+                    if (filename.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
+                    {
+                        return "Defaults_InvalidFilename".Translate();
+                    }
                     try
                     {
-                        if (filename.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0)
-                        {
-                            return "Defaults_InvalidFilename".Translate();
-                        }
+                        Path.GetFullPath(Path.Combine(options.BackupPath, filename + SettingsBackupUtility.settingsExt));
                     }
                     catch (PathTooLongException)
                     {
@@ -150,57 +152,63 @@ namespace Defaults.General
             // Restore from backup
             if (Widgets.ButtonText(new Rect(inRect.x + inRect.width / 2 + 5f, inRect.y + y, inRect.width / 2 - 5f, 30f), "Defaults_RestoreFromBackup".Translate()))
             {
-                try
+                if (SettingsBackupUtility.GetBackupFiles().Any())
                 {
-                    DirectoryInfo directory = new DirectoryInfo(options.BackupPath);
-                    Find.WindowStack.Add(new Dialog_SelectOne<FileInfo>(
-                        "Defaults_RestoreFromBackup".Translate(),
-                        "Defaults_SelectBackupFile".Translate(),
-                        () => directory.GetFiles().Where(f => f.Exists).OrderByDescending(f => options.PinnedBackups.Contains(f.Name)).ThenByDescending(f => f.LastWriteTime),
-                        file =>
-                        {
-                            SettingsBackupUtility.RestoreBackup(file.Name);
-                        },
-                        equals: (a, b) => a.Name == b.Name,
-                        destructive: true,
-                        toString: f => f.Name + "    " + f.LastWriteTime.ToString(CultureInfo.InstalledUICulture).Colorize(ColoredText.DateTimeColor),
-                        doSideOptions: (rect, file) =>
-                        {
-                            Rect sideOptionsRect = rect.RightPartPixels(60f);
-                            Rect pinRect = sideOptionsRect.LeftHalf().ContractedBy(3f);
-                            bool pinned = options.PinnedBackups.Contains(file.Name);
-                            if (Widgets.ButtonImage(pinRect, pinned ? UIUtility.PinTex : UIUtility.PinOutlineTex, pinned ? Color.white : Widgets.InactiveColor, tooltip: "Defaults_PinBackup".Translate()))
+                    try
+                    {
+                        Find.WindowStack.Add(new Dialog_SelectOne<FileInfo>(
+                            "Defaults_RestoreFromBackup".Translate(),
+                            "Defaults_SelectBackupFile".Translate(),
+                            () => SettingsBackupUtility.GetBackupFiles().OrderByDescending(f => options.PinnedBackups.Contains(f.Name)).ThenByDescending(f => f.LastWriteTime),
+                            file =>
                             {
-                                if (pinned)
-                                {
-                                    options.PinnedBackups.Remove(file.Name);
-                                    SoundDefOf.Tick_Low.PlayOneShot(null);
-                                }
-                                else
-                                {
-                                    options.PinnedBackups.Add(file.Name);
-                                    SoundDefOf.Tick_High.PlayOneShot(null);
-                                }
-                            }
-                            Rect deleteRect = sideOptionsRect.RightHalf().ContractedBy(3f);
-                            if (Widgets.ButtonImage(deleteRect, TexButton.Delete, tooltip: "Defaults_DeleteBackup".Translate()))
+                                SettingsBackupUtility.RestoreBackup(file.Name);
+                            },
+                            equals: (a, b) => a.Name == b.Name,
+                            destructive: true,
+                            toString: f => f.Name + "  " + f.LastWriteTime.ToString(CultureInfo.InstalledUICulture).Colorize(ColoredText.DateTimeColor),
+                            doSideOptions: (rect, file) =>
                             {
-                                try
+                                Rect sideOptionsRect = rect.RightPartPixels(60f);
+                                Rect pinRect = sideOptionsRect.LeftHalf().ContractedBy(3f);
+                                bool pinned = options.PinnedBackups.Contains(file.Name);
+                                if (Widgets.ButtonImage(pinRect, pinned ? UIUtility.PinTex : UIUtility.PinOutlineTex, pinned ? Color.white : Widgets.InactiveColor, tooltip: "Defaults_PinBackup".Translate()))
                                 {
-                                    file.Delete();
-                                    SoundDefOf.Click.PlayOneShot(null);
+                                    if (pinned)
+                                    {
+                                        options.PinnedBackups.Remove(file.Name);
+                                        SoundDefOf.Tick_Low.PlayOneShot(null);
+                                    }
+                                    else
+                                    {
+                                        options.PinnedBackups.Add(file.Name);
+                                        SoundDefOf.Tick_High.PlayOneShot(null);
+                                    }
                                 }
-                                catch
+                                Rect deleteRect = sideOptionsRect.RightHalf().ContractedBy(3f);
+                                if (Widgets.ButtonImage(deleteRect, TexButton.Delete, tooltip: "Defaults_DeleteBackup".Translate()))
                                 {
-                                    Messages.Message("Defaults_DeleteBackupFailed".Translate(file.Name), MessageTypeDefOf.RejectInput, false);
+                                    try
+                                    {
+                                        file.Delete();
+                                        SoundDefOf.Click.PlayOneShot(null);
+                                    }
+                                    catch
+                                    {
+                                        Messages.Message("Defaults_DeleteBackupFailed".Translate(file.Name), MessageTypeDefOf.RejectInput, false);
+                                    }
                                 }
-                            }
-                            return sideOptionsRect.width;
-                        }));
+                                return sideOptionsRect.width;
+                            }));
+                    }
+                    catch (Exception e)
+                    {
+                        Messages.Message("Defaults_SettingsRestoreFailed".Translate(e.ToString()), MessageTypeDefOf.RejectInput, false);
+                    }
                 }
-                catch (Exception e)
+                else
                 {
-                    Messages.Message("Defaults_SettingsRestoreFailed".Translate(e.ToString()), MessageTypeDefOf.RejectInput, false);
+                    Messages.Message("Defaults_NoBackupsToRestore".Translate(options.BackupPath), MessageTypeDefOf.RejectInput, false);
                 }
             }
             y += 35f;

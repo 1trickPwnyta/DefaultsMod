@@ -12,6 +12,7 @@ namespace Defaults.General
 {
     public static class SettingsBackupUtility
     {
+        public static readonly string settingsExt = ".1tpdsb";
         private static readonly string settingsPath = typeof(LoadedModManager).Method("GetSettingsFilename").Invoke(null, new object[] { DefaultsMod.Mod.Content.FolderName, DefaultsMod.Mod.GetType().Name }).ToString();
 
         private static SettingsBackupOptions Options => Settings.Get<SettingsBackupOptions>(Settings.SETTINGS_BACKUP_OPTIONS);
@@ -46,6 +47,7 @@ namespace Defaults.General
                     {
                         name = BackupName;
                     }
+                    name += settingsExt;
                     string backupPath = Path.Combine(Options.BackupPath, name);
                     File.Copy(settingsPath, backupPath, true);
                     PurgeBackups();
@@ -80,23 +82,19 @@ namespace Defaults.General
             SettingsBackupOptions options = Options;
             try
             {
-                DirectoryInfo backupDirectory = new DirectoryInfo(options.BackupPath);
-                if (backupDirectory.Exists)
+                IEnumerable<FileInfo> files = GetBackupFiles().Where(f => !options.PinnedBackups.Contains(f.Name));
+                if (options.Duration == SettingsBackupDuration.Count)
                 {
-                    IEnumerable<FileInfo> files = backupDirectory.GetFiles().Where(f => !options.PinnedBackups.Contains(f.Name));
-                    if (options.Duration == SettingsBackupDuration.Count)
+                    foreach (FileInfo file in files.OrderByDescending(f => f.LastWriteTime).Skip(options.DurationCount))
                     {
-                        foreach (FileInfo file in files.OrderByDescending(f => f.LastWriteTime).Skip(options.DurationCount))
-                        {
-                            file.Delete();
-                        }
+                        file.Delete();
                     }
-                    if (options.Duration == SettingsBackupDuration.TimeInterval)
+                }
+                if (options.Duration == SettingsBackupDuration.TimeInterval)
+                {
+                    foreach (FileInfo file in files.Where(f => f.LastWriteTime < DateTime.Now.AddDays(-options.DurationDays)))
                     {
-                        foreach (FileInfo file in files.Where(f => f.LastWriteTime < DateTime.Now.AddDays(-options.DurationDays)))
-                        {
-                            file.Delete();
-                        }
+                        file.Delete();
                     }
                 }
             }
@@ -120,6 +118,44 @@ namespace Defaults.General
                     Messages.Message("Defaults_CantOpenFolder".Translate(Options.BackupPath), MessageTypeDefOf.RejectInput, false);
                 }
             }
+        }
+
+        public static IEnumerable<FileInfo> GetBackupFiles()
+        {
+            if (CreateBackupFolder())
+            {
+                try
+                {
+                    DirectoryInfo directory = new DirectoryInfo(Options.BackupPath);
+                    return directory.GetFiles().Where(f => IsBackupFile(f));
+                }
+                catch (Exception e)
+                {
+                    Messages.Message("Defaults_GetBackupFilesFailed".Translate(Options.BackupPath, e.ToString()), MessageTypeDefOf.RejectInput, false);
+                }
+            }
+            return new FileInfo[] { };
+        }
+
+        private static bool IsBackupFile(FileInfo file)
+        {
+            IEnumerator<string> lines = null;
+            try
+            {
+                if (file.Exists)
+                {
+                    return file.Name.EndsWith(settingsExt);
+                }
+            }
+            catch
+            {
+                Log.Warning("Couldn't determine whether " + file + " is a settings backup file. Assuming no.");
+            }
+            finally
+            {
+                lines?.Dispose();
+            }
+            return false;
         }
 
         public static string GetLabel(this SettingsBackupFrequency frequency)

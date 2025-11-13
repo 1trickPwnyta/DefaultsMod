@@ -43,7 +43,7 @@ namespace Defaults.UI
         {
             this.dynamicChoices = dynamicChoices;
             this.equals = equals;
-            selectedChoice = dynamicChoices().First();
+            selectedChoice = dynamicChoices().FirstOrDefault();
         }
 
         protected override float DoInput(Rect rect)
@@ -53,7 +53,7 @@ namespace Defaults.UI
             IEnumerable<T> choices = dynamicChoices?.Invoke() ?? staticChoices;
             if (!choices.Any(c => equals?.Invoke(c, selectedChoice) ?? c.Equals(selectedChoice)))
             {
-                selectedChoice = choices.First();
+                selectedChoice = choices.FirstOrDefault();
             }
             foreach (T choice in choices)
             {
@@ -76,8 +76,16 @@ namespace Defaults.UI
 
         protected override bool ProcessInput()
         {
-            acceptAction(selectedChoice);
-            return true;
+            if (dynamicChoices?.Invoke().Any() ?? true)
+            {
+                acceptAction(selectedChoice);
+                return true;
+            }
+            else
+            {
+                SoundDefOf.ClickReject.PlayOneShot(null);
+                return false;
+            }
         }
     }
 }
