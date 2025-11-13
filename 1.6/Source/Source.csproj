@@ -168,13 +168,17 @@
     <Compile Include="Workers\WorkPriorityEffectWorker.cs" />
     <Compile Include="WorkPriorities\CompatibilityPatch_Pawn.cs" />
     <Compile Include="WorkPriorities\Conditions\Condition.cs" />
+    <Compile Include="WorkPriorities\Conditions\Condition_AgainstIdeo.cs" />
     <Compile Include="WorkPriorities\Conditions\Condition_Age.cs" />
     <Compile Include="WorkPriorities\Conditions\Condition_Always.cs" />
+    <Compile Include="WorkPriorities\Conditions\Condition_Guest.cs" />
     <Compile Include="WorkPriorities\Conditions\Condition_Passion.cs" />
     <Compile Include="WorkPriorities\Conditions\Condition_Skill.cs" />
     <Compile Include="WorkPriorities\Conditions\Condition_Slave.cs" />
+    <Compile Include="WorkPriorities\Conditions\WorkPriorityConditionWorker_AgainstIdeo.cs" />
     <Compile Include="WorkPriorities\Conditions\WorkPriorityConditionWorker_Age.cs" />
     <Compile Include="WorkPriorities\Conditions\WorkPriorityConditionWorker_Always.cs" />
+    <Compile Include="WorkPriorities\Conditions\WorkPriorityConditionWorker_Guest.cs" />
     <Compile Include="WorkPriorities\Conditions\WorkPriorityConditionWorker_Passion.cs" />
     <Compile Include="WorkPriorities\Conditions\WorkPriorityConditionWorker_Skill.cs" />
     <Compile Include="WorkPriorities\Conditions\WorkPriorityConditionWorker_Slave.cs" />
@@ -223,6 +227,7 @@
     <Compile Include="WorkPriorities\Patch_ChoiceLetter_GrowthMoment.cs" />
     <Compile Include="WorkPriorities\Patch_GameInitData.cs" />
     <Compile Include="WorkPriorities\Patch_Pawn.cs" />
+    <Compile Include="WorkPriorities\Patch_Pawn_IdeoTracker.cs" />
     <Compile Include="WorkPriorities\Patch_Pawn_WorkSettings.cs" />
     <Compile Include="WorkPriorities\PawnColumnWorker_RecalculateWorkPriorities.cs" />
     <Compile Include="WorkPriorities\Rule.cs" />

@@ -33,13 +33,15 @@
 
 # Textures/WorkPriorities/Conditions Sources
 
-| **Icon** | **Source**                               |
-|----------|------------------------------------------|
-| Age      | Pictogrammers' MDI `timer-sand-complete` |
-| Always   | Pictogrammers' MDI `all-inclusive`       |
-| Passion  | Pictogrammers' MDI `fire`                |
-| Skill    | Pictogrammers' MDI `school-outline`      |
-| Slave    | Pictogrammers' MDI `handcuffs`           |
+| **Icon**    | **Source**                               |
+|-------------|------------------------------------------|
+| AgainstIdeo | Pictogrammers' MDI `lightbulb-off`       |
+| Age         | Pictogrammers' MDI `timer-sand-complete` |
+| Always      | Pictogrammers' MDI `all-inclusive`       |
+| Guest       | Pictogrammers' MDI `offer`               |
+| Passion     | Pictogrammers' MDI `fire`                |
+| Skill       | Pictogrammers' MDI `school-outline`      |
+| Slave       | Pictogrammers' MDI `handcuffs`           |
 
 # Textures/WorkPriorities/Effects Sources
 
