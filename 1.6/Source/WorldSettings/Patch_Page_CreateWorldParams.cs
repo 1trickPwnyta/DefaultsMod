@@ -59,7 +59,7 @@ namespace Defaults.WorldSettings
                     mapOptions.DefaultMapSize = Find.GameInitData.mapSize;
                     mapOptions.DefaultStartingSeason = Find.GameInitData.startingSeason;
                     Settings.Set(Settings.FACTIONS, ___factions.Where(f => f.displayInFactionSelection).ToList());
-                    DefaultsMod.Settings.Write();
+                    DefaultsMod.SaveSettings();
                     Messages.Message("Defaults_SetAsDefaultConfirmed".Translate(), MessageTypeDefOf.PositiveEvent, false);
                 }
             }

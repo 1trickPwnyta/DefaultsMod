@@ -72,7 +72,7 @@ namespace Defaults.UI
         public override void PreClose()
         {
             base.PreClose();
-            DefaultsMod.Settings.Write();
+            DefaultsMod.SaveSettings();
             HashSet<DefaultSettingsCategoryDef> currentlyEnabledCategories = DefDatabase<DefaultSettingsCategoryDef>.AllDefsListForReading.Where(d => d.Enabled && d.canDisable).ToHashSet();
             if (!initiallyEnabledCategories.SetEquals(currentlyEnabledCategories))
             {

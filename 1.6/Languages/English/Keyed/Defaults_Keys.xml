@@ -143,7 +143,7 @@
 	<Defaults_BackupName>default_settings_backup_{0}</Defaults_BackupName>
 	<Defaults_InvalidFilename>The file name is invalid.</Defaults_InvalidFilename>
 	<Defaults_FileExists>The file already exists.</Defaults_FileExists>
-	<Default_PathTooLong>The file name is too long.</Default_PathTooLong>
+	<Defaults_PathTooLong>The file name is too long.</Defaults_PathTooLong>
 	<Defaults_SettingsBackupFailed>Failed to back up default settings: {0}</Defaults_SettingsBackupFailed>
 	<Defaults_CantOpenFolder>Couldn't open the folder.</Defaults_CantOpenFolder>
 	<Defaults_SettingsBackupComplete>Defaults settings backup successfully created as {0}.</Defaults_SettingsBackupComplete>
@@ -151,8 +151,24 @@
 	<Defaults_RestoreFromBackup>Restore default settings from backup</Defaults_RestoreFromBackup>
 	<Defaults_SelectBackupFile>Select a backup file to restore from. This action cannot be undone.</Defaults_SelectBackupFile>
 	<Defaults_SettingsRestoreFailed>Failed to restore default settings from backup: {0}</Defaults_SettingsRestoreFailed>
-	<Defaults_SettingsRestoreComplete>Default settings successfully restored from {0}. Some settings may not take effect until the game is restarted. Do you want to restart now?</Defaults_SettingsRestoreComplete>
+	<Defaults_SettingsRestoreComplete>Default settings successfully restored from {0}.</Defaults_SettingsRestoreComplete>
 	<Defaults_ResetAllSettingsComplete>All settings have been successfully reset to their vanilla values.</Defaults_ResetAllSettingsComplete>
+	<Defaults_SettingsBackupSchedule>Backup schedule</Defaults_SettingsBackupSchedule>
+	<Defaults_SettingsBackupFrequency>When to back up:</Defaults_SettingsBackupFrequency>
+	<Defaults_SettingsBackupFrequency_Never>Never</Defaults_SettingsBackupFrequency_Never>
+	<Defaults_SettingsBackupFrequency_Startup>At game startup</Defaults_SettingsBackupFrequency_Startup>
+	<Defaults_SettingsBackupFrequency_OnChange>When settings are saved</Defaults_SettingsBackupFrequency_OnChange>
+	<Defaults_SettingsBackupDuration>How long to keep backups:</Defaults_SettingsBackupDuration>
+	<Defaults_SettingsBackupDuration_Forever>Forever</Defaults_SettingsBackupDuration_Forever>
+	<Defaults_SettingsBackupDuration_Count>Keep X backup files...</Defaults_SettingsBackupDuration_Count>
+	<Defaults_SettingsBackupDuration_TimeInterval>Keep backup files for X days...</Defaults_SettingsBackupDuration_TimeInterval>
+	<Defaults_X>X: </Defaults_X>
+	<Defaults_SettingsBackupPurgeFailed>Failed to purge old default settings backups: {0}</Defaults_SettingsBackupPurgeFailed>
+	<Defaults_SettingsBackupOptionsDesc>This mod's settings can be backed up regularly so that if anything goes awry, you don't need to lose all the work you put into crafting your perfect defaults.</Defaults_SettingsBackupOptionsDesc>
+	<Defaults_PinBackup>Pinned backups are exempt from being routinely purged.</Defaults_PinBackup>
+	<Defaults_DeleteBackup>Permanently delete this backup file.</Defaults_DeleteBackup>
+	<Defaults_DeleteBackupFailed>Failed to delete backup file {0}.</Defaults_DeleteBackupFailed>
+	<Defaults_ConfirmOverwriteBackup>{0} already exists and will be overwritten.</Defaults_ConfirmOverwriteBackup>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

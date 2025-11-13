@@ -1,39 +1,39 @@
 ﻿using RimWorld;
-using System;
 using UnityEngine;
 using Verse;
 
 namespace Defaults.UI
 {
-    public class Dialog_Input<T> : Dialog_Common
+    public abstract class Dialog_Input : Dialog_Common
     {
         private readonly string title;
-        private readonly string prompt;
-        private string input;
-        private readonly Action<T> confirmAction;
-        private readonly Func<string, T> parser;
-        private readonly Func<T, AcceptanceReport> validator;
+        private readonly TaggedString prompt;
+        private readonly bool forceInput;
+        private readonly bool destructive;
+        private Vector2 scrollPosition;
+        private float height;
 
-        public Dialog_Input(Action<T> confirmAction, Func<string, T> parser, string title = null, string prompt = null, T defaultValue = default, Func<T, AcceptanceReport> validator = null)
+        public Dialog_Input(string title = null, TaggedString prompt = default, bool forceInput = false, bool destructive = false)
         {
             this.title = title;
             this.prompt = prompt;
-            this.confirmAction = confirmAction;
-            this.parser = parser;
-            this.validator = validator;
-            input = defaultValue.ToString();
-            doCloseX = true;
-            doCloseButton = false;
-            forcePause = true;
+            this.forceInput = forceInput;
+            this.destructive = destructive;
             closeOnAccept = false;
-            closeOnClickedOutside = true;
-            absorbInputAroundWindow = true;
+            closeOnClickedOutside = !forceInput;
+            forcePause = forceInput;
+            doCloseX = !forceInput;
+            doCloseButton = false;
         }
 
-        public override Vector2 InitialSize => new Vector2(480f, 225f);
+        protected abstract float DoInput(Rect rect);
+
+        protected abstract bool ProcessInput();
 
         public override void DoWindowContents(Rect inRect)
         {
+            base.DoWindowContents(inRect);
+
             float y = 0f;
 
             if (!title.NullOrEmpty())
@@ -48,44 +48,41 @@ namespace Defaults.UI
 
             if (!prompt.NullOrEmpty())
             {
-                Rect promptRect = new Rect(inRect.x, inRect.y + y, inRect.width, Text.LineHeight + 10f);
+                Rect promptRect = new Rect(inRect.x, inRect.y + y, inRect.width, Text.CalcHeight(prompt, inRect.width) + 10f);
                 Widgets.Label(promptRect, prompt);
                 y += promptRect.height;
             }
 
-            GUI.SetNextControlName("InputField");
-            Rect textRect = new Rect(0f, y, inRect.width, 35f);
-            input = Widgets.TextField(textRect, input);
-            Verse.UI.FocusControl("InputField", this);
+            Rect outRect = new Rect(inRect.x, inRect.y + y, inRect.width, inRect.height - y - 10f - 35f - 10f);
+            Rect viewRect = new Rect(0f, 0f, outRect.width - 20f, height);
+            Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
+            height = DoInput(viewRect);
+            Widgets.EndScrollView();
 
-            Rect buttonRect = new Rect(15f, inRect.height - 35f - 10f, inRect.width - 15f - 15f, 35f);
-            if (Widgets.ButtonText(buttonRect, "OK"))
+            Rect acceptButtonRect = forceInput
+                ? new Rect(inRect.x, inRect.yMax - 35f - 10f, inRect.width, 35f)
+                : new Rect(inRect.x + inRect.width / 2 + 5f, inRect.yMax - 35f - 10f, inRect.width / 2 - 5f, 35f);
+            if (destructive)
             {
-                T result = parser(input);
-                AcceptanceReport acceptanceReport = validator != null ? validator(result) : AcceptanceReport.WasAccepted;
-                if (!acceptanceReport.Accepted)
+                GUI.color = new Color(1f, 0.3f, 0.35f);
+            }
+            if (Widgets.ButtonText(acceptButtonRect, (destructive ? "Confirm" : "OK").Translate()))
+            {
+                if (ProcessInput())
                 {
-                    if (acceptanceReport.Reason.NullOrEmpty())
-                    {
-                        Messages.Message("Defaults_InputIsInvalid".Translate(), MessageTypeDefOf.RejectInput, false);
-                        return;
-                    }
-                    Messages.Message(acceptanceReport.Reason, MessageTypeDefOf.RejectInput, false);
-                    return;
-                }
-                else
-                {
-                    Find.WindowStack.TryRemove(this);
-                    confirmAction(result);
+                    Close();
                 }
             }
-        }
-    }
+            GUI.color = Color.white;
 
-    public class Dialog_InputText : Dialog_Input<string>
-    {
-        public Dialog_InputText(Action<string> confirmAction, string title = null, string prompt = null, string defaultValue = null, Func<string, AcceptanceReport> validator = null) : base(confirmAction, s => s, title, prompt, defaultValue, validator)
-        {
+            if (!forceInput)
+            {
+                Rect cancelButtonRect = new Rect(inRect.x, inRect.yMax - 35f - 10f, inRect.width / 2 - 5f, 35f);
+                if (Widgets.ButtonText(cancelButtonRect, "Cancel".Translate()))
+                {
+                    Close();
+                }
+            }
         }
     }
 }

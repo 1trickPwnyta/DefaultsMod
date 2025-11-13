@@ -49,7 +49,7 @@ namespace Defaults.Policies
                 {
                     Policy policy = PolicyUtility.NewDefaultPolicy(___policyInt.GetType(), ___policyInt.label); ;
                     policy.CopyFrom(___policyInt);
-                    DefaultsMod.Settings.Write();
+                    DefaultsMod.SaveSettings();
                     Messages.Message("Defaults_PolicySavedAs".Translate(policy?.label ?? "?"), MessageTypeDefOf.PositiveEvent, false);
                 }
                 TooltipHandler.TipRegionByKey(saveAsDefaultRect, "Defaults_SaveNewDefaultPolicy");

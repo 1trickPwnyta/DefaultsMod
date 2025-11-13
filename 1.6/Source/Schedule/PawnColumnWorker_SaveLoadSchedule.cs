@@ -26,7 +26,7 @@ namespace Defaults.Schedule
                     {
                         string name = "Defaults_ScheduleName".Translate(schedules.Count + 1);
                         schedules.Add(new Schedule(name, pawn));
-                        DefaultsMod.Settings.Write();
+                        DefaultsMod.SaveSettings();
                         Messages.Message("Defaults_ScheduleSavedAs".Translate(name), MessageTypeDefOf.PositiveEvent, false);
                     }
                     TooltipHandler.TipRegionByKey(rect2, "Defaults_SaveNewDefaultSchedule");

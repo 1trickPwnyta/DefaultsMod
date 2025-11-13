@@ -11,8 +11,10 @@ namespace Defaults.UI
     [StaticConstructorOnStartup]
     public static class UIUtility
     {
-        public static Texture2D LockIcon = ContentFinder<Texture2D>.Get("UI/Defaults_Lock");
-        public static Texture2D StarIcon = ContentFinder<Texture2D>.Get("UI/Defaults_Star");
+        public static readonly Texture2D LockIcon = ContentFinder<Texture2D>.Get("UI/Defaults_Lock");
+        public static readonly Texture2D StarIcon = ContentFinder<Texture2D>.Get("UI/Defaults_Star");
+        public static readonly Texture2D PinTex = ContentFinder<Texture2D>.Get("UI/Developer/Pin");
+        public static readonly Texture2D PinOutlineTex = ContentFinder<Texture2D>.Get("UI/Developer/Pin-Outline");
 
         public static Window TopWindow => Find.WindowStack.Windows.Last(w => !(w is ImmediateWindow) && !(w is FloatMenu));
 

@@ -31,7 +31,7 @@ namespace Defaults
             HandleNewDefs(ref PreviousFactionDefs);
             HandleNewDefs(ref PreviousThingDefs);
             HandleNewDefs(ref PreviousSpecialThingFilterDefs);
-            DefaultsMod.Settings.Write();
+            DefaultsMod.SaveSettings(false);
         }
 
         private static void HandleNewDefs<T>(ref List<T> previousDefs) where T : Def

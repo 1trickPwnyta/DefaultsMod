@@ -6,26 +6,24 @@ using Verse;
 
 namespace Defaults.UI
 {
-    public class Dialog_PickMany : Dialog_InputBox
+    public class Dialog_SelectMany : Dialog_Select
     {
         private readonly Dictionary<TaggedString, bool> choices;
         private readonly List<Tuple<string, Dictionary<TaggedString, bool>>> categorizedChoices;
-        private readonly Action<IEnumerable<TaggedString>> callback;
-        private readonly Action<IEnumerable<Tuple<string, TaggedString>>> categorizedCallback;
+        private readonly Action<IEnumerable<TaggedString>> acceptAction;
+        private readonly Action<IEnumerable<Tuple<string, TaggedString>>> categorizedAcceptAction;
 
-        public Dialog_PickMany(string title, TaggedString text, IEnumerable<TaggedString> choices, bool defaultEnable, Action<IEnumerable<TaggedString>> acceptAction) : base(text, "Confirm".Translate(), title: title)
+        public Dialog_SelectMany(string title, TaggedString text, IEnumerable<TaggedString> choices, bool defaultEnable, Action<IEnumerable<TaggedString>> acceptAction, bool forceInput = false, bool destructive = false) : base(text, title, forceInput, destructive)
         {
             this.choices = new Dictionary<TaggedString, bool>();
             foreach (TaggedString choice in choices)
             {
                 this.choices[choice] = defaultEnable;
             }
-            buttonAAction = Accept;
-            this.acceptAction = Accept;
-            callback = acceptAction;
+            this.acceptAction = acceptAction;
         }
 
-        public Dialog_PickMany(string title, TaggedString text, IEnumerable<Tuple<string, IEnumerable<TaggedString>>> categorizedChoices, bool defaultEnable, Action<IEnumerable<Tuple<string, TaggedString>>> acceptAction) : base(text, "Confirm".Translate(), title: title)
+        public Dialog_SelectMany(string title, TaggedString text, IEnumerable<Tuple<string, IEnumerable<TaggedString>>> categorizedChoices, bool defaultEnable, Action<IEnumerable<Tuple<string, TaggedString>>> acceptAction, bool forceInput = false, bool destructive = false) : base(text, title, forceInput, destructive)
         {
             this.categorizedChoices = new List<Tuple<string, Dictionary<TaggedString, bool>>>();
             foreach (Tuple<string, IEnumerable<TaggedString>> choice in categorizedChoices)
@@ -37,24 +35,10 @@ namespace Defaults.UI
                 }
                 this.categorizedChoices.Add(new Tuple<string, Dictionary<TaggedString, bool>>(choice.Item1, category));
             }
-            buttonAAction = Accept;
-            this.acceptAction = Accept;
-            categorizedCallback = acceptAction;
+            categorizedAcceptAction = acceptAction;
         }
 
-        private void Accept()
-        {
-            if (callback != null && choices != null)
-            {
-                callback(choices.Keys.Where(c => choices[c]));
-            }
-            if (categorizedCallback != null && categorizedChoices != null)
-            {
-                categorizedCallback(categorizedChoices.SelectMany(c => c.Item2.Keys.Where(k => c.Item2[k]).Select(k => new Tuple<string, TaggedString>(c.Item1, k))));
-            }
-        }
-
-        public override float DoInput(Rect rect)
+        protected override float DoInput(Rect rect)
         {
             Listing_Standard listing = new Listing_Standard() { maxOneColumn = true };
             listing.Begin(rect);
@@ -84,6 +68,13 @@ namespace Defaults.UI
             }
             listing.End();
             return listing.CurHeight;
+        }
+
+        protected override bool ProcessInput()
+        {
+            acceptAction?.Invoke(choices.Keys.Where(c => choices[c]));
+            categorizedAcceptAction?.Invoke(categorizedChoices.SelectMany(c => c.Item2.Keys.Where(k => c.Item2[k]).Select(k => new Tuple<string, TaggedString>(c.Item1, k))));
+            return true;
         }
     }
 }

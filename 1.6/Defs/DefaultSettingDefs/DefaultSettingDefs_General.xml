@@ -43,10 +43,13 @@
 	<uiOrder>35</uiOrder>
     <workerClass>Defaults.General.DefaultSettingWorker_SettingsBackupOptions</workerClass>
 	<keywords>
-	  <li>backup</li>
 	  <li>back-up</li>
 	  <li>schedule</li>
 	  <li>config</li>
+	  <li>restore</li>
+	  <li>reset</li>
+	  <li>recover</li>
+	  <li>frequency</li>
 	</keywords>
   </Defaults.Defs.DefaultSettingDef>
 
