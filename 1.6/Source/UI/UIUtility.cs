@@ -11,8 +11,8 @@ namespace Defaults.UI
     [StaticConstructorOnStartup]
     public static class UIUtility
     {
-        public static readonly Texture2D LockIcon = ContentFinder<Texture2D>.Get("UI/Defaults_Lock");
-        public static readonly Texture2D StarIcon = ContentFinder<Texture2D>.Get("UI/Defaults_Star");
+        private static readonly Texture2D LockedIcon = ContentFinder<Texture2D>.Get("UI/Overlays/Locked");
+        private static readonly Texture2D UnlockedIcon = ContentFinder<Texture2D>.Get("UI/Overlays/LockedMonochrome");
         public static readonly Texture2D PinTex = ContentFinder<Texture2D>.Get("UI/Developer/Pin");
         public static readonly Texture2D PinOutlineTex = ContentFinder<Texture2D>.Get("UI/Developer/Pin-Outline");
 
@@ -35,6 +35,22 @@ namespace Defaults.UI
             TooltipHandler.TipRegion(rect, tooltip);
             Rect checkRect = new Rect(rect.x + rect.width / 2f, rect.y, rect.width / 2f, rect.height / 2f);
             GUI.DrawTexture(checkRect, enabled ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex);
+        }
+
+        public static void DoLockButton(Rect rect, ref bool locked)
+        {
+            if (Widgets.ButtonImage(rect, locked ? LockedIcon : UnlockedIcon, tooltip: "Defaults_LockSetting".Translate()))
+            {
+                locked = !locked;
+                if (locked)
+                {
+                    SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
+                }
+                else
+                {
+                    SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
+                }
+            }
         }
 
         private static void DrawImageTextButton(Rect rect, Texture2D image, string text)

@@ -94,7 +94,7 @@ namespace Defaults.StockpileZones
                 }
 
                 Rect lockRect = new Rect(rect.width - 24f, rect.y + controlHeight + 10f, 24f, 24f);
-                UIUtility.DoCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref selectedZoneType.locked);
+                UIUtility.DoLockButton(lockRect, ref selectedZoneType.locked);
 
                 Rect filterRect = new Rect(rect.width - 300f, rect.y + controlHeight * 2 + 10f, 300f, rect.height - controlHeight * 2 - 10f);
                 StorageSettings parentStorageSettings = StorageSettings.EverStorableFixedSettings();

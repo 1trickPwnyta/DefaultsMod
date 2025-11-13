@@ -64,7 +64,7 @@ namespace Defaults.Policies
                 }
                 Rect lockRect = new Rect(inRect.xMax - 158f - buttonOffset, inRect.y + 10f, 32f, 32f);
                 bool locked = ___policyInt.IsLocked();
-                UIUtility.DoCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref locked);
+                UIUtility.DoLockButton(lockRect, ref locked);
                 ___policyInt.SetLocked(locked);
                 buttonOffset += 42f;
             }
