@@ -32,7 +32,9 @@ namespace Defaults.Schedule
                     }
                 }
                 Schedule nextSchedule = defaultSchedules[nextScheduleIndex++];
-                DefaultsMod.SaveSettings(false);
+                // ExecuteWhenFinished is required here. Loading a saved game breaks without it. Maybe because this method gets called during 
+                // file load and messes up Scribe.mode?
+                LongEventHandler.ExecuteWhenFinished(() => DefaultsMod.SaveSettings(false));
                 return nextSchedule;
             }
             else
