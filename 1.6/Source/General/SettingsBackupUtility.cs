@@ -17,7 +17,7 @@ namespace Defaults.General
 
         private static SettingsBackupOptions Options => Settings.Get<SettingsBackupOptions>(Settings.SETTINGS_BACKUP_OPTIONS);
 
-        public static string BackupName => "Defaults_BackupName".Translate(new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds());
+        public static string BackupName => "Defaults_BackupName".Translate(new DateTimeOffset(DateTime.UtcNow).ToUnixTimeMilliseconds().ToString());
 
         private static bool CreateBackupFolder()
         {
