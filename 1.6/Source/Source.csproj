@@ -108,6 +108,7 @@
     <Compile Include="General\SettingsBackupUtility.cs" />
     <Compile Include="Misc\CaravanAutoSelect\DefaultSettingWorker_CaravanAutoSelect.cs" />
     <Compile Include="Misc\CaravanAutoSelect\Patch_Dialog_FormCaravan.cs" />
+    <Compile Include="Misc\PlaySettings\DefaultSettingWorker_ZoneVisibility.cs" />
     <Compile Include="StockpileZones\Buildings\DefaultSettingWorker_AllowRemovingFromOutfitStand.cs" />
     <Compile Include="StockpileZones\Buildings\Patch_Building_OutfitStand.cs" />
     <Compile Include="UI\Dialog_Input.cs" />

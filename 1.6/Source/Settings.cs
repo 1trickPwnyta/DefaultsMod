@@ -59,6 +59,7 @@ namespace Defaults
         public const string FACTION_XENOTYPE_RANDOMIZER_MUTANT_FACTIONS = "FactionXenotypeRandomizerMutantFactions";
         public const string SETTINGS_BACKUP_OPTIONS = "SettingsBackupOptions";
         public const string CARAVAN_AUTO_SELECT = "CaravanAutoSelect";
+        public const string ZONE_VISIBILITY = "ZoneVisibility";
 
         public static T Get<T>(string key)
         {
