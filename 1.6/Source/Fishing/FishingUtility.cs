@@ -1,4 +1,6 @@
-﻿using RimWorld;
+﻿using HarmonyLib;
+using RimWorld;
+using System.Linq;
 using UnityEngine;
 using Verse;
 
@@ -27,6 +29,10 @@ namespace Defaults.Fishing
             zone.unpauseAtCount = options.DefaultFishUnpauseCount;
             WaterBody waterBody = zone.Cells[0].GetWaterBody(zone.Map);
             zone.targetPopulationPct = Mathf.Max(options.DefaultFishTargetPopulation, 10f / waterBody.MaxPopulation);
+            ITab_Fishing tab = zone.GetInspectTabs().First() as ITab_Fishing;
+            typeof(ITab_Fishing).Field("repeatCountEditBuffer").SetValue(tab, zone.repeatCount.ToString());
+            typeof(ITab_Fishing).Field("targetCountEditBuffer").SetValue(tab, zone.targetCount.ToString());
+            typeof(ITab_Fishing).Field("unpauseAtCountEditBuffer").SetValue(tab, zone.unpauseAtCount.ToString());
         }
     }
 }

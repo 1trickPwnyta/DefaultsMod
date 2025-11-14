@@ -25,12 +25,14 @@
 
 # Textures/UI Sources
 
-| **Icon**          | **Source**                         |
-|-------------------|------------------------------------|
-| Defaults_Edit     | Pictogrammers' MDI `playlist-edit` |
-| Defaults_FullArea | It's a square. :P                  |
-| Defaults_Lock     | Pictogrammers' MDI `lock`          |
-| Defaults_Star     | Pictogrammers' MDI `star`          |
+| **Icon**                  | **Source**                                 |
+|---------------------------|--------------------------------------------|
+| Defaults_Edit             | Pictogrammers' MDI `playlist-edit`         |
+| Defaults_FullArea         | It's a square. :P                          |
+| Defaults_Lock             | Pictogrammers' MDI `lock`                  |
+| Defaults_ResetCommand     | Pictogrammers' MDI `arrow-u-left-top-bold` |
+| Defaults_SaveCommand      | Pictogrammers' MDI `content-save`          |
+| Defaults_Star             | Pictogrammers' MDI `star`                  |
 
 # Textures/WorkPriorities/Conditions Sources
 

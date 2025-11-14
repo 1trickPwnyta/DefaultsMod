@@ -13,8 +13,13 @@ namespace Defaults.UI
     {
         private static readonly Texture2D LockedIcon = ContentFinder<Texture2D>.Get("UI/Overlays/Locked");
         private static readonly Texture2D UnlockedIcon = ContentFinder<Texture2D>.Get("UI/Overlays/LockedMonochrome");
+
+        public static readonly Color CommandColor = new Color(0.8f, 0.8f, 0.8f);
+
         public static readonly Texture2D PinTex = ContentFinder<Texture2D>.Get("UI/Developer/Pin");
         public static readonly Texture2D PinOutlineTex = ContentFinder<Texture2D>.Get("UI/Developer/Pin-Outline");
+        public static readonly Texture2D ResetCommandTex = ContentFinder<Texture2D>.Get("UI/Defaults_ResetCommand");
+        public static readonly Texture2D SaveCommandTex = ContentFinder<Texture2D>.Get("UI/Defaults_SaveCommand");
 
         public static Window TopWindow => Find.WindowStack.Windows.Last(w => !(w is ImmediateWindow) && !(w is FloatMenu));
 
