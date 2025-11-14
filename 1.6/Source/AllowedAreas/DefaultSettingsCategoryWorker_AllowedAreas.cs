@@ -26,8 +26,8 @@ namespace Defaults.AllowedAreas
             }
         }
 
-        private static List<AllowedArea> defaultAllowedAreas;
-        private static Dictionary<AllowedPawn, AllowedArea> defaultPawnAllowedAreas;
+        private List<AllowedArea> defaultAllowedAreas;
+        private Dictionary<AllowedPawn, AllowedArea> defaultPawnAllowedAreas;
 
         private List<AllowedPawn> allowedPawnWorkingList;
         private List<AllowedArea> allowedAreaWorkingList;

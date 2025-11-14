@@ -71,7 +71,7 @@ namespace Defaults.UI
             List<FloatMenuOption> quickOptions = QuickOptions.ToList();
             if (quickOptions.Any())
             {
-                Rect quickOptionsRect = inRect.BottomPartPixels(CloseButSize.y).RightPartPixels(CloseButSize.y);
+                Rect quickOptionsRect = inRect.BottomPartPixels(CloseButSize.y - 3f).RightPartPixels(CloseButSize.y - 3f);
                 Widgets.DrawButtonGraphic(quickOptionsRect);
                 GUI.DrawTexture(quickOptionsRect.ContractedBy(6f), quickOptionsTex);
                 if (Widgets.ButtonInvisible(quickOptionsRect))

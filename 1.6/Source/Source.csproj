@@ -102,6 +102,12 @@
     <Compile Include="Defs\Scribe_Defs_Silent.cs" />
     <Compile Include="Defs\WorkPriorityConditionDef.cs" />
     <Compile Include="Defs\WorkPriorityEffectDef.cs" />
+    <Compile Include="Fishing\DefaultSettingsCategoryWorker_Fishing.cs" />
+    <Compile Include="Fishing\Dialog_FishingZoneSettings.cs" />
+    <Compile Include="Fishing\FishingUtility.cs" />
+    <Compile Include="Fishing\FishingZoneOptions.cs" />
+    <Compile Include="Fishing\Patch_Designator_ZoneAdd.cs" />
+    <Compile Include="Fishing\Patch_Zone_Fishing.cs" />
     <Compile Include="General\DefaultSettingWorker_SettingsBackupOptions.cs" />
     <Compile Include="General\Dialog_SettingsBackupOptions.cs" />
     <Compile Include="General\SettingsBackupOptions.cs" />

@@ -8,6 +8,7 @@
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------|
 | AllowedAreas        | Custom modification of one of the layers in RimWorld’s `UI/Designators/AreaAllowedExpand.psd`.                              |
 | BabyFeeding         | Pictogrammers' MDI `baby-bottle`                                                                                            |
+| Fishing             | Pictogrammers' MDI `fish`                                                                                                   |
 | General             | Pictogrammers' MDI `cogs`                                                                                                   |
 | Medicine            | Custom redrawing based on layers in RimWorld’s `Things/Item/Resource/Medicine/MedicineIndustrial/MedicineIndustrial_a.psd`. |
 | Misc                | Pictogrammers' MDI `dots-horizontal`                                                                                        |

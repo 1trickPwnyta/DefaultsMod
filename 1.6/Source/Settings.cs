@@ -60,6 +60,7 @@ namespace Defaults
         public const string SETTINGS_BACKUP_OPTIONS = "SettingsBackupOptions";
         public const string CARAVAN_AUTO_SELECT = "CaravanAutoSelect";
         public const string ZONE_VISIBILITY = "ZoneVisibility";
+        public const string FISHING_ZONE_OPTIONS = "DefaultFishingZoneOptions";
 
         public static T Get<T>(string key)
         {

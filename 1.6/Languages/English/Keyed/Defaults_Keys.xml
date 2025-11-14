@@ -171,6 +171,8 @@
 	<Defaults_ConfirmOverwriteBackup>{0} already exists and will be overwritten.</Defaults_ConfirmOverwriteBackup>
 	<Defaults_GetBackupFilesFailed>Failed to get settings backup files from {0}: {1}</Defaults_GetBackupFilesFailed>
 	<Defaults_NoBackupsToRestore>No default settings backup files found in {0}.</Defaults_NoBackupsToRestore>
+	<Defaults_ResetToDefault>Reset to default</Defaults_ResetToDefault>
+	<Defaults_ResetFishingZoneDesc>Reset all fishing zone settings to default settings.</Defaults_ResetFishingZoneDesc>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

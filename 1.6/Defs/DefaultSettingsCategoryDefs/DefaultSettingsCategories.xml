@@ -360,6 +360,17 @@
 	</keywords>
   </Defaults.Defs.DefaultSettingsCategoryDef>
   
+  <Defaults.Defs.DefaultSettingsCategoryDef MayRequire="Ludeon.RimWorld.Odyssey">
+    <defName>Fishing</defName>
+	<label>default fishing zone settings</label>
+	<description>Configure the default settings for fishing zones.</description>
+	<iconPath>DefaultSettingsCategoryIcons/Fishing</iconPath>
+    <workerClass>Defaults.Fishing.DefaultSettingsCategoryWorker_Fishing</workerClass>
+	<keywords>
+	  <li>zones</li>
+	</keywords>
+  </Defaults.Defs.DefaultSettingsCategoryDef>
+  
   <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>WorkPriorities</defName>
 	<label>default work priorities</label>
