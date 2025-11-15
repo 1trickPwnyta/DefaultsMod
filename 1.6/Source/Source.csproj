@@ -115,6 +115,9 @@
     <Compile Include="Misc\CaravanAutoSelect\DefaultSettingWorker_CaravanAutoSelect.cs" />
     <Compile Include="Misc\CaravanAutoSelect\Patch_Dialog_FormCaravan.cs" />
     <Compile Include="Misc\PlaySettings\DefaultSettingWorker_ZoneVisibility.cs" />
+    <Compile Include="Misc\StartingXenotype\DefaultSettingWorker_StartingXenotype.cs" />
+    <Compile Include="Misc\StartingXenotype\Patch_Page_ConfigureStartingPawns.cs" />
+    <Compile Include="Misc\StartingXenotype\StartingXenotypeOptions.cs" />
     <Compile Include="StockpileZones\Buildings\DefaultSettingWorker_AllowRemovingFromOutfitStand.cs" />
     <Compile Include="StockpileZones\Buildings\Patch_Building_OutfitStand.cs" />
     <Compile Include="UI\Dialog_Input.cs" />

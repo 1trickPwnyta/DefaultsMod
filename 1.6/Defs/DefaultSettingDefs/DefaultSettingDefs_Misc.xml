@@ -1,6 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
+  <Defaults.Defs.DefaultSettingDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>StartingXenotype</defName>
+	<label>default starting xenotype</label>
+	<category>Misc</category>
+	<uiOrder>0</uiOrder>
+    <workerClass>Defaults.Misc.StartingXenotype.DefaultSettingWorker_StartingXenotype</workerClass>
+	<keywords>
+	  <li>baseliner</li>
+	  <li>any</li>
+	  <li>random</li>
+	  <li>custom</li>
+	</keywords>
+  </Defaults.Defs.DefaultSettingDef>
+
   <Defaults.Defs.DefaultSettingDef>
     <defName>HostilityResponse</defName>
 	<label>default hostility response</label>
