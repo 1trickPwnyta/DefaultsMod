@@ -7,18 +7,18 @@ namespace Defaults.AllowedAreas
 {
     public static class AllowedAreaUtility
     {
-        public static void SetDefaultAllowedArea(this Pawn pawn, AllowedPawn? previousAllowedPawn = null, Pawn mother = null)
+        public static void SetDefaultAllowedArea(this Pawn pawn, PawnType? previousAllowedPawn = null, Pawn mother = null)
         {
             if (pawn.playerSettings != null && pawn.playerSettings.SupportsAllowedAreas)
             {
-                Dictionary<AllowedPawn, AllowedArea> allowedPawnAreas = Settings.Get<Dictionary<AllowedPawn, AllowedArea>>(Settings.ALLOWED_AREAS_PAWN);
+                Dictionary<PawnType, AllowedArea> allowedPawnAreas = Settings.Get<Dictionary<PawnType, AllowedArea>>(Settings.ALLOWED_AREAS_PAWN);
                 Dictionary<Map, Area> allowedAreas = pawn.playerSettings.GetType().Field("allowedAreas").GetValue(pawn.playerSettings) as Dictionary<Map, Area>;
 
-                AllowedPawn? allowedPawn = AllowedPawnUtility.GetAllowedPawnType(pawn);
+                PawnType? allowedPawn = PawnTypeUtility.GetPawnType(pawn);
                 if (allowedPawn.HasValue)
                 {
                     Dictionary<Map, Area> inheritedAreas = null;
-                    if (mother?.playerSettings != null && mother.playerSettings.SupportsAllowedAreas && (allowedPawn == AllowedPawn.ChildColonist || allowedPawn == AllowedPawn.Animal) && (allowedPawn == AllowedPawn.ChildColonist ? Settings.GetValue<bool>(Settings.CHILDREN_INHERIT_AREA_FROM_PARENT) : Settings.GetValue<bool>(Settings.ANIMALS_INHERIT_AREA_FROM_PARENT)))
+                    if (mother?.playerSettings != null && mother.playerSettings.SupportsAllowedAreas && (allowedPawn == PawnType.ChildColonist || allowedPawn == PawnType.Animal) && (allowedPawn == PawnType.ChildColonist ? Settings.GetValue<bool>(Settings.CHILDREN_INHERIT_AREA_FROM_PARENT) : Settings.GetValue<bool>(Settings.ANIMALS_INHERIT_AREA_FROM_PARENT)))
                     {
                         inheritedAreas = mother.playerSettings.GetType().Field("allowedAreas").GetValue(mother.playerSettings) as Dictionary<Map, Area>;
                     }

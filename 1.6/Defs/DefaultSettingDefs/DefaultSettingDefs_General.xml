@@ -41,6 +41,7 @@
 	<label>default settings backup</label>
 	<category>General</category>
 	<uiOrder>35</uiOrder>
+	<showInQuickOptions>true</showInQuickOptions>
     <workerClass>Defaults.General.DefaultSettingWorker_SettingsBackupOptions</workerClass>
 	<keywords>
 	  <li>back-up</li>

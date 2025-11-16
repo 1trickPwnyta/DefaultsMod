@@ -5,7 +5,7 @@ using Verse;
 
 namespace Defaults.Workers
 {
-    public abstract class DefaultSettingWorker_Checkbox : DefaultSettingWorker<bool?>
+    public abstract class DefaultSettingWorker_Checkbox : DefaultSettingWorker<bool?>, IQuickOption
     {
         protected DefaultSettingWorker_Checkbox(DefaultSettingDef def) : base(def)
         {

@@ -62,6 +62,7 @@ namespace Defaults
         public const string ZONE_VISIBILITY = "ZoneVisibility";
         public const string FISHING_ZONE_OPTIONS = "DefaultFishingZoneOptions";
         public const string STARTING_XENOTYPE_OPTIONS = "DefaultStartingXenotypeOptions";
+        public const string POLICY_ASSIGNMENTS = "DefaultPolicyAssignments";
 
         public static T Get<T>(string key)
         {

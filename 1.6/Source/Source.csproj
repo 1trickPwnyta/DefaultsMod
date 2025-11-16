@@ -67,7 +67,7 @@
   <ItemGroup>
     <Compile Include="AllowedAreas\AllowedArea.cs" />
     <Compile Include="AllowedAreas\AllowedAreaUtility.cs" />
-    <Compile Include="AllowedAreas\AllowedPawn.cs" />
+    <Compile Include="PawnType.cs" />
     <Compile Include="AllowedAreas\CompProperties_SpawnTracker.cs" />
     <Compile Include="AllowedAreas\Comp_SpawnTracker.cs" />
     <Compile Include="AllowedAreas\DefaultSettingsCategoryWorker_AllowedAreas.cs" />
@@ -120,6 +120,9 @@
     <Compile Include="Misc\StartingXenotype\Patch_Page_ConfigureStartingPawns.cs" />
     <Compile Include="Misc\StartingXenotype\StartingXenotypeOptions.cs" />
     <Compile Include="Misc\StartingXenotype\StartingXenotypeUtility.cs" />
+    <Compile Include="Policies\DefaultPolicyAssignments.cs" />
+    <Compile Include="Policies\DefaultSettingWorker_DefaultPolicyAssignments.cs" />
+    <Compile Include="Policies\Dialog_DefaultPolicyAssignments.cs" />
     <Compile Include="StockpileZones\Buildings\DefaultSettingWorker_AllowRemovingFromOutfitStand.cs" />
     <Compile Include="StockpileZones\Buildings\Patch_Building_OutfitStand.cs" />
     <Compile Include="UI\Dialog_Input.cs" />
@@ -175,6 +178,7 @@
     <Compile Include="Misc\PlaySettings\DefaultSettingWorker_AutoHomeArea.cs" />
     <Compile Include="Misc\PlaySettings\DefaultSettingWorker_AutoRebuild.cs" />
     <Compile Include="Workers\DefaultSettingWorker_Options.cs" />
+    <Compile Include="Workers\IQuickOption.cs" />
     <Compile Include="Workers\WorkerFactory.cs" />
     <Compile Include="Workers\WorkPriorityConditionWorker.cs" />
     <Compile Include="Workers\WorkPriorityEffectWorker.cs" />

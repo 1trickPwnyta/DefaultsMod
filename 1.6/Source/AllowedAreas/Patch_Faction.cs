@@ -11,7 +11,7 @@ namespace Defaults.AllowedAreas
     {
         public static void Postfix(Pawn member)
         {
-            AllowedAreaUtility.SetDefaultAllowedArea(member, AllowedPawn.Guest);
+            AllowedAreaUtility.SetDefaultAllowedArea(member, PawnType.Guest);
         }
     }
 }

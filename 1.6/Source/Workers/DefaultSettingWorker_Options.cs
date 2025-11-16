@@ -4,11 +4,13 @@ using Verse;
 
 namespace Defaults.Workers
 {
-    public abstract class DefaultSettingWorker_Options<T> : DefaultSettingWorker<T> where T : IExposable
+    public abstract class DefaultSettingWorker_Options<T> : DefaultSettingWorker<T>, IQuickOption where T : IExposable
     {
         protected DefaultSettingWorker_Options(DefaultSettingDef def) : base(def)
         {
         }
+
+        public FloatMenuOption QuickOption => new FloatMenuOption(def.LabelCap, Configure);
 
         protected virtual string Text => "Defaults_Configure".Translate();
 

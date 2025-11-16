@@ -39,9 +39,9 @@ namespace Defaults.Defs
             {
                 yield return error;
             }
-            if (showInQuickOptions && !typeof(DefaultSettingWorker_Checkbox).IsAssignableFrom(workerClass))
+            if (showInQuickOptions && !typeof(IQuickOption).IsAssignableFrom(workerClass))
             {
-                yield return "If showInQuickOptions is true, workerClass must be a subclass of DefaultSettingWorker_Checkbox.";
+                yield return "If showInQuickOptions is true, workerClass must implement IQuickOption.";
             }
         }
     }
