@@ -174,6 +174,7 @@
 	<Defaults_ResetToDefault>Reset to default</Defaults_ResetToDefault>
 	<Defaults_ResetFishingZoneDesc>Reset all fishing zone settings to default settings.</Defaults_ResetFishingZoneDesc>
 	<Defaults_SetDefaultFishingZoneDesc>Save this fishing zone's settings as the default for all new fishing zones going forward.</Defaults_SetDefaultFishingZoneDesc>
+	<Defaults_OpenMainSettings>Open 1trickPwnyta's Defaults mod settings</Defaults_OpenMainSettings>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

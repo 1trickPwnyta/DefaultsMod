@@ -73,7 +73,7 @@ namespace Defaults
          */
         public override void DoSettingsWindowContents(Rect inRect)
         {
-            if (Find.WindowStack.TryRemove(typeof(Dialog_ModSettings)))
+            if (Widgets.ButtonText(inRect.MiddlePartPixels(300f, 45f), "Defaults_OpenMainSettings".Translate()))
             {
                 Find.WindowStack.Add(new Dialog_MainSettings());
             }
