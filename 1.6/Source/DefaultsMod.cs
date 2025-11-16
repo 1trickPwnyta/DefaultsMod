@@ -14,6 +14,7 @@ namespace Defaults
     {
         static DefaultsModInitializer()
         {
+            DefaultsSettings.PreLoadSettings();
             DefaultsMod.Settings = DefaultsMod.Mod.GetSettings<DefaultsSettings>();
             DefaultsSettings.CheckForNewContent();
 

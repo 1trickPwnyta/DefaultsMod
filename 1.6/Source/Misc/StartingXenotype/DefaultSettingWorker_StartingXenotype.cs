@@ -40,7 +40,8 @@ namespace Defaults.Misc.StartingXenotype
                 }
                 else
                 {
-                    setting.Option = StartingXenotypeOption.AnyNonArchite;
+                    setting.Option = StartingXenotypeOption.XenotypeDef;
+                    setting.XenotypeDef = XenotypeDefOf.Baseliner;
                 }
             }
             float minWidth = Text.CalcSize(text).x + rect.height + 16f;
@@ -105,6 +106,7 @@ namespace Defaults.Misc.StartingXenotype
                             if (File.Exists(path))
                             {
                                 File.Delete(path);
+                                CharacterCardUtility.cachedCustomXenotypes = null;
                             }
                         }, true));
                         return true;
@@ -115,6 +117,12 @@ namespace Defaults.Misc.StartingXenotype
             )));
 
             Find.WindowStack.Add(new FloatMenu(list));
+        }
+
+        protected override void PreLoadSetting()
+        {
+            // Force CharacterCardUtility to load custom xenotypes before we load settings
+            _ = CharacterCardUtility.CustomXenotypesForReading;
         }
 
         protected override void ExposeSetting()

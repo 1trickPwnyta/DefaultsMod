@@ -51,6 +51,14 @@ namespace Defaults
             previousDefs = currentDefs.ListFullCopy();
         }
 
+        public static void PreLoadSettings()
+        {
+            foreach (DefaultSettingsCategoryDef def in categories)
+            {
+                def.Worker.PreLoad();
+            }
+        }
+
         public override void ExposeData()
         {
             Scribe_Collections.Look(ref KnownDLCs, "KnownDLCs");

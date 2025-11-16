@@ -101,6 +101,17 @@ namespace Defaults.Workers
         {
         }
 
+        protected virtual void PreLoadCategory() { }
+
+        public void PreLoad()
+        {
+            PreLoadCategory();
+            foreach (DefaultSettingDef def in def.DefaultSettings)
+            {
+                def.Worker.PreLoadSetting();
+            }
+        }
+
         protected virtual void ExposeCategorySettings()
         {
         }

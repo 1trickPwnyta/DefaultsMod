@@ -9,6 +9,7 @@ namespace Defaults.Misc.StartingXenotype
         public StartingXenotypeOption Option = StartingXenotypeOption.XenotypeDef;
         public XenotypeDef XenotypeDef = XenotypeDefOf.Baseliner;
         public CustomXenotype CustomXenotype = null;
+        private string customXenotypeName;
 
         public void ExposeData()
         {
@@ -18,9 +19,11 @@ namespace Defaults.Misc.StartingXenotype
             {
                 XenotypeDef = XenotypeDefOf.Baseliner;
             }
-            string customXenotypeName = CustomXenotype?.fileName;
+            if (Scribe.mode == LoadSaveMode.Saving)
+            {
+                customXenotypeName = CustomXenotype?.fileName;
+            }
             Scribe_Values.Look(ref customXenotypeName, "CustomXenotype");
-            Debug.Log(customXenotypeName);
             if (Scribe.mode == LoadSaveMode.PostLoadInit && customXenotypeName != null)
             {
                 CustomXenotype = CharacterCardUtility.CustomXenotypesForReading.FirstOrDefault(c => c.fileName == customXenotypeName);

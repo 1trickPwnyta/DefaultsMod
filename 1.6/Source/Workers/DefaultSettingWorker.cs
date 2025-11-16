@@ -10,6 +10,8 @@ namespace Defaults.Workers
 
         DefaultSettingDef Def { set; }
 
+        void PreLoadSetting();
+
         void ExposeData();
 
         void ResetSetting(bool forced);
@@ -46,6 +48,8 @@ namespace Defaults.Workers
             DoWidget(rect);
         }
 
+        protected virtual void PreLoadSetting() { }
+
         protected abstract void ExposeSetting();
 
         public void ExposeData()
@@ -65,6 +69,11 @@ namespace Defaults.Workers
             {
                 setting = Default;
             }
+        }
+
+        void IDefaultSettingWorker.PreLoadSetting()
+        {
+            PreLoadSetting();
         }
     }
 }
