@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using Verse;
 
 namespace Defaults.General
@@ -13,7 +12,6 @@ namespace Defaults.General
         public SettingsBackupDuration Duration = SettingsBackupDuration.Count;
         public int DurationCount = 5;
         public int DurationDays = 7;
-        public HashSet<string> PinnedBackups = new HashSet<string>();
 
         public void ExposeData()
         {
@@ -22,22 +20,6 @@ namespace Defaults.General
             Scribe_Values.Look(ref Duration, "Duration", SettingsBackupDuration.Count);
             Scribe_Values.Look(ref DurationCount, "DurationCount", 5);
             Scribe_Values.Look(ref DurationDays, "DurationDays", 7);
-            if (Scribe.mode == LoadSaveMode.Saving)
-            {
-                try
-                {
-                    PinnedBackups.RemoveWhere(b => !File.Exists(Path.Combine(BackupPath, b)));
-                }
-                catch
-                {
-                    Log.Warning("Failed to purge non-existent pinned backups.");
-                }
-            }
-            Scribe_Collections.Look(ref PinnedBackups, "PinnedBackups", LookMode.Value);
-            if (Scribe.mode == LoadSaveMode.PostLoadInit && PinnedBackups == null)
-            {
-                PinnedBackups = new HashSet<string>();
-            }
         }
     }
 

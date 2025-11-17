@@ -151,7 +151,7 @@
 	<Defaults_RestoreFromBackup>Restore default settings from backup</Defaults_RestoreFromBackup>
 	<Defaults_SelectBackupFile>Select a backup file to restore from. This action cannot be undone.</Defaults_SelectBackupFile>
 	<Defaults_SettingsRestoreFailed>Failed to restore default settings from backup: {0}</Defaults_SettingsRestoreFailed>
-	<Defaults_SettingsRestoreComplete>Default settings successfully restored from {0}.</Defaults_SettingsRestoreComplete>
+	<Defaults_SettingsRestoreComplete>Default settings successfully restored from {0}. It is recommended that you restart the game to avoid potential errors. Do you want to restart now?</Defaults_SettingsRestoreComplete>
 	<Defaults_ResetAllSettingsComplete>All settings have been successfully reset to their vanilla values.</Defaults_ResetAllSettingsComplete>
 	<Defaults_SettingsBackupSchedule>Backup schedule</Defaults_SettingsBackupSchedule>
 	<Defaults_SettingsBackupFrequency>When to back up:</Defaults_SettingsBackupFrequency>
@@ -178,6 +178,8 @@
 	<Defaults_PawnType>Pawn type</Defaults_PawnType>
 	<Defaults_DefaultPolicyAssignments>Default policy assignments</Defaults_DefaultPolicyAssignments>
 	<Defaults_DefaultPolicyAssignmentsDesc>Assign each pawn type to a default policy of each type, or leave them as (default) to use whatever policy is set as the default. Colonists will be assigned policies accordingly.</Defaults_DefaultPolicyAssignmentsDesc>
+	<Defaults_PinFileFailed>Failed to pin {0}.</Defaults_PinFileFailed>
+	<Defaults_UnpinFileFailed>Failed to unpin {0}.</Defaults_UnpinFileFailed>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

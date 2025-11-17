@@ -1,5 +1,4 @@
 ﻿using Defaults.UI;
-using LudeonTK;
 using RimWorld;
 using System;
 using System.Collections.Generic;
@@ -159,10 +158,10 @@ namespace Defaults.General
                         Find.WindowStack.Add(new Dialog_SelectOne<FileInfo>(
                             "Defaults_RestoreFromBackup".Translate(),
                             "Defaults_SelectBackupFile".Translate(),
-                            () => SettingsBackupUtility.GetBackupFiles().OrderByDescending(f => options.PinnedBackups.Contains(f.Name)).ThenByDescending(f => f.LastWriteTime),
+                            () => SettingsBackupUtility.GetBackupFiles().OrderByDescending(f => f.IsPinned()).ThenByDescending(f => f.LastWriteTime),
                             file =>
                             {
-                                SettingsBackupUtility.RestoreBackup(file.Name);
+                                SettingsBackupUtility.RestoreBackup(file.Name, file.IsPinned());
                             },
                             equals: (a, b) => a.Name == b.Name,
                             destructive: true,
@@ -171,17 +170,17 @@ namespace Defaults.General
                             {
                                 Rect sideOptionsRect = rect.RightPartPixels(60f);
                                 Rect pinRect = sideOptionsRect.LeftHalf().ContractedBy(3f);
-                                bool pinned = options.PinnedBackups.Contains(file.Name);
+                                bool pinned = file.IsPinned();
                                 if (Widgets.ButtonImage(pinRect, pinned ? UIUtility.PinTex : UIUtility.PinOutlineTex, pinned ? Color.white : Widgets.InactiveColor, tooltip: "Defaults_PinBackup".Translate()))
                                 {
                                     if (pinned)
                                     {
-                                        options.PinnedBackups.Remove(file.Name);
+                                        file.Unpin();
                                         SoundDefOf.Tick_Low.PlayOneShot(null);
                                     }
                                     else
                                     {
-                                        options.PinnedBackups.Add(file.Name);
+                                        file.Pin();
                                         SoundDefOf.Tick_High.PlayOneShot(null);
                                     }
                                 }
