@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Verse;
 
-namespace Defaults.AllowedAreas
+namespace Defaults
 {
     public class Comp_SpawnTracker : ThingComp
     {
@@ -12,14 +12,21 @@ namespace Defaults.AllowedAreas
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
-            if (DefaultSettingsCategoryDefOf.AllowedAreas.Enabled)
+            foreach (DefaultSettingsCategoryDef category in DefDatabase<DefaultSettingsCategoryDef>.AllDefsListForReading)
             {
-                if (!EverSpawnedOnMap(parent.Map))
+                if (category.Enabled)
                 {
-                    AllowedAreaUtility.SetDefaultAllowedArea(parent as Pawn);
+                    if (spawnedOnMapEver.NullOrEmpty())
+                    {
+                        category.Worker.Notify_FirstSpawnAnywhere(parent as Pawn);
+                    }
+                    if (!EverSpawnedOnMap(parent.Map))
+                    {
+                        category.Worker.Notify_FirstSpawnOnMap(parent as Pawn, parent.Map);
+                    }
                 }
-                spawnedOnMapEver.Add(parent.Map);
             }
+            spawnedOnMapEver.Add(parent.Map);
         }
 
         public override void PostExposeData()

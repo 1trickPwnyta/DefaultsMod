@@ -18,5 +18,10 @@ namespace Defaults.Policies
         {
             Find.WindowStack.Add(new Dialog_DefaultPolicyAssignments());
         }
+
+        public override void Notify_FirstSpawnAnywhere(Pawn pawn)
+        {
+            PolicyUtility.SetAllDefaultPolicies(pawn);
+        }
     }
 }

@@ -183,5 +183,22 @@ namespace Defaults.Workers
                 Widgets.DrawRectFast(rect, disabledColor);
             }
         }
+
+        public virtual void Notify_FirstSpawnAnywhere(Pawn pawn)
+        {
+            PreLoadCategory();
+            foreach (DefaultSettingDef def in def.DefaultSettings)
+            {
+                def.Worker.Notify_FirstSpawnAnywhere(pawn);
+            }
+        }
+
+        public virtual void Notify_FirstSpawnOnMap(Pawn pawn, Map map)
+        {
+            foreach (DefaultSettingDef def in def.DefaultSettings)
+            {
+                def.Worker.Notify_FirstSpawnOnMap(pawn, map);
+            }
+        }
     }
 }

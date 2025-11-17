@@ -24,6 +24,28 @@ namespace Defaults.Policies
 
             float y = inRect.y;
 
+            using (new TextBlock(GameFont.Medium)) Widgets.Label(inRect, "Defaults_DefaultPolicyAssignments".Translate());
+            y += 45f;
+
+            string desc = "Defaults_DefaultPolicyAssignmentsDesc".Translate();
+            Widgets.Label(new Rect(inRect.x, y, inRect.width, inRect.height), desc);
+            y += Text.CalcHeight(desc, inRect.width) + 10f;
+
+            Rect headerRect = new Rect(inRect.x, y, inRect.width / 5, 30f);
+            using (new TextBlock(TextAnchor.MiddleLeft)) Widgets.Label(headerRect, "Defaults_PawnType".Translate());
+            headerRect.x += headerRect.width;
+            using (new TextBlock(TextAnchor.MiddleCenter))
+            {
+                Widgets.Label(headerRect, "Defaults_ApparelPolicies".Translate().CapitalizeFirst());
+                headerRect.x += headerRect.width;
+                Widgets.Label(headerRect, "Defaults_FoodPolicies".Translate().CapitalizeFirst());
+                headerRect.x += headerRect.width;
+                Widgets.Label(headerRect, "Defaults_DrugPolicies".Translate().CapitalizeFirst());
+                headerRect.x += headerRect.width;
+                Widgets.Label(headerRect, "Defaults_ReadingPolicies".Translate().CapitalizeFirst());
+                y += headerRect.height;
+            }
+
             DefaultPolicyAssignments assignments = Settings.Get<DefaultPolicyAssignments>(Settings.POLICY_ASSIGNMENTS);
             foreach (PawnType pawnType in assignments.PolicyAssignments.Keys.Where(p => p.IsActive()))
             {
@@ -35,10 +57,10 @@ namespace Defaults.Policies
                 using (new TextBlock(TextAnchor.MiddleLeft)) Widgets.Label(pawnTypeRect, pawnType.GetLabel().CapitalizeFirst());
                 x += pawnTypeRect.width;
 
-                x += DoPolicyButton(new Rect(x, rect.y, rect.width / 5, rect.height), ref assignments.PolicyAssignments[pawnType].apparelPolicy, Settings.Get<List<ApparelPolicy>>(Settings.POLICIES_APPAREL), p => assignments.PolicyAssignments[pawnType].apparelPolicy = p);
-                x += DoPolicyButton(new Rect(x, rect.y, rect.width / 5, rect.height), ref assignments.PolicyAssignments[pawnType].foodPolicy, Settings.Get<List<FoodPolicy>>(Settings.POLICIES_FOOD), p => assignments.PolicyAssignments[pawnType].foodPolicy = p);
-                x += DoPolicyButton(new Rect(x, rect.y, rect.width / 5, rect.height), ref assignments.PolicyAssignments[pawnType].drugPolicy, Settings.Get<List<DrugPolicy>>(Settings.POLICIES_DRUG), p => assignments.PolicyAssignments[pawnType].drugPolicy = p);
-                x += DoPolicyButton(new Rect(x, rect.y, rect.width / 5, rect.height), ref assignments.PolicyAssignments[pawnType].readingPolicy, Settings.Get<List<ReadingPolicy>>(Settings.POLICIES_READING), p => assignments.PolicyAssignments[pawnType].readingPolicy = p);
+                x += DoPolicyButton(new Rect(x, rect.y, rect.width / 5, rect.height), ref assignments.PolicyAssignments[pawnType].apparelPolicy, Settings.Get<List<ApparelPolicy>>(Settings.POLICIES_APPAREL), p => assignments.PolicyAssignments[pawnType].apparelPolicy = p, pawnType);
+                x += DoPolicyButton(new Rect(x, rect.y, rect.width / 5, rect.height), ref assignments.PolicyAssignments[pawnType].foodPolicy, Settings.Get<List<FoodPolicy>>(Settings.POLICIES_FOOD), p => assignments.PolicyAssignments[pawnType].foodPolicy = p, pawnType);
+                x += DoPolicyButton(new Rect(x, rect.y, rect.width / 5, rect.height), ref assignments.PolicyAssignments[pawnType].drugPolicy, Settings.Get<List<DrugPolicy>>(Settings.POLICIES_DRUG), p => assignments.PolicyAssignments[pawnType].drugPolicy = p, pawnType);
+                x += DoPolicyButton(new Rect(x, rect.y, rect.width / 5, rect.height), ref assignments.PolicyAssignments[pawnType].readingPolicy, Settings.Get<List<ReadingPolicy>>(Settings.POLICIES_READING), p => assignments.PolicyAssignments[pawnType].readingPolicy = p, pawnType);
 
                 Widgets.DrawHighlightIfMouseover(rect);
 
@@ -52,8 +74,13 @@ namespace Defaults.Policies
             }
         }
 
-        private float DoPolicyButton<T>(Rect rect, ref T policy, List<T> options, Action<T> setPolicy) where T : Policy
+        private float DoPolicyButton<T>(Rect rect, ref T policy, List<T> options, Action<T> setPolicy, PawnType pawnType) where T : Policy
         {
+            if (pawnType == PawnType.Guest && typeof(T) == typeof(ApparelPolicy))
+            {
+                using (new TextBlock(TextAnchor.MiddleCenter)) Widgets.Label(rect, "Unchangeable".Translate());
+                return rect.width;
+            }
             Rect buttonRect = rect.ContractedBy(1f);
             Widgets.DraggableResult result = Widgets.ButtonTextDraggable(buttonRect, policy?.RenamableLabel ?? defaultLabel);
             if (result == Widgets.DraggableResult.Pressed)

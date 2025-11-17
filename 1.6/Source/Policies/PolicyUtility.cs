@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using Defaults.AllowedAreas;
+using HarmonyLib;
 using RimWorld;
 using System;
 using System.Collections;
@@ -126,5 +127,81 @@ namespace Defaults.Policies
             || window.GetType() == typeof(Dialog_ManageFoodPolicies)
             || window.GetType() == typeof(Dialog_ManageDrugPolicies)
             || window.GetType() == typeof(Dialog_ManageReadingPolicies);
+
+        public static T GetDefaultPolicy<T>(this Game game) where T : Policy =>
+            typeof(T) == typeof(ApparelPolicy) ? game.outfitDatabase.DefaultOutfit() as T
+            : typeof(T) == typeof(FoodPolicy) ? game.foodRestrictionDatabase.DefaultFoodRestriction() as T
+            : typeof(T) == typeof(DrugPolicy) ? game.drugPolicyDatabase.DefaultDrugPolicy() as T
+            : typeof(T) == typeof(ReadingPolicy) ? game.readingPolicyDatabase.DefaultReadingPolicy() as T
+            : throw new Exception("Invalid policy type: " + typeof(T));
+
+        public static List<T> GetPolicies<T>(this Game game) where T : Policy =>
+            typeof(T) == typeof(ApparelPolicy) ? game.outfitDatabase.AllOutfits as List<T>
+            : typeof(T) == typeof(FoodPolicy) ? game.foodRestrictionDatabase.AllFoodRestrictions as List<T>
+            : typeof(T) == typeof(DrugPolicy) ? game.drugPolicyDatabase.AllPolicies as List<T>
+            : typeof(T) == typeof(ReadingPolicy) ? game.readingPolicyDatabase.AllReadingPolicies as List<T>
+            : throw new Exception("Invalid policy type: " + typeof(T));
+
+        public static T GetCurrentPolicy<T>(this Pawn pawn) where T : Policy =>
+            typeof(T) == typeof(ApparelPolicy) ? pawn.outfits?.CurrentApparelPolicy as T
+            : typeof(T) == typeof(FoodPolicy) ? pawn.foodRestriction?.CurrentFoodPolicy as T
+            : typeof(T) == typeof(DrugPolicy) ? pawn.drugs?.CurrentPolicy as T
+            : typeof(T) == typeof(ReadingPolicy) ? pawn.reading?.CurrentPolicy as T
+            : throw new Exception("Invalid policy type: " + typeof(T));
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0045:Convert to conditional expression", Justification = "hard to follow")]
+        public static void SetCurrentPolicy<T>(this Pawn pawn, T policy) where T : Policy
+        {
+            if (typeof(T) == typeof(ApparelPolicy)) pawn.outfits.CurrentApparelPolicy = policy as ApparelPolicy;
+            else if (typeof(T) == typeof(FoodPolicy)) pawn.foodRestriction.CurrentFoodPolicy = policy as FoodPolicy;
+            else if (typeof(T) == typeof(DrugPolicy)) pawn.drugs.CurrentPolicy = policy as DrugPolicy;
+            else if (typeof(T) == typeof(ReadingPolicy)) pawn.reading.CurrentPolicy = policy as ReadingPolicy;
+            else throw new Exception("Invalid policy type: " + typeof(T));
+        }
+
+        public static void SetAllDefaultPolicies(this Pawn pawn, PawnType? previousPawnType = null)
+        {
+            SetDefaultPolicy<ApparelPolicy>(pawn, previousPawnType);
+            SetDefaultPolicy<FoodPolicy>(pawn, previousPawnType);
+            SetDefaultPolicy<DrugPolicy>(pawn, previousPawnType);
+            SetDefaultPolicy<ReadingPolicy>(pawn, previousPawnType);
+        }
+
+        public static void SetDefaultPolicy<T>(this Pawn pawn, PawnType? previousPawnType = null) where T : Policy
+        {
+            if (pawn.GetCurrentPolicy<T>() != null)
+            {
+                DefaultPolicyAssignments assignments = Settings.Get<DefaultPolicyAssignments>(Settings.POLICY_ASSIGNMENTS);
+
+                PawnType? pawnType = PawnTypeUtility.GetPawnType(pawn);
+                if (pawnType.HasValue && assignments.PolicyAssignments.Keys.Contains(pawnType.Value))
+                {
+                    if (pawnType == PawnType.Guest && typeof(T) == typeof(ApparelPolicy))
+                    {
+                        return;
+                    }
+                    if (previousPawnType.HasValue)
+                    {
+                        T previousDefaultPolicy = assignments.PolicyAssignments[previousPawnType.Value].GetPolicy<T>();
+                        if (previousDefaultPolicy != null)
+                        {
+                            if (pawn.GetCurrentPolicy<T>().RenamableLabel != previousDefaultPolicy.RenamableLabel)
+                            {
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            if (pawn.GetCurrentPolicy<T>() != Current.Game.GetDefaultPolicy<T>())
+                            {
+                                return;
+                            }
+                        }
+                    }
+                    T newPolicy = Current.Game.GetPolicies<T>().FirstOrDefault(p => p.RenamableLabel == assignments.PolicyAssignments[pawnType.Value].GetPolicy<T>()?.RenamableLabel) ?? Current.Game.GetDefaultPolicy<T>();
+                    pawn.SetCurrentPolicy(newPolicy);
+                }
+            }
+        }
     }
 }

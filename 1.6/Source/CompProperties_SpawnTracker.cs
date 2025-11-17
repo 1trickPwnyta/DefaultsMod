@@ -1,6 +1,6 @@
 ﻿using Verse;
 
-namespace Defaults.AllowedAreas
+namespace Defaults
 {
     public class CompProperties_SpawnTracker : CompProperties
     {

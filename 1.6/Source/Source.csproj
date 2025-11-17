@@ -68,8 +68,8 @@
     <Compile Include="AllowedAreas\AllowedArea.cs" />
     <Compile Include="AllowedAreas\AllowedAreaUtility.cs" />
     <Compile Include="PawnType.cs" />
-    <Compile Include="AllowedAreas\CompProperties_SpawnTracker.cs" />
-    <Compile Include="AllowedAreas\Comp_SpawnTracker.cs" />
+    <Compile Include="CompProperties_SpawnTracker.cs" />
+    <Compile Include="Comp_SpawnTracker.cs" />
     <Compile Include="AllowedAreas\DefaultSettingsCategoryWorker_AllowedAreas.cs" />
     <Compile Include="AllowedAreas\DefaultSettingWorker_AnimalsInheritAreaFromParent.cs" />
     <Compile Include="AllowedAreas\DefaultSettingWorker_ChildrenInheritAreaFromParent.cs" />
@@ -123,6 +123,10 @@
     <Compile Include="Policies\DefaultPolicyAssignments.cs" />
     <Compile Include="Policies\DefaultSettingWorker_DefaultPolicyAssignments.cs" />
     <Compile Include="Policies\Dialog_DefaultPolicyAssignments.cs" />
+    <Compile Include="Policies\Patch_Faction.cs" />
+    <Compile Include="Policies\Patch_Pawn.cs" />
+    <Compile Include="Policies\Patch_Pawn_AgeTracker.cs" />
+    <Compile Include="Policies\Patch_Pawn_GuestTracker.cs" />
     <Compile Include="StockpileZones\Buildings\DefaultSettingWorker_AllowRemovingFromOutfitStand.cs" />
     <Compile Include="StockpileZones\Buildings\Patch_Building_OutfitStand.cs" />
     <Compile Include="UI\Dialog_Input.cs" />

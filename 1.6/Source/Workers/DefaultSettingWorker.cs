@@ -17,6 +17,10 @@ namespace Defaults.Workers
         void ResetSetting(bool forced);
 
         void DoSetting(Rect rect);
+
+        void Notify_FirstSpawnAnywhere(Pawn pawn);
+
+        void Notify_FirstSpawnOnMap(Pawn pawn, Map map);
     }
 
     public abstract class DefaultSettingWorker<T> : IDefaultSettingWorker
@@ -75,5 +79,9 @@ namespace Defaults.Workers
         {
             PreLoadSetting();
         }
+
+        public virtual void Notify_FirstSpawnAnywhere(Pawn pawn) { }
+
+        public virtual void Notify_FirstSpawnOnMap(Pawn pawn, Map map) { }
     }
 }

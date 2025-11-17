@@ -89,5 +89,11 @@ namespace Defaults.AllowedAreas
             Scribe_Collections.Look(ref defaultAllowedAreas, "defaultAllowedAreas", LookMode.Deep);
             Scribe_Collections.Look(ref defaultPawnAllowedAreas, "defaultPawnAllowedAreas", LookMode.Value, LookMode.Reference, ref allowedPawnWorkingList, ref allowedAreaWorkingList);
         }
+
+        public override void Notify_FirstSpawnOnMap(Pawn pawn, Map map)
+        {
+            base.Notify_FirstSpawnOnMap(pawn, map);
+            AllowedAreaUtility.SetDefaultAllowedArea(pawn);
+        }
     }
 }

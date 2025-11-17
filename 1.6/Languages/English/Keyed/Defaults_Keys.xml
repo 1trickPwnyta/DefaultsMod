@@ -175,6 +175,9 @@
 	<Defaults_ResetFishingZoneDesc>Reset all fishing zone settings to default settings.</Defaults_ResetFishingZoneDesc>
 	<Defaults_SetDefaultFishingZoneDesc>Save this fishing zone's settings as the default for all new fishing zones going forward.</Defaults_SetDefaultFishingZoneDesc>
 	<Defaults_OpenMainSettings>Open 1trickPwnyta's Defaults mod settings</Defaults_OpenMainSettings>
+	<Defaults_PawnType>Pawn type</Defaults_PawnType>
+	<Defaults_DefaultPolicyAssignments>Default policy assignments</Defaults_DefaultPolicyAssignments>
+	<Defaults_DefaultPolicyAssignmentsDesc>Assign each pawn type to a default policy of each type, or leave them as (default) to use whatever policy is set as the default. Colonists will be assigned policies accordingly.</Defaults_DefaultPolicyAssignmentsDesc>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

@@ -59,6 +59,13 @@ namespace Defaults.Policies
         public DrugPolicy drugPolicy;
         public ReadingPolicy readingPolicy;
 
+        public T GetPolicy<T>() where T : Policy =>
+            typeof(T) == typeof(ApparelPolicy) ? apparelPolicy as T
+            : typeof(T) == typeof(FoodPolicy) ? foodPolicy as T
+            : typeof(T) == typeof(DrugPolicy) ? drugPolicy as T
+            : typeof(T) == typeof(ReadingPolicy) ? readingPolicy as T
+            : throw new Exception("Invalid policy type: " + typeof(T));
+
         public void ExposeData()
         {
             Scribe_References.Look(ref apparelPolicy, "apparelPolicy");
