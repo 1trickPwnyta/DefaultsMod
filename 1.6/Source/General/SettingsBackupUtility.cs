@@ -13,8 +13,26 @@ namespace Defaults.General
     public static class SettingsBackupUtility
     {
         public static readonly string settingsExt = ".1tpdsb";
-        private static readonly string pinFolder = "pinned";
+        private static readonly string pinFileName = "pins";
         private static readonly string settingsPath = typeof(LoadedModManager).Method("GetSettingsFilename").Invoke(null, new object[] { DefaultsMod.Mod.Content.FolderName, DefaultsMod.Mod.GetType().Name }).ToString();
+
+        private static readonly HashSet<string> pinnedFiles = new HashSet<string>();
+
+        static SettingsBackupUtility()
+        {
+            string path = Path.Combine(Options.BackupPath, pinFileName);
+            try
+            {
+                if (File.Exists(path))
+                {
+                    pinnedFiles = File.ReadAllLines(path).ToHashSet();
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error("Failed to read contents of " + path + ": " + e);
+            }
+        }
 
         private static SettingsBackupOptions Options => Settings.Get<SettingsBackupOptions>(Settings.SETTINGS_BACKUP_OPTIONS);
 
@@ -22,7 +40,8 @@ namespace Defaults.General
 
         private static bool CreateBackupFolder()
         {
-            DirectoryInfo directory = new DirectoryInfo(Options.BackupPath);
+            SettingsBackupOptions options = Options;
+            DirectoryInfo directory = new DirectoryInfo(options.BackupPath);
             if (!directory.Exists)
             {
                 try
@@ -31,20 +50,7 @@ namespace Defaults.General
                 }
                 catch
                 {
-                    Messages.Message("Defaults_InvalidFolder".Translate(Options.BackupPath), MessageTypeDefOf.RejectInput, false);
-                    return false;
-                }
-            }
-            DirectoryInfo pinnedDirectory = new DirectoryInfo(Path.Combine(Options.BackupPath, pinFolder));
-            if (!pinnedDirectory.Exists)
-            {
-                try
-                {
-                    pinnedDirectory.Create();
-                }
-                catch
-                {
-                    Messages.Message("Defaults_InvalidFolder".Translate(Path.Combine(Options.BackupPath, pinFolder)), MessageTypeDefOf.RejectInput, false);
+                    Messages.Message("Defaults_InvalidFolder".Translate(options.BackupPath), MessageTypeDefOf.RejectInput, false);
                     return false;
                 }
             }
@@ -64,25 +70,27 @@ namespace Defaults.General
                     name += settingsExt;
                     string backupPath = Path.Combine(Options.BackupPath, name);
                     File.Copy(settingsPath, backupPath, true);
+                    Log.Info("Default settings were successfully backed up to " + backupPath);
                     PurgeBackups();
                     return true;
                 }
                 catch (Exception e)
                 {
-                    Log.Error("Defaults_SettingsBackupFailed".Translate(e.ToString()));
+                    Log.Error("Failed to back up default settings: " + e);
                 }
             }
             return false;
         }
 
-        public static void RestoreBackup(string name, bool pinned)
+        public static void RestoreBackup(string name)
         {
             try
             {
-                string backupPath = pinned ? Path.Combine(Options.BackupPath, pinFolder, name) : Path.Combine(Options.BackupPath, name);
+                string backupPath = Path.Combine(Options.BackupPath, name);
                 File.Copy(backupPath, settingsPath, true);
                 LoadedModManager.ReadModSettings<DefaultsSettings>(DefaultsMod.Mod.Content.FolderName, DefaultsMod.Mod.GetType().Name);
                 SoundDefOf.GameStartSting.PlayOneShot(null);
+                FlushPinnedFiles();
                 Find.WindowStack.Add(new Dialog_MessageBox("Defaults_SettingsRestoreComplete".Translate(name), "Defaults_Restart".Translate(), GenCommandLine.Restart, "Defaults_NotNow".Translate(), null, "Defaults_RestartRequired".Translate(), false, GenCommandLine.Restart));
             }
             catch (Exception e)
@@ -114,7 +122,7 @@ namespace Defaults.General
             }
             catch (Exception e)
             {
-                Log.Error("Defaults_SettingsBackupPurgeFailed".Translate(e.ToString()));
+                Log.Error("Failed to purge old default settings backups: " + e);
             }
         }
 
@@ -141,8 +149,7 @@ namespace Defaults.General
                 try
                 {
                     DirectoryInfo directory = new DirectoryInfo(Options.BackupPath);
-                    DirectoryInfo pinDirectory = new DirectoryInfo(Path.Combine(Options.BackupPath, pinFolder));
-                    return directory.GetFiles().Concat(includePinned ? pinDirectory.GetFiles() : new FileInfo[] { }).Where(f => IsBackupFile(f));
+                    return directory.GetFiles().Where(f => IsBackupFile(f) && (!f.IsPinned() || includePinned));
                 }
                 catch (Exception e)
                 {
@@ -164,7 +171,7 @@ namespace Defaults.General
             }
             catch
             {
-                Log.Warning("Couldn't determine whether " + file + " is a settings backup file. Assuming no.");
+                Log.Warn("Couldn't determine whether " + file + " is a settings backup file. Assuming no.");
             }
             finally
             {
@@ -173,37 +180,13 @@ namespace Defaults.General
             return false;
         }
 
-        public static bool IsPinned(this FileInfo file) => file.Directory.FullName == new DirectoryInfo(Path.Combine(Options.BackupPath, pinFolder)).FullName;
+        public static bool IsPinned(this FileInfo file) => pinnedFiles.Contains(file.Name);
 
-        public static void Pin(this FileInfo file)
-        {
-            try
-            {
-                if (!file.IsPinned())
-                {
-                    file.MoveTo(Path.Combine(Options.BackupPath, pinFolder, file.Name));
-                }
-            }
-            catch
-            {
-                Messages.Message("Defaults_PinFileFailed".Translate(file.Name), MessageTypeDefOf.RejectInput, false);
-            }
-        }
+        public static void Pin(this FileInfo file) => pinnedFiles.Add(file.Name);
 
-        public static void Unpin(this FileInfo file)
-        {
-            try
-            {
-                if (file.IsPinned())
-                {
-                    file.MoveTo(Path.Combine(Options.BackupPath, file.Name));
-                }
-            }
-            catch
-            {
-                Messages.Message("Defaults_UnpinFileFailed".Translate(file.Name), MessageTypeDefOf.RejectInput, false);
-            }
-        }
+        public static void Unpin(this FileInfo file) => pinnedFiles.Remove(file.Name);
+
+        public static void FlushPinnedFiles() => File.WriteAllLines(Path.Combine(Options.BackupPath, pinFileName), pinnedFiles);
 
         public static string GetLabel(this SettingsBackupFrequency frequency)
         {

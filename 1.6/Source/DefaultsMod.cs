@@ -35,6 +35,8 @@ namespace Defaults
             {
                 harmony.PatchCategory(def.defName);
             }
+
+            Log.Info("Ready.");
         }
     }
 
@@ -49,6 +51,7 @@ namespace Defaults
         public static void SaveSettings(bool triggerOnChangeBackup = true)
         {
             Settings.Write();
+            SettingsBackupUtility.FlushPinnedFiles();
             if (triggerOnChangeBackup)
             {
                 SettingsBackupOptions backupOptions = Defaults.Settings.Get<SettingsBackupOptions>(Defaults.Settings.SETTINGS_BACKUP_OPTIONS);
@@ -62,7 +65,6 @@ namespace Defaults
         public DefaultsMod(ModContentPack content) : base(content)
         {
             Mod = this;
-            Log.Message($"[{PACKAGE_NAME}] Loaded.");
         }
 
         public override string SettingsCategory() => PACKAGE_NAME;

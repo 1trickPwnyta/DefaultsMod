@@ -161,7 +161,7 @@ namespace Defaults.General
                             () => SettingsBackupUtility.GetBackupFiles().OrderByDescending(f => f.IsPinned()).ThenByDescending(f => f.LastWriteTime),
                             file =>
                             {
-                                SettingsBackupUtility.RestoreBackup(file.Name, file.IsPinned());
+                                SettingsBackupUtility.RestoreBackup(file.Name);
                             },
                             equals: (a, b) => a.Name == b.Name,
                             destructive: true,

@@ -267,7 +267,7 @@
     <Compile Include="Medicine\Patch_Pawn.cs" />
     <Compile Include="Medicine\Patch_PawnGenerator.cs" />
     <Compile Include="PlaySettings\Patch_PlaySettings.cs" />
-    <Compile Include="Debug.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="Medicine\DraggableResultUtility.cs" />
     <Compile Include="Misc\HostilityResponse\HostilityResponseModeUtility.cs" />
     <Compile Include="Misc\HostilityResponse\Patch_Pawn.cs" />

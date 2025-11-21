@@ -144,7 +144,6 @@
 	<Defaults_InvalidFilename>The file name is invalid.</Defaults_InvalidFilename>
 	<Defaults_FileExists>The file already exists.</Defaults_FileExists>
 	<Defaults_PathTooLong>The file name is too long.</Defaults_PathTooLong>
-	<Defaults_SettingsBackupFailed>Failed to back up default settings: {0}</Defaults_SettingsBackupFailed>
 	<Defaults_CantOpenFolder>Couldn't open the folder.</Defaults_CantOpenFolder>
 	<Defaults_SettingsBackupComplete>Defaults settings backup successfully created as {0}.</Defaults_SettingsBackupComplete>
 	<Defaults_EnterBackupName>Enter a file name for the backup.</Defaults_EnterBackupName>
@@ -163,7 +162,6 @@
 	<Defaults_SettingsBackupDuration_Count>Keep X backup files...</Defaults_SettingsBackupDuration_Count>
 	<Defaults_SettingsBackupDuration_TimeInterval>Keep backup files for X days...</Defaults_SettingsBackupDuration_TimeInterval>
 	<Defaults_X>X: </Defaults_X>
-	<Defaults_SettingsBackupPurgeFailed>Failed to purge old default settings backups: {0}</Defaults_SettingsBackupPurgeFailed>
 	<Defaults_SettingsBackupOptionsDesc>This mod's settings can be backed up regularly so that if anything goes awry, you don't need to lose all the work you put into crafting your perfect defaults.</Defaults_SettingsBackupOptionsDesc>
 	<Defaults_PinBackup>Pinned backups are exempt from being routinely purged.</Defaults_PinBackup>
 	<Defaults_DeleteBackup>Permanently delete this backup file.</Defaults_DeleteBackup>
@@ -178,8 +176,6 @@
 	<Defaults_PawnType>Pawn type</Defaults_PawnType>
 	<Defaults_DefaultPolicyAssignments>Default policy assignments</Defaults_DefaultPolicyAssignments>
 	<Defaults_DefaultPolicyAssignmentsDesc>Assign each pawn type to a default policy of each type, or leave them as (default) to use whatever policy is set as the default. Colonists will be assigned policies accordingly.</Defaults_DefaultPolicyAssignmentsDesc>
-	<Defaults_PinFileFailed>Failed to pin {0}.</Defaults_PinFileFailed>
-	<Defaults_UnpinFileFailed>Failed to unpin {0}.</Defaults_UnpinFileFailed>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

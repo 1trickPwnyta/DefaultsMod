@@ -29,7 +29,7 @@ namespace Defaults.Defs
             {
                 if (nonDefLookMode == LookMode.Reference)
                 {
-                    Log.Error("You need to provide working lists for the keys and values in order to be able to load such dictionary. label=" + label);
+                    Verse.Log.Error("You need to provide working lists for the keys and values in order to be able to load such dictionary. label=" + label);
                 }
             }
             keysWorkingList = null;

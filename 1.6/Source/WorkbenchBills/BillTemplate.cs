@@ -237,7 +237,7 @@ namespace Defaults.WorkbenchBills
                 disallowedSpecialFilters.RemoveWhere(f => (!f.configurable && f.allowedByDefault) || !allSpecialThingFilters.Contains(f));
                 foreach (ThingDef def in ingredientFilter.AllowedThingDefs.ToList())
                 {
-                    if (!recipe.fixedIngredientFilter.Allows(def))
+                    if (def != null && !recipe.fixedIngredientFilter.Allows(def))
                     {
                         ingredientFilter.SetAllow(def, false);
                     }
