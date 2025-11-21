@@ -186,7 +186,6 @@ namespace Defaults.Workers
 
         public virtual void Notify_FirstSpawnAnywhere(Pawn pawn)
         {
-            PreLoadCategory();
             foreach (DefaultSettingDef def in def.DefaultSettings)
             {
                 def.Worker.Notify_FirstSpawnAnywhere(pawn);

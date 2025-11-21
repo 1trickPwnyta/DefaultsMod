@@ -52,7 +52,7 @@ namespace Defaults.Workers
             DoWidget(rect);
         }
 
-        protected virtual void PreLoadSetting() { }
+        public virtual void PreLoadSetting() { }
 
         protected abstract void ExposeSetting();
 
@@ -73,11 +73,6 @@ namespace Defaults.Workers
             {
                 setting = Default;
             }
-        }
-
-        void IDefaultSettingWorker.PreLoadSetting()
-        {
-            PreLoadSetting();
         }
 
         public virtual void Notify_FirstSpawnAnywhere(Pawn pawn) { }

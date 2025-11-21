@@ -8,8 +8,6 @@ namespace Defaults.Storyteller
 {
     public class DefaultSettingsCategoryWorker_Storyteller : DefaultSettingsCategoryWorker
     {
-        private StorytellerDef defaultStoryteller;
-        private DifficultyDef defaultDifficulty;
         private Difficulty defaultDifficultyValues;
         private bool? defaultPermadeath;
         private NoPauseOptions defaultNoPauseOptions;
@@ -20,19 +18,13 @@ namespace Defaults.Storyteller
 
         public override void OpenSettings()
         {
-            Find.WindowStack.Add(new Dialog_Storyteller(def));
+            Find.WindowStack.Add(new Dialog_Storyteller());
         }
 
         protected override bool GetCategorySetting(string key, out object value)
         {
             switch (key)
             {
-                case Settings.STORYTELLER:
-                    value = defaultStoryteller;
-                    return true;
-                case Settings.DIFFICULTY:
-                    value = defaultDifficulty;
-                    return true;
                 case Settings.DIFFICULTY_VALUES:
                     value = defaultDifficultyValues;
                     return true;
@@ -51,12 +43,6 @@ namespace Defaults.Storyteller
         {
             switch (key)
             {
-                case Settings.STORYTELLER:
-                    defaultStoryteller = value as StorytellerDef;
-                    return true;
-                case Settings.DIFFICULTY:
-                    defaultDifficulty = value as DifficultyDef;
-                    return true;
                 case Settings.DIFFICULTY_VALUES:
                     defaultDifficultyValues = value as Difficulty;
                     return true;
@@ -73,18 +59,10 @@ namespace Defaults.Storyteller
 
         protected override void ResetCategorySettings(bool forced)
         {
-            if (forced || defaultStoryteller == null)
-            {
-                defaultStoryteller = StorytellerDefOf.Cassandra;
-            }
-            if (forced || defaultDifficulty == null)
-            {
-                defaultDifficulty = DifficultyDefOf.Rough;
-            }
             if (forced || defaultDifficultyValues == null)
             {
                 defaultDifficultyValues = new Difficulty();
-                defaultDifficultyValues.CopyFrom(defaultDifficulty);
+                defaultDifficultyValues.CopyFrom(DifficultyDefOf.Rough);
             }
             if (forced || defaultPermadeath == null)
             {
@@ -95,8 +73,6 @@ namespace Defaults.Storyteller
 
         protected override void ExposeCategorySettings()
         {
-            Scribe_Defs_Silent.Look(ref defaultStoryteller, Settings.STORYTELLER);
-            Scribe_Defs_Silent.Look(ref defaultDifficulty, Settings.DIFFICULTY);
             Scribe_Deep.Look(ref defaultDifficultyValues, Settings.DIFFICULTY_VALUES);
             Scribe_Values.Look(ref defaultPermadeath, Settings.PERMADEATH);
             ModCompatibilityUtility_NoPause.WriteNoPauseOptions(ref defaultNoPauseOptions);

@@ -26,7 +26,7 @@ namespace Defaults.Workers
 
         protected virtual TaggedString GetMenuTip(T option) => null;
 
-        protected virtual float Width => 0f;
+        protected virtual float Width => Text.CalcSize(GetText(Options.MaxBy(o => GetText(o).Length))).x + 20f;
 
         protected override void DoWidget(Rect rect)
         {
@@ -40,17 +40,16 @@ namespace Defaults.Workers
             {
                 throw new Exception("At least one of GetIcon or GetText must be defined for option " + setting + ".");
             }
-            if ((icon == null || ShowIconAndTextInWidget) && Width <= 0f)
-            {
-                throw new Exception("To show text in widget for option " + setting + ", Width must be defined.");
-            }
 
             float width = 0f;
             if (icon != null)
             {
                 width += rect.height;
             }
-            width += Width;
+            if (icon == null || ShowIconAndTextInWidget)
+            {
+                width += Width;
+            }
             rect.x += rect.width - width;
             rect.width = width;
 

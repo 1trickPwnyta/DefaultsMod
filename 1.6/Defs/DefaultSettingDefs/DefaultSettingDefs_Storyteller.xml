@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <Defaults.Defs.DefaultSettingDef>
+    <defName>Storyteller</defName>
+	<label>default storyteller</label>
+	<category>Storyteller</category>
+    <workerClass>Defaults.Storyteller.DefaultSettingWorker_Storyteller</workerClass>
+	<keywords>
+	  <li>cassandra</li>
+	  <li>phoebe</li>
+	  <li>randy</li>
+	</keywords>
+  </Defaults.Defs.DefaultSettingDef>
+  
+  <Defaults.Defs.DefaultSettingDef>
+    <defName>Difficulty</defName>
+	<label>default difficulty</label>
+	<category>Storyteller</category>
+    <workerClass>Defaults.Storyteller.DefaultSettingWorker_Difficulty</workerClass>
+  </Defaults.Defs.DefaultSettingDef>
+
+</Defs>

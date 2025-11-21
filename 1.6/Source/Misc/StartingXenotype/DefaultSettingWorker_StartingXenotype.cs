@@ -119,7 +119,7 @@ namespace Defaults.Misc.StartingXenotype
             Find.WindowStack.Add(new FloatMenu(list));
         }
 
-        protected override void PreLoadSetting()
+        public override void PreLoadSetting()
         {
             // Force CharacterCardUtility to load custom xenotypes before we load settings
             _ = CharacterCardUtility.CustomXenotypesForReading;

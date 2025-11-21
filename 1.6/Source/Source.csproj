@@ -137,6 +137,8 @@
     <Compile Include="Policies\Patch_Pawn_GuestTracker.cs" />
     <Compile Include="StockpileZones\Buildings\DefaultSettingWorker_AllowRemovingFromOutfitStand.cs" />
     <Compile Include="StockpileZones\Buildings\Patch_Building_OutfitStand.cs" />
+    <Compile Include="Storyteller\DefaultSettingWorker_Difficulty.cs" />
+    <Compile Include="Storyteller\DefaultSettingWorker_Storyteller.cs" />
     <Compile Include="UI\Dialog_Input.cs" />
     <Compile Include="UI\Dialog_TextField.cs" />
     <Compile Include="UI\Dialog_MainSettings.cs" />
