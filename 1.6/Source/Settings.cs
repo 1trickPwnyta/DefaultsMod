@@ -63,6 +63,12 @@ namespace Defaults
         public const string FISHING_ZONE_OPTIONS = "DefaultFishingZoneOptions";
         public const string STARTING_XENOTYPE_OPTIONS = "DefaultStartingXenotypeOptions";
         public const string POLICY_ASSIGNMENTS = "DefaultPolicyAssignments";
+        public const string LOCK_NORTH_UP = "DefaultLockNorthUp";
+        public const string SHOW_PLANET_DAY_NIGHT = "DefaultShowPlanetDayNight";
+        public const string SHOW_EXPANDING_ICONS_IMPORTANT = "DefaultShowImportantExpandingIcons";
+        public const string SHOW_EXPANDING_ICONS_BASES = "DefaultShowBasesExpandingIcons";
+        public const string SHOW_EXPANDING_ICONS_LANDMARKS = "DefaultShowExpandingLandmarks";
+        public const string SHOW_WORLD_FEATURES = "DefaultShowWorldFeatures";
 
         public static T Get<T>(string key)
         {

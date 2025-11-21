@@ -12,6 +12,7 @@
 | General             | Pictogrammers' MDI `cogs`                                                                                                   |
 | Medicine            | Custom redrawing based on layers in RimWorld’s `Things/Item/Resource/Medicine/MedicineIndustrial/MedicineIndustrial_a.psd`. |
 | Misc                | Pictogrammers' MDI `dots-horizontal`                                                                                        |
+| PlaySettings        | Pictogrammers' MDI `play-circle`                                                                                            |
 | Policies            | Pictogrammers' MDI `script-text`                                                                                            |
 | ResourceCategories  | Custom made                                                                                                                 |
 | Rewards             | Pictogrammers' MDI `hand-coin`                                                                                              |
@@ -20,7 +21,7 @@
 | Storyteller         | Pictogrammers’ MDI `book-open-page-variant`                                                                                 |
 | WorkbenchBills      | Pictogrammers' MDI `hammer-wrench`                                                                                          |
 | WorkPriorities      | Pictogrammers' MDI `numeric-3-box-multiple-outline`                                                                         |
-| WorkPriorities-alt2 | Pictogrammers' MDI `checkbox-multiple-outline`                                                                         |
+| WorkPriorities-alt2 | Pictogrammers' MDI `checkbox-multiple-outline`                                                                              |
 | World               | Pictogrammers' MDI `earth` rotated to look less like the American continents.                                               |
 
 # Textures/UI Sources

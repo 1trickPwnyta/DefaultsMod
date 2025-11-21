@@ -412,6 +412,14 @@
   </Defaults.Defs.DefaultSettingsCategoryDef>
   
   <Defaults.Defs.DefaultSettingsCategoryDef>
+    <defName>PlaySettings</defName>
+	<label>default play settings</label>
+	<description>Configure default play settings. These are generally the toggle buttons in the bottom-right corner of the screen.</description>
+	<iconPath>DefaultSettingsCategoryIcons/PlaySettings</iconPath>
+    <workerClass>Defaults.PlaySettings.DefaultSettingsCategoryWorker_PlaySettings</workerClass>
+  </Defaults.Defs.DefaultSettingsCategoryDef>
+  
+  <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>Misc</defName>
 	<label>miscellaneous defaults</label>
 	<description>Other default settings that don't fit neatly into one of the other categories.</description>

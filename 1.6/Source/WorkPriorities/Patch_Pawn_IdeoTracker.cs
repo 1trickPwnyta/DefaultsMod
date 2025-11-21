@@ -17,7 +17,7 @@ namespace Defaults.WorkPriorities
 
         public static void Postfix(Pawn ___pawn, Ideo ideo, Ideo __state)
         {
-            foreach (WorkTypeDef def in DefDatabase<WorkTypeDef>.AllDefsListForReading.Where(w => (ideo?.IsWorkTypeConsideredDangerous(w) ?? false) || (__state?.IsWorkTypeConsideredDangerous(w) ?? false)))
+            foreach (WorkTypeDef def in DefDatabase<WorkTypeDef>.AllDefsListForReading.Except(___pawn.GetDisabledWorkTypes()).Where(w => (ideo?.IsWorkTypeConsideredDangerous(w) ?? false) || (__state?.IsWorkTypeConsideredDangerous(w) ?? false)))
             {
                 WorkPriorityUtility.SetWorkPrioritiesToDefault(___pawn, def);
             }

@@ -49,47 +49,6 @@
   </Defaults.Defs.DefaultSettingDef>
   
   <Defaults.Defs.DefaultSettingDef>
-    <defName>AutoRebuild</defName>
-	<label>default auto rebuild setting</label>
-	<category>Misc</category>
-	<uiOrder>25</uiOrder>
-    <workerClass>Defaults.Misc.PlaySettings.DefaultSettingWorker_AutoRebuild</workerClass>
-	<keywords>
-	  <li>toggle</li>
-	</keywords>
-  </Defaults.Defs.DefaultSettingDef>
-  
-  <Defaults.Defs.DefaultSettingDef>
-    <defName>AutoHomeArea</defName>
-	<label>default auto home area setting</label>
-	<category>Misc</category>
-	<uiOrder>35</uiOrder>
-    <workerClass>Defaults.Misc.PlaySettings.DefaultSettingWorker_AutoHomeArea</workerClass>
-	<keywords>
-	  <li>expand</li>
-	  <li>expansion</li>
-	  <li>new</li>
-	  <li>zones</li>
-	  <li>toggle</li>
-	</keywords>
-  </Defaults.Defs.DefaultSettingDef>
-  
-  <Defaults.Defs.DefaultSettingDef>
-    <defName>ZoneVisibility</defName>
-	<label>default visibility of zones setting</label>
-	<category>Misc</category>
-	<uiOrder>45</uiOrder>
-    <workerClass>Defaults.Misc.PlaySettings.DefaultSettingWorker_ZoneVisibility</workerClass>
-	<keywords>
-	  <li>visible</li>
-	  <li>hide</li>
-	  <li>show</li>
-	  <li>areas</li>
-	  <li>toggle</li>
-	</keywords>
-  </Defaults.Defs.DefaultSettingDef>
-  
-  <Defaults.Defs.DefaultSettingDef>
     <defName>PlantType</defName>
 	<label>default plant type</label>
 	<category>Misc</category>

@@ -1,14 +1,13 @@
 ﻿using HarmonyLib;
-using RimWorld;
 
 namespace Defaults.Medicine
 {
     [HarmonyPatchCategory("Medicine")]
-    [HarmonyPatch(typeof(PlaySettings))]
+    [HarmonyPatch(typeof(RimWorld.PlaySettings))]
     [HarmonyPatch(MethodType.Constructor)]
     public static class Patch_PlaySettings_ctor
     {
-        public static void Postfix(PlaySettings __instance)
+        public static void Postfix(RimWorld.PlaySettings __instance)
         {
             MedicineOptions options = Settings.Get<MedicineOptions>(Settings.MEDICINE);
             __instance.defaultCareForColonist = options.DefaultCareForColonist;

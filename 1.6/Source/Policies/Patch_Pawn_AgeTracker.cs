@@ -11,13 +11,16 @@ namespace Defaults.Policies
     {
         public static void Postfix(Pawn_AgeTracker __instance, Pawn ___pawn, int birthdayAge)
         {
-            if (birthdayAge == __instance.AdultMinAge && PawnTypeUtility.GetPawnType(___pawn) == PawnType.AdultColonist)
+            if (___pawn.RaceProps.Humanlike)
             {
-                PolicyUtility.SetAllDefaultPolicies(___pawn, PawnType.ChildColonist);
-            }
-            if (birthdayAge == __instance.LifeStageMinAge(LifeStageDefOf.HumanlikeChild) && PawnTypeUtility.GetPawnType(___pawn) == PawnType.ChildColonist)
-            {
-                PolicyUtility.SetAllDefaultPolicies(___pawn);
+                if (birthdayAge == __instance.AdultMinAge && PawnTypeUtility.GetPawnType(___pawn) == PawnType.AdultColonist)
+                {
+                    PolicyUtility.SetAllDefaultPolicies(___pawn, PawnType.ChildColonist);
+                }
+                if (birthdayAge == __instance.LifeStageMinAge(LifeStageDefOf.HumanlikeChild) && PawnTypeUtility.GetPawnType(___pawn) == PawnType.ChildColonist)
+                {
+                    PolicyUtility.SetAllDefaultPolicies(___pawn);
+                }
             }
         }
     }

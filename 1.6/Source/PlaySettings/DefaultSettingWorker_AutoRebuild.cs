@@ -3,7 +3,7 @@ using Defaults.Workers;
 using UnityEngine;
 using Verse;
 
-namespace Defaults.Misc.PlaySettings
+namespace Defaults.PlaySettings
 {
     public class DefaultSettingWorker_AutoRebuild : DefaultSettingWorker_Checkbox
     {
