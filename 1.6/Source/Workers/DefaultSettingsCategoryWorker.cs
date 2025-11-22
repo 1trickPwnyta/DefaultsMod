@@ -116,6 +116,10 @@ namespace Defaults.Workers
         {
         }
 
+        protected virtual void PostExposeData()
+        {
+        }
+
         public void ExposeData()
         {
             Scribe_Values.Look(ref disabled, DataPrefix + "disabled");
@@ -129,6 +133,7 @@ namespace Defaults.Workers
             {
                 def.Worker.ExposeData();
             }
+            PostExposeData();
         }
 
         protected virtual void ResetCategorySettings(bool forced)

@@ -133,16 +133,21 @@ namespace Defaults.Compatibility
             }
         }
 
-        public static void MigratePlanetOptions(ref PlanetOptions options)
+        public static void MigratePlanetOptions()
         {
-            if (Scribe.mode == LoadSaveMode.LoadingVars && options == null)
+            if (Scribe.mode == LoadSaveMode.LoadingVars)
             {
-                options = new PlanetOptions();
-                Scribe_Values.Look(ref options.DefaultPlanetCoverage, "DefaultPlanetCoverage", 0.3f);
-                Scribe_Values.Look(ref options.DefaultOverallRainfall, "DefaultOverallRainfall", OverallRainfall.Normal);
-                Scribe_Values.Look(ref options.DefaultOverallTemperature, "DefaultOverallTemperature", OverallTemperature.Normal);
-                Scribe_Values.Look(ref options.DefaultOverallPopulation, "DefaultOverallPopulation", OverallPopulation.Normal);
-                Scribe_Values.Look(ref options.DefaultPollution, "DefaultPollution", 0.05f);
+                PlanetOptions options = null;
+                Scribe_Deep.Look(ref options, Settings.PLANET);
+                if (options != null)
+                {
+                    Settings.SetValue(Settings.PLANET_COVERAGE, options.DefaultPlanetCoverage);
+                    Settings.SetValue(Settings.OVERALL_RAINFALL, options.DefaultOverallRainfall);
+                    Settings.SetValue(Settings.OVERALL_TEMPERATURE, options.DefaultOverallTemperature);
+                    Settings.SetValue(Settings.OVERALL_POPULATION, options.DefaultOverallPopulation);
+                    Settings.SetValue(Settings.LANDMARK_DENSITY, options.DefaultLandmarkDensity);
+                    Settings.SetValue(Settings.PLANET_POLLUTION, options.DefaultPollution);
+                }
             }
         }
 
@@ -280,6 +285,29 @@ namespace Defaults.StockpileZones.Shelves
             {
                 filter = compatibilityFilter;
             }
+        }
+    }
+}
+
+namespace Defaults.WorldSettings
+{
+    public class PlanetOptions : IExposable
+    {
+        public float DefaultPlanetCoverage;
+        public OverallRainfall DefaultOverallRainfall;
+        public OverallTemperature DefaultOverallTemperature;
+        public OverallPopulation DefaultOverallPopulation;
+        public LandmarkDensity DefaultLandmarkDensity;
+        public float DefaultPollution;
+
+        public void ExposeData()
+        {
+            Scribe_Values.Look(ref DefaultPlanetCoverage, "DefaultPlanetCoverage", ModsConfig.OdysseyActive ? 0.5f : 0.3f);
+            Scribe_Values.Look(ref DefaultOverallRainfall, "DefaultOverallRainfall", OverallRainfall.Normal);
+            Scribe_Values.Look(ref DefaultOverallTemperature, "DefaultOverallTemperature", OverallTemperature.Normal);
+            Scribe_Values.Look(ref DefaultOverallPopulation, "DefaultOverallPopulation", OverallPopulation.Normal);
+            Scribe_Values.Look(ref DefaultLandmarkDensity, "DefaultLandmarkDensity", LandmarkDensity.Normal);
+            Scribe_Values.Look(ref DefaultPollution, "DefaultPollution", 0.05f);
         }
     }
 }

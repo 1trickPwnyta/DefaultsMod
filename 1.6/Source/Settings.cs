@@ -69,6 +69,12 @@ namespace Defaults
         public const string SHOW_EXPANDING_ICONS_BASES = "DefaultShowBasesExpandingIcons";
         public const string SHOW_EXPANDING_ICONS_LANDMARKS = "DefaultShowExpandingLandmarks";
         public const string SHOW_WORLD_FEATURES = "DefaultShowWorldFeatures";
+        public const string OVERALL_RAINFALL = "DefaultOverallRainfall";
+        public const string PLANET_COVERAGE = "DefaultPlanetCoverage";
+        public const string OVERALL_TEMPERATURE = "DefaultOverallTemperature";
+        public const string OVERALL_POPULATION = "DefaultOverallPopulation";
+        public const string LANDMARK_DENSITY = "DefaultLandmarkDensity";
+        public const string PLANET_POLLUTION = "DefaultPollution";
 
         public static T Get<T>(string key)
         {

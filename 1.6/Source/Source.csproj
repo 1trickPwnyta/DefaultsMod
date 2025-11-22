@@ -138,6 +138,7 @@
     <Compile Include="StockpileZones\Buildings\DefaultSettingWorker_AllowRemovingFromOutfitStand.cs" />
     <Compile Include="StockpileZones\Buildings\Patch_Building_OutfitStand.cs" />
     <Compile Include="Storyteller\DefaultSettingWorker_Difficulty.cs" />
+    <Compile Include="Storyteller\DefaultSettingWorker_Permadeath.cs" />
     <Compile Include="Storyteller\DefaultSettingWorker_Storyteller.cs" />
     <Compile Include="UI\Dialog_Input.cs" />
     <Compile Include="UI\Dialog_TextField.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="Workers\DefaultSettingsCategoryWorker.cs" />
     <Compile Include="Misc\DefaultSettingsCategoryWorker_Misc.cs" />
     <Compile Include="Workers\DefaultSettingWorker.cs" />
+    <Compile Include="Workers\DefaultSettingWorker_Slider.cs" />
     <Compile Include="Workers\DefaultSettingWorker_Dropdown.cs" />
     <Compile Include="Workers\DefaultSettingWorker_Checkbox.cs" />
     <Compile Include="UI\Dialog_Select.cs" />
@@ -264,6 +266,12 @@
     <Compile Include="WorkPriorities\WorkPriorityUtility.cs" />
     <Compile Include="WorkPriorities\WorkPriorityValue.cs" />
     <Compile Include="WorldSettings\CompatibilityPatch_Planets_CreateWorldParams.cs" />
+    <Compile Include="WorldSettings\DefaultSettingWorker_LandmarkDensity.cs" />
+    <Compile Include="WorldSettings\DefaultSettingWorker_OverallPopulation.cs" />
+    <Compile Include="WorldSettings\DefaultSettingWorker_OverallRainfall.cs" />
+    <Compile Include="WorldSettings\DefaultSettingWorker_OverallTemperature.cs" />
+    <Compile Include="WorldSettings\DefaultSettingWorker_PlanetCoverage.cs" />
+    <Compile Include="WorldSettings\DefaultSettingWorker_PlanetPollution.cs" />
     <Compile Include="WorldSettings\Dialog_MapSettings.cs" />
     <Compile Include="Medicine\MedicineUtility.cs" />
     <Compile Include="Medicine\Patch_Pawn.cs" />
@@ -328,7 +336,6 @@
     <Compile Include="WorldSettings\Dialog_WorldSettings.cs" />
     <Compile Include="WorldSettings\FactionsUtility.cs" />
     <Compile Include="WorldSettings\MapOptions.cs" />
-    <Compile Include="WorldSettings\PlanetOptions.cs" />
     <Compile Include="WorldSettings\Patch_Page_CreateWorldParams.cs" />
     <Compile Include="WorldSettings\Patch_WorldFactionsUIUtility.cs" />
   </ItemGroup>

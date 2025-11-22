@@ -19,5 +19,17 @@
 	<category>Storyteller</category>
     <workerClass>Defaults.Storyteller.DefaultSettingWorker_Difficulty</workerClass>
   </Defaults.Defs.DefaultSettingDef>
+  
+  <Defaults.Defs.DefaultSettingDef>
+    <defName>Permadeath</defName>
+	<label>commitment mode by default</label>
+	<category>Storyteller</category>
+    <workerClass>Defaults.Storyteller.DefaultSettingWorker_Permadeath</workerClass>
+	<keywords>
+	  <li>permadeath</li>
+	  <li>reload</li>
+	  <li>anytime</li>
+	</keywords>
+  </Defaults.Defs.DefaultSettingDef>
 
 </Defs>

@@ -15,13 +15,12 @@ namespace Defaults.WorldSettings
     {
         public static void Postfix(ref float ___planetCoverage, ref OverallRainfall ___rainfall, ref OverallTemperature ___temperature, ref OverallPopulation ___population, ref float ___pollution, ref LandmarkDensity ___landmarkDensity)
         {
-            PlanetOptions options = Settings.Get<PlanetOptions>(Settings.PLANET);
-            ___planetCoverage = options.DefaultPlanetCoverage;
-            ___rainfall = options.DefaultOverallRainfall;
-            ___temperature = options.DefaultOverallTemperature;
-            ___population = options.DefaultOverallPopulation;
-            ___pollution = options.DefaultPollution;
-            ___landmarkDensity = options.DefaultLandmarkDensity;
+            ___planetCoverage = Settings.GetValue<float>(Settings.PLANET_COVERAGE);
+            ___rainfall = Settings.GetValue<OverallRainfall>(Settings.OVERALL_RAINFALL);
+            ___temperature = Settings.GetValue<OverallTemperature>(Settings.OVERALL_TEMPERATURE);
+            ___population = Settings.GetValue<OverallPopulation>(Settings.OVERALL_POPULATION);
+            ___pollution = Settings.GetValue<float>(Settings.PLANET_POLLUTION);
+            ___landmarkDensity = Settings.GetValue<LandmarkDensity>(Settings.LANDMARK_DENSITY);
         }
     }
 
@@ -48,13 +47,12 @@ namespace Defaults.WorldSettings
                 Rect buttonRect = new Rect(rect.x + rect.width - 150f - 16f, rect.y + 4f, 150f, 40f);
                 if (Widgets.ButtonText(buttonRect, "Defaults_SetAsDefault".Translate()))
                 {
-                    PlanetOptions planetOptions = Settings.Get<PlanetOptions>(Settings.PLANET);
-                    planetOptions.DefaultPlanetCoverage = ___planetCoverage;
-                    planetOptions.DefaultOverallRainfall = ___rainfall;
-                    planetOptions.DefaultOverallTemperature = ___temperature;
-                    planetOptions.DefaultOverallPopulation = ___population;
-                    planetOptions.DefaultPollution = ___pollution;
-                    planetOptions.DefaultLandmarkDensity = ___landmarkDensity;
+                    Settings.SetValue(Settings.PLANET_COVERAGE, ___planetCoverage);
+                    Settings.SetValue(Settings.OVERALL_RAINFALL, ___rainfall);
+                    Settings.SetValue(Settings.OVERALL_TEMPERATURE, ___temperature);
+                    Settings.SetValue(Settings.OVERALL_POPULATION, ___population);
+                    Settings.SetValue(Settings.PLANET_POLLUTION, ___pollution);
+                    Settings.SetValue(Settings.LANDMARK_DENSITY, ___landmarkDensity);
                     MapOptions mapOptions = Settings.Get<MapOptions>(Settings.MAP);
                     mapOptions.DefaultMapSize = Find.GameInitData.mapSize;
                     mapOptions.DefaultStartingSeason = Find.GameInitData.startingSeason;

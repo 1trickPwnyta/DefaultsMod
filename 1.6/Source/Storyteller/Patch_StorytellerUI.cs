@@ -85,7 +85,7 @@ namespace Defaults.Storyteller
             {
                 if (settingsOpen)
                 {
-                    Settings.Set(Settings.PERMADEATH, false);
+                    Settings.SetValue(Settings.PERMADEATH, false);
                 }
                 else
                 {
@@ -98,7 +98,7 @@ namespace Defaults.Storyteller
             {
                 if (settingsOpen)
                 {
-                    Settings.Set(Settings.PERMADEATH, true);
+                    Settings.SetValue(Settings.PERMADEATH, true);
                 }
                 else
                 {
