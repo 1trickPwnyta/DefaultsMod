@@ -8,6 +8,8 @@ namespace Defaults.Workers
     {
         string Key { get; }
 
+        bool RenderLast { get; }
+
         DefaultSettingDef Def { set; }
 
         void PreLoadSetting();
@@ -35,6 +37,8 @@ namespace Defaults.Workers
         }
 
         public abstract string Key { get; }
+
+        public virtual bool RenderLast => false;
 
         public DefaultSettingDef Def
         {

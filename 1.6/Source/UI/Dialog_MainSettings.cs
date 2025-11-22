@@ -169,18 +169,7 @@ namespace Defaults.UI
             Widgets.Label(new Rect(rect.x, y, rect.width, Text.LineHeight), ref y, "Defaults_DefaultSettings".Translate());
             Widgets.DrawLineHorizontal(rect.x, y, rect.width);
             y += 10f;
-
-            Listing_Standard listing = new Listing_StandardHighlight() { maxOneColumn = true };
-            listing.Begin(new Rect(rect.x, y, rect.width, rect.height));
-
-            foreach (DefaultSettingDef def in settings)
-            {
-                Rect rowRect = listing.GetRect(30f);
-                def.Worker.DoSetting(rowRect);
-            }
-
-            y += listing.CurHeight;
-            listing.End();
+            y += UIUtility.DoSettingsList(new Rect(rect.x, y, rect.width, rect.height), settings);
         }
     }
 }

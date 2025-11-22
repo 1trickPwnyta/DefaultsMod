@@ -53,9 +53,8 @@ namespace Defaults.WorldSettings
                     Settings.SetValue(Settings.OVERALL_POPULATION, ___population);
                     Settings.SetValue(Settings.PLANET_POLLUTION, ___pollution);
                     Settings.SetValue(Settings.LANDMARK_DENSITY, ___landmarkDensity);
-                    MapOptions mapOptions = Settings.Get<MapOptions>(Settings.MAP);
-                    mapOptions.DefaultMapSize = Find.GameInitData.mapSize;
-                    mapOptions.DefaultStartingSeason = Find.GameInitData.startingSeason;
+                    Settings.SetValue(Settings.MAP_SIZE, Find.GameInitData.mapSize);
+                    Settings.SetValue(Settings.STARTING_SEASON, Find.GameInitData.startingSeason);
                     Settings.Set(Settings.FACTIONS, ___factions.Where(f => f.displayInFactionSelection).ToList());
                     DefaultsMod.SaveSettings();
                     Messages.Message("Defaults_SetAsDefaultConfirmed".Translate(), MessageTypeDefOf.PositiveEvent, false);
@@ -71,9 +70,8 @@ namespace Defaults.WorldSettings
     {
         public static void Postfix()
         {
-            MapOptions options = Settings.Get<MapOptions>(Settings.MAP);
-            Find.GameInitData.mapSize = options.DefaultMapSize;
-            Find.GameInitData.startingSeason = options.DefaultStartingSeason;
+            Find.GameInitData.mapSize = Settings.GetValue<int>(Settings.MAP_SIZE);
+            Find.GameInitData.startingSeason = Settings.GetValue<Season>(Settings.STARTING_SEASON);
         }
     }
 }

@@ -57,5 +57,26 @@
 	<category>World</category>
     <workerClass>Defaults.WorldSettings.DefaultSettingWorker_PlanetPollution</workerClass>
   </Defaults.Defs.DefaultSettingDef>
+  
+  <Defaults.Defs.DefaultSettingDef>
+    <defName>MapSize</defName>
+	<label>default map size</label>
+	<category>World</category>
+    <workerClass>Defaults.WorldSettings.DefaultSettingWorker_MapSize</workerClass>
+  </Defaults.Defs.DefaultSettingDef>
+  
+  <Defaults.Defs.DefaultSettingDef>
+    <defName>StartingSeason</defName>
+	<label>default starting season</label>
+	<category>World</category>
+    <workerClass>Defaults.WorldSettings.DefaultSettingWorker_StartingSeason</workerClass>
+	<keywords>
+	  <li>winter</li>
+	  <li>fall</li>
+	  <li>autumn</li>
+	  <li>summer</li>
+	  <li>spring</li>
+	</keywords>
+  </Defaults.Defs.DefaultSettingDef>
 
 </Defs>

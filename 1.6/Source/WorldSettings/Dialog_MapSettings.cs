@@ -9,22 +9,6 @@ namespace Defaults.MapSettings
 {
     public class Dialog_MapSettings : Window
     {
-        private static readonly int[] MapSizes = new int[]
-        {
-            200,
-            225,
-            250,
-            275,
-            300,
-            325
-        };
-
-        private static readonly int[] TestMapSizes = new int[]
-        {
-            350,
-            400
-        };
-
         public Dialog_MapSettings()
         {
             doCloseX = true;
@@ -37,20 +21,18 @@ namespace Defaults.MapSettings
 
         public override void DoWindowContents(Rect inRect)
         {
-            MapOptions options = Settings.Get<MapOptions>(Settings.MAP);
-
             Listing_Standard listing = new Listing_Standard { ColumnWidth = 200f };
             listing.Begin(inRect.AtZero());
 
             Text.Font = GameFont.Medium;
             listing.Label("MapSize".Translate());
             Text.Font = GameFont.Small;
-            IEnumerable<int> enumerable = MapSizes.AsEnumerable();
+            IEnumerable<int?> enumerable = DefaultSettingWorker_MapSize.MapSizes.AsEnumerable();
             if (Prefs.TestMapSizes)
             {
-                enumerable = enumerable.Concat(TestMapSizes);
+                enumerable = enumerable.Concat(DefaultSettingWorker_MapSize.TestMapSizes);
             }
-            foreach (int num in enumerable)
+            foreach (int? num in enumerable)
             {
                 if (num == 200)
                 {
@@ -71,10 +53,10 @@ namespace Defaults.MapSettings
                     listing.Gap(10f);
                     listing.Label("MapSizeExtreme".Translate());
                 }
-                string label = "MapSizeDesc".Translate(num, num * num);
-                if (listing.RadioButton(label, options.DefaultMapSize == num, 0f, null, null))
+                string label = "MapSizeDesc".Translate(num.Value, num.Value * num.Value);
+                if (listing.RadioButton(label, Settings.GetValue<int>(Settings.MAP_SIZE) == num, 0f, null, null))
                 {
-                    options.DefaultMapSize = num;
+                    Settings.SetValue(Settings.MAP_SIZE, num.Value);
                 }
             }
             listing.NewColumn();
@@ -83,25 +65,26 @@ namespace Defaults.MapSettings
             listing.Label("MapStartSeason".Translate());
             Text.Font = GameFont.Small;
             listing.Label("");
-            if (listing.RadioButton("MapStartSeasonDefault".Translate(), options.DefaultStartingSeason == Season.Undefined, 0f, null, null))
+            Season startingSeason = Settings.GetValue<Season>(Settings.STARTING_SEASON);
+            if (listing.RadioButton("MapStartSeasonDefault".Translate(), startingSeason == Season.Undefined, 0f, null, null))
             {
-                options.DefaultStartingSeason = Season.Undefined;
+                Settings.SetValue(Settings.STARTING_SEASON, Season.Undefined);
             }
-            if (listing.RadioButton(Season.Spring.LabelCap(), options.DefaultStartingSeason == Season.Spring, 0f, null, null))
+            if (listing.RadioButton(Season.Spring.LabelCap(), startingSeason == Season.Spring, 0f, null, null))
             {
-                options.DefaultStartingSeason = Season.Spring;
+                Settings.SetValue(Settings.STARTING_SEASON, Season.Spring);
             }
-            if (listing.RadioButton(Season.Summer.LabelCap(), options.DefaultStartingSeason == Season.Summer, 0f, null, null))
+            if (listing.RadioButton(Season.Summer.LabelCap(), startingSeason == Season.Summer, 0f, null, null))
             {
-                options.DefaultStartingSeason = Season.Summer;
+                Settings.SetValue(Settings.STARTING_SEASON, Season.Summer);
             }
-            if (listing.RadioButton(Season.Fall.LabelCap(), options.DefaultStartingSeason == Season.Fall, 0f, null, null))
+            if (listing.RadioButton(Season.Fall.LabelCap(), startingSeason == Season.Fall, 0f, null, null))
             {
-                options.DefaultStartingSeason = Season.Fall;
+                Settings.SetValue(Settings.STARTING_SEASON, Season.Fall);
             }
-            if (listing.RadioButton(Season.Winter.LabelCap(), options.DefaultStartingSeason == Season.Winter, 0f, null, null))
+            if (listing.RadioButton(Season.Winter.LabelCap(), startingSeason == Season.Winter, 0f, null, null))
             {
-                options.DefaultStartingSeason = Season.Winter;
+                Settings.SetValue(Settings.STARTING_SEASON, Season.Winter);
             }
             listing.End();
         }

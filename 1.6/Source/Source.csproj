@@ -267,11 +267,13 @@
     <Compile Include="WorkPriorities\WorkPriorityValue.cs" />
     <Compile Include="WorldSettings\CompatibilityPatch_Planets_CreateWorldParams.cs" />
     <Compile Include="WorldSettings\DefaultSettingWorker_LandmarkDensity.cs" />
+    <Compile Include="WorldSettings\DefaultSettingWorker_MapSize.cs" />
     <Compile Include="WorldSettings\DefaultSettingWorker_OverallPopulation.cs" />
     <Compile Include="WorldSettings\DefaultSettingWorker_OverallRainfall.cs" />
     <Compile Include="WorldSettings\DefaultSettingWorker_OverallTemperature.cs" />
     <Compile Include="WorldSettings\DefaultSettingWorker_PlanetCoverage.cs" />
     <Compile Include="WorldSettings\DefaultSettingWorker_PlanetPollution.cs" />
+    <Compile Include="WorldSettings\DefaultSettingWorker_StartingSeason.cs" />
     <Compile Include="WorldSettings\Dialog_MapSettings.cs" />
     <Compile Include="Medicine\MedicineUtility.cs" />
     <Compile Include="Medicine\Patch_Pawn.cs" />
@@ -335,7 +337,6 @@
     <Compile Include="WorldSettings\DefaultSettingsCategoryWorker_World.cs" />
     <Compile Include="WorldSettings\Dialog_WorldSettings.cs" />
     <Compile Include="WorldSettings\FactionsUtility.cs" />
-    <Compile Include="WorldSettings\MapOptions.cs" />
     <Compile Include="WorldSettings\Patch_Page_CreateWorldParams.cs" />
     <Compile Include="WorldSettings\Patch_WorldFactionsUIUtility.cs" />
   </ItemGroup>

@@ -28,7 +28,7 @@ namespace Defaults.WorldSettings
 
         protected override void ExposeSetting()
         {
-            Scribe_Values.Look(ref setting, Key);
+            Scribe_Values.Look(ref setting, Key, Default);
         }
     }
 }

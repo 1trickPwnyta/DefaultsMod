@@ -151,13 +151,17 @@ namespace Defaults.Compatibility
             }
         }
 
-        public static void MigrateMapOptions(ref MapOptions options)
+        public static void MigrateMapOptions()
         {
-            if (Scribe.mode == LoadSaveMode.LoadingVars && options == null)
+            if (Scribe.mode == LoadSaveMode.LoadingVars)
             {
-                options = new MapOptions();
-                Scribe_Values.Look(ref options.DefaultMapSize, "DefaultMapSize", 250);
-                Scribe_Values.Look(ref options.DefaultStartingSeason, "DefaultStartingSeason", Season.Undefined);
+                MapOptions options = null;
+                Scribe_Deep.Look(ref options, Settings.MAP);
+                if (options != null)
+                {
+                    Settings.SetValue(Settings.MAP_SIZE, options.DefaultMapSize);
+                    Settings.SetValue(Settings.STARTING_SEASON, options.DefaultStartingSeason);
+                }
             }
         }
 
@@ -308,6 +312,18 @@ namespace Defaults.WorldSettings
             Scribe_Values.Look(ref DefaultOverallPopulation, "DefaultOverallPopulation", OverallPopulation.Normal);
             Scribe_Values.Look(ref DefaultLandmarkDensity, "DefaultLandmarkDensity", LandmarkDensity.Normal);
             Scribe_Values.Look(ref DefaultPollution, "DefaultPollution", 0.05f);
+        }
+    }
+
+    public class MapOptions : IExposable
+    {
+        public int DefaultMapSize = 250;
+        public Season DefaultStartingSeason = Season.Undefined;
+
+        public void ExposeData()
+        {
+            Scribe_Values.Look(ref DefaultMapSize, "DefaultMapSize", 250);
+            Scribe_Values.Look(ref DefaultStartingSeason, "DefaultStartingSeason", Season.Undefined);
         }
     }
 }

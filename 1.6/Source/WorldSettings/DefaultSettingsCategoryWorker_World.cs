@@ -10,7 +10,6 @@ namespace Defaults.WorldSettings
 {
     public class DefaultSettingsCategoryWorker_World : DefaultSettingsCategoryWorker
     {
-        private MapOptions defaultMapOptions;
         private List<FactionDef> defaultFactions;
         private bool? defaultFactionsLock;
 
@@ -27,9 +26,6 @@ namespace Defaults.WorldSettings
         {
             switch (key)
             {
-                case Settings.MAP:
-                    value = defaultMapOptions;
-                    return true;
                 case Settings.FACTIONS:
                     value = defaultFactions;
                     return true;
@@ -45,9 +41,6 @@ namespace Defaults.WorldSettings
         {
             switch (key)
             {
-                case Settings.MAP:
-                    defaultMapOptions = value as MapOptions;
-                    return true;
                 case Settings.FACTIONS:
                     defaultFactions = value as List<FactionDef>;
                     return true;
@@ -70,10 +63,6 @@ namespace Defaults.WorldSettings
 
         protected override void ResetCategorySettings(bool forced)
         {
-            if (forced || defaultMapOptions == null)
-            {
-                defaultMapOptions = new MapOptions();
-            }
             if (forced || defaultFactions == null)
             {
                 defaultFactions = FactionsUtility.GetDefaultSelectableFactions();
@@ -88,18 +77,17 @@ namespace Defaults.WorldSettings
 
         protected override void ExposeCategorySettings()
         {
-            Scribe_Deep.Look(ref defaultMapOptions, Settings.MAP);
             if (!ModCompatibilityUtility_FactionXenotypeRandomizer.ScribeDefaultFactions(ref defaultFactions))
             {
                 Scribe_Collections_Silent.Look(ref defaultFactions, Settings.FACTIONS);
             }
             Scribe_Values.Look(ref defaultFactionsLock, Settings.FACTIONS_LOCK);
-            BackwardCompatibilityUtility.MigrateMapOptions(ref defaultMapOptions);
         }
 
         protected override void PostExposeData()
         {
             BackwardCompatibilityUtility.MigratePlanetOptions();
+            BackwardCompatibilityUtility.MigrateMapOptions();
         }
     }
 }

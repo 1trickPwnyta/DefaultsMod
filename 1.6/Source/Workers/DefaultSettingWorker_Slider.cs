@@ -28,6 +28,8 @@ namespace Defaults.Workers
 
         protected abstract T GetValue(float value);
 
+        public override bool RenderLast => true;
+
         protected override void DoWidget(Rect rect)
         {
             rect = rect.RightHalf();
@@ -44,7 +46,7 @@ namespace Defaults.Workers
 
         protected override void ExposeSetting()
         {
-            Scribe_Values.Look(ref setting, Key);
+            Scribe_Values.Look(ref setting, Key, Default);
         }
     }
 }

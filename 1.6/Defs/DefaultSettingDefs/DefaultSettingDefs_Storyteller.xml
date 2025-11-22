@@ -18,6 +18,19 @@
 	<label>default difficulty</label>
 	<category>Storyteller</category>
     <workerClass>Defaults.Storyteller.DefaultSettingWorker_Difficulty</workerClass>
+	<keywords>
+	  <li>peaceful</li>
+	  <li>community</li>
+	  <li>builder</li>
+	  <li>adventure</li>
+	  <li>strive</li>
+	  <li>survive</li>
+	  <li>blood</li>
+	  <li>dust</li>
+	  <li>losing</li>
+	  <li>fun</li>
+	  <li>custom</li>
+	</keywords>
   </Defaults.Defs.DefaultSettingDef>
   
   <Defaults.Defs.DefaultSettingDef>

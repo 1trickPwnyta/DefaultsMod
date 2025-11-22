@@ -1,7 +1,10 @@
 ﻿using Defaults.Defs;
+using Defaults.Workers;
 using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -142,10 +145,24 @@ namespace Defaults.UI
             Listing_Standard listing = new Listing_StandardHighlight() { maxOneColumn = true };
             listing.Begin(rect);
 
+            List<Tuple<Rect, DefaultSettingDef>> renderLastList = new List<Tuple<Rect, DefaultSettingDef>>();
             foreach (DefaultSettingDef def in settings)
             {
                 Rect rowRect = listing.GetRect(30f);
-                def.Worker.DoSetting(rowRect);
+                if (def.Worker.RenderLast)
+                {
+                    renderLastList.Add(new Tuple<Rect, DefaultSettingDef>(rowRect, def));
+                }
+                else
+                {
+                    def.Worker.DoSetting(rowRect);
+                }
+            }
+
+            // Some settings must be rendered last for silly UI reasons (sliders' drooping hit boxes blocking other UI elements)
+            foreach (Tuple<Rect, DefaultSettingDef> renderLast in renderLastList)
+            {
+                renderLast.Item2.Worker.DoSetting(renderLast.Item1);
             }
 
             listing.End();

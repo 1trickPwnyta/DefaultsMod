@@ -75,6 +75,8 @@ namespace Defaults
         public const string OVERALL_POPULATION = "DefaultOverallPopulation";
         public const string LANDMARK_DENSITY = "DefaultLandmarkDensity";
         public const string PLANET_POLLUTION = "DefaultPollution";
+        public const string MAP_SIZE = "DefaultMapSize";
+        public const string STARTING_SEASON = "DefaultStartingSeason";
 
         public static T Get<T>(string key)
         {

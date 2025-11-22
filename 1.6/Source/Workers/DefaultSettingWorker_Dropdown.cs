@@ -26,7 +26,7 @@ namespace Defaults.Workers
 
         protected virtual TaggedString GetMenuTip(T option) => null;
 
-        protected virtual float Width => Text.CalcSize(GetText(Options.MaxBy(o => GetText(o).Length))).x + 20f;
+        protected virtual float Width => Options.Max(o => Text.CalcSize(GetText(o)).x) + 20f;
 
         protected override void DoWidget(Rect rect)
         {

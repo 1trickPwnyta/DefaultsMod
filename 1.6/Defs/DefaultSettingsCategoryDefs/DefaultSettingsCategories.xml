@@ -8,24 +8,6 @@
 	<iconPath>DefaultSettingsCategoryIcons/Storyteller</iconPath>
     <workerClass>Defaults.Storyteller.DefaultSettingsCategoryWorker_Storyteller</workerClass>
 	<keywords>
-	  <li>cassandra</li>
-	  <li>phoebe</li>
-	  <li>randy</li>
-	  <li>difficulty</li>
-	  <li>peaceful</li>
-	  <li>community</li>
-	  <li>builder</li>
-	  <li>adventure</li>
-	  <li>strive</li>
-	  <li>survive</li>
-	  <li>blood</li>
-	  <li>dust</li>
-	  <li>losing</li>
-	  <li>fun</li>
-	  <li>reload</li>
-	  <li>anytime</li>
-	  <li>commitment</li>
-	  <li>custom</li>
 	  <li>threat</li>
 	  <li>scale</li>
 	  <li>scaria</li>
@@ -49,14 +31,6 @@
 	<iconPath>DefaultSettingsCategoryIcons/World</iconPath>
     <workerClass>Defaults.WorldSettings.DefaultSettingsCategoryWorker_World</workerClass>
 	<keywords>
-	  <li>globe</li>
-	  <li>coverage</li>
-	  <li>rainfall</li>
-	  <li>temperature</li>
-	  <li>population</li>
-	  <li>sparse</li>
-	  <li>crowded</li>
-	  <li>pollution</li>
 	  <li>factions</li>
 	  <li>outlanders</li>
 	  <li>tribes</li>
@@ -67,14 +41,6 @@
 	  <li>mechanoids</li>
 	  <li>insects</li>
 	  <li>bugs</li>
-	  <li>map</li>
-	  <li>size</li>
-	  <li>starting</li>
-	  <li>season</li>
-	  <li>spring</li>
-	  <li>summer</li>
-	  <li>fall</li>
-	  <li>winter</li>
 	</keywords>
   </Defaults.Defs.DefaultSettingsCategoryDef>
   
