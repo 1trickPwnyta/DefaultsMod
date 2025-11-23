@@ -14,6 +14,7 @@ namespace Defaults.Defs
         public int uiOrder;
         public Type workerClass;
         public bool showInQuickOptions;
+        public bool hideInAdditionalSettings;
         public List<string> keywords = new List<string>();
 
         public IDefaultSettingWorker Worker

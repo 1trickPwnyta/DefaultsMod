@@ -6,6 +6,7 @@
 	<label>default globe coverage</label>
 	<category>World</category>
     <workerClass>Defaults.WorldSettings.DefaultSettingWorker_PlanetCoverage</workerClass>
+	<hideInAdditionalSettings>true</hideInAdditionalSettings>
 	<keywords>
 	  <li>planet</li>
 	</keywords>
@@ -16,6 +17,7 @@
 	<label>default planet rainfall</label>
 	<category>World</category>
     <workerClass>Defaults.WorldSettings.DefaultSettingWorker_OverallRainfall</workerClass>
+	<hideInAdditionalSettings>true</hideInAdditionalSettings>
   </Defaults.Defs.DefaultSettingDef>
   
   <Defaults.Defs.DefaultSettingDef>
@@ -23,6 +25,7 @@
 	<label>default planet temperature</label>
 	<category>World</category>
     <workerClass>Defaults.WorldSettings.DefaultSettingWorker_OverallTemperature</workerClass>
+	<hideInAdditionalSettings>true</hideInAdditionalSettings>
 	<keywords>
 	  <li>cold</li>
 	  <li>hot</li>
@@ -34,6 +37,7 @@
 	<label>default planet population</label>
 	<category>World</category>
     <workerClass>Defaults.WorldSettings.DefaultSettingWorker_OverallPopulation</workerClass>
+	<hideInAdditionalSettings>true</hideInAdditionalSettings>
 	<keywords>
 	  <li>sparse</li>
 	  <li>crowded</li>
@@ -45,6 +49,7 @@
 	<label>default landmark density</label>
 	<category>World</category>
     <workerClass>Defaults.WorldSettings.DefaultSettingWorker_LandmarkDensity</workerClass>
+	<hideInAdditionalSettings>true</hideInAdditionalSettings>
 	<keywords>
 	  <li>sparse</li>
 	  <li>crowded</li>
@@ -56,6 +61,7 @@
 	<label>default planet pollution</label>
 	<category>World</category>
     <workerClass>Defaults.WorldSettings.DefaultSettingWorker_PlanetPollution</workerClass>
+	<hideInAdditionalSettings>true</hideInAdditionalSettings>
   </Defaults.Defs.DefaultSettingDef>
   
   <Defaults.Defs.DefaultSettingDef>
@@ -63,6 +69,7 @@
 	<label>default map size</label>
 	<category>World</category>
     <workerClass>Defaults.WorldSettings.DefaultSettingWorker_MapSize</workerClass>
+	<hideInAdditionalSettings>true</hideInAdditionalSettings>
   </Defaults.Defs.DefaultSettingDef>
   
   <Defaults.Defs.DefaultSettingDef>
@@ -70,6 +77,7 @@
 	<label>default starting season</label>
 	<category>World</category>
     <workerClass>Defaults.WorldSettings.DefaultSettingWorker_StartingSeason</workerClass>
+	<hideInAdditionalSettings>true</hideInAdditionalSettings>
 	<keywords>
 	  <li>winter</li>
 	  <li>fall</li>

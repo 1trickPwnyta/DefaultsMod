@@ -8,33 +8,65 @@
 		<li>1.5</li>
 		<li>1.6</li>
 	</supportedVersions>
-	<description>
+	<description><![CDATA[<size=18px><color=#5aa9d6>Description</color></size>
+
 Tired of having to go through the same ritual every time you start a new colony of configuring your colonists' schedules, setting your quest reward preferences, turning down the medicine setting so you don't waste your good medicine on bruises, and more? This mod allows you to customize various default settings to use during gameplay, such as the default schedules your colonists will assume. See below for a full list of settings.
+
+<size=18px><color=#5aa9d6>Compatibility</color></size>
 
 Supports all DLC and can be safely added mid-playthrough, however many settings will only apply to new colonies.
 
-Full list of default settings:
-  - Storyteller settings: Set the default storyteller/difficulty settings to use for a new colony, including custom difficulty settings.
-  - World settings: Set the default world and map settings to use for a new colony.
-  - Colonist schedules: Set custom default schedules for colonists. You can create alternating schedules and the mod will cycle between them when assigning them to new colonists.
-  - Policies: Set custom default apparel, food, drug, and reading policies that will be copied to each new colony.
-  - Baby feeding settings: Set the default autofeed setting for colonists based on relationship to baby and whether they are lactating. Also allows you to set which foods babies can be fed by default.
-  - Medicine settings: Set the default medicine settings to use for a new colony as well as the type and amount of medicine that new colonists will carry.
-  - Reward preferences: Set the default reward preferences to use for a new colony.
-  - Expanded resource categories: Set which resource tree categories are expanded by default in categorized mode.
-  - Storage settings: Configure the default settings for stockpile zones, dumping stockpile zones, and storage buildings such as shelves. You can also create your own custom stockpile zone types with their own settings.
-  - Workbench bills: Set default bills for workbenches that will populate automatically upon building a workbench.
-  - Allowed areas: Create default allowed areas for new colonies and control which types of pawns get automatically assigned to which areas.
-  - Work priorities: Create default work priorities for new colonists based on their passions and skills.
-  - Hostility response: Set the default hostility response to use for new colonists.
-  - Pregnancy approach: Set the default pregnancy approach that new romantic colonist relationships will take.
-  - Auto rebuild setting: Set the default auto-rebuild setting to use for a new colony.
-  - Auto home area setting: Set the default auto-home area setting to use for a new colony.
-  - Plant type: Set the default plant type for new growing zones.
-  - Temperature targets: Set the default temperature targets for heaters and coolers.
-  - Mech work modes: Set the default work modes for the initial two mechanitor control groups as well as a mode for all additional control groups granted by control sublinks.
+<size=18px><color=#5aa9d6>Default Settings Categories</color></size>
 
-=== Updates ===
+<size=16px><b>Default storyteller settings</b></size>
+Set the default storyteller/difficulty settings to use for a new colony, including custom difficulty settings.
+
+<size=16px><b>Default world settings</b></size>
+Set the default world and map settings to use for a new colony.
+
+<size=16px><b>Default colonist schedules</b></size>
+Set custom default schedules for colonists. You can create alternating schedules and the mod will cycle between them when assigning them to new colonists.
+
+<size=16px><b>Default policies</b></size>
+Set custom default apparel, food, drug, and reading policies that will be copied to each new colony.
+
+<size=16px><b>Default baby feeding settings</b></size>
+Set the default autofeed setting for colonists based on relationship to baby and whether they are lactating. Also allows you to set which foods babies can be fed by default.
+
+<size=16px><b>Default medicine settings</b></size>
+Set the default medicine settings to use for a new colony as well as the type and amount of medicine that new colonists will carry.
+
+<size=16px><b>Default reward preferences</b></size>
+Set the default reward preferences to use for a new colony.
+
+<size=16px><b>Default expanded resource categories</b></size>
+Set which resource tree categories are expanded by default in categorized mode.
+
+<size=16px><b>Default storage settings</b></size>
+Configure the default settings for stockpile zones, dumping stockpile zones, and storage buildings such as shelves. You can also create your own custom stockpile zone types with their own settings.
+
+<size=16px><b>Default workbench bills</b></size>
+Set default bills for workbenches that will populate automatically upon building a workbench.
+
+<size=16px><b>Default allowed areas</b></size>
+Create default allowed areas for new colonies and control which types of pawns get automatically assigned to which areas.
+
+<size=16px><b>Default work priorities</b></size>
+Create default work priorities for new colonists based on their passions and skills.
+
+<size=16px><b>Miscellaneous defaults</b></size>
+  &#8226; <b>Hostility response: </b>Set the default hostility response to use for new colonists.
+  &#8226; <b>Pregnancy approach: </b>Set the default pregnancy approach that new romantic colonist relationships will take.
+  &#8226; <b>Auto rebuild setting: </b>Set the default auto-rebuild setting to use for a new colony.
+  &#8226; <b>Auto home area setting: </b>Set the default auto-home area setting to use for a new colony.
+  &#8226; <b>Plant type: </b>Set the default plant type for new growing zones.
+  &#8226; <b>Temperature targets: </b>Set the default temperature targets for heaters and coolers.
+  &#8226; <b>Mech work modes: </b>Set the default work modes for the initial two mechanitor control groups as well as a mode for all additional control groups granted by control sublinks.
+
+________________________________________________
+
+<size=18px><color=#5aa9d6>Updates</color></size>
+
 11/08/2025: Fix default world settings dialog
 11/07/2025: Add option to preserve allowed area inheritance from parent, fix various mod incompatibilities and bugs including Animal Controls, Realistic Planets, and Faction Xenotype Randomizer
 10/29/2025: Add compatibility with Best Mix mod
@@ -70,10 +102,11 @@ Full list of default settings:
 07/31/2024: Fixed bug that prevented hidden factions from being generated
 07/23/2024: Fixed bug that caused incompatibility with the Blueprints mod, added error handling for situations where previously installed mods or DLCs are removed.
 
-=== Credits ===
-Settings category icons: Jerek Dain
-Mod icon: twitter.com/mouse_draws
-	</description>
+<size=18px><color=#5aa9d6>Credits</color></size>
+
+ &#8226; Settings category icons: Jerek Dain
+ &#8226; Mod icon: twitter.com/mouse_draws
+	]]></description>
 	<url>https://github.com/1trickPwnyta/DefaultsMod</url>
 	<modDependencies>
 		<li>

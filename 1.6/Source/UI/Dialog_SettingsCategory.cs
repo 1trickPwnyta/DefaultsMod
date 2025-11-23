@@ -48,7 +48,7 @@ namespace Defaults.UI
 
                 if (ShowAdditionalSettingsOption)
                 {
-                    List<DefaultSettingDef> additionalSettings = category.DefaultSettings.Where(s => !s.showInQuickOptions).OrderBy(s => s.uiOrder).ToList();
+                    List<DefaultSettingDef> additionalSettings = category.DefaultSettings.Where(s => !s.showInQuickOptions && !s.hideInAdditionalSettings).OrderBy(s => s.uiOrder).ToList();
                     if (additionalSettings.Any())
                     {
                         yield return new FloatMenuOption("Defaults_AdditionalSettings".Translate() + "...", () =>
