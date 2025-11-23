@@ -15,14 +15,14 @@ namespace Defaults.WorkbenchBills
         public bool locked = false;
         public RecipeDef recipe;
         public ThingFilter ingredientFilter;
-        public float ingredientSearchRadius = Settings.Get<GlobalBillOptions>(Settings.GLOBAL_BILL_OPTIONS).DefaultBillIngredientSearchRadius;
-        public IntRange allowedSkillRange = Settings.Get<GlobalBillOptions>(Settings.GLOBAL_BILL_OPTIONS).DefaultBillAllowedSkillRange;
+        public float ingredientSearchRadius = Settings.GetValue<float>(Settings.BILL_INGREDIENT_SEARCH_RADIUS);
+        public IntRange allowedSkillRange = Settings.GetValue<IntRange>(Settings.BILL_ALLOWED_SKILL_RANGE);
         public bool slavesOnly = false;
         public bool mechsOnly = false;
         public bool nonMechsOnly = false;
         public BillRepeatModeDef repeatMode = BillRepeatModeDefOf.RepeatCount;
         public int repeatCount = 1;
-        public BillStoreModeDef storeMode = Settings.Get<GlobalBillOptions>(Settings.GLOBAL_BILL_OPTIONS).DefaultBillStoreMode;
+        public BillStoreModeDef storeMode = Settings.Get<BillStoreModeDef>(Settings.BILL_STORE_MODE);
         public int targetCount = 10;
         public bool pauseWhenSatisfied = false;
         public int unpauseWhenYouHave = 5;
@@ -39,9 +39,15 @@ namespace Defaults.WorkbenchBills
 
         public string InspectLabel => RenamableLabel;
 
-        private BillTemplate() { }
+        private BillTemplate()
+        {
+            if (ingredientSearchRadius >= 100f)
+            {
+                ingredientSearchRadius = 999f;
+            }
+        }
 
-        public BillTemplate(RecipeDef recipe)
+        public BillTemplate(RecipeDef recipe) : this()
         {
             name = recipe.LabelCap;
             this.recipe = recipe;

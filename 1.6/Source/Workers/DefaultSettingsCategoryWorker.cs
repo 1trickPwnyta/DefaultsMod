@@ -152,6 +152,8 @@ namespace Defaults.Workers
 
         public abstract void OpenSettings();
 
+        public virtual float AdditionalSettingsDialogWidth => 500f;
+
         public void DoButton(Rect rect)
         {
             Widgets.DrawRectFast(rect, buttonColor);

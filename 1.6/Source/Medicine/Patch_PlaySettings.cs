@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RimWorld;
 
 namespace Defaults.Medicine
 {
@@ -9,18 +10,17 @@ namespace Defaults.Medicine
     {
         public static void Postfix(RimWorld.PlaySettings __instance)
         {
-            MedicineOptions options = Settings.Get<MedicineOptions>(Settings.MEDICINE);
-            __instance.defaultCareForColonist = options.DefaultCareForColonist;
-            __instance.defaultCareForPrisoner = options.DefaultCareForPrisoner;
-            __instance.defaultCareForSlave = options.DefaultCareForSlave;
-            __instance.defaultCareForTamedAnimal = options.DefaultCareForTamedAnimal;
-            __instance.defaultCareForFriendlyFaction = options.DefaultCareForFriendlyFaction;
-            __instance.defaultCareForNeutralFaction = options.DefaultCareForNeutralFaction;
-            __instance.defaultCareForHostileFaction = options.DefaultCareForHostileFaction;
-            __instance.defaultCareForNoFaction = options.DefaultCareForNoFaction;
-            __instance.defaultCareForWildlife = options.DefaultCareForWildlife;
-            __instance.defaultCareForEntities = options.DefaultCareForEntities;
-            __instance.defaultCareForGhouls = options.DefaultCareForGhouls;
+            __instance.defaultCareForColonist = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_COLONIST);
+            __instance.defaultCareForPrisoner = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_PRISONER);
+            __instance.defaultCareForSlave = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_SLAVE);
+            __instance.defaultCareForTamedAnimal = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_TAMED_ANIMAL);
+            __instance.defaultCareForFriendlyFaction = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_FRIENDLY_FACTION);
+            __instance.defaultCareForNeutralFaction = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_NEUTRAL_FACTION);
+            __instance.defaultCareForHostileFaction = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_HOSTILE_FACTION);
+            __instance.defaultCareForNoFaction = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_NO_FACTION);
+            __instance.defaultCareForWildlife = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_WILDLIFE);
+            __instance.defaultCareForEntities = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_ENTITY);
+            __instance.defaultCareForGhouls = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_GHOUL);
         }
     }
 }

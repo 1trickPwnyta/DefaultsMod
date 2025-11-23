@@ -48,15 +48,8 @@ namespace Defaults.WorkbenchBills
 
         public override void DoSettings(Rect rect)
         {
-            Rect globalRect = new Rect(rect.xMax - 200f, rect.y, 200f, 29f);
-            if (Widgets.ButtonText(globalRect, "Defaults_GlobalBillSettings".Translate()))
-            {
-                Find.WindowStack.Add(new Dialog_GlobalBillSettings());
-            }
-
-            Rect outRect = new Rect(rect.x, globalRect.yMax + padding, rect.width, rect.height - globalRect.height - padding);
-            Rect viewRect = new Rect(0f, 0f, outRect.width - 20f, y);
-            Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
+            Rect viewRect = new Rect(0f, 0f, rect.width - 20f, y);
+            Widgets.BeginScrollView(rect, ref scrollPosition, viewRect);
             float x = 0f;
             y = 0f;
             float workbenchGroupWidth = (viewRect.width - padding * 2) / 3;

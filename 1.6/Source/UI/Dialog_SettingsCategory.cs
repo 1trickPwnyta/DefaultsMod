@@ -53,7 +53,7 @@ namespace Defaults.UI
                     {
                         yield return new FloatMenuOption("Defaults_AdditionalSettings".Translate() + "...", () =>
                         {
-                            Find.WindowStack.Add(new Dialog_AdditionalSettings(additionalSettings));
+                            Find.WindowStack.Add(new Dialog_AdditionalSettings(additionalSettings, category.Worker.AdditionalSettingsDialogWidth));
                         });
                     }
                 }

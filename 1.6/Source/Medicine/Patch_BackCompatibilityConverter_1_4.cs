@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using RimWorld;
 using Verse;
 
 namespace Defaults.Medicine
@@ -15,18 +16,17 @@ namespace Defaults.Medicine
                 RimWorld.PlaySettings playSettings;
                 if ((playSettings = (obj as RimWorld.PlaySettings)) != null)
                 {
-                    MedicineOptions options = Settings.Get<MedicineOptions>(Settings.MEDICINE);
-                    playSettings.defaultCareForColonist = options.DefaultCareForColonist;
-                    playSettings.defaultCareForPrisoner = options.DefaultCareForPrisoner;
-                    playSettings.defaultCareForSlave = options.DefaultCareForSlave;
-                    playSettings.defaultCareForTamedAnimal = options.DefaultCareForTamedAnimal;
-                    playSettings.defaultCareForFriendlyFaction = options.DefaultCareForFriendlyFaction;
-                    playSettings.defaultCareForNeutralFaction = options.DefaultCareForNeutralFaction;
-                    playSettings.defaultCareForHostileFaction = options.DefaultCareForHostileFaction;
-                    playSettings.defaultCareForNoFaction = options.DefaultCareForNoFaction;
-                    playSettings.defaultCareForWildlife = options.DefaultCareForWildlife;
-                    playSettings.defaultCareForEntities = options.DefaultCareForEntities;
-                    playSettings.defaultCareForGhouls = options.DefaultCareForGhouls;
+                    playSettings.defaultCareForColonist = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_COLONIST);
+                    playSettings.defaultCareForPrisoner = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_PRISONER);
+                    playSettings.defaultCareForSlave = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_SLAVE);
+                    playSettings.defaultCareForTamedAnimal = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_TAMED_ANIMAL);
+                    playSettings.defaultCareForFriendlyFaction = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_FRIENDLY_FACTION);
+                    playSettings.defaultCareForNeutralFaction = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_NEUTRAL_FACTION);
+                    playSettings.defaultCareForHostileFaction = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_HOSTILE_FACTION);
+                    playSettings.defaultCareForNoFaction = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_NO_FACTION);
+                    playSettings.defaultCareForWildlife = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_WILDLIFE);
+                    playSettings.defaultCareForEntities = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_ENTITY);
+                    playSettings.defaultCareForGhouls = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_GHOUL);
                 }
             }
         }

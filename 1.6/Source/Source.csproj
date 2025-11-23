@@ -67,6 +67,18 @@
   <ItemGroup>
     <Compile Include="AllowedAreas\AllowedArea.cs" />
     <Compile Include="AllowedAreas\AllowedAreaUtility.cs" />
+    <Compile Include="Medicine\DefaultSettingWorker_DefaultCareFor.cs" />
+    <Compile Include="Medicine\DefaultSettingWorker_DefaultCareForColonist.cs" />
+    <Compile Include="Medicine\DefaultSettingWorker_DefaultCareForEntities.cs" />
+    <Compile Include="Medicine\DefaultSettingWorker_DefaultCareForFriendlyFaction.cs" />
+    <Compile Include="Medicine\DefaultSettingWorker_DefaultCareForGhouls.cs" />
+    <Compile Include="Medicine\DefaultSettingWorker_DefaultCareForHostileFaction.cs" />
+    <Compile Include="Medicine\DefaultSettingWorker_DefaultCareForNeutralFaction.cs" />
+    <Compile Include="Medicine\DefaultSettingWorker_DefaultCareForNoFaction.cs" />
+    <Compile Include="Medicine\DefaultSettingWorker_DefaultCareForPrisoner.cs" />
+    <Compile Include="Medicine\DefaultSettingWorker_DefaultCareForSlave.cs" />
+    <Compile Include="Medicine\DefaultSettingWorker_DefaultCareForTamedAnimal.cs" />
+    <Compile Include="Medicine\DefaultSettingWorker_DefaultCareForWildlife.cs" />
     <Compile Include="PawnType.cs" />
     <Compile Include="CompProperties_SpawnTracker.cs" />
     <Compile Include="Comp_SpawnTracker.cs" />
@@ -158,10 +170,16 @@
     <Compile Include="UI\UIState_Ext.cs" />
     <Compile Include="WorkbenchBills\BetterWorkbenchOptions.cs" />
     <Compile Include="WorkbenchBills\CompatibilityPatch_ImprovedWorkbenches.cs" />
+    <Compile Include="WorkbenchBills\DefaultSettingWorker_BillAllowedSkillRange.cs" />
+    <Compile Include="WorkbenchBills\DefaultSettingWorker_BillIngredientSearchRadius.cs" />
+    <Compile Include="WorkbenchBills\DefaultSettingWorker_BillStoreMode.cs" />
+    <Compile Include="WorkbenchBills\DefaultSettingWorker_LimitBillsTo15.cs" />
     <Compile Include="WorkbenchBills\PatchTargeted_BillStackLimit.cs" />
     <Compile Include="Workers\DefaultSettingsCategoryWorker.cs" />
     <Compile Include="Misc\DefaultSettingsCategoryWorker_Misc.cs" />
     <Compile Include="Workers\DefaultSettingWorker.cs" />
+    <Compile Include="Workers\DefaultSettingWorker_Segmented.cs" />
+    <Compile Include="Workers\DefaultSettingWorker_IntRange.cs" />
     <Compile Include="Workers\DefaultSettingWorker_Slider.cs" />
     <Compile Include="Workers\DefaultSettingWorker_Dropdown.cs" />
     <Compile Include="Workers\DefaultSettingWorker_Checkbox.cs" />
@@ -172,7 +190,6 @@
     <Compile Include="General\DefaultSettingsCategoryWorker_General.cs" />
     <Compile Include="General\DefaultSettingWorker_HideSetAsDefault.cs" />
     <Compile Include="General\Dialog_GeneralSettings.cs" />
-    <Compile Include="Medicine\MedicineOptions.cs" />
     <Compile Include="Patch_UIRoot_Entry.cs" />
     <Compile Include="Policies\IPolicyDialog.cs" />
     <Compile Include="Policies\VanillaPolicyStore.cs" />
@@ -243,7 +260,6 @@
     <Compile Include="Policies\ApparelPolicies\Dialog_ApparelPolicies.cs" />
     <Compile Include="Policies\ApparelPolicies\Patch_OutfitDatabase.cs" />
     <Compile Include="UI\Listing_StandardHighlight.cs" />
-    <Compile Include="WorkbenchBills\GlobalBillOptions.cs" />
     <Compile Include="WorkPriorities\DefaultSettingsCategoryWorker_WorkPriorities.cs" />
     <Compile Include="WorkPriorities\Dialog_Rules.cs" />
     <Compile Include="WorkPriorities\Dialog_WorkPriorities.cs" />
@@ -325,7 +341,6 @@
     <Compile Include="WorkbenchBills\DefaultSettingsCategoryWorker_WorkbenchBills.cs" />
     <Compile Include="WorkbenchBills\Dialog_Bill.cs" />
     <Compile Include="WorkbenchBills\Dialog_BillMaker.cs" />
-    <Compile Include="WorkbenchBills\Dialog_GlobalBillSettings.cs" />
     <Compile Include="WorkbenchBills\Dialog_RenameBillTemplate.cs" />
     <Compile Include="WorkbenchBills\Dialog_WorkbenchBills.cs" />
     <Compile Include="WorkbenchBills\Patch_Bill.cs" />

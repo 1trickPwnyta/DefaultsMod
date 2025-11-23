@@ -77,6 +77,21 @@ namespace Defaults
         public const string PLANET_POLLUTION = "DefaultPollution";
         public const string MAP_SIZE = "DefaultMapSize";
         public const string STARTING_SEASON = "DefaultStartingSeason";
+        public const string DEFAULT_CARE_COLONIST = "DefaultCareForColonist";
+        public const string DEFAULT_CARE_PRISONER = "DefaultCareForPrisoner";
+        public const string DEFAULT_CARE_SLAVE = "DefaultCareForSlave";
+        public const string DEFAULT_CARE_GHOUL = "DefaultCareForGhouls";
+        public const string DEFAULT_CARE_TAMED_ANIMAL = "DefaultCareForTamedAnimal";
+        public const string DEFAULT_CARE_FRIENDLY_FACTION = "DefaultCareForFriendlyFaction";
+        public const string DEFAULT_CARE_NEUTRAL_FACTION = "DefaultCareForNeutralFaction";
+        public const string DEFAULT_CARE_HOSTILE_FACTION = "DefaultCareForHostileFaction";
+        public const string DEFAULT_CARE_NO_FACTION = "DefaultCareForNoFaction";
+        public const string DEFAULT_CARE_WILDLIFE = "DefaultCareForWildlife";
+        public const string DEFAULT_CARE_ENTITY = "DefaultCareForEntities";
+        public const string BILL_INGREDIENT_SEARCH_RADIUS = "DefaultBillIngredientSearchRadius";
+        public const string BILL_ALLOWED_SKILL_RANGE = "DefaultBillAllowedSkillRange";
+        public const string BILL_STORE_MODE = "DefaultBillStoreMode";
+        public const string LIMIT_BILLS_TO_15 = "LimitBillsTo15";
 
         public static T Get<T>(string key)
         {

@@ -165,33 +165,42 @@ namespace Defaults.Compatibility
             }
         }
 
-        public static void MigrateMedicineOptions(ref MedicineOptions options)
+        public static void MigrateMedicineOptions()
         {
-            if (Scribe.mode == LoadSaveMode.LoadingVars && options == null)
+            if (Scribe.mode == LoadSaveMode.LoadingVars)
             {
-                options = new MedicineOptions();
-                Scribe_Values.Look(ref options.DefaultCareForColonist, "DefaultCareForColonist", MedicalCareCategory.Best);
-                Scribe_Values.Look(ref options.DefaultCareForPrisoner, "DefaultCareForPrisoner", MedicalCareCategory.HerbalOrWorse);
-                Scribe_Values.Look(ref options.DefaultCareForSlave, "DefaultCareForSlave", MedicalCareCategory.HerbalOrWorse);
-                Scribe_Values.Look(ref options.DefaultCareForGhouls, "DefaultCareForGhouls", MedicalCareCategory.NoMeds);
-                Scribe_Values.Look(ref options.DefaultCareForTamedAnimal, "DefaultCareForTamedAnimal", MedicalCareCategory.HerbalOrWorse);
-                Scribe_Values.Look(ref options.DefaultCareForFriendlyFaction, "DefaultCareForFriendlyFaction", MedicalCareCategory.HerbalOrWorse);
-                Scribe_Values.Look(ref options.DefaultCareForNeutralFaction, "DefaultCareForNeutralFaction", MedicalCareCategory.HerbalOrWorse);
-                Scribe_Values.Look(ref options.DefaultCareForHostileFaction, "DefaultCareForHostileFaction", MedicalCareCategory.HerbalOrWorse);
-                Scribe_Values.Look(ref options.DefaultCareForNoFaction, "DefaultCareForNoFaction", MedicalCareCategory.HerbalOrWorse);
-                Scribe_Values.Look(ref options.DefaultCareForWildlife, "DefaultCareForWildlife", MedicalCareCategory.HerbalOrWorse);
-                Scribe_Values.Look(ref options.DefaultCareForEntities, "DefaultCareForEntities", MedicalCareCategory.NoMeds);
+                MedicineOptions options = null;
+                Scribe_Deep.Look(ref options, Settings.MEDICINE);
+                if (options != null)
+                {
+                    Settings.SetValue(Settings.DEFAULT_CARE_COLONIST, options.DefaultCareForColonist);
+                    Settings.SetValue(Settings.DEFAULT_CARE_PRISONER, options.DefaultCareForPrisoner);
+                    Settings.SetValue(Settings.DEFAULT_CARE_SLAVE, options.DefaultCareForSlave);
+                    Settings.SetValue(Settings.DEFAULT_CARE_GHOUL, options.DefaultCareForGhouls);
+                    Settings.SetValue(Settings.DEFAULT_CARE_TAMED_ANIMAL, options.DefaultCareForTamedAnimal);
+                    Settings.SetValue(Settings.DEFAULT_CARE_FRIENDLY_FACTION, options.DefaultCareForFriendlyFaction);
+                    Settings.SetValue(Settings.DEFAULT_CARE_NEUTRAL_FACTION, options.DefaultCareForNeutralFaction);
+                    Settings.SetValue(Settings.DEFAULT_CARE_HOSTILE_FACTION, options.DefaultCareForHostileFaction);
+                    Settings.SetValue(Settings.DEFAULT_CARE_NO_FACTION, options.DefaultCareForNoFaction);
+                    Settings.SetValue(Settings.DEFAULT_CARE_WILDLIFE, options.DefaultCareForWildlife);
+                    Settings.SetValue(Settings.DEFAULT_CARE_ENTITY, options.DefaultCareForEntities);
+                }
             }
         }
 
-        public static void MigrateGlobalBillOptions(ref GlobalBillOptions options)
+        public static void MigrateGlobalBillOptions()
         {
-            if (Scribe.mode == LoadSaveMode.LoadingVars && options == null)
+            if (Scribe.mode == LoadSaveMode.LoadingVars)
             {
-                options = new GlobalBillOptions();
-                Scribe_Values.Look(ref options.DefaultBillIngredientSearchRadius, "DefaultBillIngredientSearchRadius", 999f);
-                Scribe_Values.Look(ref options.DefaultBillAllowedSkillRange, "DefaultBillAllowedSkillRange", new IntRange(0, 20));
-                Scribe_Defs_Silent.Look(ref options.DefaultBillStoreMode, "DefaultBillStoreMode");
+                GlobalBillOptions options = null;
+                Scribe_Deep.Look(ref options, Settings.GLOBAL_BILL_OPTIONS);
+                if (options != null)
+                {
+                    Settings.SetValue(Settings.BILL_INGREDIENT_SEARCH_RADIUS, options.DefaultBillIngredientSearchRadius);
+                    Settings.SetValue(Settings.BILL_ALLOWED_SKILL_RANGE, options.DefaultBillAllowedSkillRange);
+                    Settings.Set(Settings.BILL_STORE_MODE, options.DefaultBillStoreMode);
+                    Settings.SetValue(Settings.LIMIT_BILLS_TO_15, options.LimitBillsTo15);
+                }
             }
         }
 
@@ -324,6 +333,62 @@ namespace Defaults.WorldSettings
         {
             Scribe_Values.Look(ref DefaultMapSize, "DefaultMapSize", 250);
             Scribe_Values.Look(ref DefaultStartingSeason, "DefaultStartingSeason", Season.Undefined);
+        }
+    }
+}
+
+namespace Defaults.Medicine
+{
+    public class MedicineOptions : IExposable
+    {
+        public MedicalCareCategory DefaultCareForColonist;
+        public MedicalCareCategory DefaultCareForPrisoner;
+        public MedicalCareCategory DefaultCareForSlave;
+        public MedicalCareCategory DefaultCareForGhouls;
+        public MedicalCareCategory DefaultCareForTamedAnimal;
+        public MedicalCareCategory DefaultCareForFriendlyFaction;
+        public MedicalCareCategory DefaultCareForNeutralFaction;
+        public MedicalCareCategory DefaultCareForHostileFaction;
+        public MedicalCareCategory DefaultCareForNoFaction;
+        public MedicalCareCategory DefaultCareForWildlife;
+        public MedicalCareCategory DefaultCareForEntities;
+
+        public void ExposeData()
+        {
+            Scribe_Values.Look(ref DefaultCareForColonist, "DefaultCareForColonist", MedicalCareCategory.Best);
+            Scribe_Values.Look(ref DefaultCareForPrisoner, "DefaultCareForPrisoner", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForSlave, "DefaultCareForSlave", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForGhouls, "DefaultCareForGhouls", MedicalCareCategory.NoMeds);
+            Scribe_Values.Look(ref DefaultCareForTamedAnimal, "DefaultCareForTamedAnimal", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForFriendlyFaction, "DefaultCareForFriendlyFaction", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForNeutralFaction, "DefaultCareForNeutralFaction", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForHostileFaction, "DefaultCareForHostileFaction", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForNoFaction, "DefaultCareForNoFaction", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForWildlife, "DefaultCareForWildlife", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForEntities, "DefaultCareForEntities", MedicalCareCategory.NoMeds);
+        }
+    }
+}
+
+namespace Defaults.WorkbenchBills
+{
+    public class GlobalBillOptions : IExposable
+    {
+        public float DefaultBillIngredientSearchRadius;
+        public IntRange DefaultBillAllowedSkillRange;
+        public BillStoreModeDef DefaultBillStoreMode;
+        public bool LimitBillsTo15;
+
+        public void ExposeData()
+        {
+            Scribe_Values.Look(ref DefaultBillIngredientSearchRadius, "DefaultBillIngredientSearchRadius", 999f);
+            Scribe_Values.Look(ref DefaultBillAllowedSkillRange, "DefaultBillAllowedSkillRange", new IntRange(0, 20));
+            Scribe_Defs_Silent.Look(ref DefaultBillStoreMode, "DefaultBillStoreMode");
+            Scribe_Values.Look(ref LimitBillsTo15, "LimitBillsTo15", true);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && DefaultBillStoreMode == null)
+            {
+                DefaultBillStoreMode = BillStoreModeDefOf.BestStockpile;
+            }
         }
     }
 }

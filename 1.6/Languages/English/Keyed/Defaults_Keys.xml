@@ -110,7 +110,7 @@
 	<Defaults_NotNow>Not now</Defaults_NotNow>
 	<Defaults_EnableCategoryToViewSettings>You need to enable {0} and then restart the game in order to view these settings.</Defaults_EnableCategoryToViewSettings>
 	<Defaults_LimitBillsTo15>Limit workbench bills to 15 max</Defaults_LimitBillsTo15>
-	<Defaults_BillsLimitedto15>Only the first 15 bills will apply to workbenches built in the game. To remove this limit, change the global bill settings.</Defaults_BillsLimitedto15>
+	<Defaults_BillsLimitedto15>Only the first 15 bills will apply to workbenches built in the game.</Defaults_BillsLimitedto15>
 	<Defaults_NoPauseOptionsTitle>No Pause Challenge settings enabled.</Defaults_NoPauseOptionsTitle>
 	<Defaults_BetterWorkbenchOptionsTitle>Better Workbench Management settings</Defaults_BetterWorkbenchOptionsTitle>
 	<Defaults_WorkPrioritiesAdvancedMode>Advanced work priorities mode</Defaults_WorkPrioritiesAdvancedMode>
@@ -176,6 +176,8 @@
 	<Defaults_PawnType>Pawn type</Defaults_PawnType>
 	<Defaults_DefaultPolicyAssignments>Default policy assignments</Defaults_DefaultPolicyAssignments>
 	<Defaults_DefaultPolicyAssignmentsDesc>Assign each pawn type to a default policy of each type, or leave them as (default) to use whatever policy is set as the default. Colonists will be assigned policies accordingly.</Defaults_DefaultPolicyAssignmentsDesc>
+	<Defaults_EmptyString></Defaults_EmptyString>
+	<Defaults_RemoveLimit>Remove limit</Defaults_RemoveLimit>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>
