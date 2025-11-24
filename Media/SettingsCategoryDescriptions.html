@@ -1,3 +1,9 @@
+<!--
+
+Use Chrome developer tools, click the three dot icon, run command. 
+Type screenshot, select full size screenshot, edit to remove extra right-side margin.
+
+-->
 <html>
 	<head>
 		<style>
@@ -88,7 +94,7 @@
 				<span class="category-title">Default world settings</span>
 			</div>
 			<div class="category-body">
-				Set the default world and map settings to use for a new colony.
+				Set the default world, map, and faction settings to use for a new colony.
 			</div>
 		</div>
 		
@@ -109,6 +115,9 @@
 			</div>
 			<div class="category-body">
 				Set custom default apparel, food, drug, and reading policies that will be copied to each new colony.
+			</div>
+			<div class="category-additional">
+				Includes additional settings to automatically assign certain policies to certain types of pawns. For example, you can ensure new children to the colony get the no-drug policy.
 			</div>
 		</div>
 		
@@ -177,7 +186,10 @@
 				<span class="category-title">Default workbench bills</span>
 			</div>
 			<div class="category-body">
-				Set default bills for workbenches that will populate automatically upon building a workbench. Configure default global settings for new bills.
+				Set default bills for workbenches that will populate automatically upon building a workbench.
+			</div>
+			<div class="category-additional">
+				Includes additional settings for default ingredient search radius, skill range, and store mode. You can remove the limit of 15 bills per workbench as well.
 			</div>
 		</div>
 		
@@ -188,6 +200,22 @@
 			</div>
 			<div class="category-body">
 				Create default allowed areas for new colonies and control which types of pawns get automatically assigned to which areas.
+			</div>
+			<div class="category-additional">
+				Includes additional settings for whether parent allowed areas are still inherited by their children.
+			</div>
+		</div>
+		
+		<div class="category">
+			<div class="category-header">
+				<img src="../1.6/Textures/DefaultSettingsCategoryIcons/Fishing.png" />
+				<span class="category-title">Default fishing zone settings</span>
+			</div>
+			<div class="category-body">
+				Configure the default settings for fishing zones.
+			</div>
+			<div class="category-footer">
+				<span class="dlc-required">Odyssey only.</span>
 			</div>
 		</div>
 		
@@ -206,17 +234,27 @@
 		
 		<div class="category">
 			<div class="category-header">
+				<img src="../1.6/Textures/DefaultSettingsCategoryIcons/PlaySettings.png" />
+				<span class="category-title">Default play settings</span>
+			</div>
+			<div class="category-body">
+				Configure default play settings. These are generally the toggle buttons in the bottom-right corner of the screen.
+			</div>
+		</div>
+		
+		<div class="category">
+			<div class="category-header">
 				<img src="../1.6/Textures/DefaultSettingsCategoryIcons/Misc.png" />
 				<span class="category-title">Miscellaneous defaults</span>
 			</div>
 			<div class="category-body">
 				Other default settings that don't fit neatly into one of the other categories. These include:
 				<ul>
+					<li><b>Starting xenotype: </b>Set the default xenotype for colonists in the character creation screen. <span class="dlc-required">(Biotech only.)</span></li>
 					<li><b>Hostility response: </b>Set the default hostility response to use for new colonists.</li>
 					<li><b>Pregnancy approach: </b>Set the default pregnancy approach that new romantic colonist relationships will take. <span class="dlc-required">(Biotech only.)</span></li>
-					<li><b>Auto rebuild setting: </b>Set the default auto-rebuild setting to use for a new colony.</li>
-					<li><b>Auto home area setting: </b>Set the default auto-home area setting to use for a new colony.</li>
 					<li><b>Plant type: </b>Set the default plant type for new growing zones.</li>
+					<li><b>Auto-select caravan supplies: </b>Choose whether this option will be enabled when opening a dialog to form a caravan.</li>
 					<li><b>Temperature targets: </b>Set the default temperature targets for heaters and coolers.</li>
 					<li><b>Mech work modes: </b>Set the default work modes for the initial two mechanitor control groups as well as a mode for all additional control groups granted by control sublinks. <span class="dlc-required">(Biotech only.)</span></li>
 				</ul>

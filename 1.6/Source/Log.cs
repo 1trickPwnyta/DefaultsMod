@@ -7,7 +7,7 @@
         public static void Debug(object message)
         {
 #if DEBUG
-            Verse.Log.Message(TagMessage($"[debug] {message}"));
+            Verse.Log.Message(TagMessage($"(debug) {message}"));
 #endif
         }
 

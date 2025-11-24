@@ -27,7 +27,7 @@
   <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>World</defName>
 	<label>default world settings</label>
-	<description>Set the default world and map settings to use for a new colony.</description>
+	<description>Set the default world, map, and faction settings to use for a new colony.</description>
 	<iconPath>DefaultSettingsCategoryIcons/World</iconPath>
     <workerClass>Defaults.WorldSettings.DefaultSettingsCategoryWorker_World</workerClass>
 	<keywords>
@@ -68,7 +68,7 @@
   <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>Policies</defName>
 	<label>default policies</label>
-	<description>Set custom default apparel, food, drug, and reading policies that will be copied to each new colony.</description>
+	<description>Set custom default apparel, food, drug, and reading policies that will be copied to each new colony. Assign different default policies to different types of pawns.</description>
 	<iconPath>DefaultSettingsCategoryIcons/Policies</iconPath>
     <workerClass>Defaults.Policies.DefaultSettingsCategoryWorker_Policies</workerClass>
 	<keywords>
@@ -145,7 +145,7 @@
   <Defaults.Defs.DefaultSettingsCategoryDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>BabyFeeding</defName>
 	<label>default baby feeding settings</label>
-	<description>Set the default autofeed setting for colonists based on relationship to baby and whether they are lactating. Also allows you to set which foods babies can be fed by default.</description>
+	<description>Set the default autofeed setting for colonists based on relationship to baby and whether they are lactating. Set which foods babies can be fed by default.</description>
 	<iconPath>DefaultSettingsCategoryIcons/BabyFeeding</iconPath>
     <workerClass>Defaults.BabyFeeding.DefaultSettingsCategoryWorker_BabyFeeding</workerClass>
 	<keywords>
