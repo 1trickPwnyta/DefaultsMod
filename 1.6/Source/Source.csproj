@@ -347,7 +347,7 @@
     <Compile Include="WorkbenchBills\Patch_BillStack.cs" />
     <Compile Include="WorkbenchBills\Patch_Bill_Production.cs" />
     <Compile Include="WorkbenchBills\Patch_Dialog_BillConfig.cs" />
-    <Compile Include="WorkbenchBills\Patch_ThingWithComps.cs" />
+    <Compile Include="WorkbenchBills\Patch_Thing.cs" />
     <Compile Include="WorkbenchBills\WorkbenchBillStore.cs" />
     <Compile Include="WorldSettings\DefaultSettingsCategoryWorker_World.cs" />
     <Compile Include="WorldSettings\Dialog_WorldSettings.cs" />
