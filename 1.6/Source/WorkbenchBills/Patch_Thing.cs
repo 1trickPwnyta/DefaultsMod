@@ -20,7 +20,6 @@ namespace Defaults.WorkbenchBills
 
         public static void Postfix(Thing __instance, Faction newFaction, Faction __state)
         {
-            Log.Debug(__instance + ": " + newFaction + " / " + __state);
             if (__state != newFaction && newFaction?.IsPlayer == true && __instance is Building_WorkTable table)
             {
                 List<WorkbenchBillStore> workbenchBills = Settings.Get<List<WorkbenchBillStore>>(Settings.WORKBENCH_BILLS);
