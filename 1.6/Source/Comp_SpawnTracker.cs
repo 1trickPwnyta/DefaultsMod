@@ -6,6 +6,7 @@ namespace Defaults
 {
     public class Comp_SpawnTracker : ThingComp
     {
+        private bool spawnedAnywhereEver;
         private HashSet<Map> spawnedOnMapEver = new HashSet<Map>();
 
         public bool EverSpawnedOnMap(Map map) => spawnedOnMapEver.Contains(map);
@@ -16,7 +17,7 @@ namespace Defaults
             {
                 if (category.Enabled)
                 {
-                    if (spawnedOnMapEver.NullOrEmpty())
+                    if (!spawnedAnywhereEver)
                     {
                         category.Worker.Notify_FirstSpawnAnywhere(parent as Pawn);
                     }
@@ -26,6 +27,7 @@ namespace Defaults
                     }
                 }
             }
+            spawnedAnywhereEver = true;
             spawnedOnMapEver.Add(parent.Map);
         }
 
@@ -37,6 +39,7 @@ namespace Defaults
                 {
                     spawnedOnMapEver.RemoveWhere(m => !Find.Maps.Contains(m));
                 }
+                Scribe_Values.Look(ref spawnedAnywhereEver, "spawnedAnywhereEver", true);
                 Scribe_Collections.Look(ref spawnedOnMapEver, "spawnedOnMapEver", LookMode.Reference);
                 if (Scribe.mode == LoadSaveMode.PostLoadInit && spawnedOnMapEver == null)
                 {

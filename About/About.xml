@@ -3,14 +3,18 @@
 	<name>1trickPwnyta's Defaults</name>
 	<author>1trickPwnyta</author>
 	<packageId>defaults.1trickPwnyta</packageId>
-	<modVersion>1.8.9</modVersion>
+	<modVersion>1.9.0</modVersion>
 	<supportedVersions>
 		<li>1.5</li>
 		<li>1.6</li>
 	</supportedVersions>
 	<description><![CDATA[<size=18px><color=#5aa9d6>Description</color></size>
 
-Tired of having to go through the same ritual every time you start a new colony of configuring your colonists' schedules, setting your quest reward preferences, turning down the medicine setting so you don't waste your good medicine on bruises, and more? This mod allows you to customize various default settings to use during gameplay, such as the default schedules your colonists will assume. See below for a full list of settings.
+Tired of having to go through the same ritual every time you start a new colony of configuring your colonists' schedules, setting your quest reward preferences, turning down the medicine setting so you don't waste your good medicine on bruises, and more?
+
+This mod allows you to customize various default settings to use during gameplay, such as the default schedules your colonists will assume. See below for a full list of settings.
+
+This mod's config file (your settings for this mod) gets pretty big and complex and it would kinda suck if something happened and you had to reconfigure everything from scratch. So now you can back up this mod's settings through the mod settings window (in General settings). Automatic periodic backups are enabled by default.
 
 <size=18px><color=#5aa9d6>Compatibility</color></size>
 
@@ -82,6 +86,7 @@ ________________________________________________
 
 <size=18px><color=#5aa9d6>Updates</color></size>
 
+02/10/2026: Add settings backup, default play settings, default fishing zone settings, caravan supply auto-select toggle, default starting xenotype, default policy assignments, other improvements, bug fixes, and mod compatibilities.
 11/08/2025: Fix default world settings dialog
 11/07/2025: Add option to preserve allowed area inheritance from parent, fix various mod incompatibilities and bugs including Animal Controls, Realistic Planets, and Faction Xenotype Randomizer
 10/29/2025: Add compatibility with Best Mix mod
