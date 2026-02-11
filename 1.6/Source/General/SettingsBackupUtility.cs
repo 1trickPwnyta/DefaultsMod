@@ -186,7 +186,13 @@ namespace Defaults.General
 
         public static void Unpin(this FileInfo file) => pinnedFiles.Remove(file.Name);
 
-        public static void FlushPinnedFiles() => File.WriteAllLines(Path.Combine(Options.BackupPath, pinFileName), pinnedFiles);
+        public static void FlushPinnedFiles()
+        {
+            if (CreateBackupFolder())
+            {
+                File.WriteAllLines(Path.Combine(Options.BackupPath, pinFileName), pinnedFiles);
+            }
+        }
 
         public static string GetLabel(this SettingsBackupFrequency frequency)
         {
