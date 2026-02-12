@@ -145,8 +145,14 @@ namespace Defaults.Compatibility
                     Settings.SetValue(Settings.OVERALL_RAINFALL, options.DefaultOverallRainfall);
                     Settings.SetValue(Settings.OVERALL_TEMPERATURE, options.DefaultOverallTemperature);
                     Settings.SetValue(Settings.OVERALL_POPULATION, options.DefaultOverallPopulation);
-                    Settings.SetValue(Settings.LANDMARK_DENSITY, options.DefaultLandmarkDensity);
-                    Settings.SetValue(Settings.PLANET_POLLUTION, options.DefaultPollution);
+                    if (ModsConfig.OdysseyActive)
+                    {
+                        Settings.SetValue(Settings.LANDMARK_DENSITY, options.DefaultLandmarkDensity);
+                    }
+                    if (ModsConfig.BiotechActive)
+                    {
+                        Settings.SetValue(Settings.PLANET_POLLUTION, options.DefaultPollution);
+                    }
                 }
             }
         }
@@ -175,15 +181,21 @@ namespace Defaults.Compatibility
                 {
                     Settings.SetValue(Settings.DEFAULT_CARE_COLONIST, options.DefaultCareForColonist);
                     Settings.SetValue(Settings.DEFAULT_CARE_PRISONER, options.DefaultCareForPrisoner);
-                    Settings.SetValue(Settings.DEFAULT_CARE_SLAVE, options.DefaultCareForSlave);
-                    Settings.SetValue(Settings.DEFAULT_CARE_GHOUL, options.DefaultCareForGhouls);
+                    if (ModsConfig.IdeologyActive)
+                    {
+                        Settings.SetValue(Settings.DEFAULT_CARE_SLAVE, options.DefaultCareForSlave);
+                    }
                     Settings.SetValue(Settings.DEFAULT_CARE_TAMED_ANIMAL, options.DefaultCareForTamedAnimal);
                     Settings.SetValue(Settings.DEFAULT_CARE_FRIENDLY_FACTION, options.DefaultCareForFriendlyFaction);
                     Settings.SetValue(Settings.DEFAULT_CARE_NEUTRAL_FACTION, options.DefaultCareForNeutralFaction);
                     Settings.SetValue(Settings.DEFAULT_CARE_HOSTILE_FACTION, options.DefaultCareForHostileFaction);
                     Settings.SetValue(Settings.DEFAULT_CARE_NO_FACTION, options.DefaultCareForNoFaction);
                     Settings.SetValue(Settings.DEFAULT_CARE_WILDLIFE, options.DefaultCareForWildlife);
-                    Settings.SetValue(Settings.DEFAULT_CARE_ENTITY, options.DefaultCareForEntities);
+                    if (ModsConfig.AnomalyActive)
+                    {
+                        Settings.SetValue(Settings.DEFAULT_CARE_ENTITY, options.DefaultCareForEntities);
+                        Settings.SetValue(Settings.DEFAULT_CARE_GHOUL, options.DefaultCareForGhouls);
+                    }
                 }
             }
         }

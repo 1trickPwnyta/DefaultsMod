@@ -19,8 +19,14 @@ namespace Defaults.WorldSettings
             ___rainfall = Settings.GetValue<OverallRainfall>(Settings.OVERALL_RAINFALL);
             ___temperature = Settings.GetValue<OverallTemperature>(Settings.OVERALL_TEMPERATURE);
             ___population = Settings.GetValue<OverallPopulation>(Settings.OVERALL_POPULATION);
-            ___pollution = Settings.GetValue<float>(Settings.PLANET_POLLUTION);
-            ___landmarkDensity = Settings.GetValue<LandmarkDensity>(Settings.LANDMARK_DENSITY);
+            if (ModsConfig.BiotechActive)
+            {
+                ___pollution = Settings.GetValue<float>(Settings.PLANET_POLLUTION);
+            }
+            if (ModsConfig.OdysseyActive)
+            {
+                ___landmarkDensity = Settings.GetValue<LandmarkDensity>(Settings.LANDMARK_DENSITY);
+            }
         }
     }
 
@@ -51,8 +57,14 @@ namespace Defaults.WorldSettings
                     Settings.SetValue(Settings.OVERALL_RAINFALL, ___rainfall);
                     Settings.SetValue(Settings.OVERALL_TEMPERATURE, ___temperature);
                     Settings.SetValue(Settings.OVERALL_POPULATION, ___population);
-                    Settings.SetValue(Settings.PLANET_POLLUTION, ___pollution);
-                    Settings.SetValue(Settings.LANDMARK_DENSITY, ___landmarkDensity);
+                    if (ModsConfig.BiotechActive)
+                    {
+                        Settings.SetValue(Settings.PLANET_POLLUTION, ___pollution);
+                    }
+                    if (ModsConfig.OdysseyActive)
+                    {
+                        Settings.SetValue(Settings.LANDMARK_DENSITY, ___landmarkDensity);
+                    }
                     Settings.SetValue(Settings.MAP_SIZE, Find.GameInitData.mapSize);
                     Settings.SetValue(Settings.STARTING_SEASON, Find.GameInitData.startingSeason);
                     Settings.Set(Settings.FACTIONS, ___factions.Where(f => f.displayInFactionSelection).ToList());

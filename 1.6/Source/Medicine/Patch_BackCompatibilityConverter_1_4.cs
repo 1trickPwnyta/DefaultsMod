@@ -18,15 +18,21 @@ namespace Defaults.Medicine
                 {
                     playSettings.defaultCareForColonist = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_COLONIST);
                     playSettings.defaultCareForPrisoner = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_PRISONER);
-                    playSettings.defaultCareForSlave = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_SLAVE);
+                    if (ModsConfig.IdeologyActive)
+                    {
+                        playSettings.defaultCareForSlave = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_SLAVE);
+                    }
                     playSettings.defaultCareForTamedAnimal = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_TAMED_ANIMAL);
                     playSettings.defaultCareForFriendlyFaction = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_FRIENDLY_FACTION);
                     playSettings.defaultCareForNeutralFaction = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_NEUTRAL_FACTION);
                     playSettings.defaultCareForHostileFaction = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_HOSTILE_FACTION);
                     playSettings.defaultCareForNoFaction = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_NO_FACTION);
                     playSettings.defaultCareForWildlife = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_WILDLIFE);
-                    playSettings.defaultCareForEntities = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_ENTITY);
-                    playSettings.defaultCareForGhouls = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_GHOUL);
+                    if (ModsConfig.AnomalyActive)
+                    {
+                        playSettings.defaultCareForEntities = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_ENTITY);
+                        playSettings.defaultCareForGhouls = Settings.GetValue<MedicalCareCategory>(Settings.DEFAULT_CARE_GHOUL);
+                    }
                 }
             }
         }
