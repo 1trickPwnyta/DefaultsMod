@@ -10,7 +10,10 @@ namespace Defaults.Medicine
     {
         public static void Postfix(Pawn __result)
         {
-            MedicineUtility.SetMedicineToCarry(__result, __result.inventoryStock);
+            if (__result != null)
+            {
+                MedicineUtility.SetMedicineToCarry(__result, __result.inventoryStock);
+            }
         }
     }
 }
