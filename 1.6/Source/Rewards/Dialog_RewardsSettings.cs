@@ -104,7 +104,7 @@ namespace Defaults.Rewards
 
         private void DrawFactionIconWithTooltip(Rect r, FactionDef def)
         {
-            GUI.color = def.colorSpectrum.First();
+            GUI.color = def.colorSpectrum?.FirstOrDefault() ?? Color.white;
             GUI.DrawTexture(r, def.FactionIcon);
             GUI.color = Color.white;
         }
