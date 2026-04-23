@@ -99,5 +99,12 @@
 	<category>Medicine</category>
     <workerClass>Defaults.Medicine.DefaultSettingWorker_MedCarryGuest</workerClass>
   </Defaults.Defs.DefaultSettingDef>
+  
+  <Defaults.Defs.DefaultSettingDef>
+    <defName>SelfTendLevel</defName>
+	<label>medical skill to enable self-tend</label>
+	<category>Medicine</category>
+    <workerClass>Defaults.Medicine.DefaultSettingWorker_SelfTendLevel</workerClass>
+  </Defaults.Defs.DefaultSettingDef>
 
 </Defs>

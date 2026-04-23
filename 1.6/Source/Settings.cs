@@ -92,6 +92,7 @@ namespace Defaults
         public const string BILL_ALLOWED_SKILL_RANGE = "DefaultBillAllowedSkillRange";
         public const string BILL_STORE_MODE = "DefaultBillStoreMode";
         public const string LIMIT_BILLS_TO_15 = "LimitBillsTo15";
+        public const string SELF_TEND_LEVEL = "SelfTendLevel";
 
         public static T Get<T>(string key)
         {

@@ -28,11 +28,12 @@ namespace Defaults.UI
             Rect viewRect = new Rect(0f, 0f, rect.width - 20f, totalHeight);
             Widgets.BeginScrollView(rect, ref scrollPosition, viewRect);
 
-            settingsHeight = UIUtility.DoSettingsList(viewRect, ShowQuickOptionSettingsInWindow ? settings : settings.Where(s => !s.showInQuickOptions)) + Margin;
-            float postSettingsHeight = DoPostSettings(new Rect(viewRect.x, settingsHeight, viewRect.width, totalHeight));
+            settingsHeight = UIUtility.DoSettingsList(viewRect, ShowQuickOptionSettingsInWindow ? settings : settings.Where(s => !s.showInQuickOptions));
+            float postSettingsHeight = DoPostSettings(new Rect(viewRect.x, settingsHeight + Margin, viewRect.width, totalHeight));
             if (postSettingsHeight > 0f)
             {
                 Widgets.DrawLineHorizontal(viewRect.x, settingsHeight - Margin / 2, viewRect.width);
+                postSettingsHeight += Margin;
             }
 
             totalHeight = settingsHeight + postSettingsHeight;

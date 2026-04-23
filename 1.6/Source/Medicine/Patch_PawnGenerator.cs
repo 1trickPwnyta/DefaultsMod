@@ -12,7 +12,7 @@ namespace Defaults.Medicine
         {
             if (__result != null)
             {
-                MedicineUtility.SetMedicineToCarry(__result, __result.inventoryStock);
+                MedicineUtility.SetMedicalDefaults(__result, __result.inventoryStock);
             }
         }
     }

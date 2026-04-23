@@ -79,6 +79,7 @@
     <Compile Include="Medicine\DefaultSettingWorker_DefaultCareForSlave.cs" />
     <Compile Include="Medicine\DefaultSettingWorker_DefaultCareForTamedAnimal.cs" />
     <Compile Include="Medicine\DefaultSettingWorker_DefaultCareForWildlife.cs" />
+    <Compile Include="Medicine\DefaultSettingWorker_SelfTendLevel.cs" />
     <Compile Include="PawnType.cs" />
     <Compile Include="CompProperties_SpawnTracker.cs" />
     <Compile Include="Comp_SpawnTracker.cs" />

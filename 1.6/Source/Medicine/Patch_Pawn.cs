@@ -10,7 +10,7 @@ namespace Defaults.Medicine
     {
         public static void Postfix(Pawn __instance)
         {
-            MedicineUtility.SetMedicineToCarry(__instance, __instance.inventoryStock);
+            MedicineUtility.SetMedicalDefaults(__instance, __instance.inventoryStock);
         }
     }
 }
