@@ -154,6 +154,7 @@
     <Compile Include="Storyteller\DefaultSettingWorker_Difficulty.cs" />
     <Compile Include="Storyteller\DefaultSettingWorker_Permadeath.cs" />
     <Compile Include="Storyteller\DefaultSettingWorker_Storyteller.cs" />
+    <Compile Include="Storyteller\StorytellerUtility.cs" />
     <Compile Include="UI\Dialog_Input.cs" />
     <Compile Include="UI\Dialog_TextField.cs" />
     <Compile Include="UI\Dialog_MainSettings.cs" />

@@ -61,7 +61,7 @@ namespace Defaults.Storyteller
                     {
                         Settings.Set(Settings.STORYTELLER, chosenStoryteller);
                         Settings.Set(Settings.DIFFICULTY, difficulty);
-                        Settings.Set(Settings.DIFFICULTY_VALUES, difficultyValues);
+                        Settings.Set(Settings.DIFFICULTY_VALUES, difficultyValues.Copy());
                         Settings.Set(Settings.PERMADEATH, Find.GameInitData != null ? Find.GameInitData.permadeath : Current.Game.Info.permadeathMode);
                         ModCompatibilityUtility_NoPause.SetNoPauseOptions();
                     }, prompt: "Defaults_SetAsDefaultStoryteller".Translate());
@@ -80,32 +80,35 @@ namespace Defaults.Storyteller
         public static void DoPermadeathSelection(Listing_Standard infoListing)
         {
             bool settingsOpen = Find.WindowStack.IsOpen<Dialog_Storyteller>();
-            bool permadeath = Settings.GetValue<bool>(Settings.PERMADEATH);
-            bool active = settingsOpen ? permadeath : Find.GameInitData.permadeathChosen && Find.GameInitData.permadeath;
-            bool active2 = settingsOpen ? !permadeath : Find.GameInitData.permadeathChosen && !Find.GameInitData.permadeath;
-            if (infoListing.RadioButton("ReloadAnytimeMode".Translate(), active2, 0f, "ReloadAnytimeModeInfo".Translate(), null))
+            if (settingsOpen || Find.GameInitData != null)
             {
-                if (settingsOpen)
+                bool permadeath = Settings.GetValue<bool>(Settings.PERMADEATH);
+                bool active = settingsOpen ? permadeath : Find.GameInitData.permadeathChosen && Find.GameInitData.permadeath;
+                bool active2 = settingsOpen ? !permadeath : Find.GameInitData.permadeathChosen && !Find.GameInitData.permadeath;
+                if (infoListing.RadioButton("ReloadAnytimeMode".Translate(), active2, 0f, "ReloadAnytimeModeInfo".Translate(), null))
                 {
-                    Settings.SetValue(Settings.PERMADEATH, false);
+                    if (settingsOpen)
+                    {
+                        Settings.SetValue(Settings.PERMADEATH, false);
+                    }
+                    else
+                    {
+                        Find.GameInitData.permadeathChosen = true;
+                        Find.GameInitData.permadeath = false;
+                    }
                 }
-                else
+                infoListing.Gap(3f);
+                if (infoListing.RadioButton("CommitmentMode".TranslateWithBackup("PermadeathMode"), active, 0f, "PermadeathModeInfo".Translate(), null))
                 {
-                    Find.GameInitData.permadeathChosen = true;
-                    Find.GameInitData.permadeath = false;
-                }
-            }
-            infoListing.Gap(3f);
-            if (infoListing.RadioButton("CommitmentMode".TranslateWithBackup("PermadeathMode"), active, 0f, "PermadeathModeInfo".Translate(), null))
-            {
-                if (settingsOpen)
-                {
-                    Settings.SetValue(Settings.PERMADEATH, true);
-                }
-                else
-                {
-                    Find.GameInitData.permadeathChosen = true;
-                    Find.GameInitData.permadeath = true;
+                    if (settingsOpen)
+                    {
+                        Settings.SetValue(Settings.PERMADEATH, true);
+                    }
+                    else
+                    {
+                        Find.GameInitData.permadeathChosen = true;
+                        Find.GameInitData.permadeath = true;
+                    }
                 }
             }
         }
