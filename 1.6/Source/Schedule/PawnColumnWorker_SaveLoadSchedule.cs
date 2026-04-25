@@ -1,4 +1,5 @@
 ﻿using Defaults.Defs;
+using Defaults.UI;
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,10 +25,12 @@ namespace Defaults.Schedule
                     Rect rect2 = new Rect(rect.x + x, rect.y + (rect.height / 2f - 12f), 18f, 24f);
                     if (Widgets.ButtonImage(rect2, TexButton.Save))
                     {
-                        string name = "Defaults_ScheduleName".Translate(schedules.Count + 1);
-                        schedules.Add(new Schedule(name, pawn));
-                        DefaultsMod.SaveSettings();
-                        Messages.Message("Defaults_ScheduleSavedAs".Translate(name), MessageTypeDefOf.PositiveEvent, false);
+                        string name = null;
+                        UIUtility.SetAsDefault(() =>
+                        {
+                            name = "Defaults_ScheduleName".Translate(schedules.Count + 1);
+                            schedules.Add(new Schedule(name, pawn));
+                        }, () => "Defaults_ScheduleSavedAs".Translate(name), "Defaults_SetAsDefaultSchedule".Translate(pawn.LabelShortCap));
                     }
                     TooltipHandler.TipRegionByKey(rect2, "Defaults_SaveNewDefaultSchedule");
                     x += rect2.width;

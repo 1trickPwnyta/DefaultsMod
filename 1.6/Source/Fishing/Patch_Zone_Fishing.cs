@@ -46,16 +46,17 @@ namespace Defaults.Fishing
                     defaultIconColor = UIUtility.CommandColor,
                     action = () =>
                     {
-                        FishingZoneOptions options = Settings.Get<FishingZoneOptions>(Settings.FISHING_ZONE_OPTIONS);
-                        options.DefaultFishRepeatMode = __instance.repeatMode;
-                        options.DefaultFishRepeatCount = __instance.repeatCount;
-                        options.DefaultFishTargetCount = __instance.targetCount;
-                        options.DefaultFishPause = __instance.pauseWhenSatisfied;
-                        options.DefaultFishUnpauseCount = __instance.unpauseAtCount;
-                        options.DefaultFishTargetPopulation = __instance.targetPopulationPct;
-                        DefaultsMod.SaveSettings();
                         SoundDefOf.Click.PlayOneShot(null);
-                        Messages.Message("Defaults_SetAsDefaultConfirmed".Translate(), MessageTypeDefOf.PositiveEvent, false);
+                        UIUtility.SetAsDefault(() =>
+                        {
+                            FishingZoneOptions options = Settings.Get<FishingZoneOptions>(Settings.FISHING_ZONE_OPTIONS);
+                            options.DefaultFishRepeatMode = __instance.repeatMode;
+                            options.DefaultFishRepeatCount = __instance.repeatCount;
+                            options.DefaultFishTargetCount = __instance.targetCount;
+                            options.DefaultFishPause = __instance.pauseWhenSatisfied;
+                            options.DefaultFishUnpauseCount = __instance.unpauseAtCount;
+                            options.DefaultFishTargetPopulation = __instance.targetPopulationPct;
+                        }, prompt: "Defaults_SetAsDefaultFishingZone".Translate());
                     }
                 };
             }

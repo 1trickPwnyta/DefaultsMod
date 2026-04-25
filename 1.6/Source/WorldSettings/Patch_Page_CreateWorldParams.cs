@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using Defaults.UI;
+using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using System.Collections.Generic;
@@ -53,23 +54,24 @@ namespace Defaults.WorldSettings
                 Rect buttonRect = new Rect(rect.x + rect.width - 150f - 16f, rect.y + 4f, 150f, 40f);
                 if (Widgets.ButtonText(buttonRect, "Defaults_SetAsDefault".Translate()))
                 {
-                    Settings.SetValue(Settings.PLANET_COVERAGE, ___planetCoverage);
-                    Settings.SetValue(Settings.OVERALL_RAINFALL, ___rainfall);
-                    Settings.SetValue(Settings.OVERALL_TEMPERATURE, ___temperature);
-                    Settings.SetValue(Settings.OVERALL_POPULATION, ___population);
-                    if (ModsConfig.BiotechActive)
+                    UIUtility.SetAsDefault(() =>
                     {
-                        Settings.SetValue(Settings.PLANET_POLLUTION, ___pollution);
-                    }
-                    if (ModsConfig.OdysseyActive)
-                    {
-                        Settings.SetValue(Settings.LANDMARK_DENSITY, ___landmarkDensity);
-                    }
-                    Settings.SetValue(Settings.MAP_SIZE, Find.GameInitData.mapSize);
-                    Settings.SetValue(Settings.STARTING_SEASON, Find.GameInitData.startingSeason);
-                    Settings.Set(Settings.FACTIONS, ___factions.Where(f => f.displayInFactionSelection).ToList());
-                    DefaultsMod.SaveSettings();
-                    Messages.Message("Defaults_SetAsDefaultConfirmed".Translate(), MessageTypeDefOf.PositiveEvent, false);
+                        Settings.SetValue(Settings.PLANET_COVERAGE, ___planetCoverage);
+                        Settings.SetValue(Settings.OVERALL_RAINFALL, ___rainfall);
+                        Settings.SetValue(Settings.OVERALL_TEMPERATURE, ___temperature);
+                        Settings.SetValue(Settings.OVERALL_POPULATION, ___population);
+                        if (ModsConfig.BiotechActive)
+                        {
+                            Settings.SetValue(Settings.PLANET_POLLUTION, ___pollution);
+                        }
+                        if (ModsConfig.OdysseyActive)
+                        {
+                            Settings.SetValue(Settings.LANDMARK_DENSITY, ___landmarkDensity);
+                        }
+                        Settings.SetValue(Settings.MAP_SIZE, Find.GameInitData.mapSize);
+                        Settings.SetValue(Settings.STARTING_SEASON, Find.GameInitData.startingSeason);
+                        Settings.Set(Settings.FACTIONS, ___factions.Where(f => f.displayInFactionSelection).ToList());
+                    }, prompt: "Defaults_SetAsDefaultWorld".Translate());
                 }
             }
         }

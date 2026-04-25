@@ -1,4 +1,5 @@
 ﻿using Defaults.Compatibility;
+using Defaults.UI;
 using HarmonyLib;
 using RimWorld;
 using System.Collections.Generic;
@@ -56,13 +57,14 @@ namespace Defaults.Storyteller
                 Rect buttonRect = new Rect(rect.x + rect.width - 150f - 16f, rect.y - 40f, 150f, 40f);
                 if (Widgets.ButtonText(buttonRect, "Defaults_SetAsDefault".Translate()))
                 {
-                    Settings.Set(Settings.STORYTELLER, chosenStoryteller);
-                    Settings.Set(Settings.DIFFICULTY, difficulty);
-                    Settings.Set(Settings.DIFFICULTY_VALUES, difficultyValues);
-                    Settings.Set(Settings.PERMADEATH, Find.GameInitData != null ? Find.GameInitData.permadeath : Current.Game.Info.permadeathMode);
-                    ModCompatibilityUtility_NoPause.SetNoPauseOptions();
-                    DefaultsMod.SaveSettings();
-                    Messages.Message("Defaults_SetAsDefaultConfirmed".Translate(), MessageTypeDefOf.PositiveEvent, false);
+                    UIUtility.SetAsDefault(() =>
+                    {
+                        Settings.Set(Settings.STORYTELLER, chosenStoryteller);
+                        Settings.Set(Settings.DIFFICULTY, difficulty);
+                        Settings.Set(Settings.DIFFICULTY_VALUES, difficultyValues);
+                        Settings.Set(Settings.PERMADEATH, Find.GameInitData != null ? Find.GameInitData.permadeath : Current.Game.Info.permadeathMode);
+                        ModCompatibilityUtility_NoPause.SetNoPauseOptions();
+                    }, prompt: "Defaults_SetAsDefaultStoryteller".Translate());
                 }
             }
         }

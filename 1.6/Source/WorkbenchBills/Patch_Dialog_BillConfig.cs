@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using Defaults.UI;
+using HarmonyLib;
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +20,13 @@ namespace Defaults.WorkbenchBills
                 Rect saveAsDefaultRect = new Rect(inRect.x + (inRect.width - 34f) / 3 - 24f, inRect.y + 50f, 24f, 24f);
                 if (Widgets.ButtonImage(saveAsDefaultRect, TexButton.Save, true, "Defaults_SaveNewDefaultBill".Translate()))
                 {
-                    foreach (WorkbenchBillStore store in Settings.Get<List<WorkbenchBillStore>>(Settings.WORKBENCH_BILLS).Where(s => s.workbenchGroup.Contains(((Thing)___bill.billStack.billGiver).def)))
+                    UIUtility.SetAsDefault(() =>
                     {
-                        store.bills.Add(BillTemplate.FromBill(___bill));
-                    }
-                    DefaultsMod.SaveSettings();
-                    Messages.Message("Defaults_SaveBillConfirmed".Translate(), MessageTypeDefOf.PositiveEvent, false);
+                        foreach (WorkbenchBillStore store in Settings.Get<List<WorkbenchBillStore>>(Settings.WORKBENCH_BILLS).Where(s => s.workbenchGroup.Contains(((Thing)___bill.billStack.billGiver).def)))
+                        {
+                            store.bills.Add(BillTemplate.FromBill(___bill));
+                        }
+                    }, "Defaults_SaveBillConfirmed".Translate(), "Defaults_SetAsDefaultWorkbenchBill".Translate());
                 }
             }
         }

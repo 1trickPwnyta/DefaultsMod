@@ -13,12 +13,28 @@
 	  <li>enabled</li>
 	</keywords>
   </Defaults.Defs.DefaultSettingDef>
+  
+  <Defaults.Defs.DefaultSettingDef>
+    <defName>ConfirmSaveDefault</defName>
+	<label>ask to confirm when saving in-game setting as default</label>
+	<category>General</category>
+	<uiOrder>15</uiOrder>
+    <workerClass>Defaults.General.DefaultSettingWorker_ConfirmSaveDefault</workerClass>
+	<keywords>
+	  <li>save</li>
+	  <li>prompt</li>
+	  <li>sure</li>
+	  <li>verify</li>
+	  <li>verification</li>
+	  <li>new</li>
+	</keywords>
+  </Defaults.Defs.DefaultSettingDef>
 
   <Defaults.Defs.DefaultSettingDef>
     <defName>HideSetAsDefault</defName>
 	<label>hide "save as default" buttons</label>
 	<category>General</category>
-	<uiOrder>15</uiOrder>
+	<uiOrder>25</uiOrder>
     <workerClass>Defaults.General.DefaultSettingWorker_HideSetAsDefault</workerClass>
 	<keywords>
 	  <li>show</li>
@@ -29,7 +45,7 @@
     <defName>HideLoadDefault</defName>
 	<label>hide "load default" buttons</label>
 	<category>General</category>
-	<uiOrder>25</uiOrder>
+	<uiOrder>35</uiOrder>
     <workerClass>Defaults.General.DefaultSettingWorker_HideLoadDefault</workerClass>
 	<keywords>
 	  <li>show</li>
@@ -40,7 +56,7 @@
     <defName>SettingsBackupOptions</defName>
 	<label>default settings backup</label>
 	<category>General</category>
-	<uiOrder>35</uiOrder>
+	<uiOrder>45</uiOrder>
 	<showInQuickOptions>true</showInQuickOptions>
     <workerClass>Defaults.General.DefaultSettingWorker_SettingsBackupOptions</workerClass>
 	<keywords>

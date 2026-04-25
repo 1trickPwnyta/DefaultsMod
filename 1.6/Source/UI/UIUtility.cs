@@ -1,10 +1,8 @@
 ﻿using Defaults.Defs;
-using Defaults.Workers;
 using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -168,5 +166,25 @@ namespace Defaults.UI
             listing.End();
             return listing.CurHeight;
         }
+
+        public static void SetAsDefault(Action onConfirm, Func<string> confirmMessage, string prompt = null)
+        {
+            void Confirm()
+            {
+                onConfirm();
+                DefaultsMod.SaveSettings();
+                Messages.Message(confirmMessage() ?? "Defaults_SetAsDefaultConfirmed".Translate(), MessageTypeDefOf.PositiveEvent, false);
+            }
+            if (Settings.GetValue<bool>(Settings.CONFIRM_SAVE_DEFAULT))
+            {
+                Find.WindowStack.Add(new Dialog_Confirm(prompt ?? "Defaults_SetAsDefaultPrompt".Translate(), Confirm));
+            }
+            else
+            {
+                Confirm();
+            }
+        }
+
+        public static void SetAsDefault(Action onConfirm, string confirmMessage = null, string prompt = null) => SetAsDefault(onConfirm, () => confirmMessage, prompt);
     }
 }

@@ -93,6 +93,7 @@ namespace Defaults
         public const string BILL_STORE_MODE = "DefaultBillStoreMode";
         public const string LIMIT_BILLS_TO_15 = "LimitBillsTo15";
         public const string SELF_TEND_LEVEL = "SelfTendLevel";
+        public const string CONFIRM_SAVE_DEFAULT = "ConfirmSaveDefault";
 
         public static T Get<T>(string key)
         {

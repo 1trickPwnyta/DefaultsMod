@@ -178,6 +178,13 @@
 	<Defaults_DefaultPolicyAssignmentsDesc>Assign each pawn type to a default policy of each type, or leave them as (default) to use whatever policy is set as the default. Colonists will be assigned policies accordingly.</Defaults_DefaultPolicyAssignmentsDesc>
 	<Defaults_EmptyString></Defaults_EmptyString>
 	<Defaults_RemoveLimit>Remove limit</Defaults_RemoveLimit>
+	<Defaults_SetAsDefaultPrompt>Save settings as default?</Defaults_SetAsDefaultPrompt>
+	<Defaults_SetAsDefaultFishingZone>Do you want to save these fishing zone settings as the default?</Defaults_SetAsDefaultFishingZone>
+	<Defaults_SetAsDefaultPolicy>Do you want to save {0} as a default policy?</Defaults_SetAsDefaultPolicy>
+	<Defaults_SetAsDefaultSchedule>Do you want to save {0}'s schedule as a default schedule?</Defaults_SetAsDefaultSchedule>
+	<Defaults_SetAsDefaultStoryteller>Do you want to save these as the default storyteller settings?</Defaults_SetAsDefaultStoryteller>
+	<Defaults_SetAsDefaultWorkbenchBill>Do you want to save this as a default bill for all compatible workbenches?</Defaults_SetAsDefaultWorkbenchBill>
+	<Defaults_SetAsDefaultWorld>Do you want to save these as the default world settings?</Defaults_SetAsDefaultWorld>
 	
 	<CommandResetTempDesc>Reset the target temperature to default temperature.</CommandResetTempDesc>
 </LanguageData>

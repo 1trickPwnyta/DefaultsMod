@@ -47,10 +47,12 @@ namespace Defaults.Policies
                 Rect saveAsDefaultRect = new Rect(inRect.xMax - 158f - buttonOffset, inRect.y + 74f, 32f, 32f);
                 if (Widgets.ButtonImage(saveAsDefaultRect, TexButton.Save))
                 {
-                    Policy policy = PolicyUtility.NewDefaultPolicy(___policyInt.GetType(), ___policyInt.label); ;
-                    policy.CopyFrom(___policyInt);
-                    DefaultsMod.SaveSettings();
-                    Messages.Message("Defaults_PolicySavedAs".Translate(policy?.label ?? "?"), MessageTypeDefOf.PositiveEvent, false);
+                    Policy policy = null;
+                    UIUtility.SetAsDefault(() =>
+                    {
+                        policy = PolicyUtility.NewDefaultPolicy(___policyInt.GetType(), ___policyInt.label);
+                        policy.CopyFrom(___policyInt);
+                    }, () => "Defaults_PolicySavedAs".Translate(policy?.label ?? "?"), "Defaults_SetAsDefaultPolicy".Translate(___policyInt.label));
                 }
                 TooltipHandler.TipRegionByKey(saveAsDefaultRect, "Defaults_SaveNewDefaultPolicy");
                 buttonOffset += 42f;

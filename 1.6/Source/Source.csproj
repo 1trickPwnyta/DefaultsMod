@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="AllowedAreas\AllowedArea.cs" />
     <Compile Include="AllowedAreas\AllowedAreaUtility.cs" />
+    <Compile Include="General\DefaultSettingWorker_ConfirmSaveDefault.cs" />
     <Compile Include="Medicine\DefaultSettingWorker_DefaultCareFor.cs" />
     <Compile Include="Medicine\DefaultSettingWorker_DefaultCareForColonist.cs" />
     <Compile Include="Medicine\DefaultSettingWorker_DefaultCareForEntities.cs" />
