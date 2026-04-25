@@ -57,7 +57,7 @@ namespace Defaults
                 default:
                     return;
             }
-            PromptToAddPolicies(ModLister.GetExpansionWithIdentifier(id), policies);
+            PromptToAddPolicies(ModLister.GetExpansionWithIdentifier(id), policies.Where(p => p != null));
         }
 
         private static void PromptToAddPolicies(ExpansionDef dlc, IEnumerable<Policy> newPolicies)

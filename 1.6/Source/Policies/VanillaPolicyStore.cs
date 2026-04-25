@@ -20,13 +20,13 @@ namespace Defaults.Policies
             loaded = true;
         }
 
-        public static ApparelPolicy GetVanillaApparelPolicy(string name) => outfits.AllOutfits.First(o => o.label.Equals(name));
+        public static ApparelPolicy GetVanillaApparelPolicy(string name) => outfits.AllOutfits.FirstOrDefault(o => o.label.Equals(name));
 
-        public static FoodPolicy GetVanillaFoodPolicy(string name) => foodRestrictions.AllFoodRestrictions.First(f => f.label.Equals(name));
+        public static FoodPolicy GetVanillaFoodPolicy(string name) => foodRestrictions.AllFoodRestrictions.FirstOrDefault(f => f.label.Equals(name));
 
-        public static DrugPolicy GetVanillaDrugPolicy(string name) => drugPolicies.AllPolicies.First(p => p.label.Equals(name));
+        public static DrugPolicy GetVanillaDrugPolicy(string name) => drugPolicies.AllPolicies.FirstOrDefault(p => p.label.Equals(name));
 
-        public static ReadingPolicy GetVanillaReadingPolicy(string name) => readingPolicies.AllReadingPolicies.First(r => r.label.Equals(name));
+        public static ReadingPolicy GetVanillaReadingPolicy(string name) => readingPolicies.AllReadingPolicies.FirstOrDefault(r => r.label.Equals(name));
 
         public static List<ApparelPolicy> VanillaApparelPolicies => outfits.AllOutfits;
 
