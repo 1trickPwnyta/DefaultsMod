@@ -14,7 +14,7 @@ namespace Defaults.Storyteller
         {
             ___storyteller = Settings.Get<StorytellerDef>(Settings.STORYTELLER);
             ___difficulty = Settings.Get<DifficultyDef>(Settings.DIFFICULTY);
-            ___difficultyValues = Settings.Get<Difficulty>(Settings.DIFFICULTY_VALUES);
+            ___difficultyValues = Settings.Get<Difficulty>(Settings.DIFFICULTY_VALUES).Copy();
             if (Find.Scenario.standardAnomalyPlaystyleOnly)
             {
                 ___difficultyValues.AnomalyPlaystyleDef = AnomalyPlaystyleDefOf.Standard;
