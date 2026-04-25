@@ -12,18 +12,6 @@ namespace Defaults.StockpileZones
     [StaticConstructorOnStartup]
     public class DefaultSettingsCategoryWorker_Storage : DefaultSettingsCategoryWorker
     {
-        private static readonly List<ThingDef> buildingsUnlockedByDefault = new List<ThingDef>()
-        {
-            ThingDefOf.Shelf,
-            ThingDefOf.ShelfSmall,
-            ThingDef.Named("Bookcase"),
-            ThingDef.Named("BookcaseSmall"),
-            ThingDefOf.Hopper,
-            ThingDefOf.GrowthVat,
-            ThingDefOf.BiosculpterPod,
-            ThingDef.Named("Artillery_Mortar")
-        };
-
         private List<ZoneType> defaultStockpileZones;
         private Dictionary<ThingDef, ZoneType_Building> defaultBuildingStorageSettings;
 
@@ -156,16 +144,6 @@ namespace Defaults.StockpileZones
             if (forced || defaultBuildingStorageSettings == null)
             {
                 defaultBuildingStorageSettings = new Dictionary<ThingDef, ZoneType_Building>();
-            }
-            foreach (ThingDef def in DefDatabase<ThingDef>.AllDefsListForReading.Where(d => d.building?.defaultStorageSettings != null))
-            {
-                if (!defaultBuildingStorageSettings.ContainsKey(def))
-                {
-                    defaultBuildingStorageSettings[def] = new ZoneType_Building(def)
-                    {
-                        locked = !buildingsUnlockedByDefault.Contains(def)
-                    };
-                }
             }
         }
 

@@ -59,7 +59,7 @@ namespace Defaults.StockpileZones
             Rect tabsRect = new Rect(rect.x, rect.y + controlHeight + 10f, rowWidth, 1f);
             TabDrawer.DrawTabs(tabsRect, tabs);
 
-            Rect outRect = new Rect(rect.x, rect.y + controlHeight + 10f, rect.width - 300f, rect.height - controlHeight - 10f);
+            Rect outRect = new Rect(rect.x, rect.y + controlHeight + 11f, rect.width - 300f, rect.height - controlHeight - 11f);
             Rect viewRect = new Rect(0f, 0f, rowWidth, y);
             Widgets.BeginScrollView(outRect, ref scrollPos, viewRect);
             y = 0f;
@@ -273,15 +273,46 @@ namespace Defaults.StockpileZones
 
             public override TaggedString ResetWarning => "Defaults_ConfirmResetTheseSettings".Translate(Label);
 
+            public override void DoControls(Rect rect)
+            {
+                Dictionary<ThingDef, ZoneType_Building> buildingStorageSettings = Settings.Get<Dictionary<ThingDef, ZoneType_Building>>(Settings.BUILDING_STORAGE);
+
+                IEnumerable<ThingDef> unusedDefs = DefDatabase<ThingDef>.AllDefsListForReading.Where(d => d.building?.defaultStorageSettings != null && !buildingStorageSettings.ContainsKey(d));
+                using (new TextBlock(unusedDefs.Any() ? Color.white : Color.gray))
+                {
+                    if (Widgets.ButtonText(new Rect(rect.xMax - buttonWidth, rect.y, buttonWidth, rect.height), "Defaults_AddNew".Translate(), active: unusedDefs.Any()))
+                    {
+                        List<FloatMenuOption> list = new List<FloatMenuOption>();
+                        foreach (ThingDef def in unusedDefs.OrderBy(d => d.uiOrder))
+                        {
+                            list.Add(new FloatMenuOption(def.LabelCap, () =>
+                            {
+                                ZoneType_Building newZoneType = new ZoneType_Building(def);
+                                buildingStorageSettings[def] = newZoneType;
+                                selectedZoneType = newZoneType;
+                            }, def));
+                        }
+                        Find.WindowStack.Add(new FloatMenu(list));
+                    }
+                }
+            }
+
             public override bool DoTab(float rowWidth, float rowHeight, int reorderableGroup)
             {
-                List<ZoneType_Building> buildingStorageSettings = Settings.Get<Dictionary<ThingDef, ZoneType_Building>>(Settings.BUILDING_STORAGE).Values.ToList();
-                foreach (ZoneType_Building zone in buildingStorageSettings.OrderBy(s => s.buildingDef.uiOrder))
+                Dictionary<ThingDef, ZoneType_Building> buildingStorageSettings = Settings.Get<Dictionary<ThingDef, ZoneType_Building>>(Settings.BUILDING_STORAGE);
+                List<ZoneType_Building> zoneTypes = Settings.Get<Dictionary<ThingDef, ZoneType_Building>>(Settings.BUILDING_STORAGE).Values.ToList();
+                foreach (ZoneType_Building zone in zoneTypes.OrderBy(s => s.buildingDef.uiOrder))
                 {
+                    if (Widgets.ButtonImage(new Rect(rowWidth - 24f - 8f, y + (rowHeight - 24f) / 2, 24f, 24f), TexButton.Delete, Color.white, Color.white * GenUI.SubtleMouseoverColor))
+                    {
+                        buildingStorageSettings.Remove(zone.buildingDef);
+                        SoundDefOf.Click.PlayOneShotOnCamera(null);
+                    }
+
                     DoZoneTypeButton(zone, 0f, rowWidth, rowHeight);
                     y += rowHeight;
                 }
-                if (!buildingStorageSettings.Contains(selectedZoneType))
+                if (!zoneTypes.Contains(selectedZoneType))
                 {
                     selectedZoneType = null;
                 }

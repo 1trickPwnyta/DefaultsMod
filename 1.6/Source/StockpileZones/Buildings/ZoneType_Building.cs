@@ -1,12 +1,25 @@
-﻿using RimWorld;
-using Verse;
+﻿using Defaults.Defs;
+using RimWorld;
+using System.Collections.Generic;
 using UnityEngine;
-using Defaults.Defs;
+using Verse;
 
 namespace Defaults.StockpileZones.Buildings
 {
     public class ZoneType_Building : ZoneType
     {
+        private static readonly List<ThingDef> buildingsUnlockedByDefault = new List<ThingDef>()
+        {
+            ThingDefOf.Shelf,
+            ThingDefOf.ShelfSmall,
+            ThingDef.Named("Bookcase"),
+            ThingDef.Named("BookcaseSmall"),
+            ThingDefOf.Hopper,
+            ThingDefOf.GrowthVat,
+            ThingDefOf.BiosculpterPod,
+            ThingDef.Named("Artillery_Mortar")
+        };
+
         public ThingDef buildingDef;
         private ThingDef iconDef;
 
@@ -19,15 +32,14 @@ namespace Defaults.StockpileZones.Buildings
             this.buildingDef = buildingDef;
             SetToDefault();
             FindIconDef();
+            locked = !buildingsUnlockedByDefault.Contains(buildingDef);
         }
 
-        public ZoneType_Building(ThingDef buildingDef, ZoneType other)
+        public ZoneType_Building(ThingDef buildingDef, ZoneType other) : this(buildingDef)
         {
-            this.buildingDef = buildingDef;
             priority = other.priority;
             filter.CopyAllowancesFrom(other.filter);
             locked = other.locked;
-            FindIconDef();
         }
 
         private void SetToDefault()
