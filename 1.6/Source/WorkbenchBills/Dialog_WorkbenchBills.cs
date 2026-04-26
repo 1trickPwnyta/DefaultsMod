@@ -48,12 +48,26 @@ namespace Defaults.WorkbenchBills
 
         public override void DoSettings(Rect rect)
         {
+            Rect addNewRect = new Rect(rect.xMax - 80f, rect.y, 80f, 30f);
+            bool canAddNew = workbenchGroups.Any(g => !WorkbenchBillStore.StoreExists(g));
+            using (new TextBlock(canAddNew ? Color.white : Color.gray))
+            {
+                if (Widgets.ButtonText(addNewRect, "Defaults_AddNew".Translate(), active: canAddNew))
+                {
+                    Find.WindowStack.Add(new FloatMenu(workbenchGroups.Where(g => !WorkbenchBillStore.StoreExists(g)).Select(g => new FloatMenuOption(string.Join("\n", g.Select(t => t.LabelCap)), () =>
+                    {
+                        WorkbenchBillStore.GetCreateIfNotExist(g);
+                    }, BillUtility.GetWorkbenchGroupIconDef(g))).ToList()));
+                }
+            }
+            Rect outRect = rect;
+            outRect.yMin += 32f;
             Rect viewRect = new Rect(0f, 0f, rect.width - 20f, y);
-            Widgets.BeginScrollView(rect, ref scrollPosition, viewRect);
+            Widgets.BeginScrollView(outRect, ref scrollPosition, viewRect);
             float x = 0f;
             y = 0f;
             float workbenchGroupWidth = (viewRect.width - padding * 2) / 3;
-            foreach (HashSet<ThingDef> workbenchGroup in workbenchGroups.Where(g => g.Any(d => CommonSearchWidget.filter.Matches(d.label) || d.AllRecipes.Any(r => CommonSearchWidget.filter.Matches(r.label)))))
+            foreach (HashSet<ThingDef> workbenchGroup in workbenchGroups.Where(g => WorkbenchBillStore.StoreExists(g) && g.Any(d => CommonSearchWidget.filter.Matches(d.label) || d.AllRecipes.Any(r => CommonSearchWidget.filter.Matches(r.label)))))
             {
                 if (x + workbenchGroupWidth > viewRect.width)
                 {
@@ -79,14 +93,31 @@ namespace Defaults.WorkbenchBills
             Widgets.DefIcon(iconRect, iconDef, GenStuff.DefaultStuffFor(iconDef));
 
             Rect labelRect = new Rect(rect.x + padding + iconSize + padding, rect.y + padding, rect.width - padding - iconSize - padding - padding - 50f - padding, rect.height - padding * 2);
-            Text.Anchor = TextAnchor.MiddleLeft;
-            Widgets.Label(labelRect, string.Join("\n", workbenchGroup.Select(w => w.LabelCap)));
-            Text.Anchor = default;
+            using (new TextBlock(TextAnchor.MiddleLeft)) Widgets.Label(labelRect, string.Join("\n", workbenchGroup.Select(w => w.LabelCap)));
 
-            Rect quantityRect = new Rect(labelRect.xMax + padding, labelRect.y, 50f, labelRect.height);
-            Text.Anchor = TextAnchor.LowerRight;
-            Widgets.Label(quantityRect, WorkbenchBillStore.Get(workbenchGroup).bills.Count.ToString());
-            Text.Anchor = default;
+            int count = WorkbenchBillStore.GetCreateIfNotExist(workbenchGroup).bills.Count;
+            Rect quantityRect = new Rect(rect.xMax - 50f, rect.yMax - 50f, 45f, 50f);
+            using (new TextBlock(TextAnchor.LowerRight)) Widgets.Label(quantityRect.ContractedBy(2f), count.ToString());
+
+            Rect deleteRect = new Rect(rect.xMax - 20f, rect.y, 20f, 20f);
+            if (Widgets.ButtonImage(deleteRect.ContractedBy(2f), TexButton.Delete, tooltip: "Defaults_DeleteWorkbenchGroupTip".Translate()))
+            {
+                void ConfirmDelete()
+                {
+                    WorkbenchBillStore.Delete(workbenchGroup);
+                }
+                if (count > 0)
+                {
+                    Find.WindowStack.Add(new Dialog_MessageBox("Defaults_DeleteWorkbenchGroup".Translate(), "Delete".Translate(), () =>
+                    {
+                        ConfirmDelete();
+                    }, "Cancel".Translate(), buttonADestructive: true));
+                }
+                else
+                {
+                    ConfirmDelete();
+                }
+            }
 
             if (Widgets.ButtonInvisible(rect))
             {

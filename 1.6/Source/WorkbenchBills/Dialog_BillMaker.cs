@@ -29,7 +29,7 @@ namespace Defaults.WorkbenchBills
 
         public override Vector2 InitialSize => new Vector2(400f, 500f);
 
-        protected override IList ReorderableItems => WorkbenchBillStore.Get(workbenchGroup).bills;
+        protected override IList ReorderableItems => WorkbenchBillStore.GetCreateIfNotExist(workbenchGroup).bills;
 
         public override void DoWindowContents(Rect inRect)
         {
@@ -47,12 +47,12 @@ namespace Defaults.WorkbenchBills
             {
                 Find.WindowStack.Add(new FloatMenu(workbenchGroup.First().AllRecipes.Select(r => new FloatMenuOption(r.LabelCap, () =>
                 {
-                    WorkbenchBillStore.Get(workbenchGroup).bills.Add(new BillTemplate(r));
+                    WorkbenchBillStore.GetCreateIfNotExist(workbenchGroup).bills.Add(new BillTemplate(r));
                 }, r.UIIconThing, r.UIIcon, null, true, MenuOptionPriority.Default, null, null, 29f, rect => Widgets.InfoCardButton(rect.x + 5f, rect.y + (rect.height - 24f) / 2f, r), null, true, -r.displayPriority)).ToList()));
             }
             y += titleRect.height + padding;
 
-            List<BillTemplate> bills = WorkbenchBillStore.Get(workbenchGroup).bills;
+            List<BillTemplate> bills = WorkbenchBillStore.GetCreateIfNotExist(workbenchGroup).bills;
             bool limit15 = Settings.GetValue<bool>(Settings.LIMIT_BILLS_TO_15);
 
             bool billsLimited = bills.Count(b => b.use) > 15 && limit15;
@@ -117,7 +117,7 @@ namespace Defaults.WorkbenchBills
             copyRect.x -= copyRect.width + 4f;
             if (Widgets.ButtonImageFitted(copyRect, TexButton.Copy))
             {
-                WorkbenchBillStore.Get(workbenchGroup).bills.Add(bill.Clone());
+                WorkbenchBillStore.GetCreateIfNotExist(workbenchGroup).bills.Add(bill.Clone());
                 SoundDefOf.Tick_High.PlayOneShot(null);
             }
 

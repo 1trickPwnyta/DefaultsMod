@@ -10,7 +10,13 @@ namespace Defaults.WorkbenchBills
         public HashSet<ThingDef> workbenchGroup;
         public List<BillTemplate> bills = new List<BillTemplate>();
 
-        public static WorkbenchBillStore Get(HashSet<ThingDef> workbenchGroup)
+        public static bool StoreExists(HashSet<ThingDef> workbenchGroup)
+        {
+            List<WorkbenchBillStore> workbenchBills = Settings.Get<List<WorkbenchBillStore>>(Settings.WORKBENCH_BILLS);
+            return workbenchBills.Any(s => s.workbenchGroup.Any(w => workbenchGroup.Contains(w)));
+        }
+
+        public static WorkbenchBillStore GetCreateIfNotExist(HashSet<ThingDef> workbenchGroup)
         {
             List<WorkbenchBillStore> workbenchBills = Settings.Get<List<WorkbenchBillStore>>(Settings.WORKBENCH_BILLS);
             WorkbenchBillStore store = workbenchBills.FirstOrDefault(s => s.workbenchGroup.Any(w => workbenchGroup.Contains(w)));
@@ -21,6 +27,12 @@ namespace Defaults.WorkbenchBills
             }
             store.workbenchGroup = workbenchGroup;
             return store;
+        }
+
+        public static void Delete(HashSet<ThingDef> workbenchGroup)
+        {
+            List<WorkbenchBillStore> workbenchBills = Settings.Get<List<WorkbenchBillStore>>(Settings.WORKBENCH_BILLS);
+            workbenchBills.RemoveWhere(s => s.workbenchGroup.Any(w => workbenchGroup.Contains(w)));
         }
 
         private WorkbenchBillStore() { }
