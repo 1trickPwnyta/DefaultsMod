@@ -1,7 +1,6 @@
 ﻿using Defaults.Compatibility;
 using Defaults.Defs;
 using Defaults.Workers;
-using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -11,7 +10,6 @@ namespace Defaults.WorkbenchBills
     public class DefaultSettingsCategoryWorker_WorkbenchBills : DefaultSettingsCategoryWorker
     {
         private List<WorkbenchBillStore> defaultWorkbenchBills;
-        private GlobalBillOptions defaultGlobalBillOptions;
 
         public DefaultSettingsCategoryWorker_WorkbenchBills(DefaultSettingsCategoryDef def) : base(def)
         {
@@ -29,9 +27,6 @@ namespace Defaults.WorkbenchBills
                 case Settings.WORKBENCH_BILLS:
                     value = defaultWorkbenchBills;
                     return true;
-                case Settings.GLOBAL_BILL_OPTIONS:
-                    value = defaultGlobalBillOptions;
-                    return true;
                 default:
                     return base.GetCategorySetting(key, out value);
             }
@@ -43,9 +38,6 @@ namespace Defaults.WorkbenchBills
             {
                 case Settings.WORKBENCH_BILLS:
                     defaultWorkbenchBills = value as List<WorkbenchBillStore>;
-                    return true;
-                case Settings.GLOBAL_BILL_OPTIONS:
-                    defaultGlobalBillOptions = value as GlobalBillOptions;
                     return true;
                 default:
                     return base.SetCategorySetting(key, value);
@@ -83,17 +75,18 @@ namespace Defaults.WorkbenchBills
             {
                 defaultWorkbenchBills = new List<WorkbenchBillStore>();
             }
-            if (forced || defaultGlobalBillOptions == null)
-            {
-                defaultGlobalBillOptions = new GlobalBillOptions();
-            }
         }
 
         protected override void ExposeCategorySettings()
         {
             Scribe_Collections.Look(ref defaultWorkbenchBills, Settings.WORKBENCH_BILLS);
-            Scribe_Deep.Look(ref defaultGlobalBillOptions, Settings.GLOBAL_BILL_OPTIONS);
-            BackwardCompatibilityUtility.MigrateGlobalBillOptions(ref defaultGlobalBillOptions);
         }
+
+        protected override void PostExposeData()
+        {
+            BackwardCompatibilityUtility.MigrateGlobalBillOptions();
+        }
+
+        public override float AdditionalSettingsDialogWidth => 720f;
     }
 }

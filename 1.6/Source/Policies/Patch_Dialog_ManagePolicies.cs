@@ -1,4 +1,5 @@
-﻿using Defaults.UI;
+﻿using Defaults.Compatibility;
+using Defaults.UI;
 using HarmonyLib;
 using RimWorld;
 using System;
@@ -17,6 +18,11 @@ namespace Defaults.Policies
     [HarmonyPatch(nameof(Dialog_ManagePolicies<Policy>.DoWindowContents))]
     public static class Patch_Dialog_ManagePolicies_DoWindowContents
     {
+        public static bool Prefix(Dialog_ManagePolicies<Policy> __instance, Rect inRect)
+        {
+            return ModCompatibilityUtility_AnimalControls.DoAnimalControlsDefaults(inRect, __instance);
+        }
+
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             List<CodeInstruction> instructionsList = instructions.ToList();
@@ -43,7 +49,7 @@ namespace Defaults.Policies
                 {
                     Policy policy = PolicyUtility.NewDefaultPolicy(___policyInt.GetType(), ___policyInt.label); ;
                     policy.CopyFrom(___policyInt);
-                    DefaultsMod.Settings.Write();
+                    DefaultsMod.SaveSettings();
                     Messages.Message("Defaults_PolicySavedAs".Translate(policy?.label ?? "?"), MessageTypeDefOf.PositiveEvent, false);
                 }
                 TooltipHandler.TipRegionByKey(saveAsDefaultRect, "Defaults_SaveNewDefaultPolicy");
@@ -58,10 +64,12 @@ namespace Defaults.Policies
                 }
                 Rect lockRect = new Rect(inRect.xMax - 158f - buttonOffset, inRect.y + 10f, 32f, 32f);
                 bool locked = ___policyInt.IsLocked();
-                UIUtility.DoCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref locked);
+                UIUtility.DoLockButton(lockRect, ref locked);
                 ___policyInt.SetLocked(locked);
                 buttonOffset += 42f;
             }
+
+            ModCompatibilityUtility_AnimalControls.DoAnimalControlsDefaultsButton(inRect, __instance);
         }
     }
 

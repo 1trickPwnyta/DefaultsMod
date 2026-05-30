@@ -8,24 +8,6 @@
 	<iconPath>DefaultSettingsCategoryIcons/Storyteller</iconPath>
     <workerClass>Defaults.Storyteller.DefaultSettingsCategoryWorker_Storyteller</workerClass>
 	<keywords>
-	  <li>cassandra</li>
-	  <li>phoebe</li>
-	  <li>randy</li>
-	  <li>difficulty</li>
-	  <li>peaceful</li>
-	  <li>community</li>
-	  <li>builder</li>
-	  <li>adventure</li>
-	  <li>strive</li>
-	  <li>survive</li>
-	  <li>blood</li>
-	  <li>dust</li>
-	  <li>losing</li>
-	  <li>fun</li>
-	  <li>reload</li>
-	  <li>anytime</li>
-	  <li>commitment</li>
-	  <li>custom</li>
 	  <li>threat</li>
 	  <li>scale</li>
 	  <li>scaria</li>
@@ -45,18 +27,10 @@
   <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>World</defName>
 	<label>default world settings</label>
-	<description>Set the default world and map settings to use for a new colony.</description>
+	<description>Set the default world, map, and faction settings to use for a new colony.</description>
 	<iconPath>DefaultSettingsCategoryIcons/World</iconPath>
     <workerClass>Defaults.WorldSettings.DefaultSettingsCategoryWorker_World</workerClass>
 	<keywords>
-	  <li>globe</li>
-	  <li>coverage</li>
-	  <li>rainfall</li>
-	  <li>temperature</li>
-	  <li>population</li>
-	  <li>sparse</li>
-	  <li>crowded</li>
-	  <li>pollution</li>
 	  <li>factions</li>
 	  <li>outlanders</li>
 	  <li>tribes</li>
@@ -67,14 +41,6 @@
 	  <li>mechanoids</li>
 	  <li>insects</li>
 	  <li>bugs</li>
-	  <li>map</li>
-	  <li>size</li>
-	  <li>starting</li>
-	  <li>season</li>
-	  <li>spring</li>
-	  <li>summer</li>
-	  <li>fall</li>
-	  <li>winter</li>
 	</keywords>
   </Defaults.Defs.DefaultSettingsCategoryDef>
   
@@ -102,7 +68,7 @@
   <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>Policies</defName>
 	<label>default policies</label>
-	<description>Set custom default apparel, food, drug, and reading policies that will be copied to each new colony.</description>
+	<description>Set custom default apparel, food, drug, and reading policies that will be copied to each new colony. Assign different default policies to different types of pawns.</description>
 	<iconPath>DefaultSettingsCategoryIcons/Policies</iconPath>
     <workerClass>Defaults.Policies.DefaultSettingsCategoryWorker_Policies</workerClass>
 	<keywords>
@@ -179,7 +145,7 @@
   <Defaults.Defs.DefaultSettingsCategoryDef MayRequire="Ludeon.RimWorld.Biotech">
     <defName>BabyFeeding</defName>
 	<label>default baby feeding settings</label>
-	<description>Set the default autofeed setting for colonists based on relationship to baby and whether they are lactating. Also allows you to set which foods babies can be fed by default.</description>
+	<description>Set the default autofeed setting for colonists based on relationship to baby and whether they are lactating. Set which foods babies can be fed by default.</description>
 	<iconPath>DefaultSettingsCategoryIcons/BabyFeeding</iconPath>
     <workerClass>Defaults.BabyFeeding.DefaultSettingsCategoryWorker_BabyFeeding</workerClass>
 	<keywords>
@@ -360,6 +326,17 @@
 	</keywords>
   </Defaults.Defs.DefaultSettingsCategoryDef>
   
+  <Defaults.Defs.DefaultSettingsCategoryDef MayRequire="Ludeon.RimWorld.Odyssey">
+    <defName>Fishing</defName>
+	<label>default fishing zone settings</label>
+	<description>Configure the default settings for fishing zones.</description>
+	<iconPath>DefaultSettingsCategoryIcons/Fishing</iconPath>
+    <workerClass>Defaults.Fishing.DefaultSettingsCategoryWorker_Fishing</workerClass>
+	<keywords>
+	  <li>zones</li>
+	</keywords>
+  </Defaults.Defs.DefaultSettingsCategoryDef>
+  
   <Defaults.Defs.DefaultSettingsCategoryDef>
     <defName>WorkPriorities</defName>
 	<label>default work priorities</label>
@@ -398,6 +375,14 @@
 	  <li>dark study</li>
 	  <li>research</li>
 	</keywords>
+  </Defaults.Defs.DefaultSettingsCategoryDef>
+  
+  <Defaults.Defs.DefaultSettingsCategoryDef>
+    <defName>PlaySettings</defName>
+	<label>default play settings</label>
+	<description>Configure default play settings. These are generally the toggle buttons in the bottom-right corner of the screen.</description>
+	<iconPath>DefaultSettingsCategoryIcons/PlaySettings</iconPath>
+    <workerClass>Defaults.PlaySettings.DefaultSettingsCategoryWorker_PlaySettings</workerClass>
   </Defaults.Defs.DefaultSettingsCategoryDef>
   
   <Defaults.Defs.DefaultSettingsCategoryDef>

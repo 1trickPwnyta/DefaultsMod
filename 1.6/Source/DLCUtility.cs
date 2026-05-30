@@ -23,7 +23,7 @@ namespace Defaults
                 }
             }
             DefaultsSettings.KnownDLCs = newKnownDLCs.ListFullCopy();
-            DefaultsMod.Settings.Write();
+            DefaultsMod.SaveSettings(false);
         }
 
         private static void HandleNewDLC(string id)
@@ -70,7 +70,7 @@ namespace Defaults
 
             if (missingPolicies.Any())
             {
-                Find.WindowStack.Add(new Dialog_PickMany("Defaults_NewDLC".Translate(dlc.LabelCap), "Defaults_NewPoliciesDLC".Translate(dlc.LabelCap), new[]
+                Find.WindowStack.Add(new Dialog_SelectMany("Defaults_NewDLC".Translate(dlc.LabelCap), "Defaults_NewPoliciesDLC".Translate(dlc.LabelCap), new[]
                 {
                     new Tuple<string, IEnumerable<TaggedString>>("Defaults_ApparelPolicies", missingPolicies.Where(p => p is ApparelPolicy).Select(p => (TaggedString)p.label)),
                     new Tuple<string, IEnumerable<TaggedString>>("Defaults_FoodPolicies", missingPolicies.Where(p => p is FoodPolicy).Select(p => (TaggedString)p.label)),
@@ -102,8 +102,8 @@ namespace Defaults
                                 throw new Exception("Invalid translation key: " + result.Item1);
                         }
                     }
-                    DefaultsMod.Settings.Write();
-                }));
+                    DefaultsMod.SaveSettings();
+                }, forceInput: true));
             }
         }
     }

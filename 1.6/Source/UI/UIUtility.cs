@@ -1,7 +1,10 @@
 ﻿using Defaults.Defs;
+using Defaults.Workers;
 using RimWorld;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using UnityEngine;
 using Verse;
 using Verse.Sound;
@@ -11,8 +14,15 @@ namespace Defaults.UI
     [StaticConstructorOnStartup]
     public static class UIUtility
     {
-        public static Texture2D LockIcon = ContentFinder<Texture2D>.Get("UI/Defaults_Lock");
-        public static Texture2D StarIcon = ContentFinder<Texture2D>.Get("UI/Defaults_Star");
+        private static readonly Texture2D LockedIcon = ContentFinder<Texture2D>.Get("UI/Overlays/Locked");
+        private static readonly Texture2D UnlockedIcon = ContentFinder<Texture2D>.Get("UI/Overlays/LockedMonochrome");
+
+        public static readonly Color CommandColor = new Color(0.8f, 0.8f, 0.8f);
+
+        public static readonly Texture2D PinTex = ContentFinder<Texture2D>.Get("UI/Developer/Pin");
+        public static readonly Texture2D PinOutlineTex = ContentFinder<Texture2D>.Get("UI/Developer/Pin-Outline");
+        public static readonly Texture2D ResetCommandTex = ContentFinder<Texture2D>.Get("UI/Defaults_ResetCommand");
+        public static readonly Texture2D SaveCommandTex = ContentFinder<Texture2D>.Get("UI/Defaults_SaveCommand");
 
         public static Window TopWindow => Find.WindowStack.Windows.Last(w => !(w is ImmediateWindow) && !(w is FloatMenu));
 
@@ -33,6 +43,22 @@ namespace Defaults.UI
             TooltipHandler.TipRegion(rect, tooltip);
             Rect checkRect = new Rect(rect.x + rect.width / 2f, rect.y, rect.width / 2f, rect.height / 2f);
             GUI.DrawTexture(checkRect, enabled ? Widgets.CheckboxOnTex : Widgets.CheckboxOffTex);
+        }
+
+        public static void DoLockButton(Rect rect, ref bool locked)
+        {
+            if (Widgets.ButtonImage(rect, locked ? LockedIcon : UnlockedIcon, tooltip: "Defaults_LockSetting".Translate()))
+            {
+                locked = !locked;
+                if (locked)
+                {
+                    SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
+                }
+                else
+                {
+                    SoundDefOf.Tick_Low.PlayOneShotOnCamera(null);
+                }
+            }
         }
 
         private static void DrawImageTextButton(Rect rect, Texture2D image, string text)
@@ -119,10 +145,24 @@ namespace Defaults.UI
             Listing_Standard listing = new Listing_StandardHighlight() { maxOneColumn = true };
             listing.Begin(rect);
 
+            List<Tuple<Rect, DefaultSettingDef>> renderLastList = new List<Tuple<Rect, DefaultSettingDef>>();
             foreach (DefaultSettingDef def in settings)
             {
                 Rect rowRect = listing.GetRect(30f);
-                def.Worker.DoSetting(rowRect);
+                if (def.Worker.RenderLast)
+                {
+                    renderLastList.Add(new Tuple<Rect, DefaultSettingDef>(rowRect, def));
+                }
+                else
+                {
+                    def.Worker.DoSetting(rowRect);
+                }
+            }
+
+            // Some settings must be rendered last for silly UI reasons (sliders' drooping hit boxes blocking other UI elements)
+            foreach (Tuple<Rect, DefaultSettingDef> renderLast in renderLastList)
+            {
+                renderLast.Item2.Worker.DoSetting(renderLast.Item1);
             }
 
             listing.End();

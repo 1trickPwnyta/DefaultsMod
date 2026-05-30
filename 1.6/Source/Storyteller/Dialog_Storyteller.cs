@@ -9,7 +9,7 @@ namespace Defaults.Storyteller
 {
     public class Dialog_Storyteller : Dialog_SettingsCategory
     {
-        public Dialog_Storyteller(DefaultSettingsCategoryDef category) : base(category)
+        public Dialog_Storyteller() : base(DefaultSettingsCategoryDefOf.Storyteller)
         {
         }
 

@@ -3,7 +3,7 @@
 	<Operation Class="PatchOperationAdd">
 		<xpath>/Defs/ThingDef[@Name="BasePawn"]/comps</xpath>
 		<value>
-			<li Class="Defaults.AllowedAreas.CompProperties_SpawnTracker" />
+			<li Class="Defaults.CompProperties_SpawnTracker" />
 		</value>
 	</Operation>
 </Patch>

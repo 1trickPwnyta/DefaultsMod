@@ -22,6 +22,20 @@
     <workerClass>Defaults.WorkPriorities.Conditions.WorkPriorityConditionWorker_Skill</workerClass>
   </Defaults.Defs.WorkPriorityConditionDef>
   
+  <Defaults.Defs.WorkPriorityConditionDef>
+    <defName>Guest</defName>
+	<label>is guest</label>
+	<iconPath>WorkPriorities/Conditions/Guest</iconPath>
+    <workerClass>Defaults.WorkPriorities.Conditions.WorkPriorityConditionWorker_Guest</workerClass>
+  </Defaults.Defs.WorkPriorityConditionDef>
+  
+  <Defaults.Defs.WorkPriorityConditionDef MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>AgainstIdeo</defName>
+	<label>is ideologically opposed</label>
+	<iconPath>WorkPriorities/Conditions/AgainstIdeo</iconPath>
+    <workerClass>Defaults.WorkPriorities.Conditions.WorkPriorityConditionWorker_AgainstIdeo</workerClass>
+  </Defaults.Defs.WorkPriorityConditionDef>
+  
   <Defaults.Defs.WorkPriorityConditionDef MayRequire="Ludeon.RimWorld.Ideology">
     <defName>Slave</defName>
 	<label>is slave</label>

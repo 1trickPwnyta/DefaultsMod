@@ -15,7 +15,7 @@ namespace Defaults.WorkbenchBills
 
         public static void Postfix(ref int __result)
         {
-            if (!Settings.Get<GlobalBillOptions>(Settings.GLOBAL_BILL_OPTIONS).LimitBillsTo15)
+            if (!Settings.GetValue<bool>(Settings.LIMIT_BILLS_TO_15))
             {
                 __result = 125;
             }

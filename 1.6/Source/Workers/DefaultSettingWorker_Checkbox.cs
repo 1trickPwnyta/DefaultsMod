@@ -5,7 +5,7 @@ using Verse;
 
 namespace Defaults.Workers
 {
-    public abstract class DefaultSettingWorker_Checkbox : DefaultSettingWorker<bool?>
+    public abstract class DefaultSettingWorker_Checkbox : DefaultSettingWorker<bool?>, IQuickOption
     {
         protected DefaultSettingWorker_Checkbox(DefaultSettingDef def) : base(def)
         {
@@ -40,7 +40,7 @@ namespace Defaults.Workers
 
         protected override void ExposeSetting()
         {
-            Scribe_Values.Look(ref setting, Key);
+            Scribe_Values.Look(ref setting, Key, Default);
         }
     }
 }

@@ -9,12 +9,12 @@ namespace Defaults.AllowedAreas
     [HarmonyPatch(nameof(Pawn_GuestTracker.SetGuestStatus))]
     public static class Patch_Pawn_GuestTracker
     {
-        public static void Prefix(Pawn ___pawn, ref AllowedPawn? __state)
+        public static void Prefix(Pawn ___pawn, ref PawnType? __state)
         {
-            __state = AllowedPawnUtility.GetAllowedPawnType(___pawn);
+            __state = PawnTypeUtility.GetPawnType(___pawn);
         }
 
-        public static void Postfix(Pawn ___pawn, AllowedPawn? __state)
+        public static void Postfix(Pawn ___pawn, PawnType? __state)
         {
             AllowedAreaUtility.SetDefaultAllowedArea(___pawn, __state);
         }

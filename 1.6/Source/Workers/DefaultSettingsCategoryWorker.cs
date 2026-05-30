@@ -101,7 +101,22 @@ namespace Defaults.Workers
         {
         }
 
+        protected virtual void PreLoadCategory() { }
+
+        public void PreLoad()
+        {
+            PreLoadCategory();
+            foreach (DefaultSettingDef def in def.DefaultSettings)
+            {
+                def.Worker.PreLoadSetting();
+            }
+        }
+
         protected virtual void ExposeCategorySettings()
+        {
+        }
+
+        protected virtual void PostExposeData()
         {
         }
 
@@ -118,6 +133,7 @@ namespace Defaults.Workers
             {
                 def.Worker.ExposeData();
             }
+            PostExposeData();
         }
 
         protected virtual void ResetCategorySettings(bool forced)
@@ -135,6 +151,8 @@ namespace Defaults.Workers
         }
 
         public abstract void OpenSettings();
+
+        public virtual float AdditionalSettingsDialogWidth => 500f;
 
         public void DoButton(Rect rect)
         {
@@ -170,6 +188,22 @@ namespace Defaults.Workers
             if (disabled)
             {
                 Widgets.DrawRectFast(rect, disabledColor);
+            }
+        }
+
+        public virtual void Notify_FirstSpawnAnywhere(Pawn pawn)
+        {
+            foreach (DefaultSettingDef def in def.DefaultSettings)
+            {
+                def.Worker.Notify_FirstSpawnAnywhere(pawn);
+            }
+        }
+
+        public virtual void Notify_FirstSpawnOnMap(Pawn pawn, Map map)
+        {
+            foreach (DefaultSettingDef def in def.DefaultSettings)
+            {
+                def.Worker.Notify_FirstSpawnOnMap(pawn, map);
             }
         }
     }

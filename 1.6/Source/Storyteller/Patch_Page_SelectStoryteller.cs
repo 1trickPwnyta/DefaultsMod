@@ -20,7 +20,7 @@ namespace Defaults.Storyteller
                 ___difficultyValues.AnomalyPlaystyleDef = AnomalyPlaystyleDefOf.Standard;
             }
             Find.GameInitData.permadeathChosen = true;
-            Find.GameInitData.permadeath = Settings.Get<bool>(Settings.PERMADEATH);
+            Find.GameInitData.permadeath = Settings.GetValue<bool>(Settings.PERMADEATH);
             ModCompatibilityUtility_NoPause.ApplyNoPauseOptions();
         }
     }

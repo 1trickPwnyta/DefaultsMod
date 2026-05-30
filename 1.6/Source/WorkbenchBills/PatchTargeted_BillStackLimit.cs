@@ -31,6 +31,6 @@ namespace Defaults.WorkbenchBills
 
     public static class PatchUtility_BillStackLimit
     {
-        public static int GetBillLimit() => Settings.Get<GlobalBillOptions>(Settings.GLOBAL_BILL_OPTIONS).LimitBillsTo15 ? 15 : int.MaxValue;
+        public static int GetBillLimit() => Settings.GetValue<bool>(Settings.LIMIT_BILLS_TO_15) ? 15 : int.MaxValue;
     }
 }

@@ -60,7 +60,7 @@ namespace Defaults.AllowedAreas
             if (toRemove != null)
             {
                 allowedAreas.Remove(toRemove);
-                Settings.Get<Dictionary<AllowedPawn, AllowedArea>>(Settings.ALLOWED_AREAS_PAWN).RemoveAll(p => p.Value == toRemove);
+                Settings.Get<Dictionary<PawnType, AllowedArea>>(Settings.ALLOWED_AREAS_PAWN).RemoveAll(p => p.Value == toRemove);
                 toRemove = null;
             }
 
@@ -126,12 +126,12 @@ namespace Defaults.AllowedAreas
         private void DoRightSide(Rect rect)
         {
             List<AllowedArea> allowedAreas = Settings.Get<List<AllowedArea>>(Settings.ALLOWED_AREAS);
-            Dictionary<AllowedPawn, AllowedArea> allowedPawnAreas = Settings.Get<Dictionary<AllowedPawn, AllowedArea>>(Settings.ALLOWED_AREAS_PAWN);
+            Dictionary<PawnType, AllowedArea> allowedPawnAreas = Settings.Get<Dictionary<PawnType, AllowedArea>>(Settings.ALLOWED_AREAS_PAWN);
             float rowHeight = 30f;
             float y = rect.y;
             Widgets.Label(new Rect(rect.x, rect.y, rect.width, rowHeight), "Defaults_DefaultPawnAllowedAreas".Translate());
             y += rowHeight;
-            foreach (AllowedPawn allowedPawn in Enum.GetValues(typeof(AllowedPawn)))
+            foreach (PawnType allowedPawn in Enum.GetValues(typeof(PawnType)))
             {
                 if (allowedPawn.IsActive())
                 {

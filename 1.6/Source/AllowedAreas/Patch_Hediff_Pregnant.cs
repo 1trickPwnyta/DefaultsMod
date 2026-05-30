@@ -20,6 +20,7 @@ namespace Defaults.AllowedAreas
             instructionsList.InsertRange(index, new[]
             {
                 new CodeInstruction(OpCodes.Ldloc_2),
+                new CodeInstruction(OpCodes.Ldarg_0),
                 new CodeInstruction(OpCodes.Call, typeof(PatchUtility_Hediff_Pregnant).Method(nameof(PatchUtility_Hediff_Pregnant.SetDefaultAllowedArea)))
             });
             return instructionsList;
@@ -28,6 +29,9 @@ namespace Defaults.AllowedAreas
 
     public static class PatchUtility_Hediff_Pregnant
     {
-        public static void SetDefaultAllowedArea(Pawn pawn) => AllowedAreaUtility.SetDefaultAllowedArea(pawn);
+        public static void SetDefaultAllowedArea(Pawn pawn, Pawn mother)
+        {
+            AllowedAreaUtility.SetDefaultAllowedArea(pawn, mother: mother);
+        }
     }
 }

@@ -15,13 +15,18 @@ namespace Defaults.WorldSettings
     {
         public static void Postfix(ref float ___planetCoverage, ref OverallRainfall ___rainfall, ref OverallTemperature ___temperature, ref OverallPopulation ___population, ref float ___pollution, ref LandmarkDensity ___landmarkDensity)
         {
-            PlanetOptions options = Settings.Get<PlanetOptions>(Settings.PLANET);
-            ___planetCoverage = options.DefaultPlanetCoverage;
-            ___rainfall = options.DefaultOverallRainfall;
-            ___temperature = options.DefaultOverallTemperature;
-            ___population = options.DefaultOverallPopulation;
-            ___pollution = options.DefaultPollution;
-            ___landmarkDensity = options.DefaultLandmarkDensity;
+            ___planetCoverage = Settings.GetValue<float>(Settings.PLANET_COVERAGE);
+            ___rainfall = Settings.GetValue<OverallRainfall>(Settings.OVERALL_RAINFALL);
+            ___temperature = Settings.GetValue<OverallTemperature>(Settings.OVERALL_TEMPERATURE);
+            ___population = Settings.GetValue<OverallPopulation>(Settings.OVERALL_POPULATION);
+            if (ModsConfig.BiotechActive)
+            {
+                ___pollution = Settings.GetValue<float>(Settings.PLANET_POLLUTION);
+            }
+            if (ModsConfig.OdysseyActive)
+            {
+                ___landmarkDensity = Settings.GetValue<LandmarkDensity>(Settings.LANDMARK_DENSITY);
+            }
         }
     }
 
@@ -30,16 +35,9 @@ namespace Defaults.WorldSettings
     [HarmonyPatch("ResetFactionCounts")]
     public static class Patch_Page_CreateWorldParams_ResetFactionCounts
     {
-        public static void Postfix(ref List<FactionDef> ___factions)
+        public static void Postfix(List<FactionDef> ___factions)
         {
-            ___factions = Settings.Get<List<FactionDef>>(Settings.FACTIONS).Where(f => f != null && f.displayInFactionSelection).Concat(FactionsUtility.GetDefaultNonselectableFactions()).ToList();
-            foreach (FactionDef faction in FactionsUtility.GetDefaultSelectableFactions())
-            {
-                if (!___factions.Contains(faction) && Current.Game.Scenario.AllParts.Any(p => p.def.preventRemovalOfFaction == faction))
-                {
-                    ___factions.Add(faction);
-                }
-            }
+            FactionsUtility.SetDefaultFactions(___factions);
         }
     }
 
@@ -55,18 +53,22 @@ namespace Defaults.WorldSettings
                 Rect buttonRect = new Rect(rect.x + rect.width - 150f - 16f, rect.y + 4f, 150f, 40f);
                 if (Widgets.ButtonText(buttonRect, "Defaults_SetAsDefault".Translate()))
                 {
-                    PlanetOptions planetOptions = Settings.Get<PlanetOptions>(Settings.PLANET);
-                    planetOptions.DefaultPlanetCoverage = ___planetCoverage;
-                    planetOptions.DefaultOverallRainfall = ___rainfall;
-                    planetOptions.DefaultOverallTemperature = ___temperature;
-                    planetOptions.DefaultOverallPopulation = ___population;
-                    planetOptions.DefaultPollution = ___pollution;
-                    planetOptions.DefaultLandmarkDensity = ___landmarkDensity;
-                    MapOptions mapOptions = Settings.Get<MapOptions>(Settings.MAP);
-                    mapOptions.DefaultMapSize = Find.GameInitData.mapSize;
-                    mapOptions.DefaultStartingSeason = Find.GameInitData.startingSeason;
+                    Settings.SetValue(Settings.PLANET_COVERAGE, ___planetCoverage);
+                    Settings.SetValue(Settings.OVERALL_RAINFALL, ___rainfall);
+                    Settings.SetValue(Settings.OVERALL_TEMPERATURE, ___temperature);
+                    Settings.SetValue(Settings.OVERALL_POPULATION, ___population);
+                    if (ModsConfig.BiotechActive)
+                    {
+                        Settings.SetValue(Settings.PLANET_POLLUTION, ___pollution);
+                    }
+                    if (ModsConfig.OdysseyActive)
+                    {
+                        Settings.SetValue(Settings.LANDMARK_DENSITY, ___landmarkDensity);
+                    }
+                    Settings.SetValue(Settings.MAP_SIZE, Find.GameInitData.mapSize);
+                    Settings.SetValue(Settings.STARTING_SEASON, Find.GameInitData.startingSeason);
                     Settings.Set(Settings.FACTIONS, ___factions.Where(f => f.displayInFactionSelection).ToList());
-                    DefaultsMod.Settings.Write();
+                    DefaultsMod.SaveSettings();
                     Messages.Message("Defaults_SetAsDefaultConfirmed".Translate(), MessageTypeDefOf.PositiveEvent, false);
                 }
             }
@@ -80,9 +82,8 @@ namespace Defaults.WorldSettings
     {
         public static void Postfix()
         {
-            MapOptions options = Settings.Get<MapOptions>(Settings.MAP);
-            Find.GameInitData.mapSize = options.DefaultMapSize;
-            Find.GameInitData.startingSeason = options.DefaultStartingSeason;
+            Find.GameInitData.mapSize = Settings.GetValue<int>(Settings.MAP_SIZE);
+            Find.GameInitData.startingSeason = Settings.GetValue<Season>(Settings.STARTING_SEASON);
         }
     }
 }

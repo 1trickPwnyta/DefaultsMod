@@ -26,10 +26,10 @@ namespace Defaults.AllowedAreas
             }
         }
 
-        private static List<AllowedArea> defaultAllowedAreas;
-        private static Dictionary<AllowedPawn, AllowedArea> defaultPawnAllowedAreas;
+        private List<AllowedArea> defaultAllowedAreas;
+        private Dictionary<PawnType, AllowedArea> defaultPawnAllowedAreas;
 
-        private List<AllowedPawn> allowedPawnWorkingList;
+        private List<PawnType> allowedPawnWorkingList;
         private List<AllowedArea> allowedAreaWorkingList;
 
         public DefaultSettingsCategoryWorker_AllowedAreas(DefaultSettingsCategoryDef def) : base(def)
@@ -64,7 +64,7 @@ namespace Defaults.AllowedAreas
                     defaultAllowedAreas = value as List<AllowedArea>;
                     return true;
                 case Settings.ALLOWED_AREAS_PAWN:
-                    defaultPawnAllowedAreas = value as Dictionary<AllowedPawn, AllowedArea>;
+                    defaultPawnAllowedAreas = value as Dictionary<PawnType, AllowedArea>;
                     return true;
                 default:
                     return base.SetCategorySetting(key, value);
@@ -79,7 +79,7 @@ namespace Defaults.AllowedAreas
             }
             if (forced || defaultPawnAllowedAreas == null)
             {
-                defaultPawnAllowedAreas = new Dictionary<AllowedPawn, AllowedArea>();
+                defaultPawnAllowedAreas = new Dictionary<PawnType, AllowedArea>();
             }
         }
 
@@ -88,6 +88,12 @@ namespace Defaults.AllowedAreas
             Scribe_Deep.Look(ref homeArea, "homeArea");
             Scribe_Collections.Look(ref defaultAllowedAreas, "defaultAllowedAreas", LookMode.Deep);
             Scribe_Collections.Look(ref defaultPawnAllowedAreas, "defaultPawnAllowedAreas", LookMode.Value, LookMode.Reference, ref allowedPawnWorkingList, ref allowedAreaWorkingList);
+        }
+
+        public override void Notify_FirstSpawnOnMap(Pawn pawn, Map map)
+        {
+            base.Notify_FirstSpawnOnMap(pawn, map);
+            AllowedAreaUtility.SetDefaultAllowedArea(pawn);
         }
     }
 }

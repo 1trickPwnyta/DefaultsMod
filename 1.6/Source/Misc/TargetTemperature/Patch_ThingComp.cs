@@ -11,9 +11,12 @@ namespace Defaults.Misc.TargetTemperature
     {
         public static void Postfix(ThingComp __instance)
         {
-            if (__instance is CompTempControl comp && !(comp is Comp_AtmosphericHeater))
+            if (__instance is CompTempControl comp)
             {
-                comp.TargetTemperature = PatchUtility_CompTempControl.GetDefaultTargetTemperature(comp);
+                if (comp.parent is Building_Heater || comp.parent is Building_Cooler)
+                {
+                    comp.TargetTemperature = PatchUtility_CompTempControl.GetDefaultTargetTemperature(comp);
+                }
             }
         }
     }

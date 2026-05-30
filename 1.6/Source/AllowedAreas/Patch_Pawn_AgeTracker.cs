@@ -10,9 +10,9 @@ namespace Defaults.AllowedAreas
     {
         public static void Postfix(Pawn_AgeTracker __instance, Pawn ___pawn, int birthdayAge)
         {
-            if (birthdayAge == __instance.AdultMinAge && AllowedPawnUtility.GetAllowedPawnType(___pawn) == AllowedPawn.AdultColonist)
+            if (birthdayAge == __instance.AdultMinAge && PawnTypeUtility.GetPawnType(___pawn) == PawnType.AdultColonist)
             {
-                AllowedAreaUtility.SetDefaultAllowedArea(___pawn, AllowedPawn.ChildColonist);
+                AllowedAreaUtility.SetDefaultAllowedArea(___pawn, PawnType.ChildColonist);
             }
         }
     }

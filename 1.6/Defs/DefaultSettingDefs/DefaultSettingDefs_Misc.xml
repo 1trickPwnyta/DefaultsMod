@@ -1,6 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
+  <Defaults.Defs.DefaultSettingDef MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>StartingXenotype</defName>
+	<label>default starting xenotype</label>
+	<category>Misc</category>
+	<uiOrder>0</uiOrder>
+    <workerClass>Defaults.Misc.StartingXenotype.DefaultSettingWorker_StartingXenotype</workerClass>
+	<keywords>
+	  <li>baseliner</li>
+	  <li>any</li>
+	  <li>random</li>
+	  <li>custom</li>
+	</keywords>
+  </Defaults.Defs.DefaultSettingDef>
+
   <Defaults.Defs.DefaultSettingDef>
     <defName>HostilityResponse</defName>
 	<label>default hostility response</label>
@@ -35,28 +49,6 @@
   </Defaults.Defs.DefaultSettingDef>
   
   <Defaults.Defs.DefaultSettingDef>
-    <defName>AutoRebuild</defName>
-	<label>default auto rebuild setting</label>
-	<category>Misc</category>
-	<uiOrder>25</uiOrder>
-    <workerClass>Defaults.Misc.PlaySettings.DefaultSettingWorker_AutoRebuild</workerClass>
-  </Defaults.Defs.DefaultSettingDef>
-  
-  <Defaults.Defs.DefaultSettingDef>
-    <defName>AutoHomeArea</defName>
-	<label>default auto home area setting</label>
-	<category>Misc</category>
-	<uiOrder>35</uiOrder>
-    <workerClass>Defaults.Misc.PlaySettings.DefaultSettingWorker_AutoHomeArea</workerClass>
-	<keywords>
-	  <li>expand</li>
-	  <li>expansion</li>
-	  <li>new</li>
-	  <li>zones</li>
-	</keywords>
-  </Defaults.Defs.DefaultSettingDef>
-  
-  <Defaults.Defs.DefaultSettingDef>
     <defName>PlantType</defName>
 	<label>default plant type</label>
 	<category>Misc</category>
@@ -69,6 +61,17 @@
 	  <li>growing</li>
 	  <li>zones</li>
 	  <li>sowing</li>
+	</keywords>
+  </Defaults.Defs.DefaultSettingDef>
+  
+  <Defaults.Defs.DefaultSettingDef>
+    <defName>CaravanAutoSelect</defName>
+	<label>auto-select caravan supplies by default</label>
+	<category>Misc</category>
+	<uiOrder>60</uiOrder>
+    <workerClass>Defaults.Misc.CaravanAutoSelect.DefaultSettingWorker_CaravanAutoSelect</workerClass>
+	<keywords>
+	  <li>supply</li>
 	</keywords>
   </Defaults.Defs.DefaultSettingDef>
   

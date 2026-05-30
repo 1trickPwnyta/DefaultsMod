@@ -29,7 +29,7 @@ namespace Defaults.Defs
 
         public IEnumerable<DefaultSettingDef> DefaultSettings => DefDatabase<DefaultSettingDef>.AllDefsListForReading.Where(d => d.category == this);
 
-        public IEnumerable<FloatMenuOption> QuickOptions => DefaultSettings.Where(s => s.showInQuickOptions).OrderBy(s => s.uiOrder).Select(s => s.Worker).OfType<DefaultSettingWorker_Checkbox>().Select(w => w.QuickOption);
+        public IEnumerable<FloatMenuOption> QuickOptions => DefaultSettings.Where(s => s.showInQuickOptions).OrderBy(s => s.uiOrder).Select(s => s.Worker).OfType<IQuickOption>().Select(w => w.QuickOption);
 
         public bool Enabled
         {

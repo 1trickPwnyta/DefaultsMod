@@ -14,6 +14,7 @@ namespace Defaults.Defs
         public int uiOrder;
         public Type workerClass;
         public bool showInQuickOptions;
+        public bool hideInAdditionalSettings;
         public List<string> keywords = new List<string>();
 
         public IDefaultSettingWorker Worker
@@ -39,9 +40,9 @@ namespace Defaults.Defs
             {
                 yield return error;
             }
-            if (showInQuickOptions && !typeof(DefaultSettingWorker_Checkbox).IsAssignableFrom(workerClass))
+            if (showInQuickOptions && !typeof(IQuickOption).IsAssignableFrom(workerClass))
             {
-                yield return "If showInQuickOptions is true, workerClass must be a subclass of DefaultSettingWorker_Checkbox.";
+                yield return "If showInQuickOptions is true, workerClass must implement IQuickOption.";
             }
         }
     }

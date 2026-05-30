@@ -133,56 +133,86 @@ namespace Defaults.Compatibility
             }
         }
 
-        public static void MigratePlanetOptions(ref PlanetOptions options)
+        public static void MigratePlanetOptions()
         {
-            if (Scribe.mode == LoadSaveMode.LoadingVars && options == null)
+            if (Scribe.mode == LoadSaveMode.LoadingVars)
             {
-                options = new PlanetOptions();
-                Scribe_Values.Look(ref options.DefaultPlanetCoverage, "DefaultPlanetCoverage", 0.3f);
-                Scribe_Values.Look(ref options.DefaultOverallRainfall, "DefaultOverallRainfall", OverallRainfall.Normal);
-                Scribe_Values.Look(ref options.DefaultOverallTemperature, "DefaultOverallTemperature", OverallTemperature.Normal);
-                Scribe_Values.Look(ref options.DefaultOverallPopulation, "DefaultOverallPopulation", OverallPopulation.Normal);
-                Scribe_Values.Look(ref options.DefaultPollution, "DefaultPollution", 0.05f);
+                PlanetOptions options = null;
+                Scribe_Deep.Look(ref options, Settings.PLANET);
+                if (options != null)
+                {
+                    Settings.SetValue(Settings.PLANET_COVERAGE, options.DefaultPlanetCoverage);
+                    Settings.SetValue(Settings.OVERALL_RAINFALL, options.DefaultOverallRainfall);
+                    Settings.SetValue(Settings.OVERALL_TEMPERATURE, options.DefaultOverallTemperature);
+                    Settings.SetValue(Settings.OVERALL_POPULATION, options.DefaultOverallPopulation);
+                    if (ModsConfig.OdysseyActive)
+                    {
+                        Settings.SetValue(Settings.LANDMARK_DENSITY, options.DefaultLandmarkDensity);
+                    }
+                    if (ModsConfig.BiotechActive)
+                    {
+                        Settings.SetValue(Settings.PLANET_POLLUTION, options.DefaultPollution);
+                    }
+                }
             }
         }
 
-        public static void MigrateMapOptions(ref MapOptions options)
+        public static void MigrateMapOptions()
         {
-            if (Scribe.mode == LoadSaveMode.LoadingVars && options == null)
+            if (Scribe.mode == LoadSaveMode.LoadingVars)
             {
-                options = new MapOptions();
-                Scribe_Values.Look(ref options.DefaultMapSize, "DefaultMapSize", 250);
-                Scribe_Values.Look(ref options.DefaultStartingSeason, "DefaultStartingSeason", Season.Undefined);
+                MapOptions options = null;
+                Scribe_Deep.Look(ref options, Settings.MAP);
+                if (options != null)
+                {
+                    Settings.SetValue(Settings.MAP_SIZE, options.DefaultMapSize);
+                    Settings.SetValue(Settings.STARTING_SEASON, options.DefaultStartingSeason);
+                }
             }
         }
 
-        public static void MigrateMedicineOptions(ref MedicineOptions options)
+        public static void MigrateMedicineOptions()
         {
-            if (Scribe.mode == LoadSaveMode.LoadingVars && options == null)
+            if (Scribe.mode == LoadSaveMode.LoadingVars)
             {
-                options = new MedicineOptions();
-                Scribe_Values.Look(ref options.DefaultCareForColonist, "DefaultCareForColonist", MedicalCareCategory.Best);
-                Scribe_Values.Look(ref options.DefaultCareForPrisoner, "DefaultCareForPrisoner", MedicalCareCategory.HerbalOrWorse);
-                Scribe_Values.Look(ref options.DefaultCareForSlave, "DefaultCareForSlave", MedicalCareCategory.HerbalOrWorse);
-                Scribe_Values.Look(ref options.DefaultCareForGhouls, "DefaultCareForGhouls", MedicalCareCategory.NoMeds);
-                Scribe_Values.Look(ref options.DefaultCareForTamedAnimal, "DefaultCareForTamedAnimal", MedicalCareCategory.HerbalOrWorse);
-                Scribe_Values.Look(ref options.DefaultCareForFriendlyFaction, "DefaultCareForFriendlyFaction", MedicalCareCategory.HerbalOrWorse);
-                Scribe_Values.Look(ref options.DefaultCareForNeutralFaction, "DefaultCareForNeutralFaction", MedicalCareCategory.HerbalOrWorse);
-                Scribe_Values.Look(ref options.DefaultCareForHostileFaction, "DefaultCareForHostileFaction", MedicalCareCategory.HerbalOrWorse);
-                Scribe_Values.Look(ref options.DefaultCareForNoFaction, "DefaultCareForNoFaction", MedicalCareCategory.HerbalOrWorse);
-                Scribe_Values.Look(ref options.DefaultCareForWildlife, "DefaultCareForWildlife", MedicalCareCategory.HerbalOrWorse);
-                Scribe_Values.Look(ref options.DefaultCareForEntities, "DefaultCareForEntities", MedicalCareCategory.NoMeds);
+                MedicineOptions options = null;
+                Scribe_Deep.Look(ref options, Settings.MEDICINE);
+                if (options != null)
+                {
+                    Settings.SetValue(Settings.DEFAULT_CARE_COLONIST, options.DefaultCareForColonist);
+                    Settings.SetValue(Settings.DEFAULT_CARE_PRISONER, options.DefaultCareForPrisoner);
+                    if (ModsConfig.IdeologyActive)
+                    {
+                        Settings.SetValue(Settings.DEFAULT_CARE_SLAVE, options.DefaultCareForSlave);
+                    }
+                    Settings.SetValue(Settings.DEFAULT_CARE_TAMED_ANIMAL, options.DefaultCareForTamedAnimal);
+                    Settings.SetValue(Settings.DEFAULT_CARE_FRIENDLY_FACTION, options.DefaultCareForFriendlyFaction);
+                    Settings.SetValue(Settings.DEFAULT_CARE_NEUTRAL_FACTION, options.DefaultCareForNeutralFaction);
+                    Settings.SetValue(Settings.DEFAULT_CARE_HOSTILE_FACTION, options.DefaultCareForHostileFaction);
+                    Settings.SetValue(Settings.DEFAULT_CARE_NO_FACTION, options.DefaultCareForNoFaction);
+                    Settings.SetValue(Settings.DEFAULT_CARE_WILDLIFE, options.DefaultCareForWildlife);
+                    if (ModsConfig.AnomalyActive)
+                    {
+                        Settings.SetValue(Settings.DEFAULT_CARE_ENTITY, options.DefaultCareForEntities);
+                        Settings.SetValue(Settings.DEFAULT_CARE_GHOUL, options.DefaultCareForGhouls);
+                    }
+                }
             }
         }
 
-        public static void MigrateGlobalBillOptions(ref GlobalBillOptions options)
+        public static void MigrateGlobalBillOptions()
         {
-            if (Scribe.mode == LoadSaveMode.LoadingVars && options == null)
+            if (Scribe.mode == LoadSaveMode.LoadingVars)
             {
-                options = new GlobalBillOptions();
-                Scribe_Values.Look(ref options.DefaultBillIngredientSearchRadius, "DefaultBillIngredientSearchRadius", 999f);
-                Scribe_Values.Look(ref options.DefaultBillAllowedSkillRange, "DefaultBillAllowedSkillRange", new IntRange(0, 20));
-                Scribe_Defs_Silent.Look(ref options.DefaultBillStoreMode, "DefaultBillStoreMode");
+                GlobalBillOptions options = null;
+                Scribe_Deep.Look(ref options, Settings.GLOBAL_BILL_OPTIONS);
+                if (options != null)
+                {
+                    Settings.SetValue(Settings.BILL_INGREDIENT_SEARCH_RADIUS, options.DefaultBillIngredientSearchRadius);
+                    Settings.SetValue(Settings.BILL_ALLOWED_SKILL_RANGE, options.DefaultBillAllowedSkillRange);
+                    Settings.Set(Settings.BILL_STORE_MODE, options.DefaultBillStoreMode);
+                    Settings.SetValue(Settings.LIMIT_BILLS_TO_15, options.LimitBillsTo15);
+                }
             }
         }
 
@@ -279,6 +309,97 @@ namespace Defaults.StockpileZones.Shelves
             if (compatibilityFilter != null)
             {
                 filter = compatibilityFilter;
+            }
+        }
+    }
+}
+
+namespace Defaults.WorldSettings
+{
+    public class PlanetOptions : IExposable
+    {
+        public float DefaultPlanetCoverage;
+        public OverallRainfall DefaultOverallRainfall;
+        public OverallTemperature DefaultOverallTemperature;
+        public OverallPopulation DefaultOverallPopulation;
+        public LandmarkDensity DefaultLandmarkDensity;
+        public float DefaultPollution;
+
+        public void ExposeData()
+        {
+            Scribe_Values.Look(ref DefaultPlanetCoverage, "DefaultPlanetCoverage", ModsConfig.OdysseyActive ? 0.5f : 0.3f);
+            Scribe_Values.Look(ref DefaultOverallRainfall, "DefaultOverallRainfall", OverallRainfall.Normal);
+            Scribe_Values.Look(ref DefaultOverallTemperature, "DefaultOverallTemperature", OverallTemperature.Normal);
+            Scribe_Values.Look(ref DefaultOverallPopulation, "DefaultOverallPopulation", OverallPopulation.Normal);
+            Scribe_Values.Look(ref DefaultLandmarkDensity, "DefaultLandmarkDensity", LandmarkDensity.Normal);
+            Scribe_Values.Look(ref DefaultPollution, "DefaultPollution", 0.05f);
+        }
+    }
+
+    public class MapOptions : IExposable
+    {
+        public int DefaultMapSize = 250;
+        public Season DefaultStartingSeason = Season.Undefined;
+
+        public void ExposeData()
+        {
+            Scribe_Values.Look(ref DefaultMapSize, "DefaultMapSize", 250);
+            Scribe_Values.Look(ref DefaultStartingSeason, "DefaultStartingSeason", Season.Undefined);
+        }
+    }
+}
+
+namespace Defaults.Medicine
+{
+    public class MedicineOptions : IExposable
+    {
+        public MedicalCareCategory DefaultCareForColonist;
+        public MedicalCareCategory DefaultCareForPrisoner;
+        public MedicalCareCategory DefaultCareForSlave;
+        public MedicalCareCategory DefaultCareForGhouls;
+        public MedicalCareCategory DefaultCareForTamedAnimal;
+        public MedicalCareCategory DefaultCareForFriendlyFaction;
+        public MedicalCareCategory DefaultCareForNeutralFaction;
+        public MedicalCareCategory DefaultCareForHostileFaction;
+        public MedicalCareCategory DefaultCareForNoFaction;
+        public MedicalCareCategory DefaultCareForWildlife;
+        public MedicalCareCategory DefaultCareForEntities;
+
+        public void ExposeData()
+        {
+            Scribe_Values.Look(ref DefaultCareForColonist, "DefaultCareForColonist", MedicalCareCategory.Best);
+            Scribe_Values.Look(ref DefaultCareForPrisoner, "DefaultCareForPrisoner", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForSlave, "DefaultCareForSlave", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForGhouls, "DefaultCareForGhouls", MedicalCareCategory.NoMeds);
+            Scribe_Values.Look(ref DefaultCareForTamedAnimal, "DefaultCareForTamedAnimal", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForFriendlyFaction, "DefaultCareForFriendlyFaction", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForNeutralFaction, "DefaultCareForNeutralFaction", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForHostileFaction, "DefaultCareForHostileFaction", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForNoFaction, "DefaultCareForNoFaction", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForWildlife, "DefaultCareForWildlife", MedicalCareCategory.HerbalOrWorse);
+            Scribe_Values.Look(ref DefaultCareForEntities, "DefaultCareForEntities", MedicalCareCategory.NoMeds);
+        }
+    }
+}
+
+namespace Defaults.WorkbenchBills
+{
+    public class GlobalBillOptions : IExposable
+    {
+        public float DefaultBillIngredientSearchRadius;
+        public IntRange DefaultBillAllowedSkillRange;
+        public BillStoreModeDef DefaultBillStoreMode;
+        public bool LimitBillsTo15;
+
+        public void ExposeData()
+        {
+            Scribe_Values.Look(ref DefaultBillIngredientSearchRadius, "DefaultBillIngredientSearchRadius", 999f);
+            Scribe_Values.Look(ref DefaultBillAllowedSkillRange, "DefaultBillAllowedSkillRange", new IntRange(0, 20));
+            Scribe_Defs_Silent.Look(ref DefaultBillStoreMode, "DefaultBillStoreMode");
+            Scribe_Values.Look(ref LimitBillsTo15, "LimitBillsTo15", true);
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && DefaultBillStoreMode == null)
+            {
+                DefaultBillStoreMode = BillStoreModeDefOf.BestStockpile;
             }
         }
     }

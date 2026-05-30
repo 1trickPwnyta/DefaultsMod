@@ -61,7 +61,7 @@ namespace Defaults.Storyteller
                     Settings.Set(Settings.DIFFICULTY_VALUES, difficultyValues);
                     Settings.Set(Settings.PERMADEATH, Find.GameInitData != null ? Find.GameInitData.permadeath : Current.Game.Info.permadeathMode);
                     ModCompatibilityUtility_NoPause.SetNoPauseOptions();
-                    DefaultsMod.Settings.Write();
+                    DefaultsMod.SaveSettings();
                     Messages.Message("Defaults_SetAsDefaultConfirmed".Translate(), MessageTypeDefOf.PositiveEvent, false);
                 }
             }
@@ -85,7 +85,7 @@ namespace Defaults.Storyteller
             {
                 if (settingsOpen)
                 {
-                    Settings.Set(Settings.PERMADEATH, false);
+                    Settings.SetValue(Settings.PERMADEATH, false);
                 }
                 else
                 {
@@ -98,7 +98,7 @@ namespace Defaults.Storyteller
             {
                 if (settingsOpen)
                 {
-                    Settings.Set(Settings.PERMADEATH, true);
+                    Settings.SetValue(Settings.PERMADEATH, true);
                 }
                 else
                 {

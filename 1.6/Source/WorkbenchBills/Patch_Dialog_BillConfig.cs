@@ -23,7 +23,7 @@ namespace Defaults.WorkbenchBills
                     {
                         store.bills.Add(BillTemplate.FromBill(___bill));
                     }
-                    DefaultsMod.Settings.Write();
+                    DefaultsMod.SaveSettings();
                     Messages.Message("Defaults_SaveBillConfirmed".Translate(), MessageTypeDefOf.PositiveEvent, false);
                 }
             }

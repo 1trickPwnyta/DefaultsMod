@@ -37,7 +37,7 @@ namespace Defaults.BabyFeeding
             listing.Gap(24f);
 
             Rect lockRect = new Rect(rect.width - 24f, listing.CurHeight, 24f, 24f);
-            UIUtility.DoCheckButton(lockRect, UIUtility.LockIcon, "Defaults_LockSetting".Translate(), ref options.locked);
+            UIUtility.DoLockButton(lockRect, ref options.locked);
             listing.Label("BabyFoodConsumables".Translate().CapitalizeFirst());
             listing.GapLine();
             Rect outRect = listing.GetRect(150f);

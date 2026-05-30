@@ -11,14 +11,16 @@ namespace Defaults.UI
         private static Vector2 scrollPosition;
 
         private readonly List<DefaultSettingDef> settings;
+        private readonly float width;
         private float y;
 
-        public Dialog_AdditionalSettings(IEnumerable<DefaultSettingDef> settings)
+        public Dialog_AdditionalSettings(IEnumerable<DefaultSettingDef> settings, float width = 500f)
         {
             this.settings = settings.ToList();
+            this.width = width;
         }
 
-        public override Vector2 InitialSize => new Vector2(500f, 480f + CloseButSize.y + Margin);
+        public override Vector2 InitialSize => new Vector2(width, 480f + CloseButSize.y + Margin);
 
         public override void DoWindowContents(Rect inRect)
         {

@@ -8,13 +8,21 @@ namespace Defaults.Workers
     {
         string Key { get; }
 
+        bool RenderLast { get; }
+
         DefaultSettingDef Def { set; }
+
+        void PreLoadSetting();
 
         void ExposeData();
 
         void ResetSetting(bool forced);
 
         void DoSetting(Rect rect);
+
+        void Notify_FirstSpawnAnywhere(Pawn pawn);
+
+        void Notify_FirstSpawnOnMap(Pawn pawn, Map map);
     }
 
     public abstract class DefaultSettingWorker<T> : IDefaultSettingWorker
@@ -29,6 +37,8 @@ namespace Defaults.Workers
         }
 
         public abstract string Key { get; }
+
+        public virtual bool RenderLast => false;
 
         public DefaultSettingDef Def
         {
@@ -45,6 +55,8 @@ namespace Defaults.Workers
             }
             DoWidget(rect);
         }
+
+        public virtual void PreLoadSetting() { }
 
         protected abstract void ExposeSetting();
 
@@ -66,5 +78,9 @@ namespace Defaults.Workers
                 setting = Default;
             }
         }
+
+        public virtual void Notify_FirstSpawnAnywhere(Pawn pawn) { }
+
+        public virtual void Notify_FirstSpawnOnMap(Pawn pawn, Map map) { }
     }
 }

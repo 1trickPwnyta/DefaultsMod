@@ -27,7 +27,7 @@ namespace Defaults.WorkPriorities
             onlyOneOfTypeAllowed = false;
         }
 
-        public override Vector2 InitialSize => new Vector2(1000f, 500f);
+        public override Vector2 InitialSize => new Vector2(1050f, 500f);
 
         protected override IList ReorderableItems => rules;
 

@@ -8,6 +8,8 @@ namespace Defaults.Defs
         public static DefaultSettingsCategoryDef
             AllowedAreas,
             General,
+            Medicine,
+            PlaySettings,
             Policies,
             Schedule,
             Storyteller,

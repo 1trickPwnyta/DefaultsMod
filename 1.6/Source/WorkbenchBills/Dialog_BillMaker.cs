@@ -53,17 +53,17 @@ namespace Defaults.WorkbenchBills
             y += titleRect.height + padding;
 
             List<BillTemplate> bills = WorkbenchBillStore.Get(workbenchGroup).bills;
-            GlobalBillOptions options = Settings.Get<GlobalBillOptions>(Settings.GLOBAL_BILL_OPTIONS);
+            bool limit15 = Settings.GetValue<bool>(Settings.LIMIT_BILLS_TO_15);
 
-            bool billsLimited = bills.Count(b => b.use) > 15 && options.LimitBillsTo15;
+            bool billsLimited = bills.Count(b => b.use) > 15 && limit15;
             Rect warningRect = new Rect(inRect.x, y, inRect.width, 70f);
             if (billsLimited)
             {
                 Widgets.DrawRectFast(warningRect, Widgets.MenuSectionBGFillColor);
                 using (new TextBlock(GameFont.Tiny, TextAnchor.MiddleLeft)) Widgets.Label(warningRect.LeftPartPixels(inRect.width - 150f).ContractedBy(3f), "Defaults_BillsLimitedto15".Translate().Colorize(Color.yellow));
-                if (Widgets.ButtonText(warningRect.RightPartPixels(150f).MiddlePartPixels(150f, 30f).ContractedBy(3f), "Defaults_GlobalBillSettings".Translate()))
+                if (Widgets.ButtonText(warningRect.RightPartPixels(150f).MiddlePartPixels(150f, 30f).ContractedBy(3f), "Defaults_RemoveLimit".Translate()))
                 {
-                    Find.WindowStack.Add(new Dialog_GlobalBillSettings());
+                    Settings.SetValue(Settings.LIMIT_BILLS_TO_15, false);
                 }
                 y += warningRect.height + padding;
             }
@@ -79,7 +79,7 @@ namespace Defaults.WorkbenchBills
             {
                 Rect billRect = new Rect(viewRect.x, viewRect.y + height, viewRect.width, 68f);
                 DoBill(billRect, bill, bills);
-                if (!bill.use || (options.LimitBillsTo15 && numBills >= 15))
+                if (!bill.use || (limit15 && numBills >= 15))
                 {
                     Widgets.DrawRectFast(billRect, Color.black.WithAlpha(0.25f));
                 }

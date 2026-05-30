@@ -1,6 +1,7 @@
 ﻿using Defaults.Compatibility;
 using Defaults.Defs;
 using Defaults.Workers;
+using HarmonyLib;
 using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
@@ -198,11 +199,37 @@ namespace Defaults.Policies
             Scribe_Collections.Look(ref defaultApparelPolicies, Settings.POLICIES_APPAREL, LookMode.Deep);
             Scribe_Collections.Look(ref defaultFoodPolicies, Settings.POLICIES_FOOD, LookMode.Deep);
             Scribe_Collections.Look(ref defaultDrugPolicies, Settings.POLICIES_DRUG, LookMode.Deep);
+            ValidateDrugPolicies();
             Scribe_Collections.Look(ref defaultReadingPolicies, Settings.POLICIES_READING, LookMode.Deep);
             Scribe_Collections.Look(ref unlockedPolicies, Settings.UNLOCKED_POLICIES, LookMode.Reference);
             BackwardCompatibilityUtility.MigrateApparelPolicies(defaultApparelPolicies);
             BackwardCompatibilityUtility.MigrateFoodPolicies(defaultFoodPolicies);
             BackwardCompatibilityUtility.MigrateReadingPolicies();
+        }
+
+        // Make sure all drug policy entries are for actual drugs
+        private void ValidateDrugPolicies()
+        {
+            if (Scribe.mode == LoadSaveMode.PostLoadInit)
+            {
+                List<DrugPolicyEntry> entriesToRemove = new List<DrugPolicyEntry>();
+                foreach (DrugPolicy drugPolicy in defaultDrugPolicies)
+                {
+                    entriesToRemove.Clear();
+                    for (int i = 0; i < drugPolicy.Count; i++)
+                    {
+                        DrugPolicyEntry entry = drugPolicy[i];
+                        if (!entry.drug.IsDrug)
+                        {
+                            entriesToRemove.Add(entry);
+                        }
+                    }
+                    foreach (DrugPolicyEntry entry in entriesToRemove)
+                    {
+                        (typeof(DrugPolicy).Field("entriesInt").GetValue(drugPolicy) as List<DrugPolicyEntry>).Remove(entry);
+                    }
+                }
+            }
         }
     }
 }
