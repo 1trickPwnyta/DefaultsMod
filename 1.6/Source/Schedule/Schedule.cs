@@ -53,7 +53,7 @@ namespace Defaults.Schedule
         {
             Scribe_Values.Look(ref name, "name");
             Scribe_Values.Look(ref use, "use");
-            Scribe_Collections_Silent.Look(ref assignments, "Assignments", false);
+            Scribe_Collections_Silent.Look(ref assignments, "Assignments", removeNulls: false);
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 if (assignments == null)

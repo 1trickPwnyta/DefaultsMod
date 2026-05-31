@@ -37,19 +37,20 @@ namespace Defaults
 
         private static void HandleNewDefs<T>(ref List<T> previousDefs) where T : Def
         {
-            List<T> currentDefs = DefDatabase<T>.AllDefsListForReading;
-            if (previousDefs != null)
+            if (previousDefs == null)
             {
-                List<T> newDefs = currentDefs.Except(previousDefs).ToList();
-                if (newDefs.Any())
+                previousDefs = new List<T>();
+            }
+            List<T> currentDefs = DefDatabase<T>.AllDefsListForReading;
+            List<T> newDefs = currentDefs.Except(previousDefs).ToList();
+            if (newDefs.Any() && previousDefs.Any())
+            {
+                foreach (DefaultSettingsCategoryDef def in categories)
                 {
-                    foreach (DefaultSettingsCategoryDef def in categories)
-                    {
-                        def.Worker.HandleNewDefs(newDefs);
-                    }
+                    def.Worker.HandleNewDefs(newDefs);
                 }
             }
-            previousDefs = currentDefs.ListFullCopy();
+            previousDefs.AddRange(newDefs);
         }
 
         public static void PreLoadSettings()

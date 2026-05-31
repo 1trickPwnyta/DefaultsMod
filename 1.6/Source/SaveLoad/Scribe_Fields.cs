@@ -65,7 +65,7 @@ namespace Defaults.SaveLoad
         {
             FieldInfo field = obj.GetType().Field(fieldName);
             HashSet<T> value = field.GetValue(obj) as HashSet<T>;
-            Scribe_Collections_Silent.Look(ref value, label ?? fieldName);
+            Scribe_Collections_Silent.Look(ref value, label ?? fieldName, (obj, fieldName));
             field.SetValue(obj, value);
         }
 
@@ -73,7 +73,7 @@ namespace Defaults.SaveLoad
         {
             FieldInfo field = obj.GetType().Field(fieldName);
             List<T> value = field.GetValue(obj) as List<T>;
-            Scribe_Collections_Silent.Look(ref value, label ?? fieldName);
+            Scribe_Collections_Silent.Look(ref value, label ?? fieldName, (obj, fieldName));
             field.SetValue(obj, value);
         }
     }

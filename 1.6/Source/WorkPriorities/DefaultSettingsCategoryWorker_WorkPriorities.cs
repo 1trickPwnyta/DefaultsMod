@@ -113,7 +113,7 @@ namespace Defaults.WorkPriorities
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 advancedGlobalWorkPriorityLogic?.RemoveWhere(r => !r.IsValid);
-                foreach (List<Rule> rules in advancedWorkPriorityLogic.Values)
+                foreach (List<Rule> rules in advancedWorkPriorityLogic?.Values)
                 {
                     rules.RemoveWhere(r => !r.IsValid);
                 }

@@ -11,14 +11,14 @@ namespace Defaults.SaveLoad
     {
         private static readonly Dictionary<object, List<string>> persistedNulls = new Dictionary<object, List<string>>();
 
-        public static void Look<T>(ref HashSet<T> valueHashSet, string label) where T : Def, new()
+        public static void Look<T>(ref HashSet<T> valueHashSet, string label, object nullsKey = null) where T : Def, new()
         {
             List<T> list = null;
             if (Scribe.mode == LoadSaveMode.Saving)
             {
                 list = valueHashSet?.ToList();
             }
-            Look(ref list, label);
+            Look(ref list, label, nullsKey ?? valueHashSet);
             if (Scribe.mode == LoadSaveMode.LoadingVars)
             {
                 valueHashSet = list?.ToHashSet();
@@ -150,7 +150,7 @@ namespace Defaults.SaveLoad
                         InitWorkingLists(dict, ref keysWorkingList, ref valuesWorkingList);
                         if (Scribe.mode == LoadSaveMode.Saving || dict != null)
                         {
-                            Look(ref keysWorkingList, "keys", false);
+                            Look(ref keysWorkingList, "keys", removeNulls: false);
                             Scribe_Collections.Look(ref valuesWorkingList, "values", valueLookMode);
                             if (dict != null)
                             {
@@ -192,7 +192,7 @@ namespace Defaults.SaveLoad
                         if (Scribe.mode == LoadSaveMode.Saving || dict != null)
                         {
                             Scribe_Collections.Look(ref keysWorkingList, "keys", keyLookMode);
-                            Look(ref valuesWorkingList, "values", false);
+                            Look(ref valuesWorkingList, "values", removeNulls: false);
                             if (dict != null)
                             {
                                 RemoveNullEntries(valuesWorkingList, keysWorkingList);
@@ -232,8 +232,8 @@ namespace Defaults.SaveLoad
                         InitWorkingLists(dict, ref keysWorkingList, ref valuesWorkingList);
                         if (Scribe.mode == LoadSaveMode.Saving || dict != null)
                         {
-                            Look(ref keysWorkingList, "keys", false);
-                            Look(ref valuesWorkingList, "values", false);
+                            Look(ref keysWorkingList, "keys", removeNulls: false);
+                            Look(ref valuesWorkingList, "values", removeNulls: false);
                             if (dict != null)
                             {
                                 RemoveNullEntries(keysWorkingList, valuesWorkingList, true);
@@ -261,7 +261,7 @@ namespace Defaults.SaveLoad
             }
         }
 
-        public static void Look<T>(ref List<T> list, string label, object nullsKey = null, bool removeNulls = true) where T : Def, new()
+        public static void Look<T>(ref List<T> list, string label, object nullsKey = null, bool removeNulls = true, bool persistNulls = true) where T : Def, new()
         {
             if (Scribe.EnterNode(label))
             {
@@ -280,7 +280,7 @@ namespace Defaults.SaveLoad
                             {
                                 nullsKey = list;
                             }
-                            if (persistedNulls.ContainsKey(nullsKey))
+                            if (persistNulls && persistedNulls.ContainsKey(nullsKey))
                             {
                                 foreach (string name in persistedNulls[nullsKey])
                                 {
@@ -317,7 +317,7 @@ namespace Defaults.SaveLoad
                                 {
                                     list.Add(def);
                                 }
-                                if (def == null)
+                                if (def == null && persistNulls)
                                 {
                                     if (!persistedNulls.ContainsKey(nullsKey))
                                     {
