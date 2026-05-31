@@ -5,10 +5,12 @@ using System.Linq;
 using System.Xml;
 using Verse;
 
-namespace Defaults.Defs
+namespace Defaults.SaveLoad
 {
     public static class Scribe_Collections_Silent
     {
+        private static readonly Dictionary<object, List<string>> persistedNulls = new Dictionary<object, List<string>>();
+
         public static void Look<T>(ref HashSet<T> valueHashSet, string label) where T : Def, new()
         {
             List<T> list = null;
@@ -82,17 +84,10 @@ namespace Defaults.Defs
 
         private static void UninitWorkingLists<K, V>(ref List<K> keysWorkingList, ref List<V> valuesWorkingList)
         {
-            if (keysWorkingList != null)
-            {
-                keysWorkingList.Clear();
-                keysWorkingList = null;
-            }
-
-            if (valuesWorkingList != null)
-            {
-                valuesWorkingList.Clear();
-                valuesWorkingList = null;
-            }
+            keysWorkingList?.Clear();
+            keysWorkingList = null;
+            valuesWorkingList?.Clear();
+            valuesWorkingList = null;
         }
 
         private static void BuildDictionary<K, V>(Dictionary<K, V> dict, string label, LookMode nonDefLookMode, List<K> keysWorkingList, List<V> valuesWorkingList)
@@ -266,7 +261,7 @@ namespace Defaults.Defs
             }
         }
 
-        public static void Look<T>(ref List<T> list, string label, bool removeNulls = true) where T : Def, new()
+        public static void Look<T>(ref List<T> list, string label, object nullsKey = null, bool removeNulls = true) where T : Def, new()
         {
             if (Scribe.EnterNode(label))
             {
@@ -280,6 +275,18 @@ namespace Defaults.Defs
                             {
                                 Def def = item;
                                 Scribe_Defs_Silent.Look(ref def, "li");
+                            }
+                            if (nullsKey == null)
+                            {
+                                nullsKey = list;
+                            }
+                            if (persistedNulls.ContainsKey(nullsKey))
+                            {
+                                foreach (string name in persistedNulls[nullsKey])
+                                {
+                                    string defName = name;
+                                    Scribe_Values.Look(ref defName, "li");
+                                }
                             }
                         }
                         else
@@ -298,14 +305,25 @@ namespace Defaults.Defs
                         else
                         {
                             list = new List<T>(curXmlParent.ChildNodes.Count);
+                            if (nullsKey == null)
                             {
-                                foreach (XmlNode childNode in curXmlParent.ChildNodes)
+                                nullsKey = list;
+                            }
+                            foreach (XmlNode childNode in curXmlParent.ChildNodes)
+                            {
+                                string defName = ScribeExtractor.ValueFromNode(childNode, "null");
+                                T def = DefDatabase<T>.GetNamedSilentFail(defName);
+                                if (def != null || !removeNulls)
                                 {
-                                    T def = DefDatabase<T>.GetNamedSilentFail(ScribeExtractor.ValueFromNode(childNode, "null"));
-                                    if (def != null || !removeNulls)
+                                    list.Add(def);
+                                }
+                                if (def == null)
+                                {
+                                    if (!persistedNulls.ContainsKey(nullsKey))
                                     {
-                                        list.Add(def);
+                                        persistedNulls[nullsKey] = new List<string>();
                                     }
+                                    persistedNulls[nullsKey].Add(defName);
                                 }
                             }
                         }

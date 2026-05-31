@@ -112,8 +112,9 @@
     <Compile Include="Defs\DefaultSettingDef.cs" />
     <Compile Include="Defs\DefaultSettingsCategoryDefOf.cs" />
     <Compile Include="Defs\DefWithIcon.cs" />
-    <Compile Include="Defs\Scribe_Collections_Silent.cs" />
-    <Compile Include="Defs\Scribe_Defs_Silent.cs" />
+    <Compile Include="SaveLoad\SaveLoadUtility.cs" />
+    <Compile Include="SaveLoad\Scribe_Collections_Silent.cs" />
+    <Compile Include="SaveLoad\Scribe_Defs_Silent.cs" />
     <Compile Include="Defs\WorkPriorityConditionDef.cs" />
     <Compile Include="Defs\WorkPriorityEffectDef.cs" />
     <Compile Include="Fishing\DefaultSettingsCategoryWorker_Fishing.cs" />
@@ -149,6 +150,8 @@
     <Compile Include="Policies\Patch_Pawn.cs" />
     <Compile Include="Policies\Patch_Pawn_AgeTracker.cs" />
     <Compile Include="Policies\Patch_Pawn_GuestTracker.cs" />
+    <Compile Include="SaveLoad\Scribe_Fields.cs" />
+    <Compile Include="SaveLoad\Scribe_ThingFilter.cs" />
     <Compile Include="StockpileZones\Buildings\DefaultSettingWorker_AllowRemovingFromOutfitStand.cs" />
     <Compile Include="StockpileZones\Buildings\Patch_Building_OutfitStand.cs" />
     <Compile Include="Storyteller\DefaultSettingWorker_Difficulty.cs" />

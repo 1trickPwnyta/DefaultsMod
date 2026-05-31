@@ -1,4 +1,5 @@
 ﻿using Defaults.Compatibility;
+using Defaults.SaveLoad;
 using Defaults.StockpileZones.Shelves;
 using RimWorld;
 using System;
@@ -133,7 +134,7 @@ namespace Defaults.StockpileZones
             Scribe_Values.Look(ref name, "Name");
             Scribe_Values.Look(ref priority, "Priority");
             Scribe_Values.Look(ref preset, "Preset");
-            Scribe_Deep.Look(ref filter, "filter");
+            Scribe_ThingFilter.Look(ref filter, "filter");
             if (Scribe.mode == LoadSaveMode.LoadingVars && filter == null)
             {
                 filter = new ThingFilter();

@@ -1,6 +1,6 @@
 ﻿using Verse;
 
-namespace Defaults.Defs
+namespace Defaults.SaveLoad
 {
     public static class Scribe_Defs_Silent
     {

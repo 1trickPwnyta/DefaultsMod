@@ -1,4 +1,5 @@
 ﻿using Defaults.Defs;
+using Defaults.SaveLoad;
 using Defaults.Workers;
 using RimWorld;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace Defaults.WorkbenchBills
 
         protected override void ExposeSetting()
         {
-            Scribe_Defs.Look(ref setting, Key);
+            Scribe_Defs_Silent.Look(ref setting, Key);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Defaults.Compatibility;
-using Defaults.Defs;
+using Defaults.SaveLoad;
 using HarmonyLib;
 using RimWorld;
 using System.Collections.Generic;
@@ -207,7 +207,7 @@ namespace Defaults.WorkbenchBills
             Scribe_Values.Look(ref use, "use", true);
             Scribe_Values.Look(ref locked, "locked", false);
             Scribe_Defs_Silent.Look(ref recipe, "recipe");
-            Scribe_Deep.Look(ref ingredientFilter, "ingredientFilter");
+            Scribe_ThingFilter.Look(ref ingredientFilter, "ingredientFilter");
             Scribe_Values.Look(ref ingredientSearchRadius, "ingredientSearchRadius");
             Scribe_Values.Look(ref allowedSkillRange, "allowedSkillRange");
             Scribe_Values.Look(ref slavesOnly, "slavesOnly");
