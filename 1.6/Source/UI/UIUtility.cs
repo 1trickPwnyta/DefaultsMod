@@ -142,7 +142,7 @@ namespace Defaults.UI
 
         public static float DoSettingsList(Rect rect, IEnumerable<DefaultSettingDef> settings)
         {
-            Listing_Standard listing = new Listing_StandardHighlight() { maxOneColumn = true };
+            Listing_StandardHighlight listing = new Listing_StandardHighlight(maxOneColumn: true);
             listing.Begin(rect);
 
             List<Tuple<Rect, DefaultSettingDef>> renderLastList = new List<Tuple<Rect, DefaultSettingDef>>();

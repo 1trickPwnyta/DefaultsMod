@@ -50,7 +50,7 @@ namespace Defaults.WorkPriorities
             Widgets.Label(new Rect(rect.x, y, rect.width, 60f), "Defaults_BasicWorkPrioritiesDesc".Translate());
             y += 60f;
 
-            Listing_StandardHighlight listing = new Listing_StandardHighlight() { maxOneColumn = true };
+            Listing_StandardHighlight listing = new Listing_StandardHighlight(maxOneColumn: true);
             listing.Begin(new Rect(rect.x, y, rect.width, rect.height));
 
             Dictionary<WorkTypeDef, int> basicDefaultWorkPriorities = Settings.Get<Dictionary<WorkTypeDef, int>>(Settings.WORK_PRIORITIES_BASIC);
