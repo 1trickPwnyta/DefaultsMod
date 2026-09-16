@@ -12,7 +12,7 @@ namespace Defaults.WorkPriorities
     {
         public static void Postfix(List<WorkTypeDef> ___cachedDisabledWorkTypes, WorkTypeDef w, ref bool __result)
         {
-            if (__result)
+            if (__result && ___cachedDisabledWorkTypes != null)
             {
                 __result = ___cachedDisabledWorkTypes.Contains(w);
             }
