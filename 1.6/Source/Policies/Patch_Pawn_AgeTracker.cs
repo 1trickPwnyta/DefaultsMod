@@ -17,7 +17,7 @@ namespace Defaults.Policies
                 {
                     PolicyUtility.SetAllDefaultPolicies(___pawn, PawnType.ChildColonist);
                 }
-                if (birthdayAge == __instance.LifeStageMinAge(LifeStageDefOf.HumanlikeChild) && PawnTypeUtility.GetPawnType(___pawn) == PawnType.ChildColonist)
+                if (birthdayAge == ___pawn.RaceProps.lifeStageAges.Find(l => l.def.developmentalStage.Child())?.minAge && PawnTypeUtility.GetPawnType(___pawn) == PawnType.ChildColonist)
                 {
                     PolicyUtility.SetAllDefaultPolicies(___pawn);
                 }
