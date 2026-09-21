@@ -40,7 +40,7 @@ namespace Defaults.WorkPriorities
             if (typeof(Pawn_AgeTracker).Field("tmpEnabledWorkTypes").GetValue(null) is List<WorkTypeDef> ageWorkTypes)
             {
                 // When first becoming a child, assume all work types are newly enabled
-                if (ageWorkTypes.Any() && __instance.ageTracker.AgeBiologicalYears == (int)__instance.RaceProps.lifeStageAges.First(l => l.def == LifeStageDefOf.HumanlikeChild).minAge)
+                if (ageWorkTypes.Any() && __instance.ageTracker.AgeBiologicalYears == (int?)__instance.RaceProps.lifeStageAges.Find(l => l.def.developmentalStage.Child())?.minAge)
                 {
                     ageWorkTypes = DefDatabase<WorkTypeDef>.AllDefsListForReading;
                 }
